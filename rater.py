@@ -24,17 +24,18 @@ class CriterionResult:
 
 class BreakoutRater:
     def __init__(self):
+        # High Potential Reweighting - prioritize breakout signals
         self.weights = {
-            "Trend Alignment": 5, 
-            "Breakout Pattern": 20,
-            "Consolidation": 10,
-            "Volume Dry-up": 5,
-            "Industry Strength": 10,
-            "Sales Growth": 5,
-            "Earnings Growth": 5, 
-            "Operating Margin": 10,
-            "FCF Quality": 5, 
-            "Debt Safety": 5
+            "Breakout Pattern": 25,    # Was 20 - core timing signal
+            "Consolidation": 12,       # Was 10 - base quality
+            "Volume Dry-up": 10,       # Was 5 - institutional accumulation
+            "Trend Alignment": 8,      # Was 5 - direction confirmation
+            "Industry Strength": 8,    # Was 10 - sector tailwind
+            "Sales Growth": 5,         # Unchanged - growth engine
+            "Operating Margin": 5,     # Was 10 - quality (reduced)
+            "FCF Quality": 3,          # Was 5 - safety (reduced)
+            "Earnings Growth": 2,      # Was 5 - lagging (reduced)
+            "Debt Safety": 2           # Was 5 - safety (reduced)
         }
 
     def rate_stock(self, ticker):
@@ -110,7 +111,8 @@ class BreakoutRater:
 
             # Final Score Calculation
             score = int(sum(r.points for r in results if r.passed))
-            grade = 'A' if score >= 50 else 'B' if score >= 35 else 'C' if score >= 20 else 'D' if score >= 10 else 'F'
+            # Tighter grading: A=60+ (75% of max), B=45-59, C=30-44, D=15-29, F=<15
+            grade = 'A' if score >= 60 else 'B' if score >= 45 else 'C' if score >= 30 else 'D' if score >= 15 else 'F'
 
             m_score = int(sum(r.points for r in results if r.passed and r.category in ["Momentum", "Breakout"]))
             q_score = int(sum(r.points for r in results if r.passed and r.category in ["Growth", "Quality"]))

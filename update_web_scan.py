@@ -55,7 +55,7 @@ def rate_stock_consistent(symbol, rater, conn):
             'marketCap': info.get('marketCap', 0)
         }
         
-        # Use BreakoutRater logic with DB data
+        # Use BreakoutRater logic with DB data - HIGH POTENTIAL REWEIGHTING
         close = hist['close']
         sma50 = close.rolling(50).mean().iloc[-1]
         sma200 = close.rolling(200).mean().iloc[-1]
@@ -63,16 +63,7 @@ def rate_stock_consistent(symbol, rater, conn):
         
         results = []
         
-        # 1. Trend Alignment (5 pts)
-        price_above_50 = bool(current_price > sma50)
-        if pd.notna(sma200):
-            passed_trend = bool(price_above_50 and (sma50 > sma200))
-        else:
-            sma50_prev = close.rolling(50).mean().iloc[-5]
-            passed_trend = bool(price_above_50 and sma50 > sma50_prev)
-        results.append(CriterionResult("Trend Alignment", "Momentum", passed_trend, "", "", 5 if passed_trend else 0))
-        
-        # 2. Breakout Pattern (20 pts)
+        # 1. Breakout Pattern (25 pts) - CORE TIMING SIGNAL
         window = hist.iloc[-130:-5]
         high_1 = window.iloc[:65]['high'].max()
         high_2 = window.iloc[65:]['high'].max()
@@ -80,59 +71,69 @@ def rate_stock_consistent(symbol, rater, conn):
         base_ceiling = max(high_1, high_2)
         dist = (base_ceiling - current_price) / base_ceiling
         passed_bo = bool((drift < 0.10) and (dist < 0.05))
-        results.append(CriterionResult("Breakout Pattern", "Breakout", passed_bo, "", "", 20 if passed_bo else 0))
+        results.append(CriterionResult("Breakout Pattern", "Breakout", passed_bo, "", "", 25 if passed_bo else 0))
         
-        # 3. Consolidation (10 pts)
+        # 2. Consolidation (12 pts) - BASE QUALITY
         depth = (window['high'].max() - window['low'].min()) / window['high'].max()
         passed_con = bool(depth < 0.45)
-        results.append(CriterionResult("Consolidation", "Breakout", passed_con, "", "", 10 if passed_con else 0))
+        results.append(CriterionResult("Consolidation", "Breakout", passed_con, "", "", 12 if passed_con else 0))
         
-        # 4. Volume (5 pts)
+        # 3. Volume Dry-up (10 pts) - INSTITUTIONAL ACCUMULATION
         v5 = hist['volume'].tail(5).mean()
         v50 = hist['volume'].tail(50).mean()
         passed_vol = bool(v5 < (v50 * 1.2))
-        results.append(CriterionResult("Volume Dry-up", "Breakout", passed_vol, "", "", 5 if passed_vol else 0))
+        results.append(CriterionResult("Volume Dry-up", "Breakout", passed_vol, "", "", 10 if passed_vol else 0))
         
-        # 5. Sales Growth (5 pts) - matches rater.py weights
+        # 4. Trend Alignment (8 pts) - DIRECTION CONFIRMATION
+        price_above_50 = bool(current_price > sma50)
+        if pd.notna(sma200):
+            passed_trend = bool(price_above_50 and (sma50 > sma200))
+        else:
+            sma50_prev = close.rolling(50).mean().iloc[-5]
+            passed_trend = bool(price_above_50 and sma50 > sma50_prev)
+        results.append(CriterionResult("Trend Alignment", "Momentum", passed_trend, "", "", 8 if passed_trend else 0))
+        
+        # 5. Industry Strength (8 pts) - SECTOR TAILWIND
+        sector = mock_info.get('sector', '')
+        strong_sectors = ['Technology', 'Healthcare', 'Communication Services']
+        passed_industry = sector in strong_sectors
+        results.append(CriterionResult("Industry Strength", "Context", passed_industry, "", "", 8 if passed_industry else 0))
+        
+        # 6. Sales Growth (5 pts) - GROWTH ENGINE
         rev_g = mock_info.get('revenueGrowth')
         passed_rev = bool(rev_g is not None and rev_g > 0.1)
         results.append(CriterionResult("Sales Growth", "Growth", passed_rev, "", "", 5 if passed_rev else 0))
         
-        # 6. Earnings Growth (5 pts)
-        earn_g = mock_info.get('earningsGrowth')
-        passed_earn = bool(earn_g is not None and earn_g > 0.15)
-        results.append(CriterionResult("Earnings Growth", "Growth", passed_earn, "", "", 5 if passed_earn else 0))
-        
-        # 7. Operating Margin (10 pts)
+        # 7. Operating Margin (5 pts) - QUALITY (reduced)
         margin = mock_info.get('operatingMargins')
         passed_margin = bool(margin is not None and margin > 0.10)
-        results.append(CriterionResult("Operating Margin", "Quality", passed_margin, "", "", 10 if passed_margin else 0))
+        results.append(CriterionResult("Operating Margin", "Quality", passed_margin, "", "", 5 if passed_margin else 0))
         
-        # 8. FCF Quality (5 pts)
+        # 8. FCF Quality (3 pts) - SAFETY (reduced)
         fcf = mock_info.get('freeCashflow')
         passed_fcf = bool(fcf is not None and fcf > 0)
-        results.append(CriterionResult("FCF Quality", "Quality", passed_fcf, "", "", 5 if passed_fcf else 0))
+        results.append(CriterionResult("FCF Quality", "Quality", passed_fcf, "", "", 3 if passed_fcf else 0))
         
-        # 9. Debt Safety (5 pts)
+        # 9. Earnings Growth (2 pts) - LAGGING (reduced)
+        earn_g = mock_info.get('earningsGrowth')
+        passed_earn = bool(earn_g is not None and earn_g > 0.15)
+        results.append(CriterionResult("Earnings Growth", "Growth", passed_earn, "", "", 2 if passed_earn else 0))
+        
+        # 10. Debt Safety (2 pts) - SAFETY (reduced)
         debt = mock_info.get('totalDebt', 0)
         cash = mock_info.get('totalCash', 0)
-        passed_debt = bool(cash > debt * 0.5)  # Simplified
-        results.append(CriterionResult("Debt Safety", "Safety", passed_debt, "", "", 5 if passed_debt else 0))
-        
-        # 10. Industry Strength (10 pts) - proxy from sector
-        sector = mock_info.get('sector', '')
-        strong_sectors = ['Technology', 'Healthcare', 'Communication Services']
-        passed_industry = sector in strong_sectors
-        results.append(CriterionResult("Industry Strength", "Context", passed_industry, "", "", 10 if passed_industry else 0))
+        passed_debt = bool(cash > debt * 0.5)
+        results.append(CriterionResult("Debt Safety", "Safety", passed_debt, "", "", 2 if passed_debt else 0))
         
         # Calculate total
         total = sum(r.points for r in results)
         
-        # Grade (matching rater.py exactly)
-        if total >= 50: grade = 'A'
-        elif total >= 35: grade = 'B'
-        elif total >= 20: grade = 'C'
-        elif total >= 10: grade = 'D'
+        # Grade (matching rater.py - TIGHTER scale)
+        # A=60+ (75% of max), B=45-59, C=30-44, D=15-29, F=<15
+        if total >= 60: grade = 'A'
+        elif total >= 45: grade = 'B'
+        elif total >= 30: grade = 'C'
+        elif total >= 15: grade = 'D'
         else: grade = 'F'
         
         return {
