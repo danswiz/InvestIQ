@@ -1,22 +1,6 @@
 {
-  "last_scan": "2026-02-10 04:43 PST",
+  "last_scan": "2026-02-11 02:30 PST",
   "stocks": [
-    {
-      "ticker": "AAPL",
-      "name": "Apple Inc.",
-      "sector": "Technology",
-      "score": 80,
-      "grade": "A",
-      "total": 80
-    },
-    {
-      "ticker": "INCY",
-      "name": "Incyte Corporation",
-      "sector": "Healthcare",
-      "score": 80,
-      "grade": "A",
-      "total": 80
-    },
     {
       "ticker": "HALO",
       "name": "Halozyme Therapeutics, Inc.",
@@ -26,17 +10,17 @@
       "total": 75
     },
     {
-      "ticker": "BDX",
-      "name": "Becton, Dickinson and Company",
-      "sector": "Healthcare",
-      "score": 70,
+      "ticker": "ZM",
+      "name": "Zoom Communications, Inc.",
+      "sector": "Technology",
+      "score": 75,
       "grade": "A",
-      "total": 70
+      "total": 75
     },
     {
-      "ticker": "CINF",
-      "name": "Cincinnati Financial Corporatio",
-      "sector": "Financial Services",
+      "ticker": "CPAY",
+      "name": "Corpay, Inc.",
+      "sector": "Technology",
       "score": 70,
       "grade": "A",
       "total": 70
@@ -44,14 +28,6 @@
     {
       "ticker": "CRUS",
       "name": "Cirrus Logic, Inc.",
-      "sector": "Technology",
-      "score": 70,
-      "grade": "A",
-      "total": 70
-    },
-    {
-      "ticker": "CSCO",
-      "name": "Cisco Systems, Inc.",
       "sector": "Technology",
       "score": 70,
       "grade": "A",
@@ -77,6 +53,22 @@
       "ticker": "GE",
       "name": "GE Aerospace",
       "sector": "Industrials",
+      "score": 70,
+      "grade": "A",
+      "total": 70
+    },
+    {
+      "ticker": "HOLX",
+      "name": "Hologic, Inc.",
+      "sector": "Healthcare",
+      "score": 70,
+      "grade": "A",
+      "total": 70
+    },
+    {
+      "ticker": "LH",
+      "name": "Labcorp Holdings Inc.",
+      "sector": "Healthcare",
       "score": 70,
       "grade": "A",
       "total": 70
@@ -170,25 +162,9 @@
       "total": 65
     },
     {
-      "ticker": "CNA",
-      "name": "CNA Financial Corporation",
+      "ticker": "CINF",
+      "name": "Cincinnati Financial Corporatio",
       "sector": "Financial Services",
-      "score": 65,
-      "grade": "A",
-      "total": 65
-    },
-    {
-      "ticker": "CPAY",
-      "name": "Corpay, Inc.",
-      "sector": "Technology",
-      "score": 65,
-      "grade": "A",
-      "total": 65
-    },
-    {
-      "ticker": "DTM",
-      "name": "DT Midstream, Inc.",
-      "sector": "Energy",
       "score": 65,
       "grade": "A",
       "total": 65
@@ -234,6 +210,14 @@
       "total": 65
     },
     {
+      "ticker": "FTV",
+      "name": "Fortive Corporation",
+      "sector": "Technology",
+      "score": 65,
+      "grade": "A",
+      "total": 65
+    },
+    {
       "ticker": "GGG",
       "name": "Graco Inc.",
       "sector": "Industrials",
@@ -253,14 +237,6 @@
       "ticker": "GLIBK",
       "name": "GCI Liberty, Inc. - Series C GC",
       "sector": "Communication Services",
-      "score": 65,
-      "grade": "A",
-      "total": 65
-    },
-    {
-      "ticker": "HOLX",
-      "name": "Hologic, Inc.",
-      "sector": "Healthcare",
       "score": 65,
       "grade": "A",
       "total": 65
@@ -346,6 +322,14 @@
       "total": 65
     },
     {
+      "ticker": "ORI",
+      "name": "Old Republic International Corp",
+      "sector": "Financial Services",
+      "score": 65,
+      "grade": "A",
+      "total": 65
+    },
+    {
       "ticker": "RBA",
       "name": "RB Global, Inc.",
       "sector": "Industrials",
@@ -357,14 +341,6 @@
       "ticker": "ROL",
       "name": "Rollins, Inc.",
       "sector": "Consumer Cyclical",
-      "score": 65,
-      "grade": "A",
-      "total": 65
-    },
-    {
-      "ticker": "SCHW",
-      "name": "Charles Schwab Corporation (The",
-      "sector": "Financial Services",
       "score": 65,
       "grade": "A",
       "total": 65
@@ -386,16 +362,40 @@
       "total": 65
     },
     {
-      "ticker": "SSD",
-      "name": "Simpson Manufacturing Company, ",
+      "ticker": "TRV",
+      "name": "The Travelers Companies, Inc.",
+      "sector": "Financial Services",
+      "score": 65,
+      "grade": "A",
+      "total": 65
+    },
+    {
+      "ticker": "VMC",
+      "name": "Vulcan Materials Company (Holdi",
       "sector": "Basic Materials",
       "score": 65,
       "grade": "A",
       "total": 65
     },
     {
-      "ticker": "TRV",
-      "name": "The Travelers Companies, Inc.",
+      "ticker": "VNT",
+      "name": "Vontier Corporation",
+      "sector": "Technology",
+      "score": 65,
+      "grade": "A",
+      "total": 65
+    },
+    {
+      "ticker": "WAL",
+      "name": "Western Alliance Bancorporation",
+      "sector": "Financial Services",
+      "score": 65,
+      "grade": "A",
+      "total": 65
+    },
+    {
+      "ticker": "ZION",
+      "name": "Zions Bancorporation N.A.",
       "sector": "Financial Services",
       "score": 65,
       "grade": "A",
