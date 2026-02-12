@@ -108,6 +108,43 @@ def refresh_revenue_history(symbol, conn):
     except Exception as e:
         return False
 
+def refresh_quarterly_revenue(symbol, conn):
+    """Fetch and store quarterly revenue for TTM calculations"""
+    try:
+        ticker_obj = yf.Ticker(symbol)
+        
+        # Get quarterly financials
+        q_financials = ticker_obj.quarterly_financials
+        if q_financials is None or q_financials.empty:
+            return False
+        
+        # Extract Total Revenue row
+        if 'Total Revenue' not in q_financials.index:
+            return False
+        
+        revenue_row = q_financials.loc['Total Revenue']
+        c = conn.cursor()
+        
+        # Store each quarter's revenue (up to last 8 quarters)
+        for date_col, revenue in revenue_row.items():
+            if pd.notna(revenue) and revenue > 0:
+                # Extract year and quarter from date
+                dt = pd.Timestamp(date_col)
+                year = dt.year
+                quarter = (dt.month - 1) // 3 + 1
+                
+                # Upsert quarterly revenue
+                c.execute('''
+                    INSERT OR REPLACE INTO quarterly_revenue 
+                    (symbol, year, quarter, revenue, updated_at)
+                    VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)
+                ''', (symbol, year, quarter, float(revenue)))
+        
+        conn.commit()
+        return True
+    except Exception as e:
+        return False
+
 def main():
     print(f"🚀 Cache Refresh Started: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
     
@@ -135,11 +172,14 @@ def main():
         # Refresh prices and fundamentals
         result = refresh_ticker(ticker, db)
         
-        # Refresh revenue history (every 5th ticker to reduce API load)
+        # Refresh revenue data (every 5th ticker to reduce API load)
         if i % 5 == 0:
             rev_result = refresh_revenue_history(ticker, conn)
             if rev_result:
                 revenue_success += 1
+            # Also refresh quarterly (every 10th to reduce load)
+            if i % 10 == 0:
+                refresh_quarterly_revenue(ticker, conn)
         
         if result:
             success += 1
