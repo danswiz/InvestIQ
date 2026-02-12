@@ -1,7 +1,7 @@
 {
   "version": "4.3",
   "max_score": 100,
-  "last_scan": "2026-02-11 16:31 PST",
+  "last_scan": "2026-02-11 16:57 PST",
   "stocks": [
     {
       "ticker": "WTM",
@@ -14,7 +14,8 @@
       "market_cap": 5242285568,
       "technical_score": 53,
       "growth_score": 30,
-      "quality_score": 10
+      "quality_score": 10,
+      "context_score": 0
     },
     {
       "ticker": "HALO",
@@ -27,7 +28,8 @@
       "market_cap": 9433631744,
       "technical_score": 53,
       "growth_score": 15,
-      "quality_score": 13
+      "quality_score": 13,
+      "context_score": 10
     },
     {
       "ticker": "VRT",
@@ -40,7 +42,8 @@
       "market_cap": 76322373632,
       "technical_score": 45,
       "growth_score": 15,
-      "quality_score": 13
+      "quality_score": 13,
+      "context_score": 10
     },
     {
       "ticker": "AOS",
@@ -53,7 +56,8 @@
       "market_cap": 11276227584,
       "technical_score": 53,
       "growth_score": 3,
-      "quality_score": 13
+      "quality_score": 13,
+      "context_score": 10
     },
     {
       "ticker": "CRS",
@@ -66,7 +70,8 @@
       "market_cap": 17934776320,
       "technical_score": 53,
       "growth_score": 3,
-      "quality_score": 13
+      "quality_score": 13,
+      "context_score": 10
     },
     {
       "ticker": "GGG",
@@ -79,7 +84,8 @@
       "market_cap": 15621121024,
       "technical_score": 53,
       "growth_score": 3,
-      "quality_score": 13
+      "quality_score": 13,
+      "context_score": 10
     },
     {
       "ticker": "HUBB",
@@ -92,7 +98,8 @@
       "market_cap": 26737125376,
       "technical_score": 53,
       "growth_score": 3,
-      "quality_score": 13
+      "quality_score": 13,
+      "context_score": 10
     },
     {
       "ticker": "MAS",
@@ -105,7 +112,8 @@
       "market_cap": 16292677632,
       "technical_score": 53,
       "growth_score": 3,
-      "quality_score": 13
+      "quality_score": 13,
+      "context_score": 10
     },
     {
       "ticker": "TTEK",
@@ -118,7 +126,8 @@
       "market_cap": 11113010176,
       "technical_score": 53,
       "growth_score": 3,
-      "quality_score": 13
+      "quality_score": 13,
+      "context_score": 10
     },
     {
       "ticker": "VMI",
@@ -131,7 +140,8 @@
       "market_cap": 9359796224,
       "technical_score": 53,
       "growth_score": 3,
-      "quality_score": 13
+      "quality_score": 13,
+      "context_score": 10
     },
     {
       "ticker": "ZM",
@@ -144,7 +154,8 @@
       "market_cap": 28429496320,
       "technical_score": 53,
       "growth_score": 3,
-      "quality_score": 13
+      "quality_score": 13,
+      "context_score": 10
     },
     {
       "ticker": "ALLE",
@@ -157,7 +168,8 @@
       "market_cap": 15394557952,
       "technical_score": 53,
       "growth_score": 0,
-      "quality_score": 13
+      "quality_score": 13,
+      "context_score": 10
     },
     {
       "ticker": "CSX",
@@ -170,7 +182,8 @@
       "market_cap": 76248932352,
       "technical_score": 53,
       "growth_score": 0,
-      "quality_score": 13
+      "quality_score": 13,
+      "context_score": 10
     },
     {
       "ticker": "DE",
@@ -183,7 +196,8 @@
       "market_cap": 160858292224,
       "technical_score": 53,
       "growth_score": 0,
-      "quality_score": 13
+      "quality_score": 13,
+      "context_score": 10
     },
     {
       "ticker": "MSA",
@@ -196,7 +210,8 @@
       "market_cap": 7621340160,
       "technical_score": 53,
       "growth_score": 0,
-      "quality_score": 13
+      "quality_score": 13,
+      "context_score": 10
     },
     {
       "ticker": "NSC",
@@ -209,7 +224,8 @@
       "market_cap": 70841253888,
       "technical_score": 53,
       "growth_score": 0,
-      "quality_score": 13
+      "quality_score": 13,
+      "context_score": 10
     },
     {
       "ticker": "NXST",
@@ -222,7 +238,8 @@
       "market_cap": 7447809536,
       "technical_score": 53,
       "growth_score": 0,
-      "quality_score": 13
+      "quality_score": 13,
+      "context_score": 10
     },
     {
       "ticker": "UNP",
@@ -235,7 +252,8 @@
       "market_cap": 155065073664,
       "technical_score": 53,
       "growth_score": 0,
-      "quality_score": 13
+      "quality_score": 13,
+      "context_score": 10
     },
     {
       "ticker": "AM",
@@ -248,7 +266,8 @@
       "market_cap": 9520378880,
       "technical_score": 53,
       "growth_score": 3,
-      "quality_score": 13
+      "quality_score": 13,
+      "context_score": 5
     },
     {
       "ticker": "FERG",
@@ -261,7 +280,8 @@
       "market_cap": 52982149120,
       "technical_score": 53,
       "growth_score": 3,
-      "quality_score": 8
+      "quality_score": 8,
+      "context_score": 10
     },
     {
       "ticker": "GE",
@@ -274,7 +294,8 @@
       "market_cap": 333669269504,
       "technical_score": 53,
       "growth_score": 3,
-      "quality_score": 13
+      "quality_score": 13,
+      "context_score": 5
     },
     {
       "ticker": "HWM",
@@ -287,7 +308,8 @@
       "market_cap": 90349174784,
       "technical_score": 53,
       "growth_score": 3,
-      "quality_score": 13
+      "quality_score": 13,
+      "context_score": 5
     },
     {
       "ticker": "JBL",
@@ -300,7 +322,8 @@
       "market_cap": 27659667456,
       "technical_score": 53,
       "growth_score": 3,
-      "quality_score": 8
+      "quality_score": 8,
+      "context_score": 10
     },
     {
       "ticker": "JCI",
@@ -313,7 +336,8 @@
       "market_cap": 84924178432,
       "technical_score": 53,
       "growth_score": 3,
-      "quality_score": 8
+      "quality_score": 8,
+      "context_score": 10
     },
     {
       "ticker": "KO",
@@ -326,7 +350,8 @@
       "market_cap": 330564665344,
       "technical_score": 53,
       "growth_score": 3,
-      "quality_score": 13
+      "quality_score": 13,
+      "context_score": 5
     },
     {
       "ticker": "LH",
@@ -339,7 +364,8 @@
       "market_cap": 23641950208,
       "technical_score": 53,
       "growth_score": 3,
-      "quality_score": 8
+      "quality_score": 8,
+      "context_score": 10
     },
     {
       "ticker": "PEP",
@@ -352,7 +378,8 @@
       "market_cap": 228304781312,
       "technical_score": 53,
       "growth_score": 3,
-      "quality_score": 13
+      "quality_score": 13,
+      "context_score": 5
     },
     {
       "ticker": "RBA",
@@ -365,7 +392,8 @@
       "market_cap": 22180466688,
       "technical_score": 53,
       "growth_score": 3,
-      "quality_score": 8
+      "quality_score": 8,
+      "context_score": 10
     },
     {
       "ticker": "ROL",
@@ -378,7 +406,8 @@
       "market_cap": 31260352512,
       "technical_score": 53,
       "growth_score": 3,
-      "quality_score": 13
+      "quality_score": 13,
+      "context_score": 5
     },
     {
       "ticker": "TDY",
@@ -391,7 +420,8 @@
       "market_cap": 30983895040,
       "technical_score": 53,
       "growth_score": 3,
-      "quality_score": 8
+      "quality_score": 8,
+      "context_score": 10
     },
     {
       "ticker": "TKO",
@@ -404,7 +434,8 @@
       "market_cap": 17586329600,
       "technical_score": 53,
       "growth_score": 3,
-      "quality_score": 8
+      "quality_score": 8,
+      "context_score": 10
     },
     {
       "ticker": "TRV",
@@ -417,7 +448,8 @@
       "market_cap": 66608967680,
       "technical_score": 53,
       "growth_score": 3,
-      "quality_score": 13
+      "quality_score": 13,
+      "context_score": 5
     },
     {
       "ticker": "ITW",
@@ -430,7 +462,8 @@
       "market_cap": 85773877248,
       "technical_score": 53,
       "growth_score": 0,
-      "quality_score": 10
+      "quality_score": 10,
+      "context_score": 10
     },
     {
       "ticker": "MPWR",
@@ -443,7 +476,8 @@
       "market_cap": 55626653696,
       "technical_score": 53,
       "growth_score": 0,
-      "quality_score": 10
+      "quality_score": 10,
+      "context_score": 10
     },
     {
       "ticker": "AGCO",
@@ -456,7 +490,8 @@
       "market_cap": 10131642368,
       "technical_score": 53,
       "growth_score": 0,
-      "quality_score": 8
+      "quality_score": 8,
+      "context_score": 10
     },
     {
       "ticker": "AIT",
@@ -469,7 +504,8 @@
       "market_cap": 10701703168,
       "technical_score": 53,
       "growth_score": 0,
-      "quality_score": 13
+      "quality_score": 13,
+      "context_score": 5
     },
     {
       "ticker": "APA",
@@ -482,7 +518,8 @@
       "market_cap": 9821238272,
       "technical_score": 53,
       "growth_score": 0,
-      "quality_score": 13
+      "quality_score": 13,
+      "context_score": 5
     },
     {
       "ticker": "AWI",
@@ -495,7 +532,8 @@
       "market_cap": 8787930112,
       "technical_score": 53,
       "growth_score": 0,
-      "quality_score": 13
+      "quality_score": 13,
+      "context_score": 5
     },
     {
       "ticker": "CBOE",
@@ -508,7 +546,8 @@
       "market_cap": 28679921664,
       "technical_score": 53,
       "growth_score": 3,
-      "quality_score": 10
+      "quality_score": 10,
+      "context_score": 5
     },
     {
       "ticker": "CCK",
@@ -521,7 +560,8 @@
       "market_cap": 12868210688,
       "technical_score": 53,
       "growth_score": 0,
-      "quality_score": 13
+      "quality_score": 13,
+      "context_score": 5
     },
     {
       "ticker": "CLH",
@@ -534,7 +574,8 @@
       "market_cap": 14373538816,
       "technical_score": 53,
       "growth_score": 0,
-      "quality_score": 8
+      "quality_score": 8,
+      "context_score": 10
     },
     {
       "ticker": "COR",
@@ -547,7 +588,8 @@
       "market_cap": 70031048704,
       "technical_score": 53,
       "growth_score": 0,
-      "quality_score": 8
+      "quality_score": 8,
+      "context_score": 10
     },
     {
       "ticker": "CPAY",
@@ -560,7 +602,8 @@
       "market_cap": 25165553664,
       "technical_score": 48,
       "growth_score": 0,
-      "quality_score": 13
+      "quality_score": 13,
+      "context_score": 10
     },
     {
       "ticker": "CRUS",
@@ -573,7 +616,8 @@
       "market_cap": 7250397696,
       "technical_score": 45,
       "growth_score": 3,
-      "quality_score": 13
+      "quality_score": 13,
+      "context_score": 10
     },
     {
       "ticker": "DGX",
@@ -586,7 +630,8 @@
       "market_cap": 22843619328,
       "technical_score": 53,
       "growth_score": 0,
-      "quality_score": 8
+      "quality_score": 8,
+      "context_score": 10
     },
     {
       "ticker": "ECL",
@@ -599,7 +644,8 @@
       "market_cap": 84979687424,
       "technical_score": 53,
       "growth_score": 0,
-      "quality_score": 13
+      "quality_score": 13,
+      "context_score": 5
     },
     {
       "ticker": "EIX",
@@ -612,7 +658,8 @@
       "market_cap": 25191233536,
       "technical_score": 53,
       "growth_score": 3,
-      "quality_score": 10
+      "quality_score": 10,
+      "context_score": 5
     },
     {
       "ticker": "EME",
@@ -625,7 +672,8 @@
       "market_cap": 34876637184,
       "technical_score": 53,
       "growth_score": 0,
-      "quality_score": 8
+      "quality_score": 8,
+      "context_score": 10
     },
     {
       "ticker": "EMR",
@@ -638,7 +686,8 @@
       "market_cap": 90918625280,
       "technical_score": 53,
       "growth_score": 0,
-      "quality_score": 8
+      "quality_score": 8,
+      "context_score": 10
     },
     {
       "ticker": "FBIN",
@@ -651,7 +700,8 @@
       "market_cap": 7741715968,
       "technical_score": 53,
       "growth_score": 0,
-      "quality_score": 8
+      "quality_score": 8,
+      "context_score": 10
     }
   ]
 }

@@ -208,7 +208,7 @@
                         <div style="height: 300px; background: #0a0f1d; border-radius: 8px;" id="tv-chart" class="lg:h-[400px]"></div>
                     </div>
 
-                    <div class="grid grid-cols-3 gap-4 mb-8">
+                    <div class="grid grid-cols-4 gap-4 mb-8">
                         <div class="card p-4 lg:p-6">
                             <div class="text-xs text-slate-400 uppercase font-bold tracking-wider mb-2">Technical</div>
                             <div class="text-xl lg:text-2xl font-bold text-sky-400" id="tech-score">0</div>
@@ -220,6 +220,10 @@
                         <div class="card p-4 lg:p-6">
                             <div class="text-xs text-slate-400 uppercase font-bold tracking-wider mb-2">Quality</div>
                             <div class="text-xl lg:text-2xl font-bold text-purple-400" id="quality-score">0</div>
+                        </div>
+                        <div class="card p-4 lg:p-6">
+                            <div class="text-xs text-slate-400 uppercase font-bold tracking-wider mb-2">Context</div>
+                            <div class="text-xl lg:text-2xl font-bold text-amber-400" id="context-score">0</div>
                         </div>
                     </div>
                 </div>
@@ -333,7 +337,7 @@
                                 <span class="score-text">${stock.score}/100</span>
                             </div>
                             <div class="score-breakdown">
-                                T:${stock.technical_score || 0} G:${stock.growth_score || 0} Q:${stock.quality_score || 0}
+                                T:${stock.technical_score || 0} G:${stock.growth_score || 0} Q:${stock.quality_score || 0} C:${stock.context_score || 0}
                             </div>
                         </td>
                         <td><span class="grade-badge grade-${stock.grade}">${stock.grade}</span></td>
@@ -454,6 +458,7 @@
                 document.getElementById('tech-score').innerText = data.technical_score || 0;
                 document.getElementById('growth-score').innerText = data.growth_score || 0;
                 document.getElementById('quality-score').innerText = data.quality_score || 0;
+                document.getElementById('context-score').innerText = data.context_score || 0;
 
                 document.getElementById('rec-key').innerText = data.opinions.recommendation;
                 document.getElementById('target-price').innerText = data.opinions.target_mean ? `$${data.opinions.target_mean.toFixed(2)}` : 'N/A';

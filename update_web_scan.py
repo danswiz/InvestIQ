@@ -229,6 +229,7 @@ def rate_stock_v43(symbol, conn):
             'technical_score': sum(r.points for r in results if r.category in ["Momentum", "Breakout", "Timing"]),
             'growth_score': sum(r.points for r in results if r.category == "Growth"),
             'quality_score': sum(r.points for r in results if r.category == "Quality"),
+            'context_score': sum(r.points for r in results if r.category == "Context"),
         }
         
     except Exception as e:
