@@ -499,7 +499,7 @@
                 document.getElementById('trailing-pe').innerText = 'N/A';
                 document.getElementById('peg-ratio').innerText = 'N/A';
 
-                document.getElementById('criteria-list').innerHTML = data.results.map(r => `
+                document.getElementById('criteria-list').innerHTML = data.criteria.map(r => `
                     <div class="card flex justify-between items-center py-4">
                         <div>
                             <div class="font-bold text-sm">${r.name}</div>
