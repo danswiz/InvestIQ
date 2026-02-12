@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-InvestIQ Website Scan - v4.2 High Potential (100 Point Scale)
+InvestIQ Website Scan - v4.3 TTM-Based (100 Point Scale)
 Updates top_stocks.json for website display
 """
 import json
@@ -17,8 +17,44 @@ DB_PATH = os.path.join(os.getcwd(), 'market_data.db')
 def get_db_connection():
     return sqlite3.connect(DB_PATH)
 
-def rate_stock_v42(symbol, conn):
-    """Rate stock using v4.2 100-point scale with DB data"""
+def get_ttm_growth(symbol, conn):
+    """Calculate TTM growth from quarterly data"""
+    try:
+        c = conn.cursor()
+        c.execute('''
+            SELECT year, quarter, revenue FROM quarterly_revenue
+            WHERE symbol = ? AND revenue IS NOT NULL
+            ORDER BY year DESC, quarter DESC
+            LIMIT 12
+        ''', (symbol,))
+        rows = c.fetchall()
+        
+        if len(rows) < 8:
+            return None, None
+        
+        # TTM Current = sum of most recent 4 quarters
+        ttm_current = sum(r[2] for r in rows[0:4])
+        # TTM Prior Year = sum of quarters 5-8
+        ttm_prior = sum(r[2] for r in rows[4:8])
+        
+        rev_g = None
+        rev_g_prior = None
+        
+        if ttm_prior > 0:
+            rev_g = (ttm_current - ttm_prior) / ttm_prior
+        
+        # TTM 2 Years Ago = sum of quarters 9-12
+        if len(rows) >= 12:
+            ttm_2yr = sum(r[2] for r in rows[8:12])
+            if ttm_2yr > 0:
+                rev_g_prior = (ttm_prior - ttm_2yr) / ttm_2yr
+        
+        return rev_g, rev_g_prior
+    except:
+        return None, None
+
+def rate_stock_v43(symbol, conn):
+    """Rate stock using v4.3 TTM-based 100-point scale with DB data"""
     try:
         import pandas as pd
         
@@ -87,40 +123,26 @@ def rate_stock_v42(symbol, conn):
         passed_atr = bool(atr_current < 0.8 * atr_20d)
         results.append(CriterionResult("Volatility Compression", "Timing", passed_atr, "", "", 5 if passed_atr else 0))
         
-        # 7. Sales Growth with 2-Year Consistency (0-30 pts)
-        rev_g = info.get('revenueGrowth')
+        # 7. Sales Growth with TTM Consistency (0-30 pts)
+        rev_g_fallback = info.get('revenueGrowth')
+        rev_g, rev_g_prior = get_ttm_growth(symbol, conn)
         
-        # Fetch TWO most recent years from revenue_history
-        rev_g_prior = None
-        try:
-            c = conn.cursor()
-            c.execute('''
-                SELECT fiscal_year, revenue_growth_yoy FROM revenue_history 
-                WHERE symbol = ? AND revenue_growth_yoy IS NOT NULL
-                ORDER BY fiscal_year DESC LIMIT 2
-            ''', (symbol,))
-            rows = c.fetchall()
-            if len(rows) >= 2:
-                # rows[0] = most recent (2024), rows[1] = prior year (2023)
-                rev_g_prior = rows[1][1]  # Get growth from 2nd row (prior year)
-        except:
-            pass
+        # Use TTM if available, else fallback to yfinance
+        if rev_g is None:
+            rev_g = rev_g_fallback
         
-        # STRICT GATE: Both current AND prior year must be >= 10%
+        # STRICT GATE: Both TTM periods must be >= 10%
         if rev_g is None or rev_g < 0.10:
-            # Current year < 10% → DISQUALIFIED
             sales_points = 0
         elif rev_g_prior is None or rev_g_prior < 0.10:
-            # Prior year < 10% → DISQUALIFIED
             sales_points = 0
         else:
-            # Both years >= 10%: calculate score with bonus
             avg_growth = (rev_g + rev_g_prior) / 2
-            consistency_bonus = 3  # Guaranteed since both >= 10%
+            consistency_bonus = 3
             base_score = min(max(0, (avg_growth / 0.30) * 12), 27)
             sales_points = base_score + consistency_bonus
         
-        results.append(CriterionResult("Sales Growth (2yr)", "Growth", sales_points > 0, "", "", int(sales_points)))
+        results.append(CriterionResult("Sales Growth (TTM)", "Growth", sales_points > 0, "", "", int(sales_points)))
         
         # 8. Earnings Growth (3 pts)
         earn_g = info.get('earningsGrowth')
@@ -198,7 +220,7 @@ def rate_stock_v42(symbol, conn):
         return None
 
 def run_scan():
-    print("🚀 Starting InvestIQ v4.2 Scan (100 Point Scale)...")
+    print("🚀 Starting InvestIQ v4.3 TTM Scan (100 Point Scale)...")
     
     conn = get_db_connection()
     c = conn.cursor()
@@ -210,7 +232,7 @@ def run_scan():
     
     results = []
     for i, ticker in enumerate(tickers, 1):
-        data = rate_stock_v42(ticker, conn)
+        data = rate_stock_v43(ticker, conn)
         if data:
             results.append(data)
         
@@ -222,7 +244,7 @@ def run_scan():
     results.sort(key=lambda x: x['score'], reverse=True)
     
     output = {
-        'version': '4.2',
+        'version': '4.3',
         'max_score': 100,
         'last_scan': datetime.now().strftime('%Y-%m-%d %H:%M PST'),
         'stocks': results[:50]
