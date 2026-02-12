@@ -1,21 +1,21 @@
 {
   "version": "4.3",
   "max_score": 100,
-  "last_scan": "2026-02-11 18:36 PST",
+  "last_scan": "2026-02-11 19:21 PST",
   "stocks": [
     {
       "ticker": "RBA",
       "name": "RB Global, Inc.",
       "sector": "Industrials",
       "industry": "Specialty Business Services",
-      "score": 101,
+      "score": 96,
       "max_score": 100,
       "grade": "A",
       "market_cap": 22180466688,
       "technical_score": 53,
       "growth_score": 30,
       "quality_score": 8,
-      "context_score": 10
+      "context_score": 5
     },
     {
       "ticker": "IBKR",
