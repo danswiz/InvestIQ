@@ -22,6 +22,42 @@ class CriterionResult:
     threshold: str
     points: int = 0
 
+def get_ttm_growth(symbol, db_conn):
+    """Calculate TTM growth from quarterly data"""
+    try:
+        c = db_conn.cursor()
+        c.execute('''
+            SELECT year, quarter, revenue FROM quarterly_revenue
+            WHERE symbol = ? AND revenue IS NOT NULL
+            ORDER BY year DESC, quarter DESC
+            LIMIT 12
+        ''', (symbol,))
+        rows = c.fetchall()
+
+        if len(rows) < 8:
+            return None, None
+
+        # TTM Current = sum of most recent 4 quarters
+        ttm_current = sum(r[2] for r in rows[0:4])
+        # TTM Prior Year = sum of quarters 5-8
+        ttm_prior = sum(r[2] for r in rows[4:8])
+
+        rev_g = None
+        rev_g_prior = None
+
+        if ttm_prior > 0:
+            rev_g = (ttm_current - ttm_prior) / ttm_prior
+
+        # TTM 2 Years Ago = sum of quarters 9-12
+        if len(rows) >= 12:
+            ttm_2yr = sum(r[2] for r in rows[8:12])
+            if ttm_2yr > 0:
+                rev_g_prior = (ttm_prior - ttm_2yr) / ttm_2yr
+
+        return rev_g, rev_g_prior
+    except:
+        return None, None
+
 class BreakoutRater:
     def __init__(self):
         # v4.2 High Potential - 100 Point Scale
