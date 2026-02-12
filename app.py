@@ -64,17 +64,48 @@ def index():
 
 @app.route('/api/rate/<ticker>')
 def rate_ticker(ticker):
+    """Read from cached top_stocks.json for consistency with list view"""
     try:
-        from rater import BreakoutRater
-        rater = BreakoutRater()
-        data = rater.rate_stock(ticker)
-        if not data:
-            return jsonify({"error": "Data unavailable"}), 404
-        if "error" in data:
-            return jsonify(data), 500
-        return jsonify(data)
+        ticker = ticker.upper()
+        if os.path.exists('top_stocks.json'):
+            with open('top_stocks.json', 'r') as f:
+                data = json.load(f)
+                stocks = data.get('stocks', [])
+                for stock in stocks:
+                    if stock['ticker'] == ticker:
+                        # Return in same format as old rater
+                        return jsonify({
+                            "ticker": stock['ticker'],
+                            "name": stock['name'],
+                            "sector": stock['sector'],
+                            "industry": stock.get('industry', 'N/A'),
+                            "score": stock['score'],
+                            "grade": stock['grade'],
+                            "max_score": 100,
+                            "technical_score": stock.get('technical_score', 0),
+                            "growth_score": stock.get('growth_score', 0),
+                            "quality_score": stock.get('quality_score', 0),
+                            "context_score": stock.get('context_score', 0),
+                            "market_cap": stock.get('market_cap', 0),
+                            "results": [],  # Simplified - could add criteria breakdown
+                            "news": [],
+                            "valuation": {
+                                "forward_pe": None,
+                                "trailing_pe": None,
+                                "peg_ratio": None,
+                                "book_value": None,
+                                "price_to_book": None,
+                                "roe": None
+                            },
+                            "opinions": {
+                                "recommendation": "N/A",
+                                "target_mean": None,
+                                "analysts": 0
+                            }
+                        })
+        return jsonify({"error": f"{ticker} not found in cache"}), 404
     except Exception as e:
-        return jsonify({"error": f"Engine Crash: {str(e)}", "trace": traceback.format_exc()}), 500
+        return jsonify({"error": f"Error reading cache: {str(e)}"}), 500
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=18791, debug=True)
