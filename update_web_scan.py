@@ -123,15 +123,30 @@ def rate_stock_v43(symbol, conn):
         passed_atr = bool(atr_current < 0.8 * atr_20d)
         results.append(CriterionResult("Volatility Compression", "Timing", passed_atr, "", "", 5 if passed_atr else 0))
         
-        # 7. Sales Growth with TTM Consistency (0-30 pts)
+        # 7. Sales Growth with TTM/Fiscal Consistency (0-30 pts)
         rev_g_fallback = info.get('revenueGrowth')
         rev_g, rev_g_prior = get_ttm_growth(symbol, conn)
         
-        # Use TTM if available, else fallback to yfinance
+        # Use TTM if available, else fallback to yfinance for current
         if rev_g is None:
             rev_g = rev_g_fallback
         
-        # STRICT GATE: Both TTM periods must be >= 10%
+        # For prior year, fallback to fiscal year data if TTM not available
+        if rev_g_prior is None:
+            try:
+                c = conn.cursor()
+                c.execute('''
+                    SELECT revenue_growth_yoy FROM revenue_history 
+                    WHERE symbol = ? AND revenue_growth_yoy IS NOT NULL
+                    ORDER BY fiscal_year DESC LIMIT 1 OFFSET 1
+                ''', (symbol,))
+                row = c.fetchone()
+                if row:
+                    rev_g_prior = row[0]
+            except:
+                pass
+        
+        # STRICT GATE: Both periods must be >= 10%
         if rev_g is None or rev_g < 0.10:
             sales_points = 0
         elif rev_g_prior is None or rev_g_prior < 0.10:
