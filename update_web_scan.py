@@ -259,17 +259,20 @@ def run_scan():
     
     results.sort(key=lambda x: x['score'], reverse=True)
     
-    output = {
+    # Save ALL stocks to comprehensive cache
+    full_output = {
         'version': '4.3',
         'max_score': 100,
         'last_scan': datetime.now().strftime('%Y-%m-%d %H:%M PST'),
-        'stocks': results[:50]
+        'total_stocks': len(results),
+        'stocks': results  # ALL stocks, not just top 50
     }
     
     with open('top_stocks.json', 'w') as f:
-        json.dump(output, f, indent=2)
+        json.dump(full_output, f, indent=2)
     
-    print(f"\n✅ Saved {len(results[:50])} stocks to top_stocks.json")
+    # Also save top 50 summary for quick reference
+    print(f"\n✅ Saved {len(results)} stocks to top_stocks.json")
     print(f"   Top 5: {', '.join([s['ticker'] + ' ' + str(s['score']) for s in results[:5]])}")
 
 if __name__ == '__main__':
