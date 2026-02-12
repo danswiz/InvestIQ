@@ -90,22 +90,23 @@ def rate_stock_v42(symbol, conn):
         # 7. Sales Growth with 2-Year Consistency (0-30 pts)
         rev_g = info.get('revenueGrowth')
         
-        # Fetch prior year growth from revenue_history
+        # Fetch TWO most recent years from revenue_history
         rev_g_prior = None
         try:
             c = conn.cursor()
             c.execute('''
-                SELECT revenue_growth_yoy FROM revenue_history 
+                SELECT fiscal_year, revenue_growth_yoy FROM revenue_history 
                 WHERE symbol = ? AND revenue_growth_yoy IS NOT NULL
-                ORDER BY fiscal_year DESC LIMIT 1
+                ORDER BY fiscal_year DESC LIMIT 2
             ''', (symbol,))
-            row = c.fetchone()
-            if row:
-                rev_g_prior = row[0]
+            rows = c.fetchall()
+            if len(rows) >= 2:
+                # rows[0] = most recent (2024), rows[1] = prior year (2023)
+                rev_g_prior = rows[1][1]  # Get growth from 2nd row (prior year)
         except:
             pass
         
-        # STRICT GATE: Both years must be >= 10%
+        # STRICT GATE: Both current AND prior year must be >= 10%
         if rev_g is None or rev_g < 0.10:
             # Current year < 10% → DISQUALIFIED
             sales_points = 0
