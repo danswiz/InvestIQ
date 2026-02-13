@@ -1,7 +1,7 @@
 {
   "version": "4.3",
   "max_score": 100,
-  "last_scan": "2026-02-13 14:24 PST",
+  "last_scan": "2026-02-13 16:02 PST",
   "total_stocks": 78,
   "stocks": [
     {
@@ -17,6 +17,7 @@
       "growth_score": 30,
       "quality_score": 8,
       "context_score": 5,
+      "moonshot_score": 0,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -152,6 +153,7 @@
       "growth_score": 26,
       "quality_score": 10,
       "context_score": 5,
+      "moonshot_score": 30,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -287,6 +289,7 @@
       "growth_score": 30,
       "quality_score": 10,
       "context_score": 0,
+      "moonshot_score": 60,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -422,6 +425,7 @@
       "growth_score": 24,
       "quality_score": 10,
       "context_score": 5,
+      "moonshot_score": 60,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -557,6 +561,7 @@
       "growth_score": 15,
       "quality_score": 13,
       "context_score": 10,
+      "moonshot_score": 30,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -692,6 +697,7 @@
       "growth_score": 20,
       "quality_score": 10,
       "context_score": 0,
+      "moonshot_score": 30,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -827,6 +833,7 @@
       "growth_score": 15,
       "quality_score": 13,
       "context_score": 10,
+      "moonshot_score": 70,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -962,6 +969,7 @@
       "growth_score": 20,
       "quality_score": 10,
       "context_score": 5,
+      "moonshot_score": 30,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -1097,6 +1105,7 @@
       "growth_score": 16,
       "quality_score": 5,
       "context_score": 5,
+      "moonshot_score": 30,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -1232,6 +1241,7 @@
       "growth_score": 29,
       "quality_score": 13,
       "context_score": 10,
+      "moonshot_score": 50,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -1367,6 +1377,7 @@
       "growth_score": 31,
       "quality_score": 10,
       "context_score": 0,
+      "moonshot_score": 0,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -1502,6 +1513,7 @@
       "growth_score": 33,
       "quality_score": 13,
       "context_score": -5,
+      "moonshot_score": 0,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -1645,6 +1657,7 @@
       "growth_score": 30,
       "quality_score": 13,
       "context_score": 5,
+      "moonshot_score": 70,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -1780,6 +1793,7 @@
       "growth_score": 17,
       "quality_score": 8,
       "context_score": 10,
+      "moonshot_score": 90,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -1915,6 +1929,7 @@
       "growth_score": 24,
       "quality_score": 5,
       "context_score": 5,
+      "moonshot_score": 60,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -2050,6 +2065,7 @@
       "growth_score": 19,
       "quality_score": 10,
       "context_score": 5,
+      "moonshot_score": 40,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -2185,6 +2201,7 @@
       "growth_score": 27,
       "quality_score": 13,
       "context_score": 5,
+      "moonshot_score": 70,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -2320,6 +2337,7 @@
       "growth_score": 27,
       "quality_score": 10,
       "context_score": 10,
+      "moonshot_score": 40,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -2455,6 +2473,7 @@
       "growth_score": 18,
       "quality_score": 13,
       "context_score": 5,
+      "moonshot_score": 0,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -2590,6 +2609,7 @@
       "growth_score": 18,
       "quality_score": 13,
       "context_score": 10,
+      "moonshot_score": 80,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -2725,6 +2745,7 @@
       "growth_score": 30,
       "quality_score": 8,
       "context_score": 5,
+      "moonshot_score": 30,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -2860,6 +2881,7 @@
       "growth_score": 30,
       "quality_score": 0,
       "context_score": 5,
+      "moonshot_score": 70,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -2995,6 +3017,7 @@
       "growth_score": 32,
       "quality_score": 13,
       "context_score": 5,
+      "moonshot_score": 40,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -3130,6 +3153,7 @@
       "growth_score": 30,
       "quality_score": 8,
       "context_score": 0,
+      "moonshot_score": 70,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -3265,6 +3289,7 @@
       "growth_score": 33,
       "quality_score": 10,
       "context_score": 0,
+      "moonshot_score": 60,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -3400,6 +3425,7 @@
       "growth_score": 30,
       "quality_score": 10,
       "context_score": 5,
+      "moonshot_score": 100,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -3535,6 +3561,7 @@
       "growth_score": 33,
       "quality_score": 13,
       "context_score": 5,
+      "moonshot_score": 50,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -3670,6 +3697,7 @@
       "growth_score": 15,
       "quality_score": 13,
       "context_score": 5,
+      "moonshot_score": 10,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -3805,6 +3833,7 @@
       "growth_score": 15,
       "quality_score": 13,
       "context_score": 5,
+      "moonshot_score": 0,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -3940,6 +3969,7 @@
       "growth_score": 15,
       "quality_score": 13,
       "context_score": 5,
+      "moonshot_score": 0,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -4075,6 +4105,7 @@
       "growth_score": 20,
       "quality_score": 13,
       "context_score": 0,
+      "moonshot_score": 10,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -4210,6 +4241,7 @@
       "growth_score": 23,
       "quality_score": 13,
       "context_score": 5,
+      "moonshot_score": 40,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -4345,6 +4377,7 @@
       "growth_score": 18,
       "quality_score": 13,
       "context_score": 0,
+      "moonshot_score": 10,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -4480,6 +4513,7 @@
       "growth_score": 17,
       "quality_score": 8,
       "context_score": 5,
+      "moonshot_score": 40,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -4615,6 +4649,7 @@
       "growth_score": 22,
       "quality_score": 13,
       "context_score": 5,
+      "moonshot_score": 20,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -4750,6 +4785,7 @@
       "growth_score": 17,
       "quality_score": 13,
       "context_score": 0,
+      "moonshot_score": 60,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -4885,6 +4921,7 @@
       "growth_score": 16,
       "quality_score": 8,
       "context_score": 0,
+      "moonshot_score": 50,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -5020,6 +5057,7 @@
       "growth_score": 29,
       "quality_score": 5,
       "context_score": 5,
+      "moonshot_score": 70,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -5155,6 +5193,7 @@
       "growth_score": 16,
       "quality_score": 8,
       "context_score": 5,
+      "moonshot_score": 0,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -5290,6 +5329,7 @@
       "growth_score": 16,
       "quality_score": 8,
       "context_score": 5,
+      "moonshot_score": 40,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -5425,6 +5465,7 @@
       "growth_score": 15,
       "quality_score": 8,
       "context_score": 5,
+      "moonshot_score": 50,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -5560,6 +5601,7 @@
       "growth_score": 18,
       "quality_score": 5,
       "context_score": 5,
+      "moonshot_score": 50,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -5695,6 +5737,7 @@
       "growth_score": 15,
       "quality_score": 13,
       "context_score": 0,
+      "moonshot_score": 50,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -5830,6 +5873,7 @@
       "growth_score": 33,
       "quality_score": 3,
       "context_score": 10,
+      "moonshot_score": 80,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -5965,6 +6009,7 @@
       "growth_score": 20,
       "quality_score": 8,
       "context_score": 0,
+      "moonshot_score": 40,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -6100,6 +6145,7 @@
       "growth_score": 30,
       "quality_score": 5,
       "context_score": 0,
+      "moonshot_score": 30,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -6235,6 +6281,7 @@
       "growth_score": 30,
       "quality_score": 5,
       "context_score": 0,
+      "moonshot_score": 30,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -6370,6 +6417,7 @@
       "growth_score": 19,
       "quality_score": 5,
       "context_score": 5,
+      "moonshot_score": 40,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -6505,6 +6553,7 @@
       "growth_score": 18,
       "quality_score": 13,
       "context_score": -5,
+      "moonshot_score": 0,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -6648,6 +6697,7 @@
       "growth_score": 18,
       "quality_score": 3,
       "context_score": 5,
+      "moonshot_score": 0,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -6783,6 +6833,7 @@
       "growth_score": 30,
       "quality_score": 0,
       "context_score": 5,
+      "moonshot_score": 40,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -6918,6 +6969,7 @@
       "growth_score": 30,
       "quality_score": 5,
       "context_score": 0,
+      "moonshot_score": 30,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -7053,6 +7105,7 @@
       "growth_score": 17,
       "quality_score": 3,
       "context_score": 5,
+      "moonshot_score": 10,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -7188,6 +7241,7 @@
       "growth_score": 30,
       "quality_score": 0,
       "context_score": 5,
+      "moonshot_score": 50,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -7323,6 +7377,7 @@
       "growth_score": 21,
       "quality_score": 8,
       "context_score": 5,
+      "moonshot_score": 20,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -7458,6 +7513,7 @@
       "growth_score": 19,
       "quality_score": 8,
       "context_score": 5,
+      "moonshot_score": 20,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -7593,6 +7649,7 @@
       "growth_score": 15,
       "quality_score": 3,
       "context_score": 5,
+      "moonshot_score": 10,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -7728,6 +7785,7 @@
       "growth_score": 18,
       "quality_score": 10,
       "context_score": 0,
+      "moonshot_score": 40,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -7871,6 +7929,7 @@
       "growth_score": 30,
       "quality_score": 3,
       "context_score": 0,
+      "moonshot_score": 30,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -8006,6 +8065,7 @@
       "growth_score": 15,
       "quality_score": 3,
       "context_score": 5,
+      "moonshot_score": 0,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -8141,6 +8201,7 @@
       "growth_score": 17,
       "quality_score": 5,
       "context_score": 0,
+      "moonshot_score": 40,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -8276,6 +8337,7 @@
       "growth_score": 21,
       "quality_score": 8,
       "context_score": 0,
+      "moonshot_score": 20,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -8411,6 +8473,7 @@
       "growth_score": 15,
       "quality_score": 8,
       "context_score": 5,
+      "moonshot_score": 50,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -8546,6 +8609,7 @@
       "growth_score": 28,
       "quality_score": 8,
       "context_score": 0,
+      "moonshot_score": 30,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -8681,6 +8745,7 @@
       "growth_score": 15,
       "quality_score": 0,
       "context_score": 5,
+      "moonshot_score": 40,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -8816,6 +8881,7 @@
       "growth_score": 17,
       "quality_score": 8,
       "context_score": 0,
+      "moonshot_score": 10,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -8951,6 +9017,7 @@
       "growth_score": 17,
       "quality_score": 0,
       "context_score": 0,
+      "moonshot_score": 10,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -9086,6 +9153,7 @@
       "growth_score": 19,
       "quality_score": 3,
       "context_score": 5,
+      "moonshot_score": 0,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -9221,6 +9289,7 @@
       "growth_score": 15,
       "quality_score": 10,
       "context_score": 0,
+      "moonshot_score": 60,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -9356,6 +9425,7 @@
       "growth_score": 17,
       "quality_score": 3,
       "context_score": 5,
+      "moonshot_score": 0,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -9491,6 +9561,7 @@
       "growth_score": 15,
       "quality_score": 3,
       "context_score": 5,
+      "moonshot_score": 0,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -9626,6 +9697,7 @@
       "growth_score": 16,
       "quality_score": 3,
       "context_score": 5,
+      "moonshot_score": 20,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -9761,6 +9833,7 @@
       "growth_score": 18,
       "quality_score": 0,
       "context_score": 5,
+      "moonshot_score": 40,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -9896,6 +9969,7 @@
       "growth_score": 15,
       "quality_score": 3,
       "context_score": 5,
+      "moonshot_score": 10,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -10031,6 +10105,7 @@
       "growth_score": 15,
       "quality_score": 5,
       "context_score": 0,
+      "moonshot_score": 0,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -10166,6 +10241,7 @@
       "growth_score": 16,
       "quality_score": 3,
       "context_score": 5,
+      "moonshot_score": 50,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -10301,6 +10377,7 @@
       "growth_score": 15,
       "quality_score": 3,
       "context_score": 5,
+      "moonshot_score": 0,
       "criteria": [
         {
           "name": "Trend Alignment",
@@ -10436,6 +10513,7 @@
       "growth_score": 15,
       "quality_score": 3,
       "context_score": 5,
+      "moonshot_score": 20,
       "criteria": [
         {
           "name": "Trend Alignment",

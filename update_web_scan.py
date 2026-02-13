@@ -192,6 +192,31 @@ def rate_stock_v43_full(symbol, conn):
         if size_penalty < 0:
             results.append(CriterionResult("Size Factor", "Context", False, size_val, "Large Cap Penalty", size_penalty))
         
+        # --- MOONSHOT SCORE CALCULATION (0-100) ---
+        ms_pts = 0
+        
+        # 1. Acceleration (40 pts)
+        if rev_g and rev_g_prior and rev_g_prior > 0:
+            accel = rev_g / rev_g_prior
+            if accel > 1.5: ms_pts += 40
+            elif accel > 1.2: ms_pts += 30
+            elif accel > 1.0: ms_pts += 20
+            
+        # 2. Valuation Efficiency (30 pts)
+        # P/S ratio / Growth
+        revenue_ttm = info.get('totalRevenue')
+        if market_cap and revenue_ttm and revenue_ttm > 0 and rev_g and rev_g > 0:
+            ps_ratio = market_cap / revenue_ttm
+            efficiency = ps_ratio / (rev_g * 100)
+            if efficiency < 0.1: ms_pts += 30
+            elif efficiency < 0.2: ms_pts += 20
+            elif efficiency < 0.3: ms_pts += 10
+            
+        # 3. Relative Strength (30 pts)
+        # We use the Ret_1m already calculated for RS
+        if passed_rs:
+            ms_pts += 30 # Simple proxy: if passed 5% outperformance gate
+            
         # Calculate total
         total = sum(r.points for r in results)
         
@@ -236,6 +261,7 @@ def rate_stock_v43_full(symbol, conn):
             'growth_score': sum(r.points for r in results if r.category == "Growth"),
             'quality_score': sum(r.points for r in results if r.category == "Quality"),
             'context_score': sum(r.points for r in results if r.category == "Context"),
+            'moonshot_score': ms_pts, # New Moonshot Metric
             'criteria': criteria_list,  # Full breakdown for detail view
             # Valuation data
             'forward_pe': forward_pe,
