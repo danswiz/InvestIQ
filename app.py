@@ -60,7 +60,8 @@ def index():
                 data = json.load(f)
         except:
             pass
-    return render_template('index.html', stocks=data.get('stocks', []), last_scan=data.get('last_scan'))
+    # v4.5 Moonshot Score integration
+    return render_template('index.html', stocks=data.get('stocks', []), last_scan=data.get('last_scan'), version="4.5")
 
 @app.route('/api/rate/<ticker>')
 def rate_ticker(ticker):
