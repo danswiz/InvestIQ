@@ -512,16 +512,27 @@
                     </div>
                 `).join('');
 
-                if (data.news && data.news.length > 0) {
-                    document.getElementById('news-list').innerHTML = data.news.map(n => `
-                        <div class="news-item">
-                            <a href="${n.link}" target="_blank" class="news-link text-sm">${n.title}</a>
-                            <div class="news-meta">${n.publisher} • ${n.time}</div>
-                        </div>
-                    `).join('');
-                } else {
-                    document.getElementById('news-list').innerHTML = '<p class="text-slate-500 text-sm">No recent news available.</p>';
-                }
+                // Show loading state for news
+                document.getElementById('news-list').innerHTML = '<p class="text-slate-500 text-sm">Loading news...</p>';
+                
+                // Fetch live news separately
+                fetch(`/api/news/${ticker}`)
+                    .then(res => res.json())
+                    .then(newsData => {
+                        if (newsData.news && newsData.news.length > 0) {
+                            document.getElementById('news-list').innerHTML = newsData.news.map(n => `
+                                <div class="news-item">
+                                    <a href="${n.link}" target="_blank" class="news-link text-sm">${n.title}</a>
+                                    <div class="news-meta">${n.publisher} • ${n.time}</div>
+                                </div>
+                            `).join('');
+                        } else {
+                            document.getElementById('news-list').innerHTML = '<p class="text-slate-500 text-sm">No recent news available.</p>';
+                        }
+                    })
+                    .catch(err => {
+                        document.getElementById('news-list').innerHTML = '<p class="text-slate-500 text-sm">News unavailable.</p>';
+                    });
 
                 const savedSettings = JSON.parse(localStorage.getItem('tv_chart_settings') || '{}');
                 const chartInterval = savedSettings.interval || "D";

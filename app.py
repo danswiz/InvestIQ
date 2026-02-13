@@ -90,5 +90,42 @@ def all_stocks():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.route('/api/news/<ticker>')
+def get_news(ticker):
+    """Fetch live news for a ticker"""
+    try:
+        import yfinance as yf
+        stock = yf.Ticker(ticker.upper())
+        news_items = []
+        
+        raw_news = stock.news or []
+        for n in raw_news[:5]:
+            content = n.get('content', {})
+            title = content.get('title')
+            publisher = content.get('provider', {}).get('displayName')
+            link = content.get('canonicalUrl', {}).get('url')
+            pub_date = content.get('pubDate')
+            
+            if title:
+                time_str = "Recently"
+                if pub_date:
+                    try:
+                        from datetime import datetime
+                        dt = datetime.fromisoformat(pub_date.replace('Z', '+00:00'))
+                        time_str = dt.strftime('%b %d, %H:%M')
+                    except:
+                        time_str = pub_date[:16] if pub_date else "Recently"
+                
+                news_items.append({
+                    "title": title,
+                    "publisher": publisher or "Yahoo Finance",
+                    "link": link,
+                    "time": time_str
+                })
+        
+        return jsonify({"news": news_items})
+    except Exception as e:
+        return jsonify({"error": str(e), "news": []}), 500
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=18791, debug=True)
