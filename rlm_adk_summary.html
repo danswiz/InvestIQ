@@ -1,0 +1,76 @@
+<html>
+<head><title>Summary: Recursive Language Models in ADK</title></head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 800px;">
+<h2 style="color: #1a73e8;">Recursive Language Models in ADK</h2>
+<p><em>Google Developer Forums - Community Article Summary</em></p>
+
+<h3>Overview</h3>
+<p><strong>Recursive Language Models (RLM)</strong> is a breakthrough agent architecture from MIT (published Dec 2025) that enables AI agents to scale to <strong>10M+ token contexts</strong> and solve complex information-dense tasks that defeat traditional LLM architectures.</p>
+
+<h3>Core Innovation</h3>
+<p>Unlike standard LLMs that face context length limitations, RLMs give agents <strong>complete control over their own context</strong> through an interactive coding environment (REPL). The agent writes and executes Python code to manipulate context and delegate tasks recursively.</p>
+
+<h3>Key Components</h3>
+<ul>
+<li><strong><code>context</code> variable:</strong> Contains the entire working context (up to 10M+ tokens)</li>
+<li><strong><code>rlm_agent(query, context)</code> function:</strong> Spawns child agents with identical architecture — the "recursive" element</li>
+<li><strong>Pre-loaded libraries:</strong> json, re, numpy, etc. for context manipulation</li>
+</ul>
+
+<h3>How It Works</h3>
+<ol>
+<li>Agent receives a query and full context</li>
+<li>Writes Python code using context variable and available functions</li>
+<li>Executes code, analyzes output</li>
+<li>For complex tasks: delegates sub-tasks to child agents via <code>rlm_agent()</code></li>
+<li>Aggregates child agent results</li>
+<li>Repeats until task complete</li>
+</ol>
+
+<h3>Two Key Capabilities</h3>
+<ol>
+<li><strong>Context Manipulation:</strong> Process massive contexts via code (e.g., regex searches across millions of tokens)</li>
+<li><strong>Recursive Task Delegation:</strong> Break problems into sub-tasks handled by child agents without burning parent agent's reasoning tokens</li>
+</ol>
+
+<h3>OOLONG-Pairs Benchmark</h3>
+<p>A novel test requiring quadratic reasoning across statement pairs in massive documents (like finding contradictions across thousands of interview transcripts).</p>
+<ul>
+<li><strong>RLM Score:</strong> 23/100</li>
+<li><strong>Other Agents:</strong> 0/100</li>
+</ul>
+
+<h3>Implementation in Google's ADK</h3>
+<p>The author re-implemented RLM using Google's <strong>Agent Development Kit (ADK)</strong> — an open-source framework for production-ready multi-agent systems. Key benefits:</p>
+<ul>
+<li>Event orchestration & session management</li>
+<li>Built-in evaluation framework</li>
+<li>Developer UI & API</li>
+<li>Enterprise deployment features</li>
+</ul>
+<p><em>Note: Required extending ADK's BaseAgent (LLMAgent was insufficient for recursive patterns).</em></p>
+
+<h3>Novel Extensions</h3>
+<table border="1" cellpadding="10" style="border-collapse: collapse; width: 100%;">
+<tr style="background-color: #f5f5f5;"><th>Extension</th><th>Description</th></tr>
+<tr><td><strong>Lazy File Loading</strong></td><td>Instead of loading entire context into memory, agents reference file collections (local filesystem, GCS buckets) and load contents on-demand</td></tr>
+<tr><td><strong>Parallelism</strong></td><td>Concurrent child agent execution with configurable limits (vs sequential in original paper)</td></tr>
+<tr><td><strong>Real-Time UI</strong></td><td>Live event streaming for monitoring long-running tasks and validating agent approach</td></tr>
+</table>
+
+<h3>Resources</h3>
+<ul>
+<li><strong>Original Paper:</strong> <a href="https://arxiv.org/abs/2512.24601">Zhang et al. (2025)</a></li>
+<li><strong>Original Implementation:</strong> <a href="https://github.com/alexzhang13/rlm">github.com/alexzhang13/rlm</a></li>
+<li><strong>ADK Implementation:</strong> <a href="https://github.com/LiamConnell/adk-python/tree/66a757f5/contributing/samples/rlm">ADK Python RLM Sample</a></li>
+<li><strong>Google ADK:</strong> <a href="https://github.com/google/adk-python">github.com/google/adk-python</a></li>
+</ul>
+
+<h3>Bottom Line</h3>
+<p>RLM represents a paradigm shift in agent architecture: agents that code their way through problems and recursively delegate to scale indefinitely. The ADK implementation brings this research concept into production-ready enterprise tooling.</p>
+
+<hr>
+<p><strong>Source:</strong> <a href="https://discuss.google.dev/t/recursive-language-models-in-adk/323523">Google Developer Forums</a><br>
+<strong>Original Article:</strong> Liam Connell, Google Cloud Community</p>
+</body>
+</html>

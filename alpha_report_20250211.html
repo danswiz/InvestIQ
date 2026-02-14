@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Alpha Report - February 11, 2026</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: #0f172a; color: #e2e8f0; line-height: 1.6; }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; padding: 30px 0; border-bottom: 2px solid #334155; margin-bottom: 30px; }
+        .header h1 { font-size: 2.2rem; background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+        .header .date { color: #94a3b8; font-size: 0.95rem; }
+        .section { background: #1e293b; border-radius: 12px; padding: 24px; margin-bottom: 24px; border: 1px solid #334155; }
+        .section h2 { color: #f59e0b; font-size: 1.3rem; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+        .section h2 .icon { font-size: 1.4rem; }
+        .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+        .card { background: #0f172a; border-radius: 8px; padding: 16px; border: 1px solid #334155; }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .ticker { font-weight: 700; color: #f8fafc; font-size: 1.1rem; }
+        .price { font-size: 1.3rem; font-weight: 700; }
+        .change { font-size: 0.9rem; font-weight: 600; padding: 4px 8px; border-radius: 4px; }
+        .up { color: #4ade80; background: rgba(74, 222, 128, 0.1); }
+        .down { color: #f87171; background: rgba(248, 113, 113, 0.1); }
+        .flat { color: #94a3b8; background: rgba(148, 163, 184, 0.1); }
+        .metric-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #334155; }
+        .metric-row:last-child { border-bottom: none; }
+        .metric-label { color: #94a3b8; }
+        .metric-value { font-weight: 600; }
+        .insight-box { background: rgba(245, 158, 11, 0.1); border-left: 4px solid #f59e0b; padding: 16px; border-radius: 0 8px 8px 0; margin: 12px 0; }
+        .insight-box h4 { color: #f59e0b; margin-bottom: 8px; }
+        .idea-card { background: #0f172a; border-radius: 8px; padding: 16px; margin-bottom: 12px; border: 1px solid #334155; }
+        .idea-card h4 { color: #4ade80; margin-bottom: 8px; font-size: 1.1rem; }
+        .idea-card .setup { color: #94a3b8; font-size: 0.9rem; margin-top: 8px; }
+        .tag { display: inline-block; background: #334155; color: #cbd5e1; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; margin-right: 6px; }
+        .tag.bullish { background: rgba(74, 222, 128, 0.2); color: #4ade80; }
+        .tag.bearish { background: rgba(248, 113, 113, 0.2); color: #f87171; }
+        .highlight { color: #f59e0b; font-weight: 600; }
+        .footer { text-align: center; padding: 30px 0; color: #64748b; font-size: 0.85rem; border-top: 1px solid #334155; margin-top: 20px; }
+        @media (max-width: 600px) { .grid-4, .grid-3 { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📈 Daily Alpha Report</h1>
+            <div class="date">Wednesday, February 11, 2026 | Market Close: 4:00 PM EST</div>
+        </div>
+
+        <!-- MARKET SNAPSHOT -->
+        <div class="section">
+            <h2><span class="icon">📊</span> Market Snapshot</h2>
+            <div class="grid-4">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="ticker">SPY</span>
+                        <span class="change up">+0.03%</span>
+                    </div>
+                    <div class="price">$692.34</div>
+                    <div style="color:#64748b;font-size:0.8rem;margin-top:4px;">S&P 500 ETF</div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="ticker">QQQ</span>
+                        <span class="change up">+0.30%</span>
+                    </div>
+                    <div class="price">$613.11</div>
+                    <div style="color:#64748b;font-size:0.8rem;margin-top:4px;">Nasdaq 100</div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="ticker">IWM</span>
+                        <span class="change down">-0.44%</span>
+                    </div>
+                    <div class="price">$265.00</div>
+                    <div style="color:#64748b;font-size:0.8rem;margin-top:4px;">Russell 2000</div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="ticker">VIX</span>
+                        <span class="change up">+0.98%</span>
+                    </div>
+                    <div class="price">17.53</div>
+                    <div style="color:#64748b;font-size:0.8rem;margin-top:4px;">Volatility Index</div>
+                </div>
+            </div>
+            
+            <div style="margin-top:20px;">
+                <div class="metric-row">
+                    <span class="metric-label">🟡 Gold (GLD)</span>
+                    <span class="metric-value"><span class="up">+1.13%</span> @ $467.62</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">🪙 Bitcoin</span>
+                    <span class="metric-value"><span class="down">-1.84%</span> @ $67,522</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">🛢️ Crude Oil</span>
+                    <span class="metric-value"><span class="up">+1.55%</span> @ $64.95</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">💵 US Dollar (DXY)</span>
+                    <span class="metric-value"><span class="up">+0.09%</span> @ 96.89</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">📊 10Y Treasury</span>
+                    <span class="metric-value"><span class="up">+0.60%</span> @ 4.17%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- MACRO DRIVERS -->
+        <div class="section">
+            <h2><span class="icon">🌍</span> Macro Drivers & Key News</h2>
+            <div class="insight-box">
+                <h4>Market Narrative</h4>
+                <p>Markets showing mixed signals with <strong>rates concerns</strong> weighing on mega-cap tech while <strong>energy and commodities</strong> catch a bid. Gold breaking out +1.13% signals ongoing geopolitical hedging. Small-caps (IWM -0.44%) lagging as Fed uncertainty persists.</p>
+            </div>
+            
+            <div style="margin-top:16px;">
+                <div class="metric-row">
+                    <span class="metric-label">🔍 Key Theme</span>
+                    <span class="metric-value">Rates & Rotation</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">📉 10Y Yield</span>
+                    <span class="metric-value">Elevated at 4.17% — pressure on growth multiples</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">💪 Strongest Sector</span>
+                    <span class="metric-value">Industrials (PWR +2.61%, XLI +0.55%)</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">📉 Weakest Sector</span>
+                    <span class="metric-value">Big Tech (GOOGL -2.39%, MSFT -2.15%)</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SMART MONEY FLOWS -->
+        <div class="section">
+            <h2><span class="icon">💰</span> Smart Money Flows</h2>
+            <div class="insight-box">
+                <h4>Flow Observations</h4>
+                <p><strong>Rotation out of high-multiple tech</strong> into hard assets and industrials. COPX (+2.10%) and GLD (+1.13%) leading suggests institutional repositioning for inflation resilience. Defense names cooling (NOC -0.92%) after recent run-up.</p>
+            </div>
+            
+            <div style="margin-top:16px;">
+                <p style="margin-bottom:12px;"><strong>Notable Movers:</strong></p>
+                <div class="metric-row">
+                    <span class="metric-label">🚀 PWR (Quanta)</span>
+                    <span class="metric-value"><span class="up">+2.61%</span> — Grid-to-chip thesis accelerating</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">🟡 COPX (Copper)</span>
+                    <span class="metric-value"><span class="up">+2.10%</span> — Reopening/reflation trade</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">📉 MSFT</span>
+                    <span class="metric-value"><span class="down">-2.15%</span> — AI fatigue or profit-taking?</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">📉 GOOGL</span>
+                    <span class="metric-value"><span class="down">-2.39%</span> — Regulatory overhang + rates</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTOR TEMPERATURE -->
+        <div class="section">
+            <h2><span class="icon">🌡️</span> Sector Temperature</h2>
+            <div class="grid-3">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="ticker">XLI</span>
+                        <span class="tag bullish">HOT</span>
+                    </div>
+                    <div class="price" style="font-size:1rem;"><span class="up">+0.55%</span></div>
+                    <div style="color:#64748b;font-size:0.8rem;margin-top:4px;">Industrials</div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="ticker">ITA</span>
+                        <span class="tag">NEUTRAL</span>
+                    </div>
+                    <div class="price" style="font-size:1rem;">Defense Names Mixed</div>
+                    <div style="color:#64748b;font-size:0.8rem;margin-top:4px;">Aerospace/Defense</div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="ticker">NLR</span>
+                        <span class="tag bullish">WARM</span>
+                    </div>
+                    <div class="price" style="font-size:1rem;"><span class="up">+0.65%</span></div>
+                    <div style="color:#64748b;font-size:0.8rem;margin-top:4px;">Nuclear Energy</div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="ticker">COPX</span>
+                        <span class="tag bullish">HOT</span>
+                    </div>
+                    <div class="price" style="font-size:1rem;"><span class="up">+2.10%</span></div>
+                    <div style="color:#64748b;font-size:0.8rem;margin-top:4px;">Copper Miners</div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="ticker">XLK</span>
+                        <span class="tag bearish">COOL</span>
+                    </div>
+                    <div class="price" style="font-size:1rem;">Tech Giants Weak</div>
+                    <div style="color:#64748b;font-size:0.8rem;margin-top:4px;">Technology</div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="ticker">GLD</span>
+                        <span class="tag bullish">HOT</span>
+                    </div>
+                    <div class="price" style="font-size:1rem;"><span class="up">+1.13%</span></div>
+                    <div style="color:#64748b;font-size:0.8rem;margin-top:4px;">Gold / Safe Haven</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- HIGH CONVICTION IDEAS -->
+        <div class="section">
+            <h2><span class="icon">🎯</span> 5 High-Conviction Ideas</h2>
+            
+            <div class="idea-card">
+                <h4>1. PWR — Quanta Services <span class="tag bullish">BULLISH</span></h4>
+                <p><strong>Setup:</strong> Grid-to-chip thesis playing out. +2.61% today on continued AI infrastructure buildout. Benefit from datacenter power demand and grid modernization.</p>
+                <div class="setup">Target: New highs | Stop: Below $500 | Thesis: Energy transition + AI datacenter buildout</div>
+            </div>
+            
+            <div class="idea-card">
+                <h4>2. COPX — Copper Miners ETF <span class="tag bullish">BULLISH</span></h4>
+                <p><strong>Setup:</strong> +2.10% breakout move. Copper demand from EVs, grid buildout, and China stimulus. Supply constrained, demand accelerating.</p>
+                <div class="setup">Target: $100+ | Stop: Below $85 | Thesis: Green energy + electrification supercycle</div>
+            </div>
+            
+            <div class="idea-card">
+                <h4>3. GLD — Gold ETF <span class="tag bullish">BULLISH</span></h4>
+                <p><strong>Setup:</strong> +1.13% move with rates elevated. Safe haven bid on geopolitical tensions + de-dollarization trends. Central bank buying continues.</p>
+                <div class="setup">Target: $500 | Stop: Below $450 | Thesis: Hard asset hedge in uncertain regime</div>
+            </div>
+            
+            <div class="idea-card">
+                <h4>4. NOC — Northrop Grumman <span class="tag">NEUTRAL</span></h4>
+                <p><strong>Setup:</strong> -0.92% pullback after strong run. Defense spending remains elevated globally. Watch for re-entry on deeper correction.</p>
+                <div class="setup">Action: Hold / Watch for dip to $650 | Thesis: Defense modernization cycle intact</div>
+            </div>
+            
+            <div class="idea-card">
+                <h4>5. NVDA — NVIDIA <span class="tag">NEUTRAL</span></h4>
+                <p><strong>Setup:</strong> +0.78% green in a weak tech tape. Showing relative strength. If tech stabilizes, NVDA likely leads recovery.</p>
+                <div class="setup">Action: Accumulate on weakness | Thesis: AI capex cycle still early, monopoly on compute</div>
+            </div>
+        </div>
+
+        <!-- PORTFOLIO POSITIONING -->
+        <div class="section">
+            <h2><span class="icon">📋</span> Portfolio Positioning Thoughts</h2>
+            
+            <div class="insight-box">
+                <h4>Current Portfolio Health</h4>
+                <p>Dan's portfolio showing <strong>balanced performance</strong> with defense and industrials offsetting tech weakness. Today's standouts: <span class="highlight">PWR (+2.61%)</span> and <span class="highlight">COPX (+2.10%)</span>. Big tech drag from <span class="down">MSFT (-2.15%)</span> and <span class="down">GOOGL (-2.39%)</span>.</p>
+            </div>
+            
+            <div style="margin-top:16px;">
+                <p style="margin-bottom:12px;"><strong>Position Updates:</strong></p>
+                <div class="metric-row">
+                    <span class="metric-label">🎯 Top Performer</span>
+                    <span class="metric-value">PWR (+2.61%) — Grid play working</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">📊 Worst Performer</span>
+                    <span class="metric-value">PLTR (-2.70%) — Growth multiple compression</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">💡 Action Item</span>
+                    <span class="metric-value">Consider adding to NVDA on tech weakness</span>
+                </div>
+                <div class="metric-row">
+                    <span class="metric-label">⚠️ Watchlist</span>
+                    <span class="metric-value">MSFT/GOOGL — Monitor for support levels</span>
+                </div>
+            </div>
+            
+            <div class="insight-box" style="margin-top:20px;">
+                <h4>Strategic Note</h4>
+                <p><strong>Rotation environment favors staying diversified.</strong> Quality growth (your style) is being tested by rates, but the thesis remains intact for names with true earnings power. Defense and infrastructure names providing ballast. Stay patient on tech — the shakeout may create better entry points for the compounders.</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Generated by InvestIQ | Data via Yahoo Finance | Market Close: February 11, 2026</p>
+            <p style="margin-top:8px;">This report is for informational purposes only. Not investment advice.</p>
+        </div>
+    </div>
+</body>
+</html>

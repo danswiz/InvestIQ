@@ -1,0 +1,93 @@
+<html>
+<head><title>Research Summary: Recursive Language Models</title></head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 800px;">
+<h2 style="color: #1a73e8;">Recursive Language Models (RLM)</h2>
+<p><em>MIT Research Paper Summary — arXiv:2512.24601</em></p>
+
+<h3>Core Innovation</h3>
+<p><strong>Recursive Language Models (RLMs)</strong> enable LLMs to process <strong>10M+ token contexts</strong> (100x beyond typical context windows) by treating the prompt as an <strong>external environment</strong> rather than direct input to the neural network.</p>
+
+<h3>How RLMs Work</h3>
+<ol>
+<li><strong>Environment Setup:</strong> Load the user prompt as a variable inside a persistent Python REPL environment</li>
+<li><strong>Symbolic Access:</strong> The model writes code to examine, filter, and decompose the prompt programmatically</li>
+<li><strong>Recursive Delegation:</strong> The model invokes child RLMs via <code>rlm_agent(query, context)</code> on subsets of the data</li>
+<li><strong>Iterative Refinement:</strong> Results from sub-calls are stored in variables, aggregated, and returned</li>
+</ol>
+
+<h3>Key Architecture Components</h3>
+<ul>
+<li><strong><code>context</code> variable:</strong> Contains the full prompt (up to 10M+ tokens)</li>
+<li><strong><code>rlm_agent()</code> function:</strong> Spawns recursive child agents with identical architecture</li>
+<li><strong>REPL environment:</strong> Allows code execution, variable storage, and side effects</li>
+<li><strong>Metadata-only turns:</strong> Only constant-size metadata (not full text) is passed between iterations</li>
+</ul>
+
+<h3>Performance Highlights</h3>
+<table border="1" cellpadding="10" style="border-collapse: collapse; width: 100%;">
+<tr style="background-color: #f5f5f5;"><th>Benchmark</th><th>Complexity</th><th>RLM vs Baseline</th></tr>
+<tr><td>S-NIAH (needle-in-haystack)</td><td>O(1)</td><td>Scales to 2^18 tokens</td></tr>
+<tr><td>BrowseComp-Plus</td><td>O(1)</td><td>+29% over retrieval baselines</td></tr>
+<tr><td>OOLONG</td><td>O(n)</td><td>+28-33% over base models</td></tr>
+<tr><td>OOLONG-Pairs</td><td>O(n²)</td><td>58% F1 vs &lt;0.1% baseline</td></tr>
+</table>
+
+<h3>Why Existing Methods Fail</h3>
+<ul>
+<li><strong>Context Compaction:</strong> Loses fine-grained information through summarization</li>
+<li><strong>Retrieval Agents:</strong> Limited by context window when filling with snippets</li>
+<li><strong>Sub-agent Delegation:</strong> Verbalized calls are bounded by output token limits</li>
+<li><strong>Context Rot:</strong> Performance degrades steeply as prompts get longer</li>
+</ul>
+
+<h3>Training Results: RLM-Qwen3-8B</h3>
+<p>Researchers post-trained Qwen3-8B on just <strong>1,000 samples</strong> of RLM trajectories:</p>
+<ul>
+<li><strong>+28.3% improvement</strong> over base Qwen3-8B on average</li>
+<li>Approaches vanilla GPT-5 quality on 3 long-context tasks</li>
+<li>Lower inference costs due to better decision-making</li>
+</ul>
+
+<h3>Key Design Principles</h3>
+<ol>
+<li><strong>Symbolic Prompt Handle:</strong> Model manipulates prompt via code without copying text into context window</li>
+<li><strong>Unbounded Output:</strong> Final response constructed in REPL variables, not autoregressive generation</li>
+<li><strong>Programmatic Recursion:</strong> Sub-calls launched programmatically (e.g., in loops) vs verbalized delegation</li>
+</ol>
+
+<h3>Emergent Behaviors</h3>
+<ul>
+<li><strong>Regex Filtering:</strong> Using code to search for keywords without seeing full text</li>
+<li><strong>Chunking Strategies:</strong> Decomposing context into manageable pieces for sub-agents</li>
+<li><strong>Variable Stitching:</strong> Building final outputs by combining sub-call results stored in variables</li>
+</ul>
+
+<h3>Cost & Scalability</h3>
+<ul>
+<li><strong>Median cost:</strong> Comparable or cheaper than base LLM calls</li>
+<li><strong>Tail costs:</strong> Higher variance due to long trajectories on complex tasks</li>
+<li><strong>Selective viewing:</strong> Up to 3× cheaper than full-context summarization agents</li>
+</ul>
+
+<h3>Implications for Enterprise AI</h3>
+<p>RLMs represent a paradigm shift for processing massive document collections, code repositories, and multi-hop reasoning tasks that exceed traditional context limits. The ability to recursively delegate and programmatically manipulate context opens new possibilities for:</p>
+<ul>
+<li>Enterprise document analysis (millions of pages)</li>
+<li>Large-scale code understanding</li>
+<li>Multi-document research and synthesis</li>
+<li>Complex reasoning over distributed knowledge</li>
+</ul>
+
+<h3>Resources</h3>
+<ul>
+<li><strong>Paper:</strong> <a href="https://arxiv.org/abs/2512.24601">arXiv:2512.24601</a></li>
+<li><strong>Code:</strong> <a href="https://github.com/alexzhang13/rlm">github.com/alexzhang13/rlm</a></li>
+<li><strong>ADK Implementation:</strong> <a href="https://github.com/LiamConnell/adk-python/tree/66a757f5/contributing/samples/rlm">Google ADK RLM Sample</a></li>
+</ul>
+
+<hr>
+<p><strong>Authors:</strong> Alex Zhang et al., MIT<br>
+<strong>Published:</strong> December 31, 2025<br>
+<strong>PDF:</strong> <a href="https://arxiv.org/pdf/2512.24601">arxiv.org/pdf/2512.24601</a></p>
+</body>
+</html>

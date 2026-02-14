@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InvestIQ Daily Alpha Report - February 6, 2026</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #0a0e1a; color: #e0e0e0; line-height: 1.6; }
+        .container { max-width: 900px; margin: 0 auto; padding: 30px 20px; }
+        header { text-align: center; border-bottom: 2px solid #00d4ff; padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { color: #00d4ff; font-size: 2.2em; letter-spacing: 2px; margin-bottom: 10px; }
+        .date { color: #888; font-size: 1em; text-transform: uppercase; letter-spacing: 1px; }
+        .tagline { color: #ff6b35; font-style: italic; margin-top: 8px; }
+        
+        section { background: linear-gradient(135deg, #1a1f2e 0%, #121620 100%); border-radius: 12px; padding: 25px; margin-bottom: 25px; border: 1px solid #2a3142; }
+        h2 { color: #00d4ff; font-size: 1.4em; margin-bottom: 18px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #2a3142; padding-bottom: 10px; }
+        h2 .icon { font-size: 1.2em; }
+        
+        .snapshot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+        .snapshot-item { background: #0f131f; padding: 15px; border-radius: 8px; text-align: center; border-left: 3px solid #00d4ff; }
+        .snapshot-item.ticker { border-left-color: #ff6b35; }
+        .snapshot-item .label { font-size: 0.85em; color: #888; text-transform: uppercase; }
+        .snapshot-item .price { font-size: 1.5em; font-weight: bold; color: #fff; margin: 5px 0; }
+        .snapshot-item .change { font-size: 0.95em; font-weight: 600; }
+        .positive { color: #00ff88; }
+        .negative { color: #ff4757; }
+        
+        .macro-list { list-style: none; }
+        .macro-list li { padding: 12px 0; border-bottom: 1px solid #2a3142; display: flex; align-items: flex-start; gap: 12px; }
+        .macro-list li:last-child { border-bottom: none; }
+        .bullet { color: #00d4ff; font-weight: bold; }
+        
+        .flow-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        .flow-card { background: #0f131f; padding: 18px; border-radius: 10px; border: 1px solid #2a3142; }
+        .flow-card h3 { color: #ff6b35; font-size: 1em; margin-bottom: 8px; }
+        .flow-card p { font-size: 0.9em; color: #b0b0b0; }
+        
+        .sector-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .sector-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; background: #0f131f; border-radius: 6px; }
+        .sector-name { font-weight: 500; }
+        .sector-temp { font-weight: bold; padding: 4px 12px; border-radius: 20px; font-size: 0.85em; }
+        .hot { background: #ff4757; color: white; }
+        .warm { background: #ffa502; color: #000; }
+        .neutral { background: #747d8c; color: white; }
+        .cool { background: #00d4ff; color: #000; }
+        
+        .ideas-list { counter-reset: idea; }
+        .idea-item { display: flex; gap: 15px; margin-bottom: 20px; padding: 20px; background: #0f131f; border-radius: 10px; border-left: 4px solid #ff6b35; }
+        .idea-number { min-width: 35px; height: 35px; background: #ff6b35; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.1em; }
+        .idea-content h3 { color: #00d4ff; margin-bottom: 8px; font-size: 1.1em; }
+        .idea-content p { color: #b0b0b0; font-size: 0.95em; margin-bottom: 5px; }
+        .tag { display: inline-block; background: #2a3142; color: #00d4ff; padding: 3px 10px; border-radius: 4px; font-size: 0.75em; margin-top: 8px; margin-right: 5px; }
+        
+        .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
+        .portfolio-item { background: #0f131f; padding: 12px; border-radius: 6px; text-align: center; }
+        .portfolio-item .sym { font-weight: bold; color: #00d4ff; }
+        .portfolio-item .pct { font-size: 0.95em; margin-top: 4px; }
+        
+        .footer { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #2a3142; color: #666; font-size: 0.85em; }
+        .disclaimer { background: #1a1510; border: 1px solid #3a3020; padding: 15px; border-radius: 8px; margin-top: 20px; font-size: 0.8em; color: #888; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📈 InvestIQ Daily Alpha</h1>
+            <div class="date">Friday, February 6, 2026 | Market Close</div>
+            <div class="tagline">"Trade the trend, manage the risk, compound the edge"</div>
+        </header>
+
+        <!-- MARKET SNAPSHOT -->
+        <section>
+            <h2><span class="icon">📊</span> Market Snapshot</h2>
+            <div class="snapshot-grid">
+                <div class="snapshot-item">
+                    <div class="label">S&P 500 (SPY)</div>
+                    <div class="price">$690.62</div>
+                    <div class="change positive">+1.92% ▲</div>
+                </div>
+                <div class="snapshot-item">
+                    <div class="label">Nasdaq 100 (QQQ)</div>
+                    <div class="price">$609.65</div>
+                    <div class="change positive">+2.11% ▲</div>
+                </div>
+                <div class="snapshot-item">
+                    <div class="label">Russell 2000 (IWM)</div>
+                    <div class="price">$265.02</div>
+                    <div class="change positive">+3.59% ▲</div>
+                </div>
+                <div class="snapshot-item ticker">
+                    <div class="label">VIX</div>
+                    <div class="price">17.76</div>
+                    <div class="change negative">-18.42% ▼</div>
+                </div>
+                <div class="snapshot-item">
+                    <div class="label">US Dollar (DXY)</div>
+                    <div class="price">97.68</div>
+                    <div class="change negative">-0.15% ▼</div>
+                </div>
+                <div class="snapshot-item">
+                    <div class="label">Gold (GLD)</div>
+                    <div class="price">$455.46</div>
+                    <div class="change positive">+3.07% ▲</div>
+                </div>
+                <div class="snapshot-item">
+                    <div class="label">Bitcoin</div>
+                    <div class="price">$69,835</div>
+                    <div class="change negative">-0.98% ▼</div>
+                </div>
+                <div class="snapshot-item">
+                    <div class="label">Oil (WTI)</div>
+                    <div class="price">$63.50</div>
+                    <div class="change positive">+0.33% ▲</div>
+                </div>
+                <div class="snapshot-item ticker">
+                    <div class="label">10Y Treasury</div>
+                    <div class="price">4.21%</div>
+                    <div class="change negative">-0.10% ▼</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MACRO DRIVERS -->
+        <section>
+            <h2><span class="icon">🌍</span> Macro Drivers & Key News</h2>
+            <ul class="macro-list">
+                <li><span class="bullet">▸</span><div><strong>Broad Risk-On Rally:</strong> Major indices surged with small-caps (IWM +3.59%) leading, signaling healthy market breadth beyond just mega-cap tech.</div></li>
+                <li><span class="bullet">▸</span><div><strong>Fear Evaporates:</strong> VIX collapsed 18.42% to 17.76, indicating a sharp unwinding of hedges and renewed investor confidence.</div></li>
+                <li><span class="bullet">▸</span><div><strong>Gold Breakout:</strong> GLD surged 3.07% to $455.46, likely driven by dollar softness and continued institutional rotation to hard assets.</div></li>
+                <li><span class="bullet">▸</span><div><strong>Semiconductor Surge:</strong> NVDA (+7.92%) and AMD (+8.28%) exploded higher, potentially on AI infrastructure demand or supply chain developments.</div></li>
+                <li><span class="bullet">▸</span><div><strong>Defense Strong:</strong> LMT (+2.36%) and NOC (+1.81%) showing resilience amid ongoing geopolitical tensions.</div></li>
+                <li><span class="bullet">▸</span><div><strong>Tech Divergence:</strong> While semis ripped, AMZN (-5.55%), GOOGL (-2.53%), and META (-1.31%) showed weakness, suggesting selective profit-taking in big tech.</div></li>
+            </ul>
+        </section>
+
+        <!-- SMART MONEY FLOWS -->
+        <section>
+            <h2><span class="icon">💰</span> Smart Money Flows</h2>
+            <div class="flow-grid">
+                <div class="flow-card">
+                    <h3>🔥 Accumulating</h3>
+                    <p>Semiconductors (NVDA, AMD), Nuclear Energy (NLR +5.49%), Industrial Infrastructure (PWR +6.36%, GE +4.78%)</p>
+                </div>
+                <div class="flow-card">
+                    <h3>❄️ Distributing</h3>
+                    <p>Cloud/E-commerce (AMZN), Search/Ad-Tech (GOOGL), Crypto-adjacent (BTC weakness)</p>
+                </div>
+                <div class="flow-card">
+                    <h3>🔄 Rotating</h3>
+                    <p>From mega-cap tech into small-caps (IWM +3.59%) and industrial/resource plays</p>
+                </div>
+                <div class="flow-card">
+                    <h3>⚠️ Watching</h3>
+                    <p>Gold surge may signal hedging against uncertainty despite equity rally</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTOR TEMPERATURE -->
+        <section>
+            <h2><span class="icon">🌡️</span> Sector Temperature</h2>
+            <div class="sector-grid">
+                <div class="sector-item">
+                    <span class="sector-name">Semiconductors</span>
+                    <span class="sector-temp hot">HOT 🔥</span>
+                </div>
+                <div class="sector-item">
+                    <span class="sector-name">Nuclear/Energy</span>
+                    <span class="sector-temp hot">HOT 🔥</span>
+                </div>
+                <div class="sector-item">
+                    <span class="sector-name">Industrials</span>
+                    <span class="sector-temp warm">WARM</span>
+                </div>
+                <div class="sector-item">
+                    <span class="sector-name">Defense</span>
+                    <span class="sector-temp warm">WARM</span>
+                </div>
+                <div class="sector-item">
+                    <span class="sector-name">Gold/Metals</span>
+                    <span class="sector-temp warm">WARM</span>
+                </div>
+                <div class="sector-item">
+                    <span class="sector-name">Small Caps</span>
+                    <span class="sector-temp warm">WARM</span>
+                </div>
+                <div class="sector-item">
+                    <span class="sector-name">Big Tech</span>
+                    <span class="sector-temp neutral">MIXED</span>
+                </div>
+                <div class="sector-item">
+                    <span class="sector-name">Crypto</span>
+                    <span class="sector-temp cool">COOL</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5 HIGH-CONVICTION IDEAS -->
+        <section>
+            <h2><span class="icon">🎯</span> 5 High-Conviction Ideas</h2>
+            <div class="ideas-list">
+                <div class="idea-item">
+                    <div class="idea-number">1</div>
+                    <div class="idea-content">
+                        <h3>AMD - Momentum Continuation Play</h3>
+                        <p>AMD ripped +8.28% today, breaking out with volume. AI chip demand narrative intact. Consider adding on any pullback to $200 psychological level or riding momentum with tight trailing stop.</p>
+                        <span class="tag">Momentum</span><span class="tag">Semiconductors</span>
+                    </div>
+                </div>
+                <div class="idea-item">
+                    <div class="idea-number">2</div>
+                    <div class="idea-content">
+                        <h3>NLR - Nuclear Renaissance Intact</h3>
+                        <p>Nuclear ETF up 5.49% with the sector gaining institutional traction. AI data center power demands driving uranium/nuclear interest. Long-term tailwinds remain strong.</p>
+                        <span class="tag">Thematic</span><span class="tag">Energy</span>
+                    </div>
+                </div>
+                <div class="idea-item">
+                    <div class="idea-number">3</div>
+                    <div class="idea-content">
+                        <h3>PWR - Infrastructure Powerhouse</h3>
+                        <p>Quanta Services surged 6.36% to $508. Grid modernization and electrification secular trend. Breakout to new highs - institutional accumulation evident.</p>
+                        <span class="tag">Infrastructure</span><span class="tag">Breakout</span>
+                    </div>
+                </div>
+                <div class="idea-item">
+                    <div class="idea-number">4</div>
+                    <div class="idea-content">
+                        <h3>IWM - Small-Cap Rotation</h3>
+                        <p>Russell 2000 leading with +3.59% shows broadening rally. If this continues, under-owned small-caps could see sustained flows. Tactical exposure makes sense here.</p>
+                        <span class="tag">Rotation</span><span class="tag">Index</span>
+                    </div>
+                </div>
+                <div class="idea-item">
+                    <div class="idea-number">5</div>
+                    <div class="idea-content">
+                        <h3>GE - Industrial Revival</h3>
+                        <p>Up 4.78% with aerospace and energy divisions firing on all cylinders. Clean balance sheet post-breakup. Beneficiary of reshoring and infrastructure spend.</p>
+                        <span class="tag">Value</span><span class="tag">Industrials</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PORTFOLIO POSITIONING -->
+        <section>
+            <h2><span class="icon">💼</span> Portfolio Positioning Thoughts</h2>
+            <p style="margin-bottom: 15px; color: #b0b0b0;"><strong>Dan's Holdings Performance Today:</strong></p>
+            <div class="portfolio-grid">
+                <div class="portfolio-item"><div class="sym">AMD</div><div class="pct positive">+8.28% ▲</div></div>
+                <div class="portfolio-item"><div class="sym">NVDA</div><div class="pct positive">+7.92% ▲</div></div>
+                <div class="portfolio-item"><div class="sym">PWR</div><div class="pct positive">+6.36% ▲</div></div>
+                <div class="portfolio-item"><div class="sym">NLR</div><div class="pct positive">+5.49% ▲</div></div>
+                <div class="portfolio-item"><div class="sym">GE</div><div class="pct positive">+4.78% ▲</div></div>
+                <div class="portfolio-item"><div class="sym">COPX</div><div class="pct positive">+4.14% ▲</div></div>
+                <div class="portfolio-item"><div class="sym">LLY</div><div class="pct positive">+3.66% ▲</div></div>
+                <div class="portfolio-item"><div class="sym">PLTR</div><div class="pct positive">+4.53% ▲</div></div>
+                <div class="portfolio-item"><div class="sym">XLI</div><div class="pct positive">+2.86% ▲</div></div>
+                <div class="portfolio-item"><div class="sym">LMT</div><div class="pct positive">+2.36% ▲</div></div>
+                <div class="portfolio-item"><div class="sym">NOC</div><div class="pct positive">+1.81% ▲</div></div>
+                <div class="portfolio-item"><div class="sym">VOO</div><div class="pct positive">+1.95% ▲</div></div>
+                <div class="portfolio-item"><div class="sym">META</div><div class="pct negative">-1.31% ▼</div></div>
+                <div class="portfolio-item"><div class="sym">GOOGL</div><div class="pct negative">-2.53% ▼</div></div>
+                <div class="portfolio-item"><div class="sym">AMZN</div><div class="pct negative">-5.55% ▼</div></div>
+            </div>
+            
+            <div style="margin-top: 25px; padding: 20px; background: #0f131f; border-radius: 8px;">
+                <h3 style="color: #00d4ff; margin-bottom: 12px;">🎲 Strategic Observations:</h3>
+                <ul style="list-style: none; color: #b0b0b0;">
+                    <li style="padding: 8px 0; border-bottom: 1px solid #2a3142;"><strong>✅ Winners Working:</strong> AMD, NVDA, PWR, NLR all showing institutional accumulation. Consider letting winners run with trailing stops.</li>
+                    <li style="padding: 8px 0; border-bottom: 1px solid #2a3142;"><strong>⚠️ Tech Divergence:</strong> AMZN's -5.55% drop stands out. May be company-specific or rotation signal. Monitor for continuation vs. reversal.</li>
+                    <li style="padding: 8px 0; border-bottom: 1px solid #2a3142;"><strong>🛡️ Defense Steady:</strong> LMT/NOC grinding higher - perfect ballast for the growth-heavy portfolio.</li>
+                    <li style="padding: 8px 0;"><strong>📊 Overall Health:</strong> Portfolio well-positioned with exposure to semis, infrastructure, defense, and nuclear - all working themes. Small-cap exposure via IWM would complement current large-cap tilt.</li>
+                </ul>
+            </div>
+        </section>
+
+        <div class="disclaimer">
+            <strong>Disclaimer:</strong> This report is for informational purposes only and does not constitute investment advice. Past performance does not guarantee future results. Always conduct your own due diligence and consult with a qualified financial advisor before making investment decisions. InvestIQ and its authors are not responsible for any losses incurred from trades based on this analysis.
+        </div>
+
+        <div class="footer">
+            <p>InvestIQ Daily Alpha Report | Generated: February 6, 2026 at 4:50 PM EST</p>
+            <p>Data provided by Yahoo Finance</p>
+        </div>
+    </div>
+</body>
+</html>

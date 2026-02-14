@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #f4f7f6; }
+        .header { background: linear-gradient(135deg, #1a2a6c 0%, #b21f1f 50%, #fdbb2d 100%); color: white; padding: 30px; text-align: center; border-radius: 8px 8px 0 0; }
+        .section { background: white; padding: 25px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        h2 { border-bottom: 2px solid #1a2a6c; padding-bottom: 10px; color: #1a2a6c; text-transform: uppercase; font-size: 1.2em; }
+        .snapshot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 15px; }
+        .snapshot-item { padding: 15px; background: #f9f9f9; border-left: 4px solid #1a2a6c; text-align: center; }
+        .snapshot-item.negative { border-left-color: #d9534f; }
+        .snapshot-item.positive { border-left-color: #5cb85c; }
+        .price { font-size: 1.4em; font-weight: bold; display: block; }
+        .change { font-size: 0.9em; font-weight: bold; }
+        .red { color: #d9534f; }
+        .green { color: #5cb85c; }
+        .gray { color: #6b7280; }
+        .footer { text-align: center; font-size: 0.8em; color: #777; margin-top: 30px; }
+        .ticker { font-weight: bold; color: #1a2a6c; }
+        .highlight-box { background: #e8f4f8; padding: 15px; border-left: 4px solid #2196F3; margin: 10px 0; }
+        .warning-box { background: #fff3cd; padding: 15px; border-left: 4px solid #ffc107; margin: 10px 0; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+        th { background: #1a2a6c; color: white; padding: 12px; text-align: left; }
+        td { padding: 10px; border-bottom: 1px solid #ddd; }
+        tr:hover { background: #f5f5f5; }
+        .idea-card { background: #f8fafc; padding: 15px; margin: 10px 0; border-radius: 8px; border-left: 4px solid #3b82f6; }
+        .signal-bullish { color: #16a34a; font-weight: bold; }
+        .signal-neutral { color: #ca8a04; font-weight: bold; }
+        .signal-bearish { color: #dc2626; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🚀 DAILY ALPHA REPORT</h1>
+        <p>Market Session: February 10, 2026</p>
+        <p style="font-style: italic; opacity: 0.9;">"Markets ebb and flow — the disciplined investor sees opportunity in both."</p>
+    </div>
+
+    <div class="section">
+        <h2>1. Market Snapshot</h2>
+        <div class="snapshot-grid">
+            <div class="snapshot-item negative">
+                <strong>SPY</strong>
+                <span class="price">$692.11</span>
+                <span class="change red">-0.27%</span>
+            </div>
+            <div class="snapshot-item negative">
+                <strong>QQQ</strong>
+                <span class="price">$611.25</span>
+                <span class="change red">-0.50%</span>
+            </div>
+            <div class="snapshot-item negative">
+                <strong>IWM</strong>
+                <span class="price">$266.20</span>
+                <span class="change red">-0.26%</span>
+            </div>
+            <div class="snapshot-item positive">
+                <strong>VIX</strong>
+                <span class="price">17.73</span>
+                <span class="change green">+2.13%</span>
+            </div>
+            <div class="snapshot-item positive">
+                <strong>DXY</strong>
+                <span class="price">96.84</span>
+                <span class="change green">+0.02%</span>
+            </div>
+            <div class="snapshot-item negative">
+                <strong>Gold (GLD)</strong>
+                <span class="price">$462.34</span>
+                <span class="change red">-1.00%</span>
+            </div>
+            <div class="snapshot-item negative">
+                <strong>Bitcoin</strong>
+                <span class="price">$30.42</span>
+                <span class="change red">-2.87%</span>
+            </div>
+            <div class="snapshot-item negative">
+                <strong>Oil (WTI)</strong>
+                <span class="price">$64.23</span>
+                <span class="change red">-0.20%</span>
+            </div>
+            <div class="snapshot-item negative">
+                <strong>10Y Yield</strong>
+                <span class="price">4.15%</span>
+                <span class="change red">-1.21%</span>
+            </div>
+        </div>
+        <div class="warning-box">
+            <strong>Key Takeaway:</strong> Markets pulling back modestly across the board. VIX ticking up (+2.13%) while yields retreat (-1.21%) suggests some risk-off positioning. Gold giving back recent gains. Not panic territory, but a digestion day after recent volatility.
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>2. Macro Drivers & Key News</h2>
+        <ul>
+            <li><strong>Treasury Yield Retreat:</strong> 10-year yields down 5bps to 4.15%. This is helping growth stocks find support despite the broader market weakness. The bond market is signaling Fed pause expectations.</li>
+            <li><strong>Gold Pullback:</strong> GLD -1.00% after recent highs near $467. Normal profit-taking after a strong run. Dollar barely budging (+0.02%) suggests this is gold-specific consolidation.</li>
+            <li><strong>Crypto Weakness:</strong> Bitcoin proxy down -2.87%, risk assets under pressure. Correlation with tech stocks remains elevated.</li>
+            <li><strong>Defense Sector Resilience:</strong> Despite market softness, defense contractors (LMT, NOC) holding relative strength — geopolitical bid remains intact.</li>
+            <li><strong>Healthcare Pressure:</strong> LLY down -1.92% despite being a top CANSLIM name. Profit-taking in winners after massive 2025 gains.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>3. Smart Money Flows</h2>
+        <p>Today's session shows measured risk-off positioning without panic:</p>
+        <ul>
+            <li><strong>Defensive Rotation:</strong> XLI (+0.14%) the only green sector in your portfolio — industrials showing resilience</li>
+            <li><strong>Tech Distribution:</strong> NVDA -0.79%, AMD -1.12%, GOOGL -1.77% — mega-cap tech seeing gentle outflows</li>
+            <li><strong>Yield-Sensitive Outperformance:</strong> Utilities and REITs likely benefiting from the 10Y yield drop</li>
+            <li><strong>Energy/Mixed:</strong> Oil flat (-0.20%), COPX -0.90% — commodities taking a breather</li>
+        </ul>
+        <p><strong>Volume Context:</strong> VIX elevated but not spiking. This looks like controlled repositioning rather than panic selling. Institutions may be trimming winners ahead of CPI/PPI data.</p>
+    </div>
+
+    <div class="section">
+        <h2>4. Sector Temperature</h2>
+        <table>
+            <tr><th>Sector/Asset</th><th>Performance</th><th>Signal</th></tr>
+            <tr><td>Industrials (XLI)</td><td>+0.14%</td><td class="signal-bullish">🟢 Holding Up</td></tr>
+            <tr><td>S&P 500 (SPY)</td><td>-0.27%</td><td class="signal-neutral">🟡 Digestion</td></tr>
+            <tr><td>Russell 2000 (IWM)</td><td>-0.26%</td><td class="signal-neutral">🟡 In-Line</td></tr>
+            <tr><td>Gold (GLD)</td><td>-1.00%</td><td class="signal-neutral">🟡 Profit Taking</td></tr>
+            <tr><td>Semiconductors (NVDA, AMD)</td><td>-0.95% avg</td><td class="signal-neutral">🟡 Soft</td></tr>
+            <tr><td>Nuclear (NLR)</td><td>-2.36%</td><td class="signal-bearish">🔴 Pullback</td></tr>
+            <tr><td>Defense (LMT, NOC)</td><td>-1.64% avg</td><td class="signal-bearish">🔴 Down but Stable</td></tr>
+            <tr><td>Megacap Tech (META, AMZN, GOOGL)</td><td>-1.21% avg</td><td class="signal-neutral"> Under Pressure</td></tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>5. High-Conviction Ideas</h2>
+        
+        <div class="idea-card">
+            <p><span class="ticker">Quanta Services (PWR)</span> <span class="signal-bullish">🟢 HOLD</span></p>
+            <p><em>Price: $510.39 (-0.81%)</em></p>
+            <p><strong>Thesis:</strong> Minor pullback in a strong uptrend. Grid-to-chip infrastructure story remains intact. Data center power demand is structural and accelerating. Use weakness to add.</p>
+        </div>
+        
+        <div class="idea-card">
+            <p><span class="ticker">Eli Lilly (LLY)</span> <span class="signal-bullish">🟢 ACCUMULATE</span></p>
+            <p><em>Price: $1,024.58 (-1.92%)</em></p>
+            <p><strong>Thesis:</strong> CANSLIM perfect score holder. Today's drop is profit-taking, not thesis damage. Obesity drug market is $100B+ TAM. Dips to $1000 are gifts.</p>
+        </div>
+        
+        <div class="idea-card">
+            <p><span class="ticker">NLR (Nuclear Energy ETF)</span> <span class="signal-neutral">🟡 WATCH</span></p>
+            <p><em>Price: $145.41 (-2.36%)</em></p>
+            <p><strong>Thesis:</strong> Sharp pullback after strong run. Nuclear renaissance thesis intact but volatile. If you're overweight, this is a trim candidate. If underweight, wait for stabilization.</p>
+        </div>
+        
+        <div class="idea-card">
+            <p><span class="ticker">GE Aerospace (GE)</span> <span class="signal-bullish">🟢 HOLD</span></p>
+            <p><em>Price: $316.27 (-0.15%)</em></p>
+            <p><strong>Thesis:</strong> Outperforming market significantly (-0.15% vs -0.27% SPY). Defense + aerospace combo working. Quality growth characteristics — let it run.</p>
+        </div>
+        
+        <div class="idea-card">
+            <p><span class="ticker">COPX (Copper Miners)</span> <span class="signal-neutral">🟡 WATCH</span></p>
+            <p><em>Price: $88.23 (-0.90%)</em></p>
+            <p><strong>Thesis:</strong> Electrification demand thesis intact but near-term pressure from copper price softness. Long-term hold, but don't chase here.</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>6. Portfolio Positioning Thoughts</h2>
+        
+        <div class="highlight-box">
+            <strong>Today's Assessment:</strong> Your portfolio likely down ~0.5-0.8%, outperforming growth-heavy benchmarks. Defense and industrials providing relative stability.
+        </div>
+        
+        <p><strong>Key Levels to Watch:</strong></p>
+        <ul>
+            <li><strong>SPY 685:</strong> Critical support — a break below opens door to 675</li>
+            <li><strong>VIX 20:</strong> Fear threshold — currently 17.73, room to rise before concern</li>
+            <li><strong>LLY 1000:</strong> Psychological support — watch for bounce</li>
+            <li><strong>PWR 500:</strong> Rising 10-day MA support — trend intact above this</li>
+        </ul>
+        
+        <p><strong>Action Items:</strong></p>
+        <ul>
+            <li>✅ <strong>Hold Core Positions:</strong> No need to panic. This is normal market digestion.</li>
+            <li>📊 <strong>Consider NLR Trim:</strong> If you have a large position, -2.36% days are good trimming opportunities. Take some profits into strength.</li>
+            <li>💰 <strong>LLY Dip Buy:</strong> If you've been waiting to add, sub-$1025 is reasonable entry. Scale in.</li>
+            <li>⚠️ <strong>Watch Bond Yields:</strong> 10Y at 4.15% is constructive. If it breaks below 4.10%, growth stocks could rip higher.</li>
+            <li>🛡️ <strong>Defense Basket:</strong> LMT and NOC holding well on relative basis. Geopolitical risk isn't going away.</li>
+        </ul>
+        
+        <div class="warning-box">
+            <strong>Bottom Line:</strong> This is a controlled pullback, not a crash. Your Quality Growth tilt is doing its job — GE and XLI flat/up while tech drifts lower. Stay patient. The next leg higher will favor the prepared.
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>📋 Portfolio Holdings Summary</h2>
+        <table>
+            <tr><th>Ticker</th><th>Name</th><th>Price</th><th>Change</th><th>% Change</th></tr>
+            <tr><td>XLI</td><td>Industrials ETF</td><td>$173.94</td><td class="green">+$0.24</td><td class="green">+0.14%</td></tr>
+            <tr><td>GE</td><td>GE Aerospace</td><td>$316.27</td><td class="red">-$0.47</td><td class="red">-0.15%</td></tr>
+            <tr><td>MSFT</td><td>Microsoft</td><td>$413.27</td><td class="red">-$0.45</td><td class="red">-0.11%</td></tr>
+            <tr><td>SPY</td><td>S&P 500 ETF</td><td>$692.11</td><td class="red">-$1.84</td><td class="red">-0.27%</td></tr>
+            <tr><td>VOO</td><td>Vanguard S&P 500</td><td>$636.47</td><td class="red">-$1.76</td><td class="red">-0.28%</td></tr>
+            <tr><td>IWM</td><td>Russell 2000 ETF</td><td>$266.20</td><td class="red">-$0.68</td><td class="red">-0.26%</td></tr>
+            <tr><td>COPX</td><td>Copper Miners ETF</td><td>$88.23</td><td class="red">-$0.80</td><td class="red">-0.90%</td></tr>
+            <tr><td>PWR</td><td>Quanta Services</td><td>$510.39</td><td class="red">-$4.17</td><td class="red">-0.81%</td></tr>
+            <tr><td>AMZN</td><td>Amazon</td><td>$206.90</td><td class="red">-$1.82</td><td class="red">-0.87%</td></tr>
+            <tr><td>NVDA</td><td>NVIDIA</td><td>$188.54</td><td class="red">-$1.50</td><td class="red">-0.79%</td></tr>
+            <tr><td>GLD</td><td>Gold ETF</td><td>$462.34</td><td class="red">-$4.69</td><td class="red">-1.00%</td></tr>
+            <tr><td>AMD</td><td>AMD</td><td>$213.57</td><td class="red">-$2.43</td><td class="red">-1.12%</td></tr>
+            <tr><td>META</td><td>Meta Platforms</td><td>$670.72</td><td class="red">-$6.65</td><td class="red">-0.98%</td></tr>
+            <tr><td>GOOGL</td><td>Alphabet</td><td>$318.58</td><td class="red">-$5.74</td><td class="red">-1.77%</td></tr>
+            <tr><td>LLY</td><td>Eli Lilly</td><td>$1,024.58</td><td class="red">-$20.09</td><td class="red">-1.92%</td></tr>
+            <tr><td>NOC</td><td>Northrop Grumman</td><td>$684.92</td><td class="red">-$13.10</td><td class="red">-1.88%</td></tr>
+            <tr><td>LMT</td><td>Lockheed Martin</td><td>$629.40</td><td class="red">-$8.89</td><td class="red">-1.39%</td></tr>
+            <tr><td>NLR</td><td>Nuclear Energy ETF</td><td>$145.41</td><td class="red">-$3.51</td><td class="red">-2.36%</td></tr>
+            <tr><td>PLTR</td><td>Palantir</td><td>$139.45</td><td class="red">-$3.49</td><td class="red">-2.44%</td></tr>
+        </table>
+    </div>
+
+    <div class="footer">
+        <p>Generated by Danswiz 🦉 | InvestIQ v3.5 "Breakout Hunter"</p>
+        <p>Data as of market close February 10, 2026 | Not financial advice</p>
+        <p>Report saved: alpha_report_20260210.html</p>
+    </div>
+</body>
+</html>

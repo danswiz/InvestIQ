@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Alpha Report - February 12, 2026</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e4e4e4;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        .header {
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 2px solid #0f3460;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            font-size: 2.5em;
+            background: linear-gradient(90deg, #e94560, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .header .subtitle {
+            color: #8892b0;
+            font-size: 1.1em;
+        }
+        .header .date {
+            color: #64ffda;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .section h2 {
+            color: #64ffda;
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .market-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .market-card {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            border-left: 4px solid;
+        }
+        .market-card.positive { border-left-color: #00d26a; }
+        .market-card.negative { border-left-color: #e94560; }
+        .market-card .ticker {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+        .market-card .price {
+            font-size: 1.6em;
+            font-weight: bold;
+            color: #fff;
+            margin: 10px 0;
+        }
+        .market-card .change {
+            font-size: 1em;
+            font-weight: 600;
+        }
+        .positive .change { color: #00d26a; }
+        .negative .change { color: #e94560; }
+        .portfolio-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .portfolio-table th {
+            background: rgba(100, 255, 218, 0.1);
+            color: #64ffda;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        .portfolio-table td {
+            padding: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .portfolio-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+        .badge-gain { background: rgba(0, 210, 106, 0.2); color: #00d26a; }
+        .badge-loss { background: rgba(233, 69, 96, 0.2); color: #e94560; }
+        .badge-defense { background: rgba(100, 255, 218, 0.2); color: #64ffda; }
+        .insight-box {
+            background: linear-gradient(135deg, rgba(233, 69, 96, 0.1), rgba(255, 107, 107, 0.1));
+            border-left: 4px solid #e94560;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .insight-box h3 {
+            color: #ff6b6b;
+            margin-bottom: 10px;
+        }
+        .opportunity-box {
+            background: linear-gradient(135deg, rgba(0, 210, 106, 0.1), rgba(100, 255, 218, 0.1));
+            border-left: 4px solid #00d26a;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .opportunity-box h3 {
+            color: #00d26a;
+            margin-bottom: 10px;
+        }
+        .ideas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        .idea-card {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid rgba(100, 255, 218, 0.3);
+        }
+        .idea-card .ticker {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #64ffda;
+        }
+        .idea-card .name {
+            color: #8892b0;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        .idea-card .thesis {
+            color: #ccd6f6;
+            font-size: 0.95em;
+        }
+        .sector-heatmap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .sector-chip {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+        .sector-hot { background: rgba(0, 210, 106, 0.2); color: #00d26a; }
+        .sector-cold { background: rgba(233, 69, 96, 0.2); color: #e94560; }
+        .sector-neutral { background: rgba(136, 146, 176, 0.2); color: #8892b0; }
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #8892b0;
+            font-size: 0.85em;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 30px;
+        }
+        .highlight { color: #64ffda; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📈 Daily Alpha Report</h1>
+            <div class="subtitle">InvestIQ Market Intelligence</div>
+            <div class="date">Thursday, February 12, 2026 | Market Close 4:00 PM EST</div>
+        </div>
+
+        <!-- MARKET SNAPSHOT -->
+        <div class="section">
+            <h2>🎯 Market Snapshot</h2>
+            <div class="market-grid">
+                <div class="market-card negative">
+                    <div class="ticker">SPY</div>
+                    <div class="price">$681.22</div>
+                    <div class="change">▼ -10.74 (-1.55%)</div>
+                </div>
+                <div class="market-card negative">
+                    <div class="ticker">QQQ</div>
+                    <div class="price">$600.64</div>
+                    <div class="change">▼ -12.47 (-2.03%)</div>
+                </div>
+                <div class="market-card negative">
+                    <div class="ticker">IWM</div>
+                    <div class="price">$259.60</div>
+                    <div class="change">▼ -5.35 (-2.02%)</div>
+                </div>
+                <div class="market-card positive">
+                    <div class="ticker">VIX</div>
+                    <div class="price">20.30</div>
+                    <div class="change">▲ +2.65 (+15.01%)</div>
+                </div>
+            </div>
+            
+            <div class="insight-box" style="margin-top: 20px;">
+                <h3>⚠️ Market Alert</h3>
+                <p><strong>Broad-based selloff</strong> across all major indices with tech leading lower. The VIX spiked <span class="highlight">+15%</span> to 20.30, indicating elevated fear. Small-caps (IWM) matched Nasdaq losses, suggesting risk-off sentiment across the board. Volume likely elevated into the close.</p>
+            </div>
+        </div>
+
+        <!-- MACRO DRIVERS -->
+        <div class="section">
+            <h2>🌍 Macro Drivers & Cross-Asset Flows</h2>
+            <div class="market-grid">
+                <div class="market-card negative">
+                    <div class="ticker">Gold (GLD)</div>
+                    <div class="price">$451.60</div>
+                    <div class="change">▼ -16.03 (-3.43%)</div>
+                </div>
+                <div class="market-card negative">
+                    <div class="ticker">Oil (CL=F)</div>
+                    <div class="price">$62.85</div>
+                    <div class="change">▼ -1.78 (-2.75%)</div>
+                </div>
+                <div class="market-card negative">
+                    <div class="ticker">BTC</div>
+                    <div class="price">$65,336</div>
+                    <div class="change">▼ -1,688 (-2.52%)</div>
+                </div>
+                <div class="market-card negative">
+                    <div class="ticker">10Y Yield</div>
+                    <div class="price">4.10%</div>
+                    <div class="change">▼ -0.07 (-1.63%)</div>
+                </div>
+                <div class="market-card negative">
+                    <div class="ticker">Dollar (UUP)</div>
+                    <div class="price">$26.83</div>
+                    <div class="change">▼ -0.00 (-0.02%)</div>
+                </div>
+            </div>
+            
+            <div class="insight-box">
+                <h3>🔍 Macro Interpretation</h3>
+                <p><strong>Deflationary pulse:</strong> Gold's sharp -3.4% drop alongside falling yields and oil suggests growth concerns or position unwinding. Crypto risk-off (-2.5%) confirms speculative appetite fading. The dollar flat despite equity weakness is notable — no flight-to-safety bid yet. <span class="highlight">Watch for 10Y yield support at 4.00%.</span></p>
+            </div>
+        </div>
+
+        <!-- SMART MONEY FLOWS -->
+        <div class="section">
+            <h2>💰 Smart Money Signals</h2>
+            <ul style="color: #ccd6f6; margin-left: 20px;">
+                <li style="margin-bottom: 10px;"><strong>Defense bid active:</strong> LMT (+1.33%) and NOC (+2.21%) showing relative strength — geopolitical premium returning or rotation into safety?</li>
+                <li style="margin-bottom: 10px;"><strong>Pharma resilience:</strong> LLY (+2.30%) bucking the trend — obesity drug momentum continues, likely institution accumulation.</li>
+                <li style="margin-bottom: 10px;"><strong>AI/Semi unwind:</strong> NVDA (-1.61%), AMD (-3.58%), PLTR (-4.80%) — profit-taking in high-beta names after extended run.</li>
+                <li style="margin-bottom: 10px;"><strong>Copper/Nuclear hit:</strong> COPX (-3.45%), NLR (-3.08%) — growth-sensitive sectors leading lower.</li>
+                <li style="margin-bottom: 10px;"><strong>Big Tech divergence:</strong> MSFT (-0.63%) and GOOGL (-0.63%) outperforming META (-2.82%) and AMZN (-2.25%) — quality over growth trade emerging.</li>
+            </ul>
+        </div>
+
+        <!-- SECTOR TEMPERATURE -->
+        <div class="section">
+            <h2>🌡️ Sector Temperature</h2>
+            <div class="sector-heatmap">
+                <span class="sector-chip sector-hot">Defense 🛡️</span>
+                <span class="sector-chip sector-hot">Pharma 💊</span>
+                <span class="sector-chip sector-cold">Semiconductors 💻</span>
+                <span class="sector-chip sector-cold">Copper ⚡</span>
+                <span class="sector-chip sector-cold">Nuclear ☢️</span>
+                <span class="sector-chip sector-cold">AI/Software 🤖</span>
+                <span class="sector-chip sector-neutral">Industrials 🏭</span>
+                <span class="sector-chip sector-neutral">Energy ⛽</span>
+            </div>
+            <p style="color: #8892b0; margin-top: 15px; font-size: 0.9em;">
+                <strong>Rotation Signal:</strong> Defensive sectors (Defense, Pharma) showing green while high-beta tech corrects. Classic late-cycle positioning or temporary risk-off? Breadth deterioration warrants caution.
+            </p>
+        </div>
+
+        <!-- 5 HIGH-CONVICTION IDEAS -->
+        <div class="section">
+            <h2>⭐ 5 High-Conviction Ideas</h2>
+            <div class="ideas-grid">
+                <div class="idea-card">
+                    <div class="ticker">LLY</div>
+                    <div class="name">Eli Lilly & Co</div>
+                    <div class="thesis"><strong>Thesis:</strong> +2.3% on a -2% market day. CANSLIM perfect score (100/100). Obesity drug TAM expanding. Institutions hiding here.</div>
+                </div>
+                <div class="idea-card">
+                    <div class="ticker">NOC</div>
+                    <div class="name">Northrop Grumman</div>
+                    <div class="thesis"><strong>Thesis:</strong> Defense leader +2.21% with relative strength. Portfolio holding showing strength. B-21 Raider contracts flowing.</div>
+                </div>
+                <div class="idea-card">
+                    <div class="ticker">PWR</div>
+                    <div class="name">Quanta Services</div>
+                    <div class="thesis"><strong>Thesis:</strong> Grade A rated (45 pts). Grid-to-chip infrastructure play. -1.54% is market-related, not stock-specific. DCA opportunity?</div>
+                </div>
+                <div class="idea-card">
+                    <div class="ticker">VRT</div>
+                    <div class="name">Vertiv Holdings</div>
+                    <div class="thesis"><strong>Thesis:</strong> Grade A rated. Data center power/cooling pure-play. Recent weakness creates entry for long-term AI infrastructure buildout.</div>
+                </div>
+                <div class="idea-card">
+                    <div class="ticker">COPX</div>
+                    <div class="name">Global X Copper Miners ETF</div>
+                    <div class="thesis"><strong>Thesis:</strong> -3.45% pullback to support levels. Long-term electrification/AI data center demand intact. Accumulate on weakness.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PORTFOLIO POSITIONING -->
+        <div class="section">
+            <h2>📊 Portfolio Positioning Dashboard</h2>
+            <table class="portfolio-table">
+                <thead>
+                    <tr>
+                        <th>Ticker</th>
+                        <th>Price</th>
+                        <th>Change</th>
+                        <th>% Change</th>
+                        <th>Signal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>LMT</strong></td>
+                        <td>$637.06</td>
+                        <td style="color: #00d26a;">+8.36</td>
+                        <td><span class="badge badge-gain">+1.33%</span></td>
+                        <td><span class="badge badge-defense">💪 Strong</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>NOC</strong></td>
+                        <td>$693.82</td>
+                        <td style="color: #00d26a;">+14.99</td>
+                        <td><span class="badge badge-gain">+2.21%</span></td>
+                        <td><span class="badge badge-defense">💪 Strong</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>GE</strong></td>
+                        <td>$313.16</td>
+                        <td style="color: #e94560;">-0.57</td>
+                        <td><span class="badge badge-loss">-0.18%</span></td>
+                        <td><span class="badge badge-defense">🛡️ Holding</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>PWR</strong></td>
+                        <td>$515.89</td>
+                        <td style="color: #e94560;">-8.07</td>
+                        <td><span class="badge badge-loss">-1.54%</span></td>
+                        <td><span class="badge badge-defense">📉 Watch</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>COPX</strong></td>
+                        <td>$87.01</td>
+                        <td style="color: #e94560;">-3.11</td>
+                        <td><span class="badge badge-loss">-3.45%</span></td>
+                        <td><span class="badge badge-loss">⚠️ Weak</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>NLR</strong></td>
+                        <td>$141.87</td>
+                        <td style="color: #e94560;">-4.51</td>
+                        <td><span class="badge badge-loss">-3.08%</span></td>
+                        <td><span class="badge badge-loss">⚠️ Weak</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>VOO</strong></td>
+                        <td>$626.73</td>
+                        <td style="color: #e94560;">-9.62</td>
+                        <td><span class="badge badge-loss">-1.51%</span></td>
+                        <td><span class="badge badge-loss">📉 Market</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>XLI</strong></td>
+                        <td>$172.80</td>
+                        <td style="color: #e94560;">-2.04</td>
+                        <td><span class="badge badge-loss">-1.16%</span></td>
+                        <td><span class="badge badge-loss">📉 Market</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>MSFT</strong></td>
+                        <td>$401.84</td>
+                        <td style="color: #e94560;">-2.53</td>
+                        <td><span class="badge badge-loss">-0.63%</span></td>
+                        <td><span class="badge badge-defense">🛡️ Rel Outperf</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>NVDA</strong></td>
+                        <td>$186.94</td>
+                        <td style="color: #e94560;">-3.06</td>
+                        <td><span class="badge badge-loss">-1.61%</span></td>
+                        <td><span class="badge badge-loss">📉 Profit Taking</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>AMD</strong></td>
+                        <td>$205.94</td>
+                        <td style="color: #e94560;">-7.64</td>
+                        <td><span class="badge badge-loss">-3.58%</span></td>
+                        <td><span class="badge badge-loss">⚠️ Weak</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>LLY</strong></td>
+                        <td>$1,038.55</td>
+                        <td style="color: #00d26a;">+23.34</td>
+                        <td><span class="badge badge-gain">+2.30%</span></td>
+                        <td><span class="badge badge-defense">🚀 Leader</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- PORTFOLIO THOUGHTS -->
+        <div class="section">
+            <h2>🎯 Portfolio Positioning Thoughts</h2>
+            
+            <div class="insight-box">
+                <h3>⚡ Immediate Assessment</h3>
+                <p>Your portfolio showed <strong>defensive resilience</strong> today. Defense names (LMT, NOC) and LLY were bright spots in a sea of red. The -2% broad market decline hit your growth positions harder than your defensive core.</p>
+            </div>
+
+            <div class="opportunity-box">
+                <h3>✅ Strengths to Lean Into</h3>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><strong>Defense allocation working:</strong> LMT/NOC outperforming by 3-4% vs market</li>
+                    <li><strong>LLY is a star:</strong> +2.3% on -2% day — thesis intact</li>
+                    <li><strong>Quality held better:</strong> MSFT/GOOGL down <1% vs tech wreck elsewhere</li>
+                </ul>
+            </div>
+
+            <div class="insight-box">
+                <h3>⚠️ Areas to Watch</h3>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><strong>COPX/NLR weakness:</strong> -3%+ each — cyclical exposure hurting</li>
+                    <li><strong>AMD breaking:</strong> -3.58% — momentum fading, consider trim rules</li>
+                    <li><strong>PLTR bloodbath:</strong> -4.8% — high-beta risk-off poster child</li>
+                </ul>
+            </div>
+
+            <div class="opportunity-box">
+                <h3>💡 Tactical Considerations</h3>
+                <p><strong>If this is start of deeper correction (>5%):</strong> Defense/Pharma will continue outperforming. Consider adding to LLY on any weakness. <strong>If bounce tomorrow:</strong> High-beta (AMD, PLTR) may snap back hardest — but risk/reward favors waiting for follow-through.</p>
+                <p style="margin-top: 10px;"><span class="highlight">Key levels to watch:</span> SPY 680 support, QQQ 600 psychological level, VIX 22 as fear threshold.</p>
+            </div>
+        </div>
+
+        <!-- BOTTOM LINE -->
+        <div class="section" style="background: linear-gradient(135deg, rgba(15, 52, 96, 0.5), rgba(22, 33, 62, 0.5));">
+            <h2>📌 The Bottom Line</h2>
+            <p style="font-size: 1.1em; color: #ccd6f6; line-height: 1.8;">
+                Today's -2% broad decline with VIX +15% signals a <strong>regime shift</strong> — at least temporarily. Your defensive positioning (LMT, NOC) and pharma pick (LLY) proved their worth. The growth/cyclical exposure (COPX, NLR, AMD) is where pain concentrated. <br><br>
+                <span class="highlight">Tomorrow's action is key:</span> A second down day confirms distribution. A bounce gives clarity on whether this was a one-day flush or the start of something deeper. Your portfolio is positioned for defense-first, which is the right stance until the VIX settles back below 18.
+            </p>
+        </div>
+
+        <div class="footer">
+            <p>Generated by InvestIQ 📈 | Daily Alpha Report</p>
+            <p>Data as of Market Close, February 12, 2026</p>
+            <p style="margin-top: 10px; color: #64ffda;">Not financial advice. For informational purposes only.</p>
+        </div>
+    </div>
+</body>
+</html>
