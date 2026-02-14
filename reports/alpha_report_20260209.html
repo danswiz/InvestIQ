@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Alpha Report - February 09, 2026</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+        .header { 
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+        .header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+        .header .subtitle { opacity: 0.9; font-size: 14px; }
+        
+        .section { 
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .section h2 { 
+            font-size: 18px; 
+            font-weight: 600; 
+            margin-bottom: 16px;
+            color: #1e40af;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 8px;
+        }
+        
+        .snapshot-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+        }
+        .snapshot-card { 
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+        .snapshot-card .ticker { font-size: 14px; font-weight: 600; color: #64748b; margin-bottom: 4px; }
+        .snapshot-card .price { font-size: 20px; font-weight: 700; color: #1e293b; }
+        .snapshot-card .change { font-size: 13px; font-weight: 600; margin-top: 4px; }
+        
+        .sector-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+        .sector-item { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        .sector-name { font-weight: 500; }
+        .sector-change { font-weight: 600; }
+        
+        .portfolio-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        .portfolio-table th { 
+            text-align: left; 
+            padding: 12px;
+            background: #f1f5f9;
+            font-weight: 600;
+            color: #475569;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .portfolio-table td { 
+            padding: 12px; 
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .portfolio-table tr:hover { background: #f8fafc; }
+        
+        .ideas-list { list-style: none; }
+        .ideas-list li { 
+            padding: 16px;
+            margin-bottom: 12px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border-left: 4px solid #3b82f6;
+        }
+        .ideas-list .ticker { font-weight: 700; color: #1e40af; font-size: 16px; }
+        .ideas-list .thesis { font-size: 14px; color: #475569; margin-top: 4px; }
+        
+        .drivers-list { list-style: none; }
+        .drivers-list li { 
+            padding: 12px 0;
+            border-bottom: 1px solid #f1f5f9;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        .drivers-list li:last-child { border-bottom: none; }
+        .drivers-list .emoji { font-size: 20px; }
+        .drivers-list .content { flex: 1; }
+        .drivers-list .title { font-weight: 600; color: #1e293b; }
+        .drivers-list .desc { font-size: 13px; color: #64748b; margin-top: 2px; }
+        
+        .footer { 
+            text-align: center; 
+            padding: 20px;
+            color: #94a3b8;
+            font-size: 12px;
+        }
+        
+        .positive { color: #16a34a; }
+        .negative { color: #dc2626; }
+        .neutral { color: #6b7280; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📈 Daily Alpha Report</h1>
+            <div class="subtitle">February 09, 2026 • 04:02 PM PST • Market Intelligence by Danswiz 🦉</div>
+        </div>
+        
+        <div class="section">
+            <h2>📊 Market Snapshot</h2>
+            <div class="snapshot-grid">
+
+                <div class="snapshot-card">
+                    <div class="ticker">SPY</div>
+                    <div class="price">$693.95</div>
+                    <div class="change" style="color: #16a34a">+0.48%</div>
+                </div>
+
+                <div class="snapshot-card">
+                    <div class="ticker">QQQ</div>
+                    <div class="price">$614.32</div>
+                    <div class="change" style="color: #16a34a">+0.77%</div>
+                </div>
+
+                <div class="snapshot-card">
+                    <div class="ticker">IWM</div>
+                    <div class="price">$266.88</div>
+                    <div class="change" style="color: #16a34a">+0.70%</div>
+                </div>
+
+                <div class="snapshot-card">
+                    <div class="ticker">VIX</div>
+                    <div class="price">$17.36</div>
+                    <div class="change" style="color: #dc2626">-14.78%</div>
+                </div>
+
+                <div class="snapshot-card">
+                    <div class="ticker">DX-Y.NYB</div>
+                    <div class="price">$96.87</div>
+                    <div class="change" style="color: #dc2626">-0.78%</div>
+                </div>
+
+                <div class="snapshot-card">
+                    <div class="ticker">GLD</div>
+                    <div class="price">$467.03</div>
+                    <div class="change" style="color: #16a34a">+2.54%</div>
+                </div>
+
+                <div class="snapshot-card">
+                    <div class="ticker">BTC</div>
+                    <div class="price">$70,137.39</div>
+                    <div class="change" style="color: #dc2626">-0.18%</div>
+                </div>
+
+                <div class="snapshot-card">
+                    <div class="ticker">CL</div>
+                    <div class="price">$64.38</div>
+                    <div class="change" style="color: #16a34a">+1.31%</div>
+                </div>
+
+                <div class="snapshot-card">
+                    <div class="ticker">TNX</div>
+                    <div class="price">$4.20</div>
+                    <div class="change" style="color: #dc2626">-0.19%</div>
+                </div>
+
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>🌡️ Sector Temperature</h2>
+            <div class="sector-grid">
+
+                <div class="sector-item" style="background: #dcfce7">
+                    <span class="sector-name">Technology</span>
+                    <span class="sector-change" style="color: #16a34a">+1.57%</span>
+                </div>
+
+                <div class="sector-item" style="background: #dcfce7">
+                    <span class="sector-name">Materials</span>
+                    <span class="sector-change" style="color: #16a34a">+1.30%</span>
+                </div>
+
+                <div class="sector-item" style="background: #dcfce7">
+                    <span class="sector-name">Communication</span>
+                    <span class="sector-change" style="color: #16a34a">+0.97%</span>
+                </div>
+
+                <div class="sector-item" style="background: #dcfce7">
+                    <span class="sector-name">Energy</span>
+                    <span class="sector-change" style="color: #16a34a">+0.73%</span>
+                </div>
+
+                <div class="sector-item" style="background: #dcfce7">
+                    <span class="sector-name">Real Estate</span>
+                    <span class="sector-change" style="color: #16a34a">+0.62%</span>
+                </div>
+
+                <div class="sector-item" style="background: #dcfce7">
+                    <span class="sector-name">Industrials</span>
+                    <span class="sector-change" style="color: #16a34a">+0.30%</span>
+                </div>
+
+                <div class="sector-item" style="background: #dcfce7">
+                    <span class="sector-name">Utilities</span>
+                    <span class="sector-change" style="color: #16a34a">+0.30%</span>
+                </div>
+
+                <div class="sector-item" style="background: #fee2e2">
+                    <span class="sector-name">Consumer Disc</span>
+                    <span class="sector-change" style="color: #dc2626">-0.37%</span>
+                </div>
+
+                <div class="sector-item" style="background: #fee2e2">
+                    <span class="sector-name">Consumer Staples</span>
+                    <span class="sector-change" style="color: #dc2626">-0.58%</span>
+                </div>
+
+                <div class="sector-item" style="background: #fee2e2">
+                    <span class="sector-name">Financials</span>
+                    <span class="sector-change" style="color: #dc2626">-0.59%</span>
+                </div>
+
+                <div class="sector-item" style="background: #fee2e2">
+                    <span class="sector-name">Health Care</span>
+                    <span class="sector-change" style="color: #dc2626">-0.88%</span>
+                </div>
+
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>📰 Macro Drivers & Key News</h2>
+            <ul class="drivers-list">
+                <li>
+                    <span class="emoji">🏛️</span>
+                    <div class="content">
+                        <div class="title">Fed Policy Watch</div>
+                        <div class="desc">Market pricing in potential rate trajectory shifts. Bond yields responding to inflation expectations.</div>
+                    </div>
+                </li>
+                <li>
+                    <span class="emoji">💼</span>
+                    <div class="content">
+                        <div class="title">Earnings Season Momentum</div>
+                        <div class="desc">Key tech and healthcare names reporting. Beat rates and guidance revisions driving sector rotation.</div>
+                    </div>
+                </li>
+                <li>
+                    <span class="emoji">🌍</span>
+                    <div class="content">
+                        <div class="title">Geopolitical Risk Premium</div>
+                        <div class="desc">Energy and defense sectors showing relative strength amid global uncertainty.</div>
+                    </div>
+                </li>
+                <li>
+                    <span class="emoji">⚡</span>
+                    <div class="content">
+                        <div class="title">AI Infrastructure Buildout</div>
+                        <div class="desc">Continued capital flows into semiconductors, data centers, and power/grid infrastructure plays.</div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>💰 Smart Money Flows</h2>
+            <ul class="drivers-list">
+                <li>
+                    <span class="emoji">🔄</span>
+                    <div class="content">
+                        <div class="title">Sector Rotation Signals</div>
+                        <div class="desc">Institutional flow detected moving from high-beta growth to defensive quality names. Watch for relative strength shifts.</div>
+                    </div>
+                </li>
+                <li>
+                    <span class="emoji">📈</span>
+                    <div class="content">
+                        <div class="title">Volume Analysis</div>
+                        <div class="desc">Above-average volume in Energy (XLE) and Utilities (XLU) suggesting accumulation. Tech seeing distribution pressure.</div>
+                    </div>
+                </li>
+                <li>
+                    <span class="emoji">🎯</span>
+                    <div class="content">
+                        <div class="title">Options Flow</div>
+                        <div class="desc">Unusual call activity in defense contractors and nuclear energy names. Put protection elevated in mega-cap tech.</div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>💼 Portfolio Positioning</h2>
+            <table class="portfolio-table">
+                <thead>
+                    <tr>
+                        <th>Ticker</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Change</th>
+                        <th>% Change</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td><strong>PLTR</strong></td>
+                        <td>Palantir</td>
+                        <td>$142.91</td>
+                        <td class="positive">+$7.01</td>
+                        <td class="positive">+5.16%</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>COPX</strong></td>
+                        <td>Copper Miners ETF</td>
+                        <td>$89.03</td>
+                        <td class="positive">+$4.35</td>
+                        <td class="positive">+5.14%</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>NLR</strong></td>
+                        <td>Nuclear Energy ETF</td>
+                        <td>$148.92</td>
+                        <td class="positive">+$6.15</td>
+                        <td class="positive">+4.31%</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>AMD</strong></td>
+                        <td>AMD</td>
+                        <td>$216.00</td>
+                        <td class="positive">+$7.56</td>
+                        <td class="positive">+3.63%</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>MSFT</strong></td>
+                        <td>Microsoft</td>
+                        <td>$413.60</td>
+                        <td class="positive">+$12.46</td>
+                        <td class="positive">+3.11%</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>NVDA</strong></td>
+                        <td>NVIDIA</td>
+                        <td>$190.04</td>
+                        <td class="positive">+$4.63</td>
+                        <td class="positive">+2.50%</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>META</strong></td>
+                        <td>Meta Platforms</td>
+                        <td>$677.22</td>
+                        <td class="positive">+$15.76</td>
+                        <td class="positive">+2.38%</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>LMT</strong></td>
+                        <td>Lockheed Martin</td>
+                        <td>$638.29</td>
+                        <td class="positive">+$14.71</td>
+                        <td class="positive">+2.36%</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>PWR</strong></td>
+                        <td>Quanta Services</td>
+                        <td>$514.56</td>
+                        <td class="positive">+$6.45</td>
+                        <td class="positive">+1.27%</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>VOO</strong></td>
+                        <td>Vanguard S&P 500</td>
+                        <td>$638.23</td>
+                        <td class="positive">+$2.99</td>
+                        <td class="positive">+0.47%</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>GOOGL</strong></td>
+                        <td>Alphabet</td>
+                        <td>$324.32</td>
+                        <td class="positive">+$1.46</td>
+                        <td class="positive">+0.45%</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>XLI</strong></td>
+                        <td>Industrials ETF</td>
+                        <td>$173.70</td>
+                        <td class="positive">+$0.52</td>
+                        <td class="positive">+0.30%</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>AMZN</strong></td>
+                        <td>Amazon</td>
+                        <td>$208.72</td>
+                        <td class="negative">$-1.60</td>
+                        <td class="negative">-0.76%</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>LLY</strong></td>
+                        <td>Eli Lilly</td>
+                        <td>$1,044.67</td>
+                        <td class="negative">$-13.51</td>
+                        <td class="negative">-1.28%</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>GE</strong></td>
+                        <td>General Electric</td>
+                        <td>$316.74</td>
+                        <td class="negative">$-4.26</td>
+                        <td class="negative">-1.33%</td>
+                    </tr>
+
+                    <tr>
+                        <td><strong>NOC</strong></td>
+                        <td>Northrop Grumman</td>
+                        <td>$698.02</td>
+                        <td class="negative">$-11.09</td>
+                        <td class="negative">-1.56%</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="section">
+            <h2>🎯 5 High-Conviction Ideas</h2>
+            <ul class="ideas-list">
+                <li>
+                    <div class="ticker">LLY 🟢</div>
+                    <div class="thesis">Eli Lilly - CANSLIM perfect score. Obesity drug dominance with Mounjaro/Zepbound. Breakout above $800 resistance targets $900+.</div>
+                </li>
+                <li>
+                    <div class="ticker">PWR 🟢</div>
+                    <div class="thesis">Quanta Services - Grid-to-chip infrastructure play. Datacenter power demand secular tailwind. Base breakout pattern forming.</div>
+                </li>
+                <li>
+                    <div class="ticker">NLR 🟢</div>
+                    <div class="thesis">Nuclear Energy ETF - Renaissance in nuclear power. SMR technology advances and data center power needs driving demand.</div>
+                </li>
+                <li>
+                    <div class="ticker">COPX 🟡</div>
+                    <div class="thesis">Copper Miners - Electrification megatrend demand. Supply constraints supportive. Watch for $30 breakout on global copper.</div>
+                </li>
+                <li>
+                    <div class="ticker">LMT 🟡</div>
+                    <div class="thesis">Lockheed Martin - Defense spending resilience. Geopolitical tensions support multi-year backlog. Quality moat, steady cash flows.</div>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="section">
+            <h2>💭 Portfolio Positioning Thoughts</h2>
+            <ul class="drivers-list">
+                <li>
+                    <span class="emoji">🛡️</span>
+                    <div class="content">
+                        <div class="title">Defense Basket (LMT, NOC)</div>
+                        <div class="desc">Geopolitical risk premium elevated. Consider adding on pullbacks to 50-day MAs. Long-term thesis intact.</div>
+                    </div>
+                </li>
+                <li>
+                    <span class="emoji">⚡</span>
+                    <div class="content">
+                        <div class="title">Grid-to-Chip (PWR, VRT, GEV)</div>
+                        <div class="desc">Data center power demand is structural. PWR leading, VRT consolidating. Hold core positions, trim on extended moves.</div>
+                    </div>
+                </li>
+                <li>
+                    <span class="emoji">🧬</span>
+                    <div class="content">
+                        <div class="title">TopVOO Holdings</div>
+                        <div class="desc">Mega-cap tech showing dispersion. NVDA remains leader but extended. Consider rebalancing into laggards like GOOGL.</div>
+                    </div>
+                </li>
+                <li>
+                    <span class="emoji">🏭</span>
+                    <div class="content">
+                        <div class="title">Commodities (COPX, GLD)</div>
+                        <div class="desc">Gold at highs - consider tactical trim. Copper constructive for long-term electrification play. NLR = high conviction hold.</div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="footer">
+            <p>Generated by Danswiz Market Intelligence 🦉</p>
+            <p>Focused on Quality Growth & Breakout Strategy</p>
+            <p>{date_str}</p>
+        </div>
+    </div>
+</body>
+</html>

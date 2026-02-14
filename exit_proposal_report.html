@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>InvestIQ: Portfolio Rebalancing & Exit Strategy Report</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 900px; margin: 0 auto; padding: 20px; background-color: #f0f2f5; }
+        .container { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        .header { border-bottom: 4px solid #1a3a5f; padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { color: #1a3a5f; margin: 0; font-size: 28px; }
+        h2 { color: #2c5282; border-left: 5px solid #2c5282; padding-left: 15px; margin-top: 40px; }
+        .summary-box { background: #ebf8ff; border: 1px solid #bee3f8; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th { background: #f7fafc; color: #4a5568; padding: 12px; text-align: left; border-bottom: 2px solid #edf2f7; font-weight: 600; }
+        td { padding: 15px; border-bottom: 1px solid #edf2f7; }
+        .exit-tag { background: #fff5f5; color: #c53030; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 12px; }
+        .trim-tag { background: #fffaf0; color: #975a16; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 12px; }
+        .buy-tag { background: #f0fff4; color: #276749; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 12px; }
+        .reasoning { font-size: 14px; color: #718096; font-style: italic; }
+        .footer { margin-top: 50px; text-align: center; color: #a0aec0; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🦅 Portfolio Optimization Proposal</h1>
+            <p>Strategy: Raising Funds for Financials, Energy & Cybersecurity Rotation</p>
+        </div>
+
+        <div class="summary-box">
+            <strong>Strategic Goal:</strong> Liquidate low-conviction, overbought, or redundant assets to fund the addition of <strong>CIBR</strong> (Cybersecurity), <strong>XLF</strong> (Financials), and <strong>XLE</strong> (Energy).
+        </div>
+
+        <h2>🔴 Proposed Exits (Sell 100%)</h2>
+        <table>
+            <tr>
+                <th>Ticker</th>
+                <th>Basket</th>
+                <th>Status</th>
+                <th>Reasoning</th>
+            </tr>
+            <tr>
+                <td><strong>XLP</strong></td>
+                <td>FebAI Scan</td>
+                <td><span class="exit-tag">EXIT</span></td>
+                <td class="reasoning">Extremely Overbought (RSI 83.8). Consumer staples offer low growth compared to your new targets. Excellent time to lock in the +14.7% monthly gain.</td>
+            </tr>
+            <tr>
+                <td><strong>UFO</strong></td>
+                <td>FebAI Scan</td>
+                <td><span class="exit-tag">EXIT</span></td>
+                <td class="reasoning">Niche theme with lower relative strength. Funds are better deployed in Cybersecurity (CIBR).</td>
+            </tr>
+            <tr>
+                <td><strong>ITA</strong></td>
+                <td>Core ETFs / FebAI</td>
+                <td><span class="exit-tag">EXIT</span></td>
+                <td class="reasoning">Redundant. Your individual Defense holdings (LMT, NOC, LHX) provide superior "Quality Growth" exposure without the fee drag of the ETF.</td>
+            </tr>
+        </table>
+
+        <h2>🟠 Proposed Trims (Take Profits/Reduce)</h2>
+        <table>
+            <tr>
+                <th>Ticker</th>
+                <th>Basket</th>
+                <th>Action</th>
+                <th>Reasoning</th>
+            </tr>
+            <tr>
+                <td><strong>VRT</strong></td>
+                <td>Grid-to-Chip</td>
+                <td><span class="trim-tag">TRIM 25%</span></td>
+                <td class="reasoning">Take chips off the table after today's massive +10% move. Lock in profits while maintaining core exposure to the grid theme.</td>
+            </tr>
+            <tr>
+                <td><strong>AMZN</strong></td>
+                <td>TopVOO</td>
+                <td><span class="trim-tag">TRIM 50%</span></td>
+                <td class="reasoning">Significant underperformer (-12.9% in 1 month). Reducing exposure here provides immediate liquidity to move into the Financials (XLF) breakout.</td>
+            </tr>
+            <tr>
+                <td><strong>VOO</strong></td>
+                <td>Core ETFs</td>
+                <td><span class="trim-tag">TRIM 10%</span></td>
+                <td class="reasoning">Standard tactical rebalancing. Shifting broad market exposure into high-conviction thematic picks (XLE/XLF).</td>
+            </tr>
+        </table>
+
+        <h2>🟢 Target Reinvestment</h2>
+        <table>
+            <tr>
+                <th>Target</th>
+                <th>Theme</th>
+                <th>Allocation</th>
+                <th>Rationale</th>
+            </tr>
+            <tr>
+                <td><strong>CIBR</strong></td>
+                <td>Cyber Moats</td>
+                <td>High</td>
+                <td>Fits your "Moats" criteria perfectly. Cybersecurity is a critical non-discretionary infrastructure spend.</td>
+            </tr>
+            <tr>
+                <td><strong>XLF</strong></td>
+                <td>Financials</td>
+                <td>Medium</td>
+                <td>Capturing the Dow 50K momentum and rising institutional participation in big banks.</td>
+            </tr>
+            <tr>
+                <td><strong>XLE</strong></td>
+                <td>Energy</td>
+                <td>Medium</td>
+                <td>A necessary macro hedge and value play in an otherwise tech-heavy portfolio.</td>
+            </tr>
+        </table>
+
+        <h2>📋 Full Portfolio Inventory (Current)</h2>
+        <table>
+            <tr><th>Basket</th><th>Holdings</th></tr>
+            <tr><td>Defense</td><td>LHX, LMT, NOC</td></tr>
+            <tr><td>Grid-to-Chip</td><td>PWR, VRT, GEV</td></tr>
+            <tr><td>TopVOO</td><td>GE, MSFT, AMZN, GOOGL, META, NVDA, AMD + 22 others</td></tr>
+            <tr><td>Core ETFs</td><td>COPX, GLD, GLDM, ITA, IWM, NLR, VOO, XLI</td></tr>
+            <tr><td>FebAI Scan</td><td>UFO, XLP, SIL, XBI, XME, DXJ, GRID</td></tr>
+            <tr><td>MemoryAndMoats</td><td>MRVL, ANET, WDC, MU, AVGO, TSM, STX, ASML</td></tr>
+        </table>
+
+        <div class=\"footer\">
+            <p>Generated by <strong>Danswiz 🦉</strong> | Powered by InvestIQ Agentic Engine</p>
+            <p>February 6, 2026 | This is a proposal based on current market conditions. Not financial advice.</p>
+        </div>
+    </div>
+</body>
+</html>

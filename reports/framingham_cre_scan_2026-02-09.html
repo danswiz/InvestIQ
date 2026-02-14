@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .header { background: #2c3e50; color: white; padding: 20px; }
+        .content { padding: 20px; }
+        .alert { background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 15px 0; }
+        .site-status { margin: 10px 0; padding: 10px; border-radius: 4px; }
+        .blocked { background: #f8d7da; border-left: 4px solid #dc3545; }
+        .info { background: #d1ecf1; border-left: 4px solid #17a2b8; }
+        table { border-collapse: collapse; width: 100%; margin: 15px 0; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background: #f2f2f2; }
+        .footer { padding: 20px; color: #666; font-size: 0.9em; border-top: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🏢 Daily Commercial Scan - Framingham, MA</h1>
+        <p>Scan Date: Monday, February 9, 2026</p>
+        <p>Target: Commercial properties for hall/event venue conversion</p>
+    </div>
+
+    <div class="content">
+        <div class="alert">
+            <h3>⚠️ SCAN STATUS: UNABLE TO COMPLETE</h3>
+            <p>All targeted commercial real estate websites blocked automated access via anti-bot protection (CAPTCHA/Cloudflare).</p>
+        </div>
+
+        <h2>Target Criteria</h2>
+        <ul>
+            <li><strong>Location:</strong> Within 10 miles of Framingham, MA</li>
+            <li><strong>Property Type:</strong> Commercial (suitable for hall/event venue conversion)</li>
+            <li><strong>Lot Size:</strong> 0.5 acres or larger</li>
+            <li><strong>Price Range:</strong> Under $2,000,000</li>
+            <li><strong>Capacity:</strong> Potential for 200-250 person events</li>
+        </ul>
+
+        <h2>Site Access Status</h2>
+        
+        <div class="site-status blocked">
+            <h4>❌ LoopNet.com</h4>
+            <p><strong>Status:</strong> Access Denied (403 Forbidden)</p>
+            <p><strong>Attempted URL:</strong> https://www.loopnet.com</p>
+            <p><strong>Block Type:</strong> Akamai EdgeSuite protection</p>
+        </div>
+
+        <div class="site-status blocked">
+            <h4>❌ Realtor.com/Commercial</h4>
+            <p><strong>Status:</strong> Service Unavailable (503)</p>
+            <p><strong>Attempted URL:</strong> https://www.realtor.com/commercial</p>
+            <p><strong>Block Type:</strong> Anti-bot filtering</p>
+        </div>
+
+        <div class="site-status blocked">
+            <h4>❌ Zillow.com/Commercial</h4>
+            <p><strong>Status:</strong> Access Denied (403 Forbidden)</p>
+            <p><strong>Attempted URL:</strong> https://www.zillow.com/framingham-ma/commercial/</p>
+            <p><strong>Block Type:</strong> Rate limiting / Bot detection</p>
+        </div>
+
+        <div class="site-status blocked">
+            <h4>❌ Crexi.com</h4>
+            <p><strong>Status:</strong> Cloudflare Challenge</p>
+            <p><strong>Attempted URL:</strong> https://www.crexi.com/properties</p>
+            <p><strong>Block Type:</strong> "Just a moment..." interstitial</p>
+        </div>
+
+        <h2>Recommendations to Enable Scanning</h2>
+        
+        <div class="site-status info">
+            <h4>Option 1: Configure OpenClaw Browser Control</h4>
+            <p>The OpenClaw browser automation service needs to be enabled. This requires:</p>
+            <ul>
+                <li>Enable sandbox browser in OpenClaw config</li>
+                <li>OR use Chrome extension relay (attach tab manually)</li>
+                <li>Run: <code>openclaw gateway</code> to verify service status</li>
+            </ul>
+        </div>
+
+        <div class="site-status info">
+            <h4>Option 2: Add Brave Search API Key</h4>
+            <p>For web search capability:</p>
+            <ul>
+                <li>Get API key from <a href="https://brave.com/search/api">brave.com/search/api</a></li>
+                <li>Run: <code>openclaw configure --section web</code></li>
+                <li>This enables searching for listing URLs that might be accessible</li>
+            </ul>
+        </div>
+
+        <div class="site-status info">
+            <h4>Option 3: Manual Browser Capture</h4>
+            <p>Workaround approach:</p>
+            <ul>
+                <li>Manually visit sites in Chrome with OpenClaw extension</li>
+                <li>Click the OpenClaw toolbar icon to attach the tab</li>
+                <li>Use <code>profile="chrome"</code> in browser automation calls</li>
+            </ul>
+        </div>
+
+        <div class="site-status info">
+            <h4>Option 4: Third-Party Data Sources</h4>
+            <p>Alternative data sources to consider:</p>
+            <ul>
+                <li><strong>CoStar/LoopNet API:</strong> Requires commercial API subscription</li>
+                <li><strong>Local MLS feeds:</strong> Access via real estate agent</li>
+                <li><strong>Massachusetts Secretary of State:</strong> Commercial property records</li>
+                <li><strong>Framingham Assessor's Database:</strong> Public property records</li>
+            </ul>
+        </div>
+
+        <h2>Next Steps</h2>
+        <ol>
+            <li>Configure one of the options above to enable data access</li>
+            <li>Re-run the scan once browser/search tools are available</li>
+            <li>Consider setting up a weekly scheduled cron job for regular scans</li>
+        </ol>
+
+        <p><strong>Contact:</strong> For assistance configuring OpenClaw tools, contact the system administrator.</p>
+    </div>
+
+    <div class="footer">
+        <p>Generated by Framingham CRE Browser Scanner</p>
+        <p>Monday, February 9, 2026 at 7:11 AM PT</p>
+    </div>
+</body>
+</html>

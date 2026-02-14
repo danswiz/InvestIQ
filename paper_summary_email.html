@@ -1,0 +1,194 @@
+<![CDATA[
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Paper Summary: LatentMem</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .header {
+            border-bottom: 3px solid #4a90e2;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+        .title {
+            color: #2c3e50;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 14px;
+            font-style: italic;
+        }
+        .section {
+            margin-bottom: 25px;
+        }
+        .section-title {
+            color: #4a90e2;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+        .section-title::before {
+            content: "";
+            display: inline-block;
+            width: 4px;
+            height: 20px;
+            background-color: #4a90e2;
+            margin-right: 10px;
+            border-radius: 2px;
+        }
+        .authors {
+            background-color: #f1f5f9;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #555;
+        }
+        .summary-box {
+            background-color: #e8f4fd;
+            border-left: 4px solid #4a90e2;
+            padding: 15px 20px;
+            border-radius: 0 6px 6px 0;
+        }
+        .insights-list {
+            list-style: none;
+            padding: 0;
+        }
+        .insights-list li {
+            background-color: #f8f9fa;
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            border-radius: 6px;
+            border-left: 3px solid #27ae60;
+            transition: transform 0.2s;
+        }
+        .insights-list li:hover {
+            transform: translateX(5px);
+            background-color: #f1f5f9;
+        }
+        .highlight {
+            background-color: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+        .link-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 30px;
+        }
+        .link-box a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        .link-box a:hover {
+            text-decoration: underline;
+        }
+        .performance-badge {
+            display: inline-block;
+            background-color: #27ae60;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        .archivist-badge {
+            background-color: #4a90e2;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="archivist-badge">📚 Archivist Agent Report</div>
+        
+        <div class="header">
+            <div class="title">LatentMem: Customizing Latent Memory for Multi-Agent Systems</div>
+            <div class="subtitle">Auto-generated title based on paper content</div>
+        </div>
+        
+        <div class="authors">
+            <strong>Authors:</strong> Muxin Fu, Guibin Zhang, Xiangyuan Xue, Yafu Li, Zefeng He, Siyuan Huang, Xiaoye Qu, Yu Cheng, Yang Yang
+        </div>
+
+        <div class="section">
+            <div class="section-title">Summary</div>
+            <div class="summary-box">
+                <p>Large language model (LLM)-powered multi-agent systems (MAS) demonstrate remarkable collective intelligence, where multi-agent memory serves as a pivotal mechanism for continual adaptation. However, existing multi-agent memory designs remain constrained by two fundamental bottlenecks: <strong>(i) memory homogenization</strong> arising from the absence of role-aware customization, and <strong>(ii) information overload</strong> induced by excessively fine-grained memory entries.</p>
+                
+                <p>To address these limitations, the authors propose <strong>LatentMem</strong>, a learnable multi-agent memory framework designed to customize agent-specific memories in a token-efficient manner.</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Key Insights & Takeaways</div>
+            <ul class="insights-list">
+                <li>
+                    <strong>🧠 Novel Architecture:</strong> LatentMem comprises an <span class="highlight">experience bank</span> that stores raw interaction trajectories in a lightweight form, and a <span class="highlight">memory composer</span> that synthesizes compact latent memories conditioned on retrieved experience and agent-specific contexts.
+                </li>
+                <li>
+                    <strong>⚡ Optimization Innovation:</strong> The paper introduces <span class="highlight">Latent Memory Policy Optimization (LMPO)</span>, which propagates task-level optimization signals through latent memories to the composer, encouraging it to produce compact and high-utility representations.
+                </li>
+                <li>
+                    <strong>📈 Impressive Results:</strong> Extensive experiments across diverse benchmarks and mainstream MAS frameworks show that LatentMem achieves a performance gain of up to <span class="performance-badge">+19.36%</span> over vanilla settings and consistently outperforms existing memory architectures.
+                </li>
+                <li>
+                    <strong>🔧 Framework Agnostic:</strong> The solution works <span class="highlight">without requiring any modifications</span> to the underlying MAS frameworks, making it highly practical and adoptable.
+                </li>
+                <li>
+                    <strong>🎯 Addressing Core Problems:</strong> Effectively solves both memory homogenization (lack of role-aware customization) and information overload (excessively fine-grained entries) that plague current multi-agent memory systems.
+                </li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <div class="section-title">Why This Matters</div>
+            <p>Multi-agent systems powered by LLMs are becoming increasingly important for complex tasks requiring collective intelligence. Memory is crucial for these systems to adapt and improve over time. LatentMem represents a significant advancement in making multi-agent memory more efficient, personalized, and scalable—addressing fundamental limitations that have hampered progress in this area.</p>
+        </div>
+
+        <div class="link-box">
+            <strong>📄 Read the Full Paper</strong><br><br>
+            <a href="https://arxiv.org/abs/2602.03036" target="_blank">https://arxiv.org/abs/2602.03036</a>
+        </div>
+        
+        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e0e0e0; font-size: 12px; color: #999; text-align: center;">
+            Report generated by Archivist Agent 📚 | arXiv Paper Digest
+        </div>
+    </div>
+</body>
+</html>
+]]>

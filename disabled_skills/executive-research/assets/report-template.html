@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Executive Briefing: {{EXECUTIVE_NAME}}</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: #f8f9fa;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #1a73e8;
+            border-bottom: 3px solid #1a73e8;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        h2 {
+            color: #202124;
+            margin-top: 30px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e8eaed;
+        }
+        h3 {
+            color: #5f6368;
+            margin-top: 20px;
+        }
+        .executive-summary {
+            background: #e8f0fe;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #1a73e8;
+            margin: 20px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e8eaed;
+        }
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #5f6368;
+        }
+        tr:hover {
+            background: #f8f9fa;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin: 8px 0;
+        }
+        .highlight-box {
+            background: #fef7e0;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #f9ab00;
+            margin: 15px 0;
+        }
+        .checklist {
+            background: #e6f4ea;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #34a853;
+        }
+        .checklist li {
+            list-style: none;
+            position: relative;
+            padding-left: 30px;
+        }
+        .checklist li:before {
+            content: "☐";
+            position: absolute;
+            left: 0;
+            font-size: 18px;
+            color: #34a853;
+        }
+        .metric {
+            display: inline-block;
+            background: #f8f9fa;
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin: 5px 10px 5px 0;
+            font-size: 14px;
+        }
+        .source-note {
+            font-size: 12px;
+            color: #5f6368;
+            font-style: italic;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e8eaed;
+        }
+        a {
+            color: #1a73e8;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Executive Briefing: {{EXECUTIVE_NAME}}</h1>
+        <p style="color: #5f6368; font-size: 14px;">Prepared on {{DATE}} for consulting engagement preparation</p>
+
+        <div class="executive-summary">
+            <h3 style="margin-top: 0;">Executive Summary</h3>
+            <p>{{EXECUTIVE_SUMMARY}}</p>
+        </div>
+
+        <h2>Current Role & Responsibilities</h2>
+        <ul>
+            <li><strong>Title:</strong> {{TITLE}}</li>
+            <li><strong>Company:</strong> {{COMPANY}}</li>
+            <li><strong>Scope:</strong> {{SCOPE_OF_ROLE}}</li>
+            <li><strong>Reports To:</strong> {{REPORTS_TO}}</li>
+            <li><strong>Tenure:</strong> {{TENURE}}</li>
+        </ul>
+
+        <h2>Career Trajectory</h2>
+        <table>
+            <tr>
+                <th>Period</th>
+                <th>Role</th>
+                <th>Company</th>
+            </tr>
+            <!-- Career timeline rows -->
+            {{CAREER_TIMELINE}}
+        </table>
+
+        <h2>Educational Background</h2>
+        <ul>
+            {{EDUCATION}}
+        </ul>
+
+        <h2>Company Context</h2>
+        <h3>Overview</h3>
+        <ul>
+            <li><strong>Industry:</strong> {{INDUSTRY}}</li>
+            <li><strong>Size:</strong> {{COMPANY_SIZE}}</li>
+            <li><strong>Headquarters:</strong> {{HEADQUARTERS}}</li>
+            <li><strong>Public/Private:</strong> {{COMPANY_TYPE}}</li>
+        </ul>
+
+        <h3>Recent Strategic Priorities</h3>
+        <ul>
+            {{STRATEGIC_PRIORITIES}}
+        </ul>
+
+        <h3>Known Challenges & Opportunities</h3>
+        <ul>
+            {{CHALLENGES_OPPORTUNITIES}}
+        </ul>
+
+        <h2>Thought Leadership & Public Presence</h2>
+        <h3>Recent Interviews & Podcasts</h3>
+        <ul>
+            {{INTERVIEWS_PODCASTS}}
+        </ul>
+
+        <h3>Published Content</h3>
+        <ul>
+            {{PUBLISHED_CONTENT}}
+        </ul>
+
+        <h3>Speaking Engagements</h3>
+        <ul>
+            {{SPEAKING_ENGAGEMENTS}}
+        </ul>
+
+        <h2>Network & Warm Connections</h2>
+        <div class="highlight-box">
+            <strong>Potential Connection Paths:</strong>
+            <ul>
+                {{CONNECTION_PATHS}}
+            </ul>
+        </div>
+
+        <h3>Professional Associations</h3>
+        <ul>
+            {{ASSOCIATIONS}}
+        </ul>
+
+        <h2>Consulting Engagement Angles</h2>
+        <h3>Potential Value Propositions</h3>
+        <ul>
+            {{VALUE_PROPOSITIONS}}
+        </ul>
+
+        <h3>Relevant Talking Points</h3>
+        <ul>
+            {{TALKING_POINTS}}
+        </ul>
+
+        <h3>Questions to Ask</h3>
+        <ul>
+            {{QUESTIONS_TO_ASK}}
+        </ul>
+
+        <h3>Case Studies to Reference</h3>
+        <ul>
+            {{CASE_STUDIES}}
+        </ul>
+
+        <h2>Preparation Checklist</h2>
+        <div class="checklist">
+            <ul>
+                <li>Review their recent LinkedIn activity</li>
+                <li>Check company's latest earnings call or investor update</li>
+                <li>Prepare relevant case study from similar client</li>
+                <li>Research mutual connections for warm introduction</li>
+                <li>Review industry trends affecting their business</li>
+                <li>Prepare 3-5 thoughtful questions</li>
+                <li>Have specific value proposition ready</li>
+                <li>Check recent news about their company</li>
+            </ul>
+        </div>
+
+        <div class="source-note">
+            <strong>Sources:</strong> {{SOURCES_LIST}}<br>
+            <strong>Last Updated:</strong> {{DATE}}<br>
+            <em>Note: This briefing is for consulting preparation purposes. Information gathered from public sources.</em>
+        </div>
+    </div>
+</body>
+</html>
