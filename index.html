@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Qortex AI | Intelligence Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://s3.tradingview.com/tv.js"></script>
@@ -22,6 +22,7 @@
                 radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.08) 0%, transparent 50%),
                 radial-gradient(circle at 100% 100%, rgba(124, 58, 237, 0.05) 0%, transparent 50%);
             background-attachment: fixed;
+            overflow-x: hidden;
         }
         .glass {
             background: var(--card-bg);
@@ -41,9 +42,6 @@
         }
         .search-input:focus { outline: none; border-color: var(--accent); background: rgba(30, 41, 59, 0.8); box-shadow: 0 0 0 4px var(--accent-glow); }
         
-        .ticker-card { transition: all 0.2s; cursor: pointer; }
-        .ticker-card:hover { border-color: var(--accent); background: rgba(56, 189, 248, 0.05); transform: scale(1.02); }
-        
         .grade-badge { padding: 4px 12px; border-radius: 20px; font-weight: 700; font-size: 0.7rem; }
         .grade-A { background: #059669; color: white; }
         .grade-B { background: #0284c7; color: white; }
@@ -56,8 +54,12 @@
         
         #detail-view { display: none; }
         
-        /* Layout Fixes */
-        .detail-card { min-height: 100px; }
+        /* Graph Mobile Fix */
+        .tv-container { height: 400px; width: 100%; border-radius: 1rem; overflow: hidden; position: relative; }
+        @media (max-width: 768px) {
+            .tv-container { height: 300px; }
+            h1 { font-size: 2.25rem; }
+        }
     </style>
 </head>
 <body class="min-h-screen p-4 md:p-8">
@@ -90,10 +92,13 @@
                 <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight hero-gradient">Institutional Intelligence <br/>for Alpha Hunters</h1>
                 
                 <div class="search-container mt-10">
-                    <div class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-500">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                    </div>
-                    <input type="text" id="main-search" list="ticker-list" placeholder="Search Ticker (e.g. VRT)..." class="search-input">
+                    <form onsubmit="event.preventDefault(); viewStock(document.getElementById('main-search').value);">
+                        <div class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-500">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        </div>
+                        <input type="text" id="main-search" list="ticker-list" autocomplete="off" placeholder="Enter Ticker (e.g. VRT)..." class="search-input">
+                        <input type="submit" style="display:none">
+                    </form>
                 </div>
             </header>
 
@@ -121,9 +126,7 @@
                 <div class="text-xs text-slate-500">Last Scan: <span id="scan-time" class="text-sky-400">Loading...</span></div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12" id="top-grid">
-                <!-- Top 3 dynamic cards -->
-            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12" id="top-grid"></div>
 
             <div class="glass rounded-3xl overflow-hidden border border-slate-800">
                 <div class="overflow-x-auto">
@@ -137,9 +140,7 @@
                                 <th class="p-6 text-right">Action</th>
                             </tr>
                         </thead>
-                        <tbody id="terminal-tbody">
-                            <!-- Table rows -->
-                        </tbody>
+                        <tbody id="terminal-tbody"></tbody>
                     </table>
                 </div>
             </div>
@@ -154,41 +155,41 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div class="lg:col-span-2">
-                    <div class="glass p-8 rounded-3xl mb-8">
+                    <div class="glass p-4 md:p-8 rounded-3xl mb-8">
                         <div class="flex justify-between items-start mb-6">
                             <div>
-                                <h1 id="detail-name" class="text-3xl font-bold mb-1">---</h1>
-                                <div id="detail-ticker-sector" class="text-slate-400 text-sm uppercase">---</div>
+                                <h1 id="detail-name" class="text-2xl md:text-3xl font-bold mb-1">---</h1>
+                                <div id="detail-ticker-sector" class="text-slate-400 text-[10px] md:text-sm uppercase">---</div>
                             </div>
-                            <div id="detail-grade" class="grade-badge text-sm px-4 py-1">---</div>
+                            <div id="detail-grade" class="grade-badge text-xs px-4 py-1">---</div>
                         </div>
-                        <div style="height: 400px; background: rgba(0,0,0,0.2); border-radius: 1rem;" id="tv-chart"></div>
+                        <div class="tv-container" id="tv-chart"></div>
                     </div>
 
-                    <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
-                        <div class="glass p-6 rounded-2xl border-sky-500/20 text-center">
-                            <div class="text-[10px] text-sky-500 uppercase font-bold mb-2">Technical</div>
-                            <div class="text-3xl font-bold" id="tech-score">0</div>
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4 mb-8">
+                        <div class="glass p-4 md:p-6 rounded-2xl border-sky-500/20 text-center">
+                            <div class="text-[8px] md:text-[10px] text-sky-500 uppercase font-bold mb-1">Technical</div>
+                            <div class="text-xl md:text-3xl font-bold" id="tech-score">0</div>
                         </div>
-                        <div class="glass p-6 rounded-2xl border-emerald-500/20 text-center">
-                            <div class="text-[10px] text-emerald-500 uppercase font-bold mb-2">Growth</div>
-                            <div class="text-3xl font-bold" id="growth-score">0</div>
+                        <div class="glass p-4 md:p-6 rounded-2xl border-emerald-500/20 text-center">
+                            <div class="text-[8px] md:text-[10px] text-emerald-500 uppercase font-bold mb-1">Growth</div>
+                            <div class="text-xl md:text-3xl font-bold" id="growth-score">0</div>
                         </div>
-                        <div class="glass p-6 rounded-2xl border-purple-500/20 text-center">
-                            <div class="text-[10px] text-purple-500 uppercase font-bold mb-2">Quality</div>
-                            <div class="text-3xl font-bold" id="quality-score">0</div>
+                        <div class="glass p-4 md:p-6 rounded-2xl border-purple-500/20 text-center">
+                            <div class="text-[8px] md:text-[10px] text-purple-500 uppercase font-bold mb-1">Quality</div>
+                            <div class="text-xl md:text-3xl font-bold" id="quality-score">0</div>
                         </div>
-                        <div class="glass p-6 rounded-2xl border-amber-500/20 text-center">
-                            <div class="text-[10px] text-amber-500 uppercase font-bold mb-2">Context</div>
-                            <div class="text-3xl font-bold" id="context-score">0</div>
+                        <div class="glass p-4 md:p-6 rounded-2xl border-amber-500/20 text-center">
+                            <div class="text-[8px] md:text-[10px] text-amber-500 uppercase font-bold mb-1">Context</div>
+                            <div class="text-xl md:text-3xl font-bold" id="context-score">0</div>
                         </div>
-                        <div class="glass p-6 rounded-2xl border-rose-500/20 text-center">
-                            <div class="text-[10px] text-rose-500 uppercase font-bold mb-2">Moonshot</div>
-                            <div class="text-3xl font-bold" id="moonshot-score">0%</div>
+                        <div class="glass p-4 md:p-6 rounded-2xl border-rose-500/20 text-center">
+                            <div class="text-[8px] md:text-[10px] text-rose-500 uppercase font-bold mb-1">Moonshot</div>
+                            <div class="text-xl md:text-3xl font-bold" id="moonshot-score">0%</div>
                         </div>
                     </div>
 
-                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-4 tracking-widest">Factor Analysis</h3>
+                    <h3 class="text-xs font-bold uppercase text-slate-500 mb-4 tracking-widest px-1">Factor Analysis</h3>
                     <div id="criteria-list" class="space-y-3"></div>
                 </div>
 
@@ -204,7 +205,7 @@
                     <div class="glass p-6 rounded-2xl">
                         <h3 class="text-xs font-bold uppercase text-slate-500 mb-6 tracking-widest">Analyst Sentiment</h3>
                         <div class="space-y-4">
-                            <div class="flex justify-between"><div class="text-xs text-slate-500">Recommendation</div><div id="rec-key" class="font-bold text-emerald-400 uppercase">---</div></div>
+                            <div class="flex justify-between"><div class="text-xs text-slate-500">Recommendation</div><div id="rec-key" class="font-bold text-emerald-400 uppercase text-xs">---</div></div>
                             <div class="flex justify-between"><div class="text-xs text-slate-500">Target Price</div><div id="target-price" class="font-bold">---</div></div>
                             <div class="flex justify-between"><div class="text-xs text-slate-500">Analyst Count</div><div id="analyst-count" class="font-bold">0</div></div>
                         </div>
@@ -231,11 +232,6 @@
             document.getElementById('stat-a').textContent = stocksData.filter(s => s.grade === 'A').length;
             document.getElementById('stat-moons').textContent = stocksData.filter(s => s.moonshot_score >= 50).length;
             document.getElementById('scan-time').textContent = "{{ last_scan }}";
-            
-            document.getElementById('main-search').addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') viewStock(e.target.value);
-            });
-            
             loadAllStocks();
         }
 
@@ -292,7 +288,7 @@
             try {
                 const allData = await loadAllStocks();
                 const data = allData.stocks[ticker];
-                if (!data) throw new Error(`${ticker} not found in intelligence database`);
+                if (!data) throw new Error(`${ticker} not found`);
 
                 document.getElementById('detail-name').innerText = data.name;
                 document.getElementById('detail-ticker-sector').innerText = `${data.ticker} • ${data.sector} • ${data.industry}`;
@@ -313,19 +309,18 @@
                 document.getElementById('analyst-count').innerText = data.analyst_count || '0';
 
                 document.getElementById('criteria-list').innerHTML = data.criteria.map(c => `
-                    <div class="glass p-5 rounded-2xl flex justify-between items-center">
+                    <div class="glass p-4 md:p-5 rounded-2xl flex justify-between items-center">
                         <div>
-                            <div class="font-bold text-sm text-slate-200">${c.name}</div>
-                            <div class="text-[9px] text-slate-500 uppercase tracking-wider">${c.category} • ${c.threshold}</div>
+                            <div class="font-bold text-[12px] md:text-sm text-slate-200">${c.name}</div>
+                            <div class="text-[8px] md:text-[9px] text-slate-500 uppercase tracking-wider">${c.category} • ${c.threshold}</div>
                         </div>
                         <div class="text-right">
-                            <div class="font-bold text-sm ${c.passed ? 'text-emerald-400' : 'text-rose-400'}">${c.value}</div>
-                            <div class="text-[9px] font-bold ${c.passed ? 'text-emerald-600' : 'text-rose-600'} uppercase">${c.passed ? '✓ PASSED' : '✗ FAILED'} (+${c.points})</div>
+                            <div class="font-bold text-[12px] md:text-sm ${c.passed ? 'text-emerald-400' : 'text-rose-400'}">${c.value}</div>
+                            <div class="text-[8px] md:text-[9px] font-bold ${c.passed ? 'text-emerald-600' : 'text-rose-600'} uppercase">${c.passed ? '✓ PASSED' : '✗ FAILED'} (+${c.points})</div>
                         </div>
                     </div>
                 `).join('');
 
-                document.getElementById('news-list').innerHTML = '<div class="text-xs text-slate-500">Loading signals...</div>';
                 fetch(`/api/news/${ticker}`).then(r => r.json()).then(news => {
                     if (!news.news || news.news.length === 0) {
                         document.getElementById('news-list').innerHTML = '<div class="text-xs text-slate-500">No recent signals.</div>';
@@ -337,16 +332,13 @@
                             <div class="text-[9px] text-slate-600 uppercase font-bold">${n.publisher} • ${n.time}</div>
                         </div>
                     `).join('');
-                }).catch(() => {
-                    document.getElementById('news-list').innerHTML = '<div class="text-xs text-slate-500">Signals temporarily unavailable.</div>';
                 });
 
                 document.getElementById('tv-chart').innerHTML = '';
                 new TradingView.widget({
                     "width": "100%", "height": "100%", "symbol": ticker, "interval": "D",
                     "timezone": "Etc/UTC", "theme": "dark", "style": "1", "locale": "en",
-                    "container_id": "tv-chart", "autosize": true, "hide_side_toolbar": false,
-                    "enable_publishing": false, "hide_top_toolbar": false, "save_image": false
+                    "container_id": "tv-chart", "autosize": true, "hide_side_toolbar": false
                 });
 
             } catch (err) { alert(err.message); showDashboard(); }
