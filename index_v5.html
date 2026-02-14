@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qortex AI | Intelligence Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://s3.tradingview.com/tv.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #020617;
+            --card-bg: rgba(15, 23, 42, 0.7);
+            --accent: #38bdf8;
+            --accent-glow: rgba(56, 189, 248, 0.15);
+        }
+        body { 
+            background-color: var(--bg-dark); 
+            color: #f8fafc;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-image: 
+                radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(124, 58, 237, 0.05) 0%, transparent 50%);
+            background-attachment: fixed;
+        }
+        .glass {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .glow-button {
+            transition: all 0.3s ease;
+            box-shadow: 0 0 0 0 rgba(56, 189, 248, 0);
+        }
+        .glow-button:hover {
+            box-shadow: 0 0 20px 0 rgba(56, 189, 248, 0.3);
+            transform: translateY(-1px);
+        }
+        .search-container {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .search-input {
+            width: 100%;
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.25rem 1.5rem 1.25rem 3.5rem;
+            border-radius: 1rem;
+            font-size: 1.125rem;
+            transition: all 0.2s;
+        }
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: rgba(30, 41, 59, 0.8);
+            box-shadow: 0 0 0 4px var(--accent-glow);
+        }
+        .ticker-card {
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .ticker-card:hover {
+            border-color: var(--accent);
+            background: rgba(56, 189, 248, 0.05);
+            transform: scale(1.02);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+    
+    <!-- Navigation Placeholder -->
+    <nav class="flex justify-between items-center mb-16 max-w-7xl mx-auto">
+        <div class="flex items-center gap-2">
+            <div class="w-10 h-10 bg-sky-500 rounded-xl flex items-center justify-center shadow-lg shadow-sky-500/20">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+            </div>
+            <span class="text-xl font-extrabold tracking-tight">QORTEX<span class="text-sky-500">AI</span></span>
+        </div>
+        <div class="hidden md:flex gap-8 text-sm font-medium text-slate-400">
+            <a href="#" class="hover:text-white transition">Dashboard</a>
+            <a href="#" class="hover:text-white transition">Portfolio</a>
+            <a href="#" class="hover:text-white transition">Scanner</a>
+            <a href="#" class="hover:text-white transition">Alpha Feed</a>
+        </div>
+        <button class="bg-slate-800 hover:bg-slate-700 px-5 py-2 rounded-full text-sm font-semibold transition border border-slate-700">Connect</button>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="text-center mb-16 max-w-4xl mx-auto">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-xs font-bold uppercase tracking-widest mb-6">
+            <span class="relative flex h-2 w-2">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-sky-500"></span>
+            </span>
+            Market Intelligence Engine v5.0
+        </div>
+        <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight hero-gradient">Institutional Grade <br/>Analysis for Every Trade</h1>
+        <p class="text-lg text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed">
+            Scan 1,000+ Russell stocks across 54 metrics. Real-time breakouts, moonshot acceleration, and institutional distribution modeling.
+        </p>
+
+        <!-- Centered Search/Command Bar -->
+        <div class="search-container">
+            <div class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-500">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            </div>
+            <input type="text" id="main-search" placeholder="Search ticker or command..." class="search-input">
+            <div class="absolute right-3 top-1/2 -translate-y-1/2 flex gap-2">
+                <kbd class="px-2 py-1 bg-slate-800 border border-slate-700 rounded text-[10px] text-slate-500 font-mono">⌘</kbd>
+                <kbd class="px-2 py-1 bg-slate-800 border border-slate-700 rounded text-[10px] text-slate-500 font-mono">K</kbd>
+            </div>
+        </div>
+    </header>
+
+    <!-- Stats Row -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto mb-16">
+        <div class="glass p-6 rounded-2xl text-center">
+            <div class="text-3xl font-bold mb-1">1,012</div>
+            <div class="text-xs text-slate-500 uppercase font-bold tracking-wider">Stocks Scanned</div>
+        </div>
+        <div class="glass p-6 rounded-2xl text-center">
+            <div class="text-3xl font-bold mb-1 text-emerald-400">83</div>
+            <div class="text-xs text-slate-500 uppercase font-bold tracking-wider">Top Grade A</div>
+        </div>
+        <div class="glass p-6 rounded-2xl text-center border-amber-500/20">
+            <div class="text-3xl font-bold mb-1 text-amber-500">High</div>
+            <div class="text-xs text-slate-500 uppercase font-bold tracking-wider">Volatility Alert</div>
+        </div>
+        <div class="glass p-6 rounded-2xl text-center">
+            <div class="text-3xl font-bold mb-1 text-sky-400">VRT</div>
+            <div class="text-xs text-slate-500 uppercase font-bold tracking-wider">Alpha Leader</div>
+        </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <main class="max-w-7xl mx-auto">
+        <div class="flex justify-between items-end mb-8">
+            <div>
+                <h3 class="text-xl font-bold mb-1">Market Leaders</h3>
+                <p class="text-sm text-slate-500">Top breakout candidates by InvestIQ score</p>
+            </div>
+            <div class="flex gap-2">
+                <button class="p-2 rounded-lg bg-slate-800 border border-slate-700 hover:text-sky-400 transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+                <button class="p-2 rounded-lg bg-sky-500 border border-sky-400 text-white">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Featured Ticker Grid (Dynamically Populated) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16" id="top-grid">
+            <!-- Cards will be injected here -->
+        </div>
+
+        <!-- Deep Data Table -->
+        <div class="glass rounded-3xl overflow-hidden mb-20">
+            <div class="p-6 border-b border-slate-800 flex justify-between items-center bg-slate-900/50">
+                <h4 class="font-bold">Full Terminal Data</h4>
+                <div class="text-xs text-slate-500">Sort by Score, Moonshot, or Grade</div>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="text-xs text-slate-500 uppercase font-bold border-b border-slate-800">
+                            <th class="p-6">Ticker</th>
+                            <th class="p-6">Company</th>
+                            <th class="p-6">Score</th>
+                            <th class="p-6">Moonshot</th>
+                            <th class="p-6">Technical</th>
+                            <th class="p-6">Grade</th>
+                        </tr>
+                    </thead>
+                    <tbody id="terminal-tbody">
+                        <!-- Table rows injected here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Mock data for initial layout testing
+        const topStocks = [
+            { ticker: 'VRT', name: 'Vertiv Holdings', score: 83, moonshot: 70, grade: 'A', change: '+16.1%' },
+            { ticker: 'RBA', name: 'RB Global Inc', score: 96, moonshot: 0, grade: 'A', change: '-13.9%' },
+            { ticker: 'HWM', name: 'Howmet Aerospace', score: 83, moonshot: 0, grade: 'A', change: '+11.1%' }
+        ];
+
+        function renderTopGrid() {
+            const container = document.getElementById('top-grid');
+            container.innerHTML = topStocks.map(s => `
+                <div class="glass p-8 rounded-3xl ticker-card">
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <div class="text-2xl font-black mb-1 tracking-tight">${s.ticker}</div>
+                            <div class="text-xs text-slate-500 font-medium">${s.name}</div>
+                        </div>
+                        <div class="px-3 py-1 bg-sky-500/10 text-sky-400 text-xs font-bold rounded-full border border-sky-500/20">${s.grade}</div>
+                    </div>
+                    <div class="flex items-end justify-between">
+                        <div>
+                            <div class="text-4xl font-bold mb-2">${s.score}<span class="text-slate-600 text-lg">/100</span></div>
+                            <div class="text-xs ${s.change.startsWith('+') ? 'text-emerald-400' : 'text-rose-400'} font-bold flex items-center gap-1">
+                                ${s.change.startsWith('+') ? '▲' : '▼'} ${s.change} <span class="text-slate-600 font-normal">this week</span>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-[10px] text-slate-500 uppercase font-bold tracking-widest mb-1">Moonshot</div>
+                            <div class="text-xl font-bold text-amber-500">${s.moonshot}%</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        renderTopGrid();
+    </script>
+</body>
+</html>
