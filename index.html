@@ -34,200 +34,317 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .glow-button {
-            transition: all 0.3s ease;
-            box-shadow: 0 0 0 0 rgba(56, 189, 248, 0);
-        }
-        .glow-button:hover {
-            box-shadow: 0 0 20px 0 rgba(56, 189, 248, 0.3);
-            transform: translateY(-1px);
-        }
-        .search-container {
-            position: relative;
-            max-width: 600px;
-            margin: 0 auto;
-        }
+        .search-container { position: relative; max-width: 600px; margin: 0 auto; }
         .search-input {
-            width: 100%;
-            background: rgba(30, 41, 59, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 1.25rem 1.5rem 1.25rem 3.5rem;
-            border-radius: 1rem;
-            font-size: 1.125rem;
-            transition: all 0.2s;
+            width: 100%; background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.25rem 1.5rem 1.25rem 3.5rem; border-radius: 1rem; font-size: 1.125rem; transition: all 0.2s;
         }
-        .search-input:focus {
-            outline: none;
-            border-color: var(--accent);
-            background: rgba(30, 41, 59, 0.8);
-            box-shadow: 0 0 0 4px var(--accent-glow);
-        }
-        .ticker-card {
-            transition: all 0.2s;
-            cursor: pointer;
-        }
-        .ticker-card:hover {
-            border-color: var(--accent);
-            background: rgba(56, 189, 248, 0.05);
-            transform: scale(1.02);
-        }
-        /* Custom scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+        .search-input:focus { outline: none; border-color: var(--accent); background: rgba(30, 41, 59, 0.8); box-shadow: 0 0 0 4px var(--accent-glow); }
+        .ticker-card { transition: all 0.2s; cursor: pointer; }
+        .ticker-card:hover { border-color: var(--accent); background: rgba(56, 189, 248, 0.05); transform: scale(1.02); }
+        
+        .grade-badge { padding: 4px 12px; border-radius: 20px; font-weight: 700; font-size: 0.7rem; }
+        .grade-A { background: #059669; color: white; }
+        .grade-B { background: #0284c7; color: white; }
+        .grade-C { background: #d97706; color: white; }
+        .grade-D { background: #7c3aed; color: white; }
+        .grade-F { background: #dc2626; color: white; }
+
+        .score-bar-bg { width: 60px; height: 6px; background: #1e293b; border-radius: 3px; overflow: hidden; }
+        .score-bar-fill { height: 100%; border-radius: 3px; }
+        
+        #detail-view { display: none; }
     </style>
 </head>
 <body class="min-h-screen p-4 md:p-8">
-    
-    <!-- Navigation Placeholder -->
-    <nav class="flex justify-between items-center mb-16 max-w-7xl mx-auto">
-        <div class="flex items-center gap-2">
+    <nav class="flex justify-between items-center mb-12 max-w-7xl mx-auto">
+        <div class="flex items-center gap-2 cursor-pointer" onclick="showDashboard()">
             <div class="w-10 h-10 bg-sky-500 rounded-xl flex items-center justify-center shadow-lg shadow-sky-500/20">
                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
             </div>
             <span class="text-xl font-extrabold tracking-tight">QORTEX<span class="text-sky-500">AI</span></span>
         </div>
         <div class="hidden md:flex gap-8 text-sm font-medium text-slate-400">
-            <a href="#" class="hover:text-white transition">Dashboard</a>
+            <a href="#" onclick="showDashboard()" class="hover:text-white transition">Dashboard</a>
             <a href="#" class="hover:text-white transition">Portfolio</a>
             <a href="#" class="hover:text-white transition">Scanner</a>
-            <a href="#" class="hover:text-white transition">Alpha Feed</a>
         </div>
         <button class="bg-slate-800 hover:bg-slate-700 px-5 py-2 rounded-full text-sm font-semibold transition border border-slate-700">Connect</button>
     </nav>
 
-    <!-- Hero Section -->
-    <header class="text-center mb-16 max-w-4xl mx-auto">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-xs font-bold uppercase tracking-widest mb-6">
-            <span class="relative flex h-2 w-2">
-              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-              <span class="relative inline-flex rounded-full h-2 w-2 bg-sky-500"></span>
-            </span>
-            Market Intelligence Engine v5.0
-        </div>
-        <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight hero-gradient">Institutional Grade <br/>Analysis for Every Trade</h1>
-        <p class="text-lg text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed">
-            Scan 1,000+ Russell stocks across 54 metrics. Real-time breakouts, moonshot acceleration, and institutional distribution modeling.
-        </p>
-
-        <!-- Centered Search/Command Bar -->
-        <div class="search-container">
-            <div class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-500">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-            </div>
-            <input type="text" id="main-search" placeholder="Search ticker or command..." class="search-input">
-            <div class="absolute right-3 top-1/2 -translate-y-1/2 flex gap-2">
-                <kbd class="px-2 py-1 bg-slate-800 border border-slate-700 rounded text-[10px] text-slate-500 font-mono">⌘</kbd>
-                <kbd class="px-2 py-1 bg-slate-800 border border-slate-700 rounded text-[10px] text-slate-500 font-mono">K</kbd>
-            </div>
-        </div>
-    </header>
-
-    <!-- Stats Row -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto mb-16">
-        <div class="glass p-6 rounded-2xl text-center">
-            <div class="text-3xl font-bold mb-1">1,012</div>
-            <div class="text-xs text-slate-500 uppercase font-bold tracking-wider">Stocks Scanned</div>
-        </div>
-        <div class="glass p-6 rounded-2xl text-center">
-            <div class="text-3xl font-bold mb-1 text-emerald-400">83</div>
-            <div class="text-xs text-slate-500 uppercase font-bold tracking-wider">Top Grade A</div>
-        </div>
-        <div class="glass p-6 rounded-2xl text-center border-amber-500/20">
-            <div class="text-3xl font-bold mb-1 text-amber-500">High</div>
-            <div class="text-xs text-slate-500 uppercase font-bold tracking-wider">Volatility Alert</div>
-        </div>
-        <div class="glass p-6 rounded-2xl text-center">
-            <div class="text-3xl font-bold mb-1 text-sky-400">VRT</div>
-            <div class="text-xs text-slate-500 uppercase font-bold tracking-wider">Alpha Leader</div>
-        </div>
-    </div>
-
-    <!-- Main Content Grid -->
     <main class="max-w-7xl mx-auto">
-        <div class="flex justify-between items-end mb-8">
-            <div>
-                <h3 class="text-xl font-bold mb-1">Market Leaders</h3>
-                <p class="text-sm text-slate-500">Top breakout candidates by InvestIQ score</p>
+        <!-- DASHBOARD VIEW -->
+        <div id="dashboard-view">
+            <header class="text-center mb-16 max-w-4xl mx-auto">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-xs font-bold uppercase tracking-widest mb-6">
+                    <span class="relative flex h-2 w-2">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2 bg-sky-500"></span>
+                    </span>
+                    Live Intelligence v5.0
+                </div>
+                <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight hero-gradient">Institutional Intelligence <br/>for Alpha Hunters</h1>
+                
+                <div class="search-container mt-10">
+                    <div class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-500">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    </div>
+                    <input type="text" id="main-search" list="ticker-list" placeholder="Enter Ticker (e.g. VRT)..." class="search-input">
+                </div>
+            </header>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16 max-w-5xl mx-auto">
+                <div class="glass p-6 rounded-2xl text-center">
+                    <div class="text-3xl font-bold mb-1" id="stat-scanned">0</div>
+                    <div class="text-[10px] text-slate-500 uppercase font-bold tracking-wider">Stocks Scanned</div>
+                </div>
+                <div class="glass p-6 rounded-2xl text-center">
+                    <div class="text-3xl font-bold mb-1 text-emerald-400" id="stat-a">0</div>
+                    <div class="text-[10px] text-slate-500 uppercase font-bold tracking-wider">Grade A Leaders</div>
+                </div>
+                <div class="glass p-6 rounded-2xl text-center">
+                    <div class="text-3xl font-bold mb-1 text-sky-400">VRT</div>
+                    <div class="text-[10px] text-slate-500 uppercase font-bold tracking-wider">Breakout Star</div>
+                </div>
+                <div class="glass p-6 rounded-2xl text-center">
+                    <div class="text-3xl font-bold mb-1 text-amber-500" id="stat-moons">0</div>
+                    <div class="text-[10px] text-slate-500 uppercase font-bold tracking-wider">Moonshot Ops</div>
+                </div>
             </div>
-            <div class="flex gap-2">
-                <button class="p-2 rounded-lg bg-slate-800 border border-slate-700 hover:text-sky-400 transition">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-                </button>
-                <button class="p-2 rounded-lg bg-sky-500 border border-sky-400 text-white">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path></svg>
-                </button>
+
+            <div class="flex justify-between items-end mb-8">
+                <h3 class="text-xl font-bold">Top Market Opportunities</h3>
+                <div class="text-xs text-slate-500">Last Scan: <span id="scan-time" class="text-sky-400">Loading...</span></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12" id="top-grid">
+                <!-- Top 3 dynamic cards -->
+            </div>
+
+            <div class="glass rounded-3xl overflow-hidden border border-slate-800">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr class="text-[10px] text-slate-500 uppercase font-bold border-b border-slate-800">
+                                <th class="p-6">Ticker</th>
+                                <th class="p-6">Score</th>
+                                <th class="p-6">Moonshot</th>
+                                <th class="p-6">Grade</th>
+                                <th class="p-6 text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="terminal-tbody">
+                            <!-- Table rows -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
-        <!-- Featured Ticker Grid (Dynamically Populated) -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16" id="top-grid">
-            <!-- Cards will be injected here -->
-        </div>
+        <!-- DETAIL VIEW -->
+        <div id="detail-view">
+            <button onclick="showDashboard()" class="mb-8 text-sm text-slate-400 hover:text-white flex items-center transition">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                Back to Dashboard
+            </button>
 
-        <!-- Deep Data Table -->
-        <div class="glass rounded-3xl overflow-hidden mb-20">
-            <div class="p-6 border-b border-slate-800 flex justify-between items-center bg-slate-900/50">
-                <h4 class="font-bold">Full Terminal Data</h4>
-                <div class="text-xs text-slate-500">Sort by Score, Moonshot, or Grade</div>
-            </div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-left">
-                    <thead>
-                        <tr class="text-xs text-slate-500 uppercase font-bold border-b border-slate-800">
-                            <th class="p-6">Ticker</th>
-                            <th class="p-6">Company</th>
-                            <th class="p-6">Score</th>
-                            <th class="p-6">Moonshot</th>
-                            <th class="p-6">Technical</th>
-                            <th class="p-6">Grade</th>
-                        </tr>
-                    </thead>
-                    <tbody id="terminal-tbody">
-                        <!-- Table rows injected here -->
-                    </tbody>
-                </table>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2">
+                    <div class="glass p-8 rounded-3xl mb-8">
+                        <div class="flex justify-between items-start mb-6">
+                            <div>
+                                <h1 id="detail-name" class="text-3xl font-bold mb-1">---</h1>
+                                <div id="detail-ticker-sector" class="text-slate-400 text-sm">---</div>
+                            </div>
+                            <div id="detail-grade" class="grade-badge text-sm px-4 py-1">---</div>
+                        </div>
+                        <div style="height: 400px; background: rgba(0,0,0,0.2); border-radius: 1rem;" id="tv-chart"></div>
+                    </div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+                        <div class="glass p-6 rounded-2xl border-sky-500/20">
+                            <div class="text-[10px] text-sky-500 uppercase font-bold mb-2">Technical</div>
+                            <div class="text-2xl font-bold" id="tech-score">0</div>
+                        </div>
+                        <div class="glass p-6 rounded-2xl border-emerald-500/20">
+                            <div class="text-[10px] text-emerald-500 uppercase font-bold mb-2">Growth</div>
+                            <div class="text-2xl font-bold" id="growth-score">0</div>
+                        </div>
+                        <div class="glass p-6 rounded-2xl border-purple-500/20">
+                            <div class="text-[10px] text-purple-500 uppercase font-bold mb-2">Quality</div>
+                            <div class="text-2xl font-bold" id="quality-score">0</div>
+                        </div>
+                        <div class="glass p-6 rounded-2xl border-amber-500/20">
+                            <div class="text-[10px] text-amber-500 uppercase font-bold mb-2">Context</div>
+                            <div class="text-2xl font-bold" id="context-score">0</div>
+                        </div>
+                        <div class="glass p-6 rounded-2xl border-rose-500/20">
+                            <div class="text-[10px] text-rose-500 uppercase font-bold mb-2">Moonshot</div>
+                            <div class="text-2xl font-bold" id="moonshot-score">0%</div>
+                        </div>
+                    </div>
+
+                    <div id="criteria-list" class="space-y-4"></div>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="glass p-6 rounded-2xl">
+                        <h3 class="text-xs font-bold uppercase text-slate-500 mb-6 tracking-widest">Valuation Intel</h3>
+                        <div class="space-y-4">
+                            <div class="flex justify-between"><div class="text-xs text-slate-500">Forward PE</div><div id="forward-pe" class="font-bold">---</div></div>
+                            <div class="flex justify-between"><div class="text-xs text-slate-500">Trailing PE</div><div id="trailing-pe" class="font-bold">---</div></div>
+                            <div class="flex justify-between border-t border-slate-800 pt-4"><div class="text-xs text-sky-400 font-bold uppercase">PEG Ratio</div><div id="peg-ratio" class="font-bold text-sky-400">---</div></div>
+                        </div>
+                    </div>
+                    <div class="glass p-6 rounded-2xl">
+                        <h3 class="text-xs font-bold uppercase text-slate-500 mb-6 tracking-widest">Analyst Sentiment</h3>
+                        <div class="space-y-4">
+                            <div class="flex justify-between"><div class="text-xs text-slate-500">Recommendation</div><div id="rec-key" class="font-bold text-emerald-400">---</div></div>
+                            <div class="flex justify-between"><div class="text-xs text-slate-500">Target Price</div><div id="target-price" class="font-bold">---</div></div>
+                        </div>
+                    </div>
+                    <div class="glass p-6 rounded-2xl">
+                        <h3 class="text-xs font-bold uppercase text-slate-500 mb-6 tracking-widest">📡 Recent Signals</h3>
+                        <div id="news-list" class="space-y-4"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
 
-    <script>
-        // Mock data for initial layout testing
-        const topStocks = [
-            { ticker: 'VRT', name: 'Vertiv Holdings', score: 83, moonshot: 70, grade: 'A', change: '+16.1%' },
-            { ticker: 'RBA', name: 'RB Global Inc', score: 96, moonshot: 0, grade: 'A', change: '-13.9%' },
-            { ticker: 'HWM', name: 'Howmet Aerospace', score: 83, moonshot: 0, grade: 'A', change: '+11.1%' }
-        ];
+    <datalist id="ticker-list"></datalist>
 
-        function renderTopGrid() {
-            const container = document.getElementById('top-grid');
-            container.innerHTML = topStocks.map(s => `
-                <div class="glass p-8 rounded-3xl ticker-card">
+    <script>
+        // Data injected by Flask
+        const stocksData = {{ stocks | tojson }};
+        let allStocksCache = null;
+
+        function init() {
+            renderDashboard();
+            populateDatalist();
+            document.getElementById('stat-scanned').textContent = stocksData.length;
+            document.getElementById('stat-a').textContent = stocksData.filter(s => s.grade === 'A').length;
+            document.getElementById('stat-moons').textContent = stocksData.filter(s => s.moonshot_score >= 50).length;
+            document.getElementById('scan-time').textContent = "{{ last_scan }}";
+            
+            document.getElementById('main-search').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') viewStock(e.target.value);
+            });
+            
+            loadAllStocks();
+        }
+
+        function populateDatalist() {
+            document.getElementById('ticker-list').innerHTML = stocksData.map(s => `<option value="${s.ticker}">${s.name}</option>`).join('');
+        }
+
+        function renderDashboard() {
+            // Top Grid (Top 3)
+            const sorted = [...stocksData].sort((a,b) => b.score - a.score);
+            document.getElementById('top-grid').innerHTML = sorted.slice(0,3).map(s => `
+                <div class="glass p-8 rounded-3xl ticker-card border-slate-800" onclick="viewStock('${s.ticker}')">
                     <div class="flex justify-between items-start mb-6">
-                        <div>
-                            <div class="text-2xl font-black mb-1 tracking-tight">${s.ticker}</div>
-                            <div class="text-xs text-slate-500 font-medium">${s.name}</div>
-                        </div>
-                        <div class="px-3 py-1 bg-sky-500/10 text-sky-400 text-xs font-bold rounded-full border border-sky-500/20">${s.grade}</div>
+                        <div class="text-2xl font-black tracking-tight">${s.ticker}</div>
+                        <div class="grade-badge grade-${s.grade}">${s.grade}</div>
                     </div>
-                    <div class="flex items-end justify-between">
-                        <div>
-                            <div class="text-4xl font-bold mb-2">${s.score}<span class="text-slate-600 text-lg">/100</span></div>
-                            <div class="text-xs ${s.change.startsWith('+') ? 'text-emerald-400' : 'text-rose-400'} font-bold flex items-center gap-1">
-                                ${s.change.startsWith('+') ? '▲' : '▼'} ${s.change} <span class="text-slate-600 font-normal">this week</span>
-                            </div>
-                        </div>
-                        <div class="text-right">
-                            <div class="text-[10px] text-slate-500 uppercase font-bold tracking-widest mb-1">Moonshot</div>
-                            <div class="text-xl font-bold text-amber-500">${s.moonshot}%</div>
-                        </div>
-                    </div>
+                    <div class="text-4xl font-bold mb-1">${s.score}<span class="text-slate-600 text-lg">/100</span></div>
+                    <div class="text-[10px] text-slate-500 uppercase font-bold tracking-widest">InvestIQ Score</div>
                 </div>
+            `).join('');
+
+            // Terminal Table (Rest of top 50)
+            document.getElementById('terminal-tbody').innerHTML = sorted.slice(0,50).map(s => `
+                <tr class="border-b border-slate-900/50 hover:bg-white/5 transition cursor-pointer" onclick="viewStock('${s.ticker}')">
+                    <td class="p-6 font-bold text-sky-400">${s.ticker}</td>
+                    <td class="p-6">
+                        <div class="flex items-center gap-4">
+                            <div class="score-bar-bg"><div class="score-bar-fill bg-sky-500" style="width: ${s.score}%"></div></div>
+                            <span class="text-sm font-bold">${s.score}</span>
+                        </div>
+                    </td>
+                    <td class="p-6 text-amber-500 font-bold text-sm">${s.moonshot_score || 0}%</td>
+                    <td class="p-6"><span class="grade-badge grade-${s.grade}">${s.grade}</span></td>
+                    <td class="p-6 text-right"><button class="text-[10px] font-bold uppercase tracking-widest text-slate-500 hover:text-white">Analyze</button></td>
+                </tr>
             `).join('');
         }
 
-        renderTopGrid();
+        async function loadAllStocks() {
+            if (allStocksCache) return allStocksCache;
+            try {
+                const res = await fetch('/api/all_stocks');
+                allStocksCache = await res.json();
+                return allStocksCache;
+            } catch (err) { console.error('Failed to load full cache', err); }
+        }
+
+        async function viewStock(ticker) {
+            ticker = ticker.toUpperCase();
+            document.getElementById('dashboard-view').style.display = 'none';
+            document.getElementById('detail-view').style.display = 'block';
+            window.scrollTo(0,0);
+
+            try {
+                const allData = await loadAllStocks();
+                const data = allData.stocks[ticker];
+                if (!data) throw new Error("Ticker not found");
+
+                document.getElementById('detail-name').innerText = data.name;
+                document.getElementById('detail-ticker-sector').innerText = `${data.ticker} • ${data.sector} • ${data.industry}`;
+                document.getElementById('detail-grade').innerText = data.grade;
+                document.getElementById('detail-grade').className = `grade-badge text-sm px-4 py-1 grade-${data.grade}`;
+                
+                document.getElementById('tech-score').innerText = data.technical_score;
+                document.getElementById('growth-score').innerText = data.growth_score;
+                document.getElementById('quality-score').innerText = data.quality_score;
+                document.getElementById('context-score').innerText = data.context_score;
+                document.getElementById('moonshot-score').innerText = (data.moonshot_score || 0) + '%';
+
+                document.getElementById('forward-pe').innerText = data.forward_pe?.toFixed(2) || 'N/A';
+                document.getElementById('trailing-pe').innerText = data.trailing_pe?.toFixed(2) || 'N/A';
+                document.getElementById('peg-ratio').innerText = data.peg_ratio?.toFixed(2) || 'N/A';
+                document.getElementById('rec-key').innerText = data.recommendation?.toUpperCase() || 'N/A';
+                document.getElementById('target-price').innerText = data.target_mean ? '$'+data.target_mean.toFixed(2) : 'N/A';
+
+                document.getElementById('criteria-list').innerHTML = data.criteria.map(c => `
+                    <div class="glass p-6 rounded-2xl flex justify-between items-center">
+                        <div>
+                            <div class="font-bold text-sm">${c.name}</div>
+                            <div class="text-[10px] text-slate-500 uppercase">${c.category} • ${c.threshold}</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-bold ${c.passed ? 'text-emerald-400' : 'text-rose-400'}">${c.value}</div>
+                            <div class="text-[10px] font-bold ${c.passed ? 'text-emerald-600' : 'text-rose-600'}">${c.passed ? '✓ PASSED' : '✗ FAILED'} (+${c.points})</div>
+                        </div>
+                    </div>
+                `).join('');
+
+                // Load News
+                fetch(`/api/news/${ticker}`).then(r => r.json()).then(news => {
+                    document.getElementById('news-list').innerHTML = news.news.slice(0,5).map(n => `
+                        <div>
+                            <a href="${n.link}" target="_blank" class="text-xs font-bold hover:text-sky-400 transition leading-relaxed block mb-1">${n.title}</a>
+                            <div class="text-[10px] text-slate-500">${n.publisher} • ${n.time}</div>
+                        </div>
+                    `).join('');
+                });
+
+                // Load Chart
+                new TradingView.widget({
+                    "width": "100%", "height": "100%", "symbol": ticker, "interval": "D",
+                    "timezone": "Etc/UTC", "theme": "dark", "style": "1", "locale": "en",
+                    "container_id": "tv-chart", "autosize": true, "hide_side_toolbar": false
+                });
+
+            } catch (err) { alert(err.message); showDashboard(); }
+        }
+
+        function showDashboard() {
+            document.getElementById('dashboard-view').style.display = 'block';
+            document.getElementById('detail-view').style.display = 'none';
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
