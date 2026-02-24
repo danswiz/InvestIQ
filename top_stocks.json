@@ -1,7 +1,7 @@
 {
   "version": "4.3",
   "max_score": 100,
-  "last_scan": "2026-02-23 05:30 PST",
+  "last_scan": "2026-02-24 05:30 PST",
   "total_stocks": 68,
   "stocks": [
     {
@@ -12,7 +12,7 @@
       "score": 86,
       "max_score": 100,
       "grade": "A",
-      "market_cap": 49024753664,
+      "market_cap": 48273334272,
       "technical_score": 53,
       "growth_score": 15,
       "quality_score": 13,
@@ -24,7 +24,7 @@
           "category": "Momentum",
           "passed": true,
           "points": 8,
-          "value": "$349.79 > 50d($333.09) > 200d($316.17)",
+          "value": "$346.27 > 50d($333.90) > 200d($316.59)",
           "threshold": "Price > 50d > 200d"
         },
         {
@@ -32,7 +32,7 @@
           "category": "Breakout",
           "passed": true,
           "points": 22,
-          "value": "3.3% from base, drift: 7.2%",
+          "value": "4.3% from base, drift: 7.2%",
           "threshold": "< 5% from ceiling, < 10% drift"
         },
         {
@@ -48,7 +48,7 @@
           "category": "Breakout",
           "passed": true,
           "points": 8,
-          "value": "110% of avg (0.5M vs 0.5M)",
+          "value": "120% of avg (0.6M vs 0.5M)",
           "threshold": "5d vol < 1.2x 50d vol"
         },
         {
@@ -56,7 +56,7 @@
           "category": "Timing",
           "passed": true,
           "points": 5,
-          "value": "96.7% of 52W high ($361.69)",
+          "value": "95.7% of 52W high ($361.69)",
           "threshold": "> 90% of 52W high"
         },
         {
@@ -64,7 +64,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "103.3% of 20d ATR ($8.78 vs $8.50)",
+          "value": "106.8% of 20d ATR ($8.96 vs $8.39)",
           "threshold": "14d ATR < 80% of 20d ATR"
         },
         {
@@ -128,17 +128,17 @@
           "category": "Context",
           "passed": false,
           "points": 0,
-          "value": "+0.6%",
+          "value": "+2.0%",
           "threshold": "> 5% vs Market"
         }
       ],
-      "forward_pe": 55.92913,
-      "trailing_pe": 71.914116,
+      "forward_pe": 54.969334,
+      "trailing_pe": 70.38008,
       "peg_ratio": null,
-      "recommendation": "none",
+      "recommendation": "buy",
       "target_mean": 373.55557,
       "analyst_count": 18,
-      "current_price": 351.66
+      "current_price": 346.27
     },
     {
       "ticker": "NVT",
@@ -284,7 +284,7 @@
       "score": 82,
       "max_score": 100,
       "grade": "A",
-      "market_cap": 23269818368,
+      "market_cap": 22454599680,
       "technical_score": 53,
       "growth_score": 16,
       "quality_score": 8,
@@ -296,7 +296,7 @@
           "category": "Momentum",
           "passed": true,
           "points": 8,
-          "value": "$41.88 > 50d($38.20) > 200d($36.22)",
+          "value": "$40.49 > 50d($38.23) > 200d($36.29)",
           "threshold": "Price > 50d > 200d"
         },
         {
@@ -304,7 +304,7 @@
           "category": "Breakout",
           "passed": true,
           "points": 22,
-          "value": "1.1% from base, drift: -2.5%",
+          "value": "4.4% from base, drift: -2.5%",
           "threshold": "< 5% from ceiling, < 10% drift"
         },
         {
@@ -320,7 +320,7 @@
           "category": "Breakout",
           "passed": true,
           "points": 8,
-          "value": "80% of avg (3.0M vs 3.7M)",
+          "value": "96% of avg (3.5M vs 3.7M)",
           "threshold": "5d vol < 1.2x 50d vol"
         },
         {
@@ -328,7 +328,7 @@
           "category": "Timing",
           "passed": true,
           "points": 5,
-          "value": "97.9% of 52W high ($42.76)",
+          "value": "94.7% of 52W high ($42.76)",
           "threshold": "> 90% of 52W high"
         },
         {
@@ -336,7 +336,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "107.3% of 20d ATR ($1.74 vs $1.62)",
+          "value": "108.1% of 20d ATR ($1.77 vs $1.64)",
           "threshold": "14d ATR < 80% of 20d ATR"
         },
         {
@@ -400,17 +400,17 @@
           "category": "Context",
           "passed": true,
           "points": 5,
-          "value": "+16.8%",
+          "value": "+11.0%",
           "threshold": "> 5% vs Market"
         }
       ],
-      "forward_pe": 35.758724,
-      "trailing_pe": 76.29091,
+      "forward_pe": 34.505978,
+      "trailing_pe": 73.61819,
       "peg_ratio": null,
       "recommendation": "strong_buy",
       "target_mean": 47.69565,
       "analyst_count": 23,
-      "current_price": 41.96
+      "current_price": 40.49
     },
     {
       "ticker": "ONON",
@@ -840,7 +840,7 @@
           "category": "Momentum",
           "passed": true,
           "points": 8,
-          "value": "$425.37 > 50d($344.55) > 200d($199.31)",
+          "value": "$420.97 > 50d($347.92) > 200d($201.01)",
           "threshold": "Price > 50d > 200d"
         },
         {
@@ -848,7 +848,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "6.6% from base, drift: 77.3%",
+          "value": "7.6% from base, drift: 74.9%",
           "threshold": "< 5% from ceiling, < 10% drift"
         },
         {
@@ -864,7 +864,7 @@
           "category": "Breakout",
           "passed": true,
           "points": 8,
-          "value": "82% of avg (28.4M vs 34.5M)",
+          "value": "77% of avg (26.7M vs 34.7M)",
           "threshold": "5d vol < 1.2x 50d vol"
         },
         {
@@ -872,7 +872,7 @@
           "category": "Timing",
           "passed": true,
           "points": 5,
-          "value": "93.4% of 52W high ($455.50)",
+          "value": "92.4% of 52W high ($455.50)",
           "threshold": "> 90% of 52W high"
         },
         {
@@ -880,7 +880,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "101.4% of 20d ATR ($26.13 vs $25.77)",
+          "value": "98.0% of 20d ATR ($24.99 vs $25.51)",
           "threshold": "14d ATR < 80% of 20d ATR"
         },
         {
@@ -944,7 +944,7 @@
           "category": "Context",
           "passed": true,
           "points": 5,
-          "value": "+9.3%",
+          "value": "+5.9%",
           "threshold": "> 5% vs Market"
         }
       ],
@@ -1229,142 +1229,6 @@
       "current_price": 25.645
     },
     {
-      "ticker": "APH",
-      "name": "Amphenol Corporation",
-      "sector": "Technology",
-      "industry": "Electronic Components",
-      "score": 69,
-      "max_score": 100,
-      "grade": "B",
-      "market_cap": 185660620800,
-      "technical_score": 31,
-      "growth_score": 20,
-      "quality_score": 13,
-      "context_score": 5,
-      "moonshot_score": 60,
-      "criteria": [
-        {
-          "name": "Trend Alignment",
-          "category": "Momentum",
-          "passed": true,
-          "points": 8,
-          "value": "$151.12 > 50d($142.31) > 200d($119.56)",
-          "threshold": "Price > 50d > 200d"
-        },
-        {
-          "name": "Breakout Pattern",
-          "category": "Breakout",
-          "passed": false,
-          "points": 0,
-          "value": "9.5% from base, drift: 15.9%",
-          "threshold": "< 5% from ceiling, < 10% drift"
-        },
-        {
-          "name": "Consolidation",
-          "category": "Breakout",
-          "passed": true,
-          "points": 10,
-          "value": "37.5% depth ($104.36 - $167.04)",
-          "threshold": "Base depth < 45%"
-        },
-        {
-          "name": "Volume Dry-up",
-          "category": "Breakout",
-          "passed": true,
-          "points": 8,
-          "value": "69% of avg (6.7M vs 9.8M)",
-          "threshold": "5d vol < 1.2x 50d vol"
-        },
-        {
-          "name": "52W Proximity",
-          "category": "Timing",
-          "passed": true,
-          "points": 5,
-          "value": "90.5% of 52W high ($167.04)",
-          "threshold": "> 90% of 52W high"
-        },
-        {
-          "name": "Volatility Compression",
-          "category": "Timing",
-          "passed": false,
-          "points": 0,
-          "value": "97.0% of 20d ATR ($6.82 vs $7.03)",
-          "threshold": "14d ATR < 80% of 20d ATR"
-        },
-        {
-          "name": "Sales Growth (2yr)",
-          "category": "Growth",
-          "passed": true,
-          "points": 17,
-          "value": "49.1% (avg: 35.2%)",
-          "threshold": "Both years >= 10% required"
-        },
-        {
-          "name": "Earnings Growth",
-          "category": "Growth",
-          "passed": true,
-          "points": 3,
-          "value": "57.6%",
-          "threshold": "> 15%"
-        },
-        {
-          "name": "ROE Quality",
-          "category": "Quality",
-          "passed": true,
-          "points": 5,
-          "value": "36.9%",
-          "threshold": "> 15%"
-        },
-        {
-          "name": "Operating Margin",
-          "category": "Quality",
-          "passed": true,
-          "points": 5,
-          "value": "27.5%",
-          "threshold": "> 10%"
-        },
-        {
-          "name": "Valuation Sanity",
-          "category": "Quality",
-          "passed": false,
-          "points": 0,
-          "value": "N/A",
-          "threshold": "PEG < 2.0"
-        },
-        {
-          "name": "FCF Quality",
-          "category": "Quality",
-          "passed": true,
-          "points": 3,
-          "value": "$3.28B",
-          "threshold": "FCF > 0"
-        },
-        {
-          "name": "Industry Strength",
-          "category": "Context",
-          "passed": true,
-          "points": 5,
-          "value": "Technology",
-          "threshold": "High-Conviction Sector"
-        },
-        {
-          "name": "Relative Strength",
-          "category": "Context",
-          "passed": false,
-          "points": 0,
-          "value": "-2.3%",
-          "threshold": "> 5% vs Market"
-        }
-      ],
-      "forward_pe": 29.342226,
-      "trailing_pe": 45.221558,
-      "peg_ratio": null,
-      "recommendation": "buy",
-      "target_mean": 168.20833,
-      "analyst_count": 18,
-      "current_price": 151.04
-    },
-    {
       "ticker": "IBKR",
       "name": "Interactive Brokers Group, Inc.",
       "sector": "Financial Services",
@@ -1372,7 +1236,7 @@
       "score": 67,
       "max_score": 100,
       "grade": "B",
-      "market_cap": 126466850816,
+      "market_cap": 121613533184,
       "technical_score": 31,
       "growth_score": 26,
       "quality_score": 10,
@@ -1384,7 +1248,7 @@
           "category": "Momentum",
           "passed": true,
           "points": 8,
-          "value": "$73.85 > 50d($70.85) > 200d($63.73)",
+          "value": "$71.54 > 50d($70.97) > 200d($63.87)",
           "threshold": "Price > 50d > 200d"
         },
         {
@@ -1392,7 +1256,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "6.7% from base, drift: 8.1%",
+          "value": "9.6% from base, drift: 8.1%",
           "threshold": "< 5% from ceiling, < 10% drift"
         },
         {
@@ -1408,7 +1272,7 @@
           "category": "Breakout",
           "passed": true,
           "points": 8,
-          "value": "80% of avg (3.7M vs 4.6M)",
+          "value": "77% of avg (3.6M vs 4.6M)",
           "threshold": "5d vol < 1.2x 50d vol"
         },
         {
@@ -1416,7 +1280,7 @@
           "category": "Timing",
           "passed": true,
           "points": 5,
-          "value": "93.3% of 52W high ($79.18)",
+          "value": "90.4% of 52W high ($79.18)",
           "threshold": "> 90% of 52W high"
         },
         {
@@ -1424,7 +1288,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "109.5% of 20d ATR ($3.27 vs $2.99)",
+          "value": "103.3% of 20d ATR ($3.20 vs $3.10)",
           "threshold": "14d ATR < 80% of 20d ATR"
         },
         {
@@ -1488,17 +1352,17 @@
           "category": "Context",
           "passed": false,
           "points": 0,
-          "value": "-2.6%",
+          "value": "-7.3%",
           "threshold": "> 5% vs Market"
         }
       ],
-      "forward_pe": 27.018438,
-      "trailing_pe": 33.51126,
+      "forward_pe": 25.981573,
+      "trailing_pe": 32.225224,
       "peg_ratio": null,
       "recommendation": "buy",
       "target_mean": 80.66667,
       "analyst_count": 9,
-      "current_price": 74.395
+      "current_price": 71.54
     },
     {
       "ticker": "NVDA",
@@ -1645,278 +1509,6 @@
       "current_price": 189.8998
     },
     {
-      "ticker": "APLS",
-      "name": "Apellis Pharmaceuticals, Inc.",
-      "sector": "Healthcare",
-      "industry": "Biotechnology",
-      "score": 66,
-      "max_score": 100,
-      "grade": "B",
-      "market_cap": 2818981888,
-      "technical_score": 18,
-      "growth_score": 30,
-      "quality_score": 8,
-      "context_score": 10,
-      "moonshot_score": 60,
-      "criteria": [
-        {
-          "name": "Trend Alignment",
-          "category": "Momentum",
-          "passed": false,
-          "points": 0,
-          "value": "$22.31 > 50d($23.44) > 200d($22.26)",
-          "threshold": "Price > 50d > 200d"
-        },
-        {
-          "name": "Breakout Pattern",
-          "category": "Breakout",
-          "passed": false,
-          "points": 0,
-          "value": "26.8% from base, drift: -9.9%",
-          "threshold": "< 5% from ceiling, < 10% drift"
-        },
-        {
-          "name": "Consolidation",
-          "category": "Breakout",
-          "passed": true,
-          "points": 10,
-          "value": "38.5% depth ($18.75 - $30.48)",
-          "threshold": "Base depth < 45%"
-        },
-        {
-          "name": "Volume Dry-up",
-          "category": "Breakout",
-          "passed": true,
-          "points": 8,
-          "value": "53% of avg (1.5M vs 2.9M)",
-          "threshold": "5d vol < 1.2x 50d vol"
-        },
-        {
-          "name": "52W Proximity",
-          "category": "Timing",
-          "passed": false,
-          "points": 0,
-          "value": "73.2% of 52W high ($30.48)",
-          "threshold": "> 90% of 52W high"
-        },
-        {
-          "name": "Volatility Compression",
-          "category": "Timing",
-          "passed": false,
-          "points": 0,
-          "value": "97.2% of 20d ATR ($1.02 vs $1.05)",
-          "threshold": "14d ATR < 80% of 20d ATR"
-        },
-        {
-          "name": "Sales Growth (2yr)",
-          "category": "Growth",
-          "passed": true,
-          "points": 30,
-          "value": "133.0% (avg: 279.4%)",
-          "threshold": "Both years >= 10% required"
-        },
-        {
-          "name": "Earnings Growth",
-          "category": "Growth",
-          "passed": false,
-          "points": 0,
-          "value": "N/A",
-          "threshold": "> 15%"
-        },
-        {
-          "name": "ROE Quality",
-          "category": "Quality",
-          "passed": false,
-          "points": 0,
-          "value": "14.1%",
-          "threshold": "> 15%"
-        },
-        {
-          "name": "Operating Margin",
-          "category": "Quality",
-          "passed": true,
-          "points": 5,
-          "value": "48.7%",
-          "threshold": "> 10%"
-        },
-        {
-          "name": "Valuation Sanity",
-          "category": "Quality",
-          "passed": false,
-          "points": 0,
-          "value": "N/A",
-          "threshold": "PEG < 2.0"
-        },
-        {
-          "name": "FCF Quality",
-          "category": "Quality",
-          "passed": true,
-          "points": 3,
-          "value": "$0.05B",
-          "threshold": "FCF > 0"
-        },
-        {
-          "name": "Industry Strength",
-          "category": "Context",
-          "passed": true,
-          "points": 5,
-          "value": "Healthcare",
-          "threshold": "High-Conviction Sector"
-        },
-        {
-          "name": "Relative Strength",
-          "category": "Context",
-          "passed": true,
-          "points": 5,
-          "value": "+6.5%",
-          "threshold": "> 5% vs Market"
-        }
-      ],
-      "forward_pe": -17.120552,
-      "trailing_pe": 61.88889,
-      "peg_ratio": null,
-      "recommendation": "buy",
-      "target_mean": 33.94737,
-      "analyst_count": 19,
-      "current_price": 22.28
-    },
-    {
-      "ticker": "COLB",
-      "name": "Columbia Banking System, Inc.",
-      "sector": "Financial Services",
-      "industry": "Banks - Regional",
-      "score": 65,
-      "max_score": 100,
-      "grade": "B",
-      "market_cap": 9500082176,
-      "technical_score": 31,
-      "growth_score": 24,
-      "quality_score": 5,
-      "context_score": 5,
-      "moonshot_score": 60,
-      "criteria": [
-        {
-          "name": "Trend Alignment",
-          "category": "Momentum",
-          "passed": true,
-          "points": 8,
-          "value": "$31.61 > 50d($29.54) > 200d($25.98)",
-          "threshold": "Price > 50d > 200d"
-        },
-        {
-          "name": "Breakout Pattern",
-          "category": "Breakout",
-          "passed": false,
-          "points": 0,
-          "value": "3.3% from base, drift: 20.6%",
-          "threshold": "< 5% from ceiling, < 10% drift"
-        },
-        {
-          "name": "Consolidation",
-          "category": "Breakout",
-          "passed": true,
-          "points": 10,
-          "value": "28.1% depth ($23.52 - $32.70)",
-          "threshold": "Base depth < 45%"
-        },
-        {
-          "name": "Volume Dry-up",
-          "category": "Breakout",
-          "passed": true,
-          "points": 8,
-          "value": "104% of avg (2.8M vs 2.7M)",
-          "threshold": "5d vol < 1.2x 50d vol"
-        },
-        {
-          "name": "52W Proximity",
-          "category": "Timing",
-          "passed": true,
-          "points": 5,
-          "value": "96.7% of 52W high ($32.70)",
-          "threshold": "> 90% of 52W high"
-        },
-        {
-          "name": "Volatility Compression",
-          "category": "Timing",
-          "passed": false,
-          "points": 0,
-          "value": "100.8% of 20d ATR ($0.94 vs $0.94)",
-          "threshold": "14d ATR < 80% of 20d ATR"
-        },
-        {
-          "name": "Sales Growth (2yr)",
-          "category": "Growth",
-          "passed": true,
-          "points": 24,
-          "value": "51.2% (avg: 54.3%)",
-          "threshold": "Both years >= 10% required"
-        },
-        {
-          "name": "Earnings Growth",
-          "category": "Growth",
-          "passed": false,
-          "points": 0,
-          "value": "5.9%",
-          "threshold": "> 15%"
-        },
-        {
-          "name": "ROE Quality",
-          "category": "Quality",
-          "passed": false,
-          "points": 0,
-          "value": "8.5%",
-          "threshold": "> 15%"
-        },
-        {
-          "name": "Operating Margin",
-          "category": "Quality",
-          "passed": true,
-          "points": 5,
-          "value": "52.9%",
-          "threshold": "> 10%"
-        },
-        {
-          "name": "Valuation Sanity",
-          "category": "Quality",
-          "passed": false,
-          "points": 0,
-          "value": "N/A",
-          "threshold": "PEG < 2.0"
-        },
-        {
-          "name": "FCF Quality",
-          "category": "Quality",
-          "passed": false,
-          "points": 0,
-          "value": "N/A",
-          "threshold": "FCF > 0"
-        },
-        {
-          "name": "Industry Strength",
-          "category": "Context",
-          "passed": false,
-          "points": 0,
-          "value": "Financial Services",
-          "threshold": "High-Conviction Sector"
-        },
-        {
-          "name": "Relative Strength",
-          "category": "Context",
-          "passed": true,
-          "points": 5,
-          "value": "+6.4%",
-          "threshold": "> 5% vs Market"
-        }
-      ],
-      "forward_pe": 9.398842,
-      "trailing_pe": 13.808696,
-      "peg_ratio": null,
-      "recommendation": "none",
-      "target_mean": 32.57692,
-      "analyst_count": 13,
-      "current_price": 31.76
-    },
-    {
       "ticker": "VIK",
       "name": "Viking Holdings Ltd",
       "sector": "Consumer Cyclical",
@@ -2053,6 +1645,142 @@
       "current_price": 78.42
     },
     {
+      "ticker": "APH",
+      "name": "Amphenol Corporation",
+      "sector": "Technology",
+      "industry": "Electronic Components",
+      "score": 64,
+      "max_score": 100,
+      "grade": "B",
+      "market_cap": 181702574080,
+      "technical_score": 26,
+      "growth_score": 20,
+      "quality_score": 13,
+      "context_score": 5,
+      "moonshot_score": 60,
+      "criteria": [
+        {
+          "name": "Trend Alignment",
+          "category": "Momentum",
+          "passed": true,
+          "points": 8,
+          "value": "$147.82 > 50d($142.50) > 200d($119.91)",
+          "threshold": "Price > 50d > 200d"
+        },
+        {
+          "name": "Breakout Pattern",
+          "category": "Breakout",
+          "passed": false,
+          "points": 0,
+          "value": "11.5% from base, drift: 15.9%",
+          "threshold": "< 5% from ceiling, < 10% drift"
+        },
+        {
+          "name": "Consolidation",
+          "category": "Breakout",
+          "passed": true,
+          "points": 10,
+          "value": "37.5% depth ($104.36 - $167.04)",
+          "threshold": "Base depth < 45%"
+        },
+        {
+          "name": "Volume Dry-up",
+          "category": "Breakout",
+          "passed": true,
+          "points": 8,
+          "value": "62% of avg (6.0M vs 9.8M)",
+          "threshold": "5d vol < 1.2x 50d vol"
+        },
+        {
+          "name": "52W Proximity",
+          "category": "Timing",
+          "passed": false,
+          "points": 0,
+          "value": "88.5% of 52W high ($167.04)",
+          "threshold": "> 90% of 52W high"
+        },
+        {
+          "name": "Volatility Compression",
+          "category": "Timing",
+          "passed": false,
+          "points": 0,
+          "value": "96.6% of 20d ATR ($6.82 vs $7.06)",
+          "threshold": "14d ATR < 80% of 20d ATR"
+        },
+        {
+          "name": "Sales Growth (2yr)",
+          "category": "Growth",
+          "passed": true,
+          "points": 17,
+          "value": "49.1% (avg: 35.2%)",
+          "threshold": "Both years >= 10% required"
+        },
+        {
+          "name": "Earnings Growth",
+          "category": "Growth",
+          "passed": true,
+          "points": 3,
+          "value": "57.6%",
+          "threshold": "> 15%"
+        },
+        {
+          "name": "ROE Quality",
+          "category": "Quality",
+          "passed": true,
+          "points": 5,
+          "value": "36.9%",
+          "threshold": "> 15%"
+        },
+        {
+          "name": "Operating Margin",
+          "category": "Quality",
+          "passed": true,
+          "points": 5,
+          "value": "27.5%",
+          "threshold": "> 10%"
+        },
+        {
+          "name": "Valuation Sanity",
+          "category": "Quality",
+          "passed": false,
+          "points": 0,
+          "value": "N/A",
+          "threshold": "PEG < 2.0"
+        },
+        {
+          "name": "FCF Quality",
+          "category": "Quality",
+          "passed": true,
+          "points": 3,
+          "value": "$3.28B",
+          "threshold": "FCF > 0"
+        },
+        {
+          "name": "Industry Strength",
+          "category": "Context",
+          "passed": true,
+          "points": 5,
+          "value": "Technology",
+          "threshold": "High-Conviction Sector"
+        },
+        {
+          "name": "Relative Strength",
+          "category": "Context",
+          "passed": false,
+          "points": 0,
+          "value": "-3.1%",
+          "threshold": "> 5% vs Market"
+        }
+      ],
+      "forward_pe": 28.716686,
+      "trailing_pe": 44.25749,
+      "peg_ratio": null,
+      "recommendation": "none",
+      "target_mean": 168.20833,
+      "analyst_count": 18,
+      "current_price": 147.82
+    },
+    {
       "ticker": "HEI-A",
       "name": "Heico Corporation",
       "sector": "Industrials",
@@ -2060,7 +1788,7 @@
       "score": 64,
       "max_score": 100,
       "grade": "B",
-      "market_cap": 40703070208,
+      "market_cap": 40275206144,
       "technical_score": 31,
       "growth_score": 15,
       "quality_score": 13,
@@ -2072,7 +1800,7 @@
           "category": "Momentum",
           "passed": true,
           "points": 8,
-          "value": "$260.76 > 50d($257.12) > 200d($247.08)",
+          "value": "$258.86 > 50d($257.53) > 200d($247.33)",
           "threshold": "Price > 50d > 200d"
         },
         {
@@ -2080,7 +1808,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "6.8% from base, drift: 6.1%",
+          "value": "7.4% from base, drift: 6.1%",
           "threshold": "< 5% from ceiling, < 10% drift"
         },
         {
@@ -2104,7 +1832,7 @@
           "category": "Timing",
           "passed": true,
           "points": 5,
-          "value": "93.2% of 52W high ($279.66)",
+          "value": "92.6% of 52W high ($279.66)",
           "threshold": "> 90% of 52W high"
         },
         {
@@ -2112,7 +1840,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "103.5% of 20d ATR ($6.56 vs $6.33)",
+          "value": "103.8% of 20d ATR ($6.51 vs $6.27)",
           "threshold": "14d ATR < 80% of 20d ATR"
         },
         {
@@ -2176,17 +1904,161 @@
           "category": "Context",
           "passed": false,
           "points": 0,
-          "value": "-3.1%",
+          "value": "-1.2%",
           "threshold": "> 5% vs Market"
         }
       ],
-      "forward_pe": 60.69837,
-      "trailing_pe": 53.498978,
+      "forward_pe": 60.06032,
+      "trailing_pe": 52.936604,
       "peg_ratio": null,
       "recommendation": "none",
       "target_mean": 280.0,
       "analyst_count": 1,
-      "current_price": 261.61
+      "current_price": 258.86
+    },
+    {
+      "ticker": "LLY",
+      "name": "Eli Lilly and Company",
+      "sector": "Healthcare",
+      "industry": "Drug Manufacturers - General",
+      "score": 64,
+      "max_score": 100,
+      "grade": "B",
+      "market_cap": 998600474624,
+      "technical_score": 31,
+      "growth_score": 20,
+      "quality_score": 13,
+      "context_score": 0,
+      "moonshot_score": 30,
+      "criteria": [
+        {
+          "name": "Trend Alignment",
+          "category": "Momentum",
+          "passed": true,
+          "points": 8,
+          "value": "$1058.56 > 50d($1050.61) > 200d($866.05)",
+          "threshold": "Price > 50d > 200d"
+        },
+        {
+          "name": "Breakout Pattern",
+          "category": "Breakout",
+          "passed": false,
+          "points": 0,
+          "value": "6.5% from base, drift: 9.7%",
+          "threshold": "< 5% from ceiling, < 10% drift"
+        },
+        {
+          "name": "Consolidation",
+          "category": "Breakout",
+          "passed": true,
+          "points": 10,
+          "value": "39.7% depth ($683.01 - $1132.06)",
+          "threshold": "Base depth < 45%"
+        },
+        {
+          "name": "Volume Dry-up",
+          "category": "Breakout",
+          "passed": true,
+          "points": 8,
+          "value": "94% of avg (3.0M vs 3.2M)",
+          "threshold": "5d vol < 1.2x 50d vol"
+        },
+        {
+          "name": "52W Proximity",
+          "category": "Timing",
+          "passed": true,
+          "points": 5,
+          "value": "93.5% of 52W high ($1132.06)",
+          "threshold": "> 90% of 52W high"
+        },
+        {
+          "name": "Volatility Compression",
+          "category": "Timing",
+          "passed": false,
+          "points": 0,
+          "value": "109.8% of 20d ATR ($37.43 vs $34.10)",
+          "threshold": "14d ATR < 80% of 20d ATR"
+        },
+        {
+          "name": "Sales Growth (2yr)",
+          "category": "Growth",
+          "passed": true,
+          "points": 17,
+          "value": "42.6% (avg: 37.3%)",
+          "threshold": "Both years >= 10% required"
+        },
+        {
+          "name": "Earnings Growth",
+          "category": "Growth",
+          "passed": true,
+          "points": 3,
+          "value": "51.4%",
+          "threshold": "> 15%"
+        },
+        {
+          "name": "ROE Quality",
+          "category": "Quality",
+          "passed": true,
+          "points": 5,
+          "value": "101.2%",
+          "threshold": "> 15%"
+        },
+        {
+          "name": "Operating Margin",
+          "category": "Quality",
+          "passed": true,
+          "points": 5,
+          "value": "44.9%",
+          "threshold": "> 10%"
+        },
+        {
+          "name": "Valuation Sanity",
+          "category": "Quality",
+          "passed": false,
+          "points": 0,
+          "value": "N/A",
+          "threshold": "PEG < 2.0"
+        },
+        {
+          "name": "FCF Quality",
+          "category": "Quality",
+          "passed": true,
+          "points": 3,
+          "value": "$1.95B",
+          "threshold": "FCF > 0"
+        },
+        {
+          "name": "Industry Strength",
+          "category": "Context",
+          "passed": true,
+          "points": 5,
+          "value": "Healthcare",
+          "threshold": "High-Conviction Sector"
+        },
+        {
+          "name": "Relative Strength",
+          "category": "Context",
+          "passed": false,
+          "points": 0,
+          "value": "-2.5%",
+          "threshold": "> 5% vs Market"
+        },
+        {
+          "name": "Size Factor",
+          "category": "Context",
+          "passed": false,
+          "points": -5,
+          "value": "$999B",
+          "threshold": "Large Cap Penalty"
+        }
+      ],
+      "forward_pe": 25.322199,
+      "trailing_pe": 46.08446,
+      "peg_ratio": null,
+      "recommendation": "buy",
+      "target_mean": 1212.8214,
+      "analyst_count": 28,
+      "current_price": 1058.56
     },
     {
       "ticker": "FIX",
@@ -2196,7 +2068,7 @@
       "score": 63,
       "max_score": 100,
       "grade": "B",
-      "market_cap": 51589595136,
+      "market_cap": 49872801792,
       "technical_score": 21,
       "growth_score": 19,
       "quality_score": 13,
@@ -2208,7 +2080,7 @@
           "category": "Momentum",
           "passed": true,
           "points": 8,
-          "value": "$1470.76 > 50d($1100.65) > 200d($802.24)",
+          "value": "$1413.57 > 50d($1109.25) > 200d($807.17)",
           "threshold": "Price > 50d > 200d"
         },
         {
@@ -2216,7 +2088,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "-5.1% from base, drift: 37.2%",
+          "value": "-1.0% from base, drift: 37.2%",
           "threshold": "< 5% from ceiling, < 10% drift"
         },
         {
@@ -2232,7 +2104,7 @@
           "category": "Breakout",
           "passed": true,
           "points": 8,
-          "value": "92% of avg (0.5M vs 0.6M)",
+          "value": "106% of avg (0.6M vs 0.6M)",
           "threshold": "5d vol < 1.2x 50d vol"
         },
         {
@@ -2240,7 +2112,7 @@
           "category": "Timing",
           "passed": true,
           "points": 5,
-          "value": "99.9% of 52W high ($1472.32)",
+          "value": "96.0% of 52W high ($1472.32)",
           "threshold": "> 90% of 52W high"
         },
         {
@@ -2248,7 +2120,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "114.0% of 20d ATR ($70.00 vs $61.41)",
+          "value": "114.1% of 20d ATR ($72.69 vs $63.73)",
           "threshold": "14d ATR < 80% of 20d ATR"
         },
         {
@@ -2312,17 +2184,17 @@
           "category": "Context",
           "passed": true,
           "points": 5,
-          "value": "+28.1%",
+          "value": "+24.9%",
           "threshold": "> 5% vs Market"
         }
       ],
-      "forward_pe": 34.76355,
-      "trailing_pe": 62.116817,
+      "forward_pe": 31.910557,
+      "trailing_pe": 59.871662,
       "peg_ratio": null,
       "recommendation": "strong_buy",
-      "target_mean": 1551.2,
+      "target_mean": 1696.2,
       "analyst_count": 5,
-      "current_price": 1462.23
+      "current_price": 1413.57
     },
     {
       "ticker": "FSLR",
@@ -2332,7 +2204,7 @@
       "score": 63,
       "max_score": 100,
       "grade": "B",
-      "market_cap": 25955694592,
+      "market_cap": 25984665600,
       "technical_score": 18,
       "growth_score": 27,
       "quality_score": 13,
@@ -2344,7 +2216,7 @@
           "category": "Momentum",
           "passed": false,
           "points": 0,
-          "value": "$239.88 > 50d($246.79) > 200d($212.86)",
+          "value": "$242.15 > 50d($246.57) > 200d($213.44)",
           "threshold": "Price > 50d > 200d"
         },
         {
@@ -2352,7 +2224,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "16.1% from base, drift: 1.6%",
+          "value": "15.3% from base, drift: 1.6%",
           "threshold": "< 5% from ceiling, < 10% drift"
         },
         {
@@ -2360,7 +2232,7 @@
           "category": "Breakout",
           "passed": true,
           "points": 10,
-          "value": "37.4% depth ($179.06 - $285.99)",
+          "value": "34.4% depth ($187.64 - $285.99)",
           "threshold": "Base depth < 45%"
         },
         {
@@ -2368,7 +2240,7 @@
           "category": "Breakout",
           "passed": true,
           "points": 8,
-          "value": "107% of avg (2.4M vs 2.3M)",
+          "value": "99% of avg (2.2M vs 2.3M)",
           "threshold": "5d vol < 1.2x 50d vol"
         },
         {
@@ -2376,7 +2248,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "83.9% of 52W high ($285.99)",
+          "value": "84.7% of 52W high ($285.99)",
           "threshold": "> 90% of 52W high"
         },
         {
@@ -2384,7 +2256,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "100.0% of 20d ATR ($12.41 vs $12.41)",
+          "value": "100.9% of 20d ATR ($12.46 vs $12.35)",
           "threshold": "14d ATR < 80% of 20d ATR"
         },
         {
@@ -2448,17 +2320,17 @@
           "category": "Context",
           "passed": false,
           "points": 0,
-          "value": "-1.6%",
+          "value": "+1.0%",
           "threshold": "> 5% vs Market"
         }
       ],
-      "forward_pe": 10.424856,
-      "trailing_pe": 18.54908,
+      "forward_pe": 10.436492,
+      "trailing_pe": 18.584036,
       "peg_ratio": null,
       "recommendation": "buy",
       "target_mean": 280.19678,
       "analyst_count": 31,
-      "current_price": 241.88
+      "current_price": 242.15
     },
     {
       "ticker": "FTAI",
@@ -2468,7 +2340,7 @@
       "score": 63,
       "max_score": 100,
       "grade": "B",
-      "market_cap": 29719478272,
+      "market_cap": 29154304000,
       "technical_score": 21,
       "growth_score": 27,
       "quality_score": 10,
@@ -2480,7 +2352,7 @@
           "category": "Momentum",
           "passed": true,
           "points": 8,
-          "value": "$288.46 > 50d($238.52) > 200d($168.10)",
+          "value": "$284.23 > 50d($240.58) > 200d($168.99)",
           "threshold": "Price > 50d > 200d"
         },
         {
@@ -2488,7 +2360,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "6.9% from base, drift: 59.8%",
+          "value": "8.3% from base, drift: 59.8%",
           "threshold": "< 5% from ceiling, < 10% drift"
         },
         {
@@ -2504,7 +2376,7 @@
           "category": "Breakout",
           "passed": true,
           "points": 8,
-          "value": "66% of avg (1.0M vs 1.5M)",
+          "value": "68% of avg (1.0M vs 1.5M)",
           "threshold": "5d vol < 1.2x 50d vol"
         },
         {
@@ -2512,7 +2384,7 @@
           "category": "Timing",
           "passed": true,
           "points": 5,
-          "value": "93.1% of 52W high ($310.00)",
+          "value": "91.7% of 52W high ($310.00)",
           "threshold": "> 90% of 52W high"
         },
         {
@@ -2520,7 +2392,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "106.0% of 20d ATR ($14.73 vs $13.90)",
+          "value": "108.8% of 20d ATR ($15.06 vs $13.85)",
           "threshold": "14d ATR < 80% of 20d ATR"
         },
         {
@@ -2584,17 +2456,153 @@
           "category": "Context",
           "passed": false,
           "points": 0,
-          "value": "+0.5%",
+          "value": "-3.2%",
           "threshold": "> 5% vs Market"
         }
       ],
-      "forward_pe": 43.03282,
-      "trailing_pe": 66.15068,
+      "forward_pe": 42.21447,
+      "trailing_pe": 64.89269,
       "peg_ratio": null,
       "recommendation": "strong_buy",
       "target_mean": 314.6,
       "analyst_count": 10,
-      "current_price": 289.74
+      "current_price": 284.23
+    },
+    {
+      "ticker": "APLS",
+      "name": "Apellis Pharmaceuticals, Inc.",
+      "sector": "Healthcare",
+      "industry": "Biotechnology",
+      "score": 61,
+      "max_score": 100,
+      "grade": "B",
+      "market_cap": 2843021568,
+      "technical_score": 18,
+      "growth_score": 30,
+      "quality_score": 8,
+      "context_score": 5,
+      "moonshot_score": 30,
+      "criteria": [
+        {
+          "name": "Trend Alignment",
+          "category": "Momentum",
+          "passed": false,
+          "points": 0,
+          "value": "$22.47 > 50d($23.42) > 200d($22.28)",
+          "threshold": "Price > 50d > 200d"
+        },
+        {
+          "name": "Breakout Pattern",
+          "category": "Breakout",
+          "passed": false,
+          "points": 0,
+          "value": "26.3% from base, drift: -9.9%",
+          "threshold": "< 5% from ceiling, < 10% drift"
+        },
+        {
+          "name": "Consolidation",
+          "category": "Breakout",
+          "passed": true,
+          "points": 10,
+          "value": "38.5% depth ($18.75 - $30.48)",
+          "threshold": "Base depth < 45%"
+        },
+        {
+          "name": "Volume Dry-up",
+          "category": "Breakout",
+          "passed": true,
+          "points": 8,
+          "value": "56% of avg (1.6M vs 2.9M)",
+          "threshold": "5d vol < 1.2x 50d vol"
+        },
+        {
+          "name": "52W Proximity",
+          "category": "Timing",
+          "passed": false,
+          "points": 0,
+          "value": "73.7% of 52W high ($30.48)",
+          "threshold": "> 90% of 52W high"
+        },
+        {
+          "name": "Volatility Compression",
+          "category": "Timing",
+          "passed": false,
+          "points": 0,
+          "value": "89.9% of 20d ATR ($0.94 vs $1.05)",
+          "threshold": "14d ATR < 80% of 20d ATR"
+        },
+        {
+          "name": "Sales Growth (2yr)",
+          "category": "Growth",
+          "passed": true,
+          "points": 30,
+          "value": "133.0% (avg: 279.4%)",
+          "threshold": "Both years >= 10% required"
+        },
+        {
+          "name": "Earnings Growth",
+          "category": "Growth",
+          "passed": false,
+          "points": 0,
+          "value": "N/A",
+          "threshold": "> 15%"
+        },
+        {
+          "name": "ROE Quality",
+          "category": "Quality",
+          "passed": false,
+          "points": 0,
+          "value": "14.1%",
+          "threshold": "> 15%"
+        },
+        {
+          "name": "Operating Margin",
+          "category": "Quality",
+          "passed": true,
+          "points": 5,
+          "value": "48.7%",
+          "threshold": "> 10%"
+        },
+        {
+          "name": "Valuation Sanity",
+          "category": "Quality",
+          "passed": false,
+          "points": 0,
+          "value": "N/A",
+          "threshold": "PEG < 2.0"
+        },
+        {
+          "name": "FCF Quality",
+          "category": "Quality",
+          "passed": true,
+          "points": 3,
+          "value": "$0.05B",
+          "threshold": "FCF > 0"
+        },
+        {
+          "name": "Industry Strength",
+          "category": "Context",
+          "passed": true,
+          "points": 5,
+          "value": "Healthcare",
+          "threshold": "High-Conviction Sector"
+        },
+        {
+          "name": "Relative Strength",
+          "category": "Context",
+          "passed": false,
+          "points": 0,
+          "value": "+2.1%",
+          "threshold": "> 5% vs Market"
+        }
+      ],
+      "forward_pe": -17.266552,
+      "trailing_pe": 62.416664,
+      "peg_ratio": null,
+      "recommendation": "buy",
+      "target_mean": 33.94737,
+      "analyst_count": 19,
+      "current_price": 22.47
     },
     {
       "ticker": "ALNY",
@@ -2604,7 +2612,7 @@
       "score": 60,
       "max_score": 100,
       "grade": "B",
-      "market_cap": 44586573824,
+      "market_cap": 43679432704,
       "technical_score": 18,
       "growth_score": 24,
       "quality_score": 13,
@@ -2616,7 +2624,7 @@
           "category": "Momentum",
           "passed": false,
           "points": 0,
-          "value": "$338.58 > 50d($369.73) > 200d($388.67)",
+          "value": "$329.35 > 50d($368.01) > 200d($388.97)",
           "threshold": "Price > 50d > 200d"
         },
         {
@@ -2624,7 +2632,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "31.7% from base, drift: -3.2%",
+          "value": "33.5% from base, drift: -3.2%",
           "threshold": "< 5% from ceiling, < 10% drift"
         },
         {
@@ -2640,7 +2648,7 @@
           "category": "Breakout",
           "passed": true,
           "points": 8,
-          "value": "75% of avg (1.2M vs 1.6M)",
+          "value": "67% of avg (1.1M vs 1.6M)",
           "threshold": "5d vol < 1.2x 50d vol"
         },
         {
@@ -2648,7 +2656,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "68.3% of 52W high ($495.55)",
+          "value": "66.5% of 52W high ($495.55)",
           "threshold": "> 90% of 52W high"
         },
         {
@@ -2656,7 +2664,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "106.1% of 20d ATR ($13.16 vs $12.41)",
+          "value": "109.1% of 20d ATR ($13.54 vs $12.41)",
           "threshold": "14d ATR < 80% of 20d ATR"
         },
         {
@@ -2720,17 +2728,153 @@
           "category": "Context",
           "passed": false,
           "points": 0,
-          "value": "-7.4%",
+          "value": "-11.0%",
           "threshold": "> 5% vs Market"
         }
       ],
-      "forward_pe": 23.12307,
-      "trailing_pe": 144.90948,
+      "forward_pe": 22.652617,
+      "trailing_pe": 140.74786,
       "peg_ratio": null,
       "recommendation": "buy",
       "target_mean": 457.0,
       "analyst_count": 25,
-      "current_price": 336.19
+      "current_price": 329.35
+    },
+    {
+      "ticker": "COLB",
+      "name": "Columbia Banking System, Inc.",
+      "sector": "Financial Services",
+      "industry": "Banks - Regional",
+      "score": 60,
+      "max_score": 100,
+      "grade": "B",
+      "market_cap": 8994567168,
+      "technical_score": 31,
+      "growth_score": 24,
+      "quality_score": 5,
+      "context_score": 0,
+      "moonshot_score": 30,
+      "criteria": [
+        {
+          "name": "Trend Alignment",
+          "category": "Momentum",
+          "passed": true,
+          "points": 8,
+          "value": "$30.07 > 50d($29.58) > 200d($26.02)",
+          "threshold": "Price > 50d > 200d"
+        },
+        {
+          "name": "Breakout Pattern",
+          "category": "Breakout",
+          "passed": false,
+          "points": 0,
+          "value": "8.0% from base, drift: 20.6%",
+          "threshold": "< 5% from ceiling, < 10% drift"
+        },
+        {
+          "name": "Consolidation",
+          "category": "Breakout",
+          "passed": true,
+          "points": 10,
+          "value": "28.1% depth ($23.52 - $32.70)",
+          "threshold": "Base depth < 45%"
+        },
+        {
+          "name": "Volume Dry-up",
+          "category": "Breakout",
+          "passed": true,
+          "points": 8,
+          "value": "103% of avg (2.8M vs 2.7M)",
+          "threshold": "5d vol < 1.2x 50d vol"
+        },
+        {
+          "name": "52W Proximity",
+          "category": "Timing",
+          "passed": true,
+          "points": 5,
+          "value": "92.0% of 52W high ($32.70)",
+          "threshold": "> 90% of 52W high"
+        },
+        {
+          "name": "Volatility Compression",
+          "category": "Timing",
+          "passed": false,
+          "points": 0,
+          "value": "110.3% of 20d ATR ($1.01 vs $0.91)",
+          "threshold": "14d ATR < 80% of 20d ATR"
+        },
+        {
+          "name": "Sales Growth (2yr)",
+          "category": "Growth",
+          "passed": true,
+          "points": 24,
+          "value": "51.2% (avg: 54.3%)",
+          "threshold": "Both years >= 10% required"
+        },
+        {
+          "name": "Earnings Growth",
+          "category": "Growth",
+          "passed": false,
+          "points": 0,
+          "value": "5.9%",
+          "threshold": "> 15%"
+        },
+        {
+          "name": "ROE Quality",
+          "category": "Quality",
+          "passed": false,
+          "points": 0,
+          "value": "8.5%",
+          "threshold": "> 15%"
+        },
+        {
+          "name": "Operating Margin",
+          "category": "Quality",
+          "passed": true,
+          "points": 5,
+          "value": "52.9%",
+          "threshold": "> 10%"
+        },
+        {
+          "name": "Valuation Sanity",
+          "category": "Quality",
+          "passed": false,
+          "points": 0,
+          "value": "N/A",
+          "threshold": "PEG < 2.0"
+        },
+        {
+          "name": "FCF Quality",
+          "category": "Quality",
+          "passed": false,
+          "points": 0,
+          "value": "N/A",
+          "threshold": "FCF > 0"
+        },
+        {
+          "name": "Industry Strength",
+          "category": "Context",
+          "passed": false,
+          "points": 0,
+          "value": "Financial Services",
+          "threshold": "High-Conviction Sector"
+        },
+        {
+          "name": "Relative Strength",
+          "category": "Context",
+          "passed": false,
+          "points": 0,
+          "value": "+1.3%",
+          "threshold": "> 5% vs Market"
+        }
+      ],
+      "forward_pe": 8.898714,
+      "trailing_pe": 13.073914,
+      "peg_ratio": null,
+      "recommendation": "hold",
+      "target_mean": 32.73077,
+      "analyst_count": 13,
+      "current_price": 30.07
     },
     {
       "ticker": "ALAB",
@@ -2740,7 +2884,7 @@
       "score": 59,
       "max_score": 100,
       "grade": "B",
-      "market_cap": 22073413632,
+      "market_cap": 21828306944,
       "technical_score": 8,
       "growth_score": 33,
       "quality_score": 13,
@@ -2752,7 +2896,7 @@
           "category": "Momentum",
           "passed": false,
           "points": 0,
-          "value": "$129.08 > 50d($160.52) > 200d($150.51)",
+          "value": "$128.24 > 50d($159.74) > 200d($150.79)",
           "threshold": "Price > 50d > 200d"
         },
         {
@@ -2760,7 +2904,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "50.9% from base, drift: -26.6%",
+          "value": "51.2% from base, drift: -26.6%",
           "threshold": "< 5% from ceiling, < 10% drift"
         },
         {
@@ -2768,7 +2912,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "52.1% depth ($126.05 - $262.90)",
+          "value": "53.4% depth ($122.57 - $262.90)",
           "threshold": "Base depth < 45%"
         },
         {
@@ -2776,7 +2920,7 @@
           "category": "Breakout",
           "passed": true,
           "points": 8,
-          "value": "95% of avg (5.0M vs 5.2M)",
+          "value": "78% of avg (4.0M vs 5.2M)",
           "threshold": "5d vol < 1.2x 50d vol"
         },
         {
@@ -2784,7 +2928,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "49.1% of 52W high ($262.90)",
+          "value": "48.8% of 52W high ($262.90)",
           "threshold": "> 90% of 52W high"
         },
         {
@@ -2792,7 +2936,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "101.8% of 20d ATR ($12.86 vs $12.63)",
+          "value": "104.7% of 20d ATR ($12.74 vs $12.17)",
           "threshold": "14d ATR < 80% of 20d ATR"
         },
         {
@@ -2856,17 +3000,17 @@
           "category": "Context",
           "passed": false,
           "points": 0,
-          "value": "-26.7%",
+          "value": "-27.3%",
           "threshold": "> 5% vs Market"
         }
       ],
-      "forward_pe": 37.150673,
-      "trailing_pe": 106.295074,
+      "forward_pe": 36.738144,
+      "trailing_pe": 105.11475,
       "peg_ratio": null,
       "recommendation": "buy",
       "target_mean": 204.47368,
       "analyst_count": 19,
-      "current_price": 129.68
+      "current_price": 128.24
     },
     {
       "ticker": "PLTR",
@@ -3003,142 +3147,6 @@
       "target_mean": 189.92043,
       "analyst_count": 24,
       "current_price": 135.33
-    },
-    {
-      "ticker": "INSM",
-      "name": "Insmed Incorporated",
-      "sector": "Healthcare",
-      "industry": "Biotechnology",
-      "score": 58,
-      "max_score": 100,
-      "grade": "B",
-      "market_cap": 35170930688,
-      "technical_score": 18,
-      "growth_score": 30,
-      "quality_score": 0,
-      "context_score": 10,
-      "moonshot_score": 70,
-      "criteria": [
-        {
-          "name": "Trend Alignment",
-          "category": "Momentum",
-          "passed": false,
-          "points": 0,
-          "value": "$165.03 > 50d($167.48) > 200d($140.00)",
-          "threshold": "Price > 50d > 200d"
-        },
-        {
-          "name": "Breakout Pattern",
-          "category": "Breakout",
-          "passed": false,
-          "points": 0,
-          "value": "22.4% from base, drift: 7.7%",
-          "threshold": "< 5% from ceiling, < 10% drift"
-        },
-        {
-          "name": "Consolidation",
-          "category": "Breakout",
-          "passed": true,
-          "points": 10,
-          "value": "41.5% depth ($124.52 - $212.75)",
-          "threshold": "Base depth < 45%"
-        },
-        {
-          "name": "Volume Dry-up",
-          "category": "Breakout",
-          "passed": true,
-          "points": 8,
-          "value": "93% of avg (2.9M vs 3.1M)",
-          "threshold": "5d vol < 1.2x 50d vol"
-        },
-        {
-          "name": "52W Proximity",
-          "category": "Timing",
-          "passed": false,
-          "points": 0,
-          "value": "77.6% of 52W high ($212.75)",
-          "threshold": "> 90% of 52W high"
-        },
-        {
-          "name": "Volatility Compression",
-          "category": "Timing",
-          "passed": false,
-          "points": 0,
-          "value": "101.9% of 20d ATR ($6.46 vs $6.34)",
-          "threshold": "14d ATR < 80% of 20d ATR"
-        },
-        {
-          "name": "Sales Growth (2yr)",
-          "category": "Growth",
-          "passed": true,
-          "points": 30,
-          "value": "152.6% (avg: 88.5%)",
-          "threshold": "Both years >= 10% required"
-        },
-        {
-          "name": "Earnings Growth",
-          "category": "Growth",
-          "passed": false,
-          "points": 0,
-          "value": "N/A",
-          "threshold": "> 15%"
-        },
-        {
-          "name": "ROE Quality",
-          "category": "Quality",
-          "passed": false,
-          "points": 0,
-          "value": "-249.3%",
-          "threshold": "> 15%"
-        },
-        {
-          "name": "Operating Margin",
-          "category": "Quality",
-          "passed": false,
-          "points": 0,
-          "value": "-94.6%",
-          "threshold": "> 10%"
-        },
-        {
-          "name": "Valuation Sanity",
-          "category": "Quality",
-          "passed": false,
-          "points": 0,
-          "value": "N/A",
-          "threshold": "PEG < 2.0"
-        },
-        {
-          "name": "FCF Quality",
-          "category": "Quality",
-          "passed": false,
-          "points": 0,
-          "value": "$-0.53B",
-          "threshold": "FCF > 0"
-        },
-        {
-          "name": "Industry Strength",
-          "category": "Context",
-          "passed": true,
-          "points": 5,
-          "value": "Healthcare",
-          "threshold": "High-Conviction Sector"
-        },
-        {
-          "name": "Relative Strength",
-          "category": "Context",
-          "passed": true,
-          "points": 5,
-          "value": "+5.6%",
-          "threshold": "> 5% vs Market"
-        }
-      ],
-      "forward_pe": 436.7667,
-      "trailing_pe": null,
-      "peg_ratio": null,
-      "recommendation": "strong_buy",
-      "target_mean": 212.89474,
-      "analyst_count": 19,
-      "current_price": 164.91
     },
     {
       "ticker": "RDDT",
@@ -3284,7 +3292,7 @@
       "score": 56,
       "max_score": 100,
       "grade": "B",
-      "market_cap": 12456185856,
+      "market_cap": 12688192512,
       "technical_score": 18,
       "growth_score": 30,
       "quality_score": 8,
@@ -3296,7 +3304,7 @@
           "category": "Momentum",
           "passed": false,
           "points": 0,
-          "value": "$47.96 > 50d($48.45) > 200d($49.04)",
+          "value": "$49.22 > 50d($48.57) > 200d($49.11)",
           "threshold": "Price > 50d > 200d"
         },
         {
@@ -3304,7 +3312,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "28.1% from base, drift: -13.3%",
+          "value": "26.3% from base, drift: -13.3%",
           "threshold": "< 5% from ceiling, < 10% drift"
         },
         {
@@ -3320,7 +3328,7 @@
           "category": "Breakout",
           "passed": true,
           "points": 8,
-          "value": "119% of avg (5.2M vs 4.4M)",
+          "value": "115% of avg (4.9M vs 4.3M)",
           "threshold": "5d vol < 1.2x 50d vol"
         },
         {
@@ -3328,7 +3336,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "71.9% of 52W high ($66.74)",
+          "value": "73.7% of 52W high ($66.74)",
           "threshold": "> 90% of 52W high"
         },
         {
@@ -3336,7 +3344,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "103.0% of 20d ATR ($2.11 vs $2.05)",
+          "value": "100.4% of 20d ATR ($2.09 vs $2.08)",
           "threshold": "14d ATR < 80% of 20d ATR"
         },
         {
@@ -3400,39 +3408,39 @@
           "category": "Context",
           "passed": false,
           "points": 0,
-          "value": "-15.0%",
+          "value": "-10.9%",
           "threshold": "> 5% vs Market"
         }
       ],
-      "forward_pe": 31.115976,
-      "trailing_pe": 402.6667,
+      "forward_pe": 31.69554,
+      "trailing_pe": 410.1667,
       "peg_ratio": null,
       "recommendation": "buy",
       "target_mean": 64.0,
       "analyst_count": 20,
-      "current_price": 48.32
+      "current_price": 49.22
     },
     {
-      "ticker": "HALO",
-      "name": "Halozyme Therapeutics, Inc.",
+      "ticker": "GMED",
+      "name": "Globus Medical, Inc.",
       "sector": "Healthcare",
-      "industry": "Biotechnology",
-      "score": 54,
+      "industry": "Medical Devices",
+      "score": 55,
       "max_score": 100,
-      "grade": "C",
-      "market_cap": 8347035648,
-      "technical_score": 18,
-      "growth_score": 18,
-      "quality_score": 13,
+      "grade": "B",
+      "market_cap": 12614346752,
+      "technical_score": 21,
+      "growth_score": 21,
+      "quality_score": 8,
       "context_score": 5,
-      "moonshot_score": 60,
+      "moonshot_score": 20,
       "criteria": [
         {
           "name": "Trend Alignment",
           "category": "Momentum",
           "passed": true,
           "points": 8,
-          "value": "$71.46 > 50d($71.40) > 200d($65.80)",
+          "value": "$93.40 > 50d($89.81) > 200d($69.67)",
           "threshold": "Price > 50d > 200d"
         },
         {
@@ -3440,31 +3448,31 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "13.1% from base, drift: 3.4%",
+          "value": "7.9% from base, drift: 16.3%",
           "threshold": "< 5% from ceiling, < 10% drift"
         },
         {
           "name": "Consolidation",
           "category": "Breakout",
-          "passed": true,
-          "points": 10,
-          "value": "25.5% depth ($61.23 - $82.22)",
+          "passed": false,
+          "points": 0,
+          "value": "46.6% depth ($54.15 - $101.40)",
           "threshold": "Base depth < 45%"
         },
         {
           "name": "Volume Dry-up",
           "category": "Breakout",
-          "passed": false,
-          "points": 0,
-          "value": "139% of avg (2.9M vs 2.1M)",
+          "passed": true,
+          "points": 8,
+          "value": "84% of avg (1.1M vs 1.4M)",
           "threshold": "5d vol < 1.2x 50d vol"
         },
         {
           "name": "52W Proximity",
           "category": "Timing",
-          "passed": false,
-          "points": 0,
-          "value": "86.9% of 52W high ($82.22)",
+          "passed": true,
+          "points": 5,
+          "value": "92.1% of 52W high ($101.40)",
           "threshold": "> 90% of 52W high"
         },
         {
@@ -3472,7 +3480,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "101.1% of 20d ATR ($2.80 vs $2.77)",
+          "value": "104.3% of 20d ATR ($2.57 vs $2.46)",
           "threshold": "14d ATR < 80% of 20d ATR"
         },
         {
@@ -3480,23 +3488,23 @@
           "category": "Growth",
           "passed": true,
           "points": 18,
-          "value": "51.6% (avg: 38.6%)",
+          "value": "22.9% (avg: 38.1%)",
           "threshold": "Both years >= 10% required"
         },
         {
           "name": "Earnings Growth",
           "category": "Growth",
-          "passed": false,
-          "points": 0,
-          "value": "N/A",
+          "passed": true,
+          "points": 3,
+          "value": "131.6%",
           "threshold": "> 15%"
         },
         {
           "name": "ROE Quality",
           "category": "Quality",
-          "passed": true,
-          "points": 5,
-          "value": "153.6%",
+          "passed": false,
+          "points": 0,
+          "value": "10.0%",
           "threshold": "> 15%"
         },
         {
@@ -3504,7 +3512,7 @@
           "category": "Quality",
           "passed": true,
           "points": 5,
-          "value": "56.3%",
+          "value": "22.2%",
           "threshold": "> 10%"
         },
         {
@@ -3520,7 +3528,7 @@
           "category": "Quality",
           "passed": true,
           "points": 3,
-          "value": "$0.18B",
+          "value": "$0.45B",
           "threshold": "FCF > 0"
         },
         {
@@ -3536,17 +3544,153 @@
           "category": "Context",
           "passed": false,
           "points": 0,
-          "value": "-0.3%",
+          "value": "-1.3%",
           "threshold": "> 5% vs Market"
         }
       ],
-      "forward_pe": 7.207921,
-      "trailing_pe": 14.974685,
+      "forward_pe": 22.00474,
+      "trailing_pe": 30.226538,
       "peg_ratio": null,
       "recommendation": "buy",
-      "target_mean": 84.5,
-      "analyst_count": 8,
-      "current_price": 70.98
+      "target_mean": 107.16667,
+      "analyst_count": 12,
+      "current_price": 93.4
+    },
+    {
+      "ticker": "ANET",
+      "name": "Arista Networks, Inc.",
+      "sector": "Technology",
+      "industry": "Computer Hardware",
+      "score": 54,
+      "max_score": 100,
+      "grade": "C",
+      "market_cap": 160470695936,
+      "technical_score": 18,
+      "growth_score": 18,
+      "quality_score": 13,
+      "context_score": 5,
+      "moonshot_score": 0,
+      "criteria": [
+        {
+          "name": "Trend Alignment",
+          "category": "Momentum",
+          "passed": false,
+          "points": 0,
+          "value": "$127.43 > 50d($133.59) > 200d($126.23)",
+          "threshold": "Price > 50d > 200d"
+        },
+        {
+          "name": "Breakout Pattern",
+          "category": "Breakout",
+          "passed": false,
+          "points": 0,
+          "value": "22.7% from base, drift: -8.0%",
+          "threshold": "< 5% from ceiling, < 10% drift"
+        },
+        {
+          "name": "Consolidation",
+          "category": "Breakout",
+          "passed": true,
+          "points": 10,
+          "value": "30.6% depth ($114.52 - $164.94)",
+          "threshold": "Base depth < 45%"
+        },
+        {
+          "name": "Volume Dry-up",
+          "category": "Breakout",
+          "passed": true,
+          "points": 8,
+          "value": "97% of avg (7.7M vs 8.0M)",
+          "threshold": "5d vol < 1.2x 50d vol"
+        },
+        {
+          "name": "52W Proximity",
+          "category": "Timing",
+          "passed": false,
+          "points": 0,
+          "value": "77.3% of 52W high ($164.94)",
+          "threshold": "> 90% of 52W high"
+        },
+        {
+          "name": "Volatility Compression",
+          "category": "Timing",
+          "passed": false,
+          "points": 0,
+          "value": "101.7% of 20d ATR ($6.45 vs $6.34)",
+          "threshold": "14d ATR < 80% of 20d ATR"
+        },
+        {
+          "name": "Sales Growth (2yr)",
+          "category": "Growth",
+          "passed": true,
+          "points": 15,
+          "value": "28.9% (avg: 31.3%)",
+          "threshold": "Both years >= 10% required"
+        },
+        {
+          "name": "Earnings Growth",
+          "category": "Growth",
+          "passed": true,
+          "points": 3,
+          "value": "19.1%",
+          "threshold": "> 15%"
+        },
+        {
+          "name": "ROE Quality",
+          "category": "Quality",
+          "passed": true,
+          "points": 5,
+          "value": "31.4%",
+          "threshold": "> 15%"
+        },
+        {
+          "name": "Operating Margin",
+          "category": "Quality",
+          "passed": true,
+          "points": 5,
+          "value": "41.5%",
+          "threshold": "> 10%"
+        },
+        {
+          "name": "Valuation Sanity",
+          "category": "Quality",
+          "passed": false,
+          "points": 0,
+          "value": "N/A",
+          "threshold": "PEG < 2.0"
+        },
+        {
+          "name": "FCF Quality",
+          "category": "Quality",
+          "passed": true,
+          "points": 3,
+          "value": "$3.39B",
+          "threshold": "FCF > 0"
+        },
+        {
+          "name": "Industry Strength",
+          "category": "Context",
+          "passed": true,
+          "points": 5,
+          "value": "Technology",
+          "threshold": "High-Conviction Sector"
+        },
+        {
+          "name": "Relative Strength",
+          "category": "Context",
+          "passed": false,
+          "points": 0,
+          "value": "-7.9%",
+          "threshold": "> 5% vs Market"
+        }
+      ],
+      "forward_pe": 30.056938,
+      "trailing_pe": 46.33818,
+      "peg_ratio": null,
+      "recommendation": "strong_buy",
+      "target_mean": 178.0634,
+      "analyst_count": 24,
+      "current_price": 127.43
     },
     {
       "ticker": "CINF",
@@ -3556,7 +3700,7 @@
       "score": 53,
       "max_score": 100,
       "grade": "C",
-      "market_cap": 25431017472,
+      "market_cap": 25104939008,
       "technical_score": 23,
       "growth_score": 20,
       "quality_score": 10,
@@ -3568,7 +3712,7 @@
           "category": "Momentum",
           "passed": false,
           "points": 0,
-          "value": "$162.10 > 50d($163.54) > 200d($155.01)",
+          "value": "$160.91 > 50d($163.54) > 200d($155.10)",
           "threshold": "Price > 50d > 200d"
         },
         {
@@ -3576,7 +3720,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "7.0% from base, drift: 4.2%",
+          "value": "7.7% from base, drift: 4.2%",
           "threshold": "< 5% from ceiling, < 10% drift"
         },
         {
@@ -3592,7 +3736,7 @@
           "category": "Breakout",
           "passed": true,
           "points": 8,
-          "value": "88% of avg (0.6M vs 0.6M)",
+          "value": "91% of avg (0.6M vs 0.7M)",
           "threshold": "5d vol < 1.2x 50d vol"
         },
         {
@@ -3600,7 +3744,7 @@
           "category": "Timing",
           "passed": true,
           "points": 5,
-          "value": "93.0% of 52W high ($174.27)",
+          "value": "92.3% of 52W high ($174.27)",
           "threshold": "> 90% of 52W high"
         },
         {
@@ -3608,7 +3752,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "106.8% of 20d ATR ($3.81 vs $3.57)",
+          "value": "109.1% of 20d ATR ($3.97 vs $3.64)",
           "threshold": "14d ATR < 80% of 20d ATR"
         },
         {
@@ -3672,39 +3816,39 @@
           "category": "Context",
           "passed": false,
           "points": 0,
-          "value": "+0.2%",
+          "value": "+1.7%",
           "threshold": "> 5% vs Market"
         }
       ],
-      "forward_pe": 17.710981,
-      "trailing_pe": 10.737813,
+      "forward_pe": 17.483889,
+      "trailing_pe": 10.600132,
       "peg_ratio": null,
       "recommendation": "buy",
       "target_mean": 173.66667,
       "analyst_count": 6,
-      "current_price": 163.0
+      "current_price": 160.91
     },
     {
-      "ticker": "KKR",
-      "name": "KKR & Co. Inc.",
-      "sector": "Financial Services",
-      "industry": "Asset Management",
+      "ticker": "INSM",
+      "name": "Insmed Incorporated",
+      "sector": "Healthcare",
+      "industry": "Biotechnology",
       "score": 53,
       "max_score": 100,
       "grade": "C",
-      "market_cap": 93694746624,
+      "market_cap": 33916880896,
       "technical_score": 18,
       "growth_score": 30,
-      "quality_score": 5,
-      "context_score": 0,
-      "moonshot_score": 30,
+      "quality_score": 0,
+      "context_score": 5,
+      "moonshot_score": 40,
       "criteria": [
         {
           "name": "Trend Alignment",
           "category": "Momentum",
           "passed": false,
           "points": 0,
-          "value": "$100.74 > 50d($122.29) > 200d($128.37)",
+          "value": "$159.03 > 50d($166.78) > 200d($140.46)",
           "threshold": "Price > 50d > 200d"
         },
         {
@@ -3712,7 +3856,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "33.7% from base, drift: -4.6%",
+          "value": "25.3% from base, drift: 7.5%",
           "threshold": "< 5% from ceiling, < 10% drift"
         },
         {
@@ -3720,7 +3864,7 @@
           "category": "Breakout",
           "passed": true,
           "points": 10,
-          "value": "35.9% depth ($97.37 - $151.87)",
+          "value": "40.8% depth ($126.00 - $212.75)",
           "threshold": "Base depth < 45%"
         },
         {
@@ -3728,7 +3872,7 @@
           "category": "Breakout",
           "passed": true,
           "points": 8,
-          "value": "108% of avg (6.2M vs 5.8M)",
+          "value": "93% of avg (2.9M vs 3.1M)",
           "threshold": "5d vol < 1.2x 50d vol"
         },
         {
@@ -3736,7 +3880,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "65.7% of 52W high ($153.43)",
+          "value": "74.7% of 52W high ($212.75)",
           "threshold": "> 90% of 52W high"
         },
         {
@@ -3744,7 +3888,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "111.0% of 20d ATR ($5.43 vs $4.89)",
+          "value": "102.7% of 20d ATR ($6.69 vs $6.52)",
           "threshold": "14d ATR < 80% of 20d ATR"
         },
         {
@@ -3752,7 +3896,7 @@
           "category": "Growth",
           "passed": true,
           "points": 30,
-          "value": "77.5% (avg: 117.4%)",
+          "value": "152.6% (avg: 88.5%)",
           "threshold": "Both years >= 10% required"
         },
         {
@@ -3760,7 +3904,7 @@
           "category": "Growth",
           "passed": false,
           "points": 0,
-          "value": "-1.8%",
+          "value": "N/A",
           "threshold": "> 15%"
         },
         {
@@ -3768,15 +3912,15 @@
           "category": "Quality",
           "passed": false,
           "points": 0,
-          "value": "8.9%",
+          "value": "-249.3%",
           "threshold": "> 15%"
         },
         {
           "name": "Operating Margin",
           "category": "Quality",
-          "passed": true,
-          "points": 5,
-          "value": "32.8%",
+          "passed": false,
+          "points": 0,
+          "value": "-94.6%",
           "threshold": "> 10%"
         },
         {
@@ -3792,15 +3936,15 @@
           "category": "Quality",
           "passed": false,
           "points": 0,
-          "value": "N/A",
+          "value": "$-0.53B",
           "threshold": "FCF > 0"
         },
         {
           "name": "Industry Strength",
           "category": "Context",
-          "passed": false,
-          "points": 0,
-          "value": "Financial Services",
+          "passed": true,
+          "points": 5,
+          "value": "Healthcare",
           "threshold": "High-Conviction Sector"
         },
         {
@@ -3808,17 +3952,17 @@
           "category": "Context",
           "passed": false,
           "points": 0,
-          "value": "-19.0%",
+          "value": "-0.8%",
           "threshold": "> 5% vs Market"
         }
       ],
-      "forward_pe": 12.681391,
-      "trailing_pe": 43.23932,
+      "forward_pe": 428.9413,
+      "trailing_pe": null,
       "peg_ratio": null,
       "recommendation": "strong_buy",
-      "target_mean": 141.47945,
-      "analyst_count": 18,
-      "current_price": 101.18
+      "target_mean": 212.52632,
+      "analyst_count": 19,
+      "current_price": 159.03
     },
     {
       "ticker": "NBIX",
@@ -3955,286 +4099,6 @@
       "target_mean": 176.89038,
       "analyst_count": 26,
       "current_price": 129.015
-    },
-    {
-      "ticker": "LLY",
-      "name": "Eli Lilly and Company",
-      "sector": "Healthcare",
-      "industry": "Drug Manufacturers - General",
-      "score": 51,
-      "max_score": 100,
-      "grade": "C",
-      "market_cap": 952338219008,
-      "technical_score": 18,
-      "growth_score": 20,
-      "quality_score": 13,
-      "context_score": 0,
-      "moonshot_score": 30,
-      "criteria": [
-        {
-          "name": "Trend Alignment",
-          "category": "Momentum",
-          "passed": false,
-          "points": 0,
-          "value": "$1014.82 > 50d($1049.05) > 200d($864.60)",
-          "threshold": "Price > 50d > 200d"
-        },
-        {
-          "name": "Breakout Pattern",
-          "category": "Breakout",
-          "passed": false,
-          "points": 0,
-          "value": "10.4% from base, drift: 9.7%",
-          "threshold": "< 5% from ceiling, < 10% drift"
-        },
-        {
-          "name": "Consolidation",
-          "category": "Breakout",
-          "passed": true,
-          "points": 10,
-          "value": "39.7% depth ($683.01 - $1132.06)",
-          "threshold": "Base depth < 45%"
-        },
-        {
-          "name": "Volume Dry-up",
-          "category": "Breakout",
-          "passed": true,
-          "points": 8,
-          "value": "82% of avg (2.6M vs 3.2M)",
-          "threshold": "5d vol < 1.2x 50d vol"
-        },
-        {
-          "name": "52W Proximity",
-          "category": "Timing",
-          "passed": false,
-          "points": 0,
-          "value": "89.6% of 52W high ($1132.06)",
-          "threshold": "> 90% of 52W high"
-        },
-        {
-          "name": "Volatility Compression",
-          "category": "Timing",
-          "passed": false,
-          "points": 0,
-          "value": "109.0% of 20d ATR ($36.67 vs $33.64)",
-          "threshold": "14d ATR < 80% of 20d ATR"
-        },
-        {
-          "name": "Sales Growth (2yr)",
-          "category": "Growth",
-          "passed": true,
-          "points": 17,
-          "value": "42.6% (avg: 37.3%)",
-          "threshold": "Both years >= 10% required"
-        },
-        {
-          "name": "Earnings Growth",
-          "category": "Growth",
-          "passed": true,
-          "points": 3,
-          "value": "51.4%",
-          "threshold": "> 15%"
-        },
-        {
-          "name": "ROE Quality",
-          "category": "Quality",
-          "passed": true,
-          "points": 5,
-          "value": "101.2%",
-          "threshold": "> 15%"
-        },
-        {
-          "name": "Operating Margin",
-          "category": "Quality",
-          "passed": true,
-          "points": 5,
-          "value": "44.9%",
-          "threshold": "> 10%"
-        },
-        {
-          "name": "Valuation Sanity",
-          "category": "Quality",
-          "passed": false,
-          "points": 0,
-          "value": "N/A",
-          "threshold": "PEG < 2.0"
-        },
-        {
-          "name": "FCF Quality",
-          "category": "Quality",
-          "passed": true,
-          "points": 3,
-          "value": "$1.95B",
-          "threshold": "FCF > 0"
-        },
-        {
-          "name": "Industry Strength",
-          "category": "Context",
-          "passed": true,
-          "points": 5,
-          "value": "Healthcare",
-          "threshold": "High-Conviction Sector"
-        },
-        {
-          "name": "Relative Strength",
-          "category": "Context",
-          "passed": false,
-          "points": 0,
-          "value": "-5.7%",
-          "threshold": "> 5% vs Market"
-        },
-        {
-          "name": "Size Factor",
-          "category": "Context",
-          "passed": false,
-          "points": -5,
-          "value": "$952B",
-          "threshold": "Large Cap Penalty"
-        }
-      ],
-      "forward_pe": 24.164764,
-      "trailing_pe": 44.045376,
-      "peg_ratio": null,
-      "recommendation": "buy",
-      "target_mean": 1211.2142,
-      "analyst_count": 28,
-      "current_price": 1009.52
-    },
-    {
-      "ticker": "GMED",
-      "name": "Globus Medical, Inc.",
-      "sector": "Healthcare",
-      "industry": "Medical Devices",
-      "score": 50,
-      "max_score": 100,
-      "grade": "C",
-      "market_cap": 12234835968,
-      "technical_score": 16,
-      "growth_score": 21,
-      "quality_score": 8,
-      "context_score": 5,
-      "moonshot_score": 20,
-      "criteria": [
-        {
-          "name": "Trend Alignment",
-          "category": "Momentum",
-          "passed": true,
-          "points": 8,
-          "value": "$90.26 > 50d($89.71) > 200d($69.55)",
-          "threshold": "Price > 50d > 200d"
-        },
-        {
-          "name": "Breakout Pattern",
-          "category": "Breakout",
-          "passed": false,
-          "points": 0,
-          "value": "11.0% from base, drift: 16.3%",
-          "threshold": "< 5% from ceiling, < 10% drift"
-        },
-        {
-          "name": "Consolidation",
-          "category": "Breakout",
-          "passed": false,
-          "points": 0,
-          "value": "46.6% depth ($54.15 - $101.40)",
-          "threshold": "Base depth < 45%"
-        },
-        {
-          "name": "Volume Dry-up",
-          "category": "Breakout",
-          "passed": true,
-          "points": 8,
-          "value": "71% of avg (1.0M vs 1.3M)",
-          "threshold": "5d vol < 1.2x 50d vol"
-        },
-        {
-          "name": "52W Proximity",
-          "category": "Timing",
-          "passed": false,
-          "points": 0,
-          "value": "89.0% of 52W high ($101.40)",
-          "threshold": "> 90% of 52W high"
-        },
-        {
-          "name": "Volatility Compression",
-          "category": "Timing",
-          "passed": false,
-          "points": 0,
-          "value": "97.4% of 20d ATR ($2.43 vs $2.49)",
-          "threshold": "14d ATR < 80% of 20d ATR"
-        },
-        {
-          "name": "Sales Growth (2yr)",
-          "category": "Growth",
-          "passed": true,
-          "points": 18,
-          "value": "22.9% (avg: 38.1%)",
-          "threshold": "Both years >= 10% required"
-        },
-        {
-          "name": "Earnings Growth",
-          "category": "Growth",
-          "passed": true,
-          "points": 3,
-          "value": "131.6%",
-          "threshold": "> 15%"
-        },
-        {
-          "name": "ROE Quality",
-          "category": "Quality",
-          "passed": false,
-          "points": 0,
-          "value": "10.0%",
-          "threshold": "> 15%"
-        },
-        {
-          "name": "Operating Margin",
-          "category": "Quality",
-          "passed": true,
-          "points": 5,
-          "value": "22.2%",
-          "threshold": "> 10%"
-        },
-        {
-          "name": "Valuation Sanity",
-          "category": "Quality",
-          "passed": false,
-          "points": 0,
-          "value": "N/A",
-          "threshold": "PEG < 2.0"
-        },
-        {
-          "name": "FCF Quality",
-          "category": "Quality",
-          "passed": true,
-          "points": 3,
-          "value": "$0.45B",
-          "threshold": "FCF > 0"
-        },
-        {
-          "name": "Industry Strength",
-          "category": "Context",
-          "passed": true,
-          "points": 5,
-          "value": "Healthcare",
-          "threshold": "High-Conviction Sector"
-        },
-        {
-          "name": "Relative Strength",
-          "category": "Context",
-          "passed": false,
-          "points": 0,
-          "value": "-4.1%",
-          "threshold": "> 5% vs Market"
-        }
-      ],
-      "forward_pe": 21.34271,
-      "trailing_pe": 29.317152,
-      "peg_ratio": null,
-      "recommendation": "buy",
-      "target_mean": 107.16667,
-      "analyst_count": 12,
-      "current_price": 90.59
     },
     {
       "ticker": "SMCI",
@@ -4380,7 +4244,7 @@
       "score": 48,
       "max_score": 100,
       "grade": "C",
-      "market_cap": 141644873728,
+      "market_cap": 128768688128,
       "technical_score": 8,
       "growth_score": 22,
       "quality_score": 13,
@@ -4392,7 +4256,7 @@
           "category": "Momentum",
           "passed": false,
           "points": 0,
-          "value": "$417.54 > 50d($575.55) > 200d($506.26)",
+          "value": "$380.62 > 50d($568.67) > 200d($506.64)",
           "threshold": "Price > 50d > 200d"
         },
         {
@@ -4400,7 +4264,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "44.0% from base, drift: -1.0%",
+          "value": "49.0% from base, drift: -1.0%",
           "threshold": "< 5% from ceiling, < 10% drift"
         },
         {
@@ -4408,7 +4272,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "51.7% depth ($360.12 - $745.61)",
+          "value": "51.9% depth ($359.00 - $745.61)",
           "threshold": "Base depth < 45%"
         },
         {
@@ -4416,7 +4280,7 @@
           "category": "Breakout",
           "passed": true,
           "points": 8,
-          "value": "117% of avg (6.7M vs 5.8M)",
+          "value": "109% of avg (6.3M vs 5.8M)",
           "threshold": "5d vol < 1.2x 50d vol"
         },
         {
@@ -4424,7 +4288,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "56.0% of 52W high ($745.61)",
+          "value": "51.0% of 52W high ($745.61)",
           "threshold": "> 90% of 52W high"
         },
         {
@@ -4432,7 +4296,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "93.8% of 20d ATR ($30.65 vs $32.69)",
+          "value": "92.5% of 20d ATR ($30.32 vs $32.78)",
           "threshold": "14d ATR < 80% of 20d ATR"
         },
         {
@@ -4496,17 +4360,17 @@
           "category": "Context",
           "passed": false,
           "points": 0,
-          "value": "-21.6%",
+          "value": "-27.1%",
           "threshold": "> 5% vs Market"
         }
       ],
-      "forward_pe": 28.382969,
-      "trailing_pe": 41.6597,
+      "forward_pe": 25.802822,
+      "trailing_pe": 37.872635,
       "peg_ratio": null,
       "recommendation": "buy",
       "target_mean": 667.6282,
       "analyst_count": 27,
-      "current_price": 418.68
+      "current_price": 380.62
     },
     {
       "ticker": "DUOL",
@@ -4516,7 +4380,7 @@
       "score": 48,
       "max_score": 100,
       "grade": "C",
-      "market_cap": 5220917760,
+      "market_cap": 4906340352,
       "technical_score": 8,
       "growth_score": 22,
       "quality_score": 13,
@@ -4528,7 +4392,7 @@
           "category": "Momentum",
           "passed": false,
           "points": 0,
-          "value": "$112.14 > 50d($155.76) > 200d($300.10)",
+          "value": "$106.14 > 50d($153.70) > 200d($298.18)",
           "threshold": "Price > 50d > 200d"
         },
         {
@@ -4536,7 +4400,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "69.8% from base, drift: -42.6%",
+          "value": "71.4% from base, drift: -42.6%",
           "threshold": "< 5% from ceiling, < 10% drift"
         },
         {
@@ -4552,7 +4416,7 @@
           "category": "Breakout",
           "passed": true,
           "points": 8,
-          "value": "90% of avg (1.9M vs 2.1M)",
+          "value": "92% of avg (1.9M vs 2.1M)",
           "threshold": "5d vol < 1.2x 50d vol"
         },
         {
@@ -4560,7 +4424,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "20.6% of 52W high ($544.93)",
+          "value": "19.5% of 52W high ($544.93)",
           "threshold": "> 90% of 52W high"
         },
         {
@@ -4568,7 +4432,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "102.3% of 20d ATR ($7.30 vs $7.14)",
+          "value": "103.5% of 20d ATR ($7.41 vs $7.16)",
           "threshold": "14d ATR < 80% of 20d ATR"
         },
         {
@@ -4632,17 +4496,17 @@
           "category": "Context",
           "passed": false,
           "points": 0,
-          "value": "-23.6%",
+          "value": "-30.9%",
           "threshold": "> 5% vs Market"
         }
       ],
-      "forward_pe": 14.275115,
-      "trailing_pe": 14.224181,
+      "forward_pe": 13.414993,
+      "trailing_pe": 13.367128,
       "peg_ratio": null,
       "recommendation": "buy",
       "target_mean": 250.40118,
       "analyst_count": 17,
-      "current_price": 112.94
+      "current_price": 106.135
     },
     {
       "ticker": "CAI",
@@ -4652,7 +4516,7 @@
       "score": 47,
       "max_score": 100,
       "grade": "C",
-      "market_cap": 5510329344,
+      "market_cap": 4977071104,
       "technical_score": 8,
       "growth_score": 29,
       "quality_score": 5,
@@ -4664,7 +4528,7 @@
           "category": "Momentum",
           "passed": false,
           "points": 0,
-          "value": "$19.04 > 50d($25.38)",
+          "value": "$17.64 > 50d($25.19)",
           "threshold": "Price > 50d > 200d"
         },
         {
@@ -4672,7 +4536,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "55.2% from base, drift: -31.0%",
+          "value": "58.5% from base, drift: -31.0%",
           "threshold": "< 5% from ceiling, < 10% drift"
         },
         {
@@ -4688,7 +4552,7 @@
           "category": "Breakout",
           "passed": true,
           "points": 8,
-          "value": "78% of avg (1.8M vs 2.3M)",
+          "value": "93% of avg (2.1M vs 2.3M)",
           "threshold": "5d vol < 1.2x 50d vol"
         },
         {
@@ -4696,7 +4560,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "44.8% of 52W high ($42.50)",
+          "value": "41.5% of 52W high ($42.50)",
           "threshold": "> 90% of 52W high"
         },
         {
@@ -4704,7 +4568,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "95.1% of 20d ATR ($1.19 vs $1.25)",
+          "value": "97.0% of 20d ATR ($1.27 vs $1.31)",
           "threshold": "14d ATR < 80% of 20d ATR"
         },
         {
@@ -4768,17 +4632,17 @@
           "category": "Context",
           "passed": false,
           "points": 0,
-          "value": "-25.3%",
+          "value": "-31.0%",
           "threshold": "> 5% vs Market"
         }
       ],
-      "forward_pe": 82.82092,
+      "forward_pe": 74.805984,
       "trailing_pe": null,
       "peg_ratio": null,
       "recommendation": "strong_buy",
       "target_mean": 36.7,
       "analyst_count": 10,
-      "current_price": 19.53
+      "current_price": 17.64
     },
     {
       "ticker": "NET",
@@ -4924,7 +4788,7 @@
       "score": 46,
       "max_score": 100,
       "grade": "C",
-      "market_cap": 326326714368,
+      "market_cap": 320538804224,
       "technical_score": 18,
       "growth_score": 15,
       "quality_score": 8,
@@ -4936,7 +4800,7 @@
           "category": "Momentum",
           "passed": false,
           "points": 0,
-          "value": "$199.88 > 50d($219.82) > 200d($184.01)",
+          "value": "$196.60 > 50d($219.32) > 200d($184.50)",
           "threshold": "Price > 50d > 200d"
         },
         {
@@ -4944,7 +4808,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "25.2% from base, drift: -0.0%",
+          "value": "26.4% from base, drift: -0.0%",
           "threshold": "< 5% from ceiling, < 10% drift"
         },
         {
@@ -4960,7 +4824,7 @@
           "category": "Breakout",
           "passed": true,
           "points": 8,
-          "value": "86% of avg (30.3M vs 35.3M)",
+          "value": "87% of avg (30.7M vs 35.3M)",
           "threshold": "5d vol < 1.2x 50d vol"
         },
         {
@@ -4968,7 +4832,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "74.8% of 52W high ($267.08)",
+          "value": "73.6% of 52W high ($267.08)",
           "threshold": "> 90% of 52W high"
         },
         {
@@ -4976,7 +4840,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "101.5% of 20d ATR ($11.19 vs $11.02)",
+          "value": "97.6% of 20d ATR ($10.49 vs $10.75)",
           "threshold": "14d ATR < 80% of 20d ATR"
         },
         {
@@ -5040,39 +4904,39 @@
           "category": "Context",
           "passed": false,
           "points": 0,
-          "value": "-20.0%",
+          "value": "-22.5%",
           "threshold": "> 5% vs Market"
         }
       ],
-      "forward_pe": 18.784855,
-      "trailing_pe": 76.98077,
+      "forward_pe": 18.451675,
+      "trailing_pe": 75.325676,
       "peg_ratio": null,
       "recommendation": "buy",
-      "target_mean": 287.52173,
-      "analyst_count": 46,
-      "current_price": 200.15
+      "target_mean": 286.29788,
+      "analyst_count": 47,
+      "current_price": 196.6
     },
     {
-      "ticker": "ANET",
-      "name": "Arista Networks, Inc.",
-      "sector": "Technology",
-      "industry": "Computer Hardware",
+      "ticker": "HALO",
+      "name": "Halozyme Therapeutics, Inc.",
+      "sector": "Healthcare",
+      "industry": "Biotechnology",
       "score": 46,
       "max_score": 100,
       "grade": "C",
-      "market_cap": 167220461568,
+      "market_cap": 8336720896,
       "technical_score": 10,
       "growth_score": 18,
       "quality_score": 13,
       "context_score": 5,
-      "moonshot_score": 0,
+      "moonshot_score": 60,
       "criteria": [
         {
           "name": "Trend Alignment",
           "category": "Momentum",
           "passed": false,
           "points": 0,
-          "value": "$133.30 > 50d($133.65) > 200d($126.05)",
+          "value": "$70.64 > 50d($71.57) > 200d($65.86)",
           "threshold": "Price > 50d > 200d"
         },
         {
@@ -5080,7 +4944,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "19.2% from base, drift: -8.0%",
+          "value": "14.1% from base, drift: 3.4%",
           "threshold": "< 5% from ceiling, < 10% drift"
         },
         {
@@ -5088,7 +4952,7 @@
           "category": "Breakout",
           "passed": true,
           "points": 10,
-          "value": "30.6% depth ($114.52 - $164.94)",
+          "value": "25.5% depth ($61.23 - $82.22)",
           "threshold": "Base depth < 45%"
         },
         {
@@ -5096,7 +4960,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "129% of avg (10.2M vs 7.9M)",
+          "value": "137% of avg (2.9M vs 2.1M)",
           "threshold": "5d vol < 1.2x 50d vol"
         },
         {
@@ -5104,7 +4968,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "80.8% of 52W high ($164.94)",
+          "value": "85.9% of 52W high ($82.22)",
           "threshold": "> 90% of 52W high"
         },
         {
@@ -5112,23 +4976,23 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "102.2% of 20d ATR ($6.42 vs $6.28)",
+          "value": "98.9% of 20d ATR ($2.68 vs $2.71)",
           "threshold": "14d ATR < 80% of 20d ATR"
         },
         {
           "name": "Sales Growth (2yr)",
           "category": "Growth",
           "passed": true,
-          "points": 15,
-          "value": "28.9% (avg: 31.3%)",
+          "points": 18,
+          "value": "51.6% (avg: 38.6%)",
           "threshold": "Both years >= 10% required"
         },
         {
           "name": "Earnings Growth",
           "category": "Growth",
-          "passed": true,
-          "points": 3,
-          "value": "19.1%",
+          "passed": false,
+          "points": 0,
+          "value": "N/A",
           "threshold": "> 15%"
         },
         {
@@ -5136,7 +5000,7 @@
           "category": "Quality",
           "passed": true,
           "points": 5,
-          "value": "31.4%",
+          "value": "153.6%",
           "threshold": "> 15%"
         },
         {
@@ -5144,7 +5008,7 @@
           "category": "Quality",
           "passed": true,
           "points": 5,
-          "value": "41.5%",
+          "value": "56.3%",
           "threshold": "> 10%"
         },
         {
@@ -5160,7 +5024,7 @@
           "category": "Quality",
           "passed": true,
           "points": 3,
-          "value": "$3.39B",
+          "value": "$0.18B",
           "threshold": "FCF > 0"
         },
         {
@@ -5168,7 +5032,7 @@
           "category": "Context",
           "passed": true,
           "points": 5,
-          "value": "Technology",
+          "value": "Healthcare",
           "threshold": "High-Conviction Sector"
         },
         {
@@ -5176,17 +5040,17 @@
           "category": "Context",
           "passed": false,
           "points": 0,
-          "value": "+4.7%",
+          "value": "-0.9%",
           "threshold": "> 5% vs Market"
         }
       ],
-      "forward_pe": 31.3212,
-      "trailing_pe": 48.28727,
+      "forward_pe": 7.173394,
+      "trailing_pe": 27.59375,
       "peg_ratio": null,
-      "recommendation": "strong_buy",
-      "target_mean": 178.0634,
-      "analyst_count": 24,
-      "current_price": 132.79
+      "recommendation": "buy",
+      "target_mean": 84.5,
+      "analyst_count": 8,
+      "current_price": 70.64
     },
     {
       "ticker": "PCTY",
@@ -5332,7 +5196,7 @@
       "score": 45,
       "max_score": 100,
       "grade": "C",
-      "market_cap": 69488189440,
+      "market_cap": 66011463680,
       "technical_score": 10,
       "growth_score": 30,
       "quality_score": 5,
@@ -5344,7 +5208,7 @@
           "category": "Momentum",
           "passed": false,
           "points": 0,
-          "value": "$119.63 > 50d($139.31) > 200d($136.03)",
+          "value": "$113.73 > 50d($138.70) > 200d($135.96)",
           "threshold": "Price > 50d > 200d"
         },
         {
@@ -5352,7 +5216,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "22.0% from base, drift: 3.8%",
+          "value": "25.8% from base, drift: 3.8%",
           "threshold": "< 5% from ceiling, < 10% drift"
         },
         {
@@ -5368,7 +5232,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "137% of avg (5.1M vs 3.7M)",
+          "value": "163% of avg (6.3M vs 3.8M)",
           "threshold": "5d vol < 1.2x 50d vol"
         },
         {
@@ -5376,7 +5240,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "73.7% of 52W high ($162.40)",
+          "value": "70.0% of 52W high ($162.40)",
           "threshold": "> 90% of 52W high"
         },
         {
@@ -5384,7 +5248,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "112.6% of 20d ATR ($5.85 vs $5.19)",
+          "value": "111.4% of 20d ATR ($5.95 vs $5.34)",
           "threshold": "14d ATR < 80% of 20d ATR"
         },
         {
@@ -5448,17 +5312,153 @@
           "category": "Context",
           "passed": false,
           "points": 0,
-          "value": "-14.3%",
+          "value": "-18.6%",
           "threshold": "> 5% vs Market"
         }
       ],
-      "forward_pe": 10.980726,
-      "trailing_pe": 17.451895,
+      "forward_pe": 10.441676,
+      "trailing_pe": 16.578718,
       "peg_ratio": null,
       "recommendation": "buy",
-      "target_mean": 159.3125,
-      "analyst_count": 16,
-      "current_price": 119.72
+      "target_mean": 158.64706,
+      "analyst_count": 17,
+      "current_price": 113.73
+    },
+    {
+      "ticker": "KKR",
+      "name": "KKR & Co. Inc.",
+      "sector": "Financial Services",
+      "industry": "Asset Management",
+      "score": 45,
+      "max_score": 100,
+      "grade": "C",
+      "market_cap": 85369823232,
+      "technical_score": 10,
+      "growth_score": 30,
+      "quality_score": 5,
+      "context_score": 0,
+      "moonshot_score": 30,
+      "criteria": [
+        {
+          "name": "Trend Alignment",
+          "category": "Momentum",
+          "passed": false,
+          "points": 0,
+          "value": "$92.19 > 50d($121.42) > 200d($128.26)",
+          "threshold": "Price > 50d > 200d"
+        },
+        {
+          "name": "Breakout Pattern",
+          "category": "Breakout",
+          "passed": false,
+          "points": 0,
+          "value": "39.3% from base, drift: -4.6%",
+          "threshold": "< 5% from ceiling, < 10% drift"
+        },
+        {
+          "name": "Consolidation",
+          "category": "Breakout",
+          "passed": true,
+          "points": 10,
+          "value": "35.9% depth ($97.37 - $151.87)",
+          "threshold": "Base depth < 45%"
+        },
+        {
+          "name": "Volume Dry-up",
+          "category": "Breakout",
+          "passed": false,
+          "points": 0,
+          "value": "141% of avg (8.5M vs 6.0M)",
+          "threshold": "5d vol < 1.2x 50d vol"
+        },
+        {
+          "name": "52W Proximity",
+          "category": "Timing",
+          "passed": false,
+          "points": 0,
+          "value": "60.1% of 52W high ($153.43)",
+          "threshold": "> 90% of 52W high"
+        },
+        {
+          "name": "Volatility Compression",
+          "category": "Timing",
+          "passed": false,
+          "points": 0,
+          "value": "111.5% of 20d ATR ($5.79 vs $5.19)",
+          "threshold": "14d ATR < 80% of 20d ATR"
+        },
+        {
+          "name": "Sales Growth (2yr)",
+          "category": "Growth",
+          "passed": true,
+          "points": 30,
+          "value": "77.5% (avg: 117.4%)",
+          "threshold": "Both years >= 10% required"
+        },
+        {
+          "name": "Earnings Growth",
+          "category": "Growth",
+          "passed": false,
+          "points": 0,
+          "value": "-1.8%",
+          "threshold": "> 15%"
+        },
+        {
+          "name": "ROE Quality",
+          "category": "Quality",
+          "passed": false,
+          "points": 0,
+          "value": "8.9%",
+          "threshold": "> 15%"
+        },
+        {
+          "name": "Operating Margin",
+          "category": "Quality",
+          "passed": true,
+          "points": 5,
+          "value": "32.8%",
+          "threshold": "> 10%"
+        },
+        {
+          "name": "Valuation Sanity",
+          "category": "Quality",
+          "passed": false,
+          "points": 0,
+          "value": "N/A",
+          "threshold": "PEG < 2.0"
+        },
+        {
+          "name": "FCF Quality",
+          "category": "Quality",
+          "passed": false,
+          "points": 0,
+          "value": "N/A",
+          "threshold": "FCF > 0"
+        },
+        {
+          "name": "Industry Strength",
+          "category": "Context",
+          "passed": false,
+          "points": 0,
+          "value": "Financial Services",
+          "threshold": "High-Conviction Sector"
+        },
+        {
+          "name": "Relative Strength",
+          "category": "Context",
+          "passed": false,
+          "points": 0,
+          "value": "-25.3%",
+          "threshold": "> 5% vs Market"
+        }
+      ],
+      "forward_pe": 11.597423,
+      "trailing_pe": 39.397438,
+      "peg_ratio": null,
+      "recommendation": "buy",
+      "target_mean": 141.03316,
+      "analyst_count": 19,
+      "current_price": 92.19
     },
     {
       "ticker": "AVGO",
@@ -5468,7 +5468,7 @@
       "score": 44,
       "max_score": 100,
       "grade": "C",
-      "market_cap": 1577184657408,
+      "market_cap": 1566232281088,
       "technical_score": 18,
       "growth_score": 18,
       "quality_score": 13,
@@ -5480,7 +5480,7 @@
           "category": "Momentum",
           "passed": false,
           "points": 0,
-          "value": "$332.62 > 50d($341.43) > 200d($314.70)",
+          "value": "$330.34 > 50d($339.92) > 200d($315.35)",
           "threshold": "Price > 50d > 200d"
         },
         {
@@ -5488,7 +5488,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "19.6% from base, drift: 7.3%",
+          "value": "20.2% from base, drift: 7.3%",
           "threshold": "< 5% from ceiling, < 10% drift"
         },
         {
@@ -5504,7 +5504,7 @@
           "category": "Breakout",
           "passed": true,
           "points": 8,
-          "value": "52% of avg (16.7M vs 32.1M)",
+          "value": "51% of avg (16.3M vs 32.0M)",
           "threshold": "5d vol < 1.2x 50d vol"
         },
         {
@@ -5512,7 +5512,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "80.4% of 52W high ($413.82)",
+          "value": "79.8% of 52W high ($413.82)",
           "threshold": "> 90% of 52W high"
         },
         {
@@ -5520,7 +5520,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "110.3% of 20d ATR ($15.88 vs $14.39)",
+          "value": "109.7% of 20d ATR ($16.09 vs $14.66)",
           "threshold": "14d ATR < 80% of 20d ATR"
         },
         {
@@ -5584,7 +5584,7 @@
           "category": "Context",
           "passed": false,
           "points": 0,
-          "value": "+1.2%",
+          "value": "+1.5%",
           "threshold": "> 5% vs Market"
         },
         {
@@ -5596,13 +5596,149 @@
           "threshold": "Large Cap Penalty"
         }
       ],
-      "forward_pe": 22.914656,
-      "trailing_pe": 69.88445,
+      "forward_pe": 22.722052,
+      "trailing_pe": 69.399155,
       "peg_ratio": null,
       "recommendation": "strong_buy",
       "target_mean": 456.0997,
       "analyst_count": 45,
-      "current_price": 332.65
+      "current_price": 330.34
+    },
+    {
+      "ticker": "ELF",
+      "name": "e.l.f. Beauty, Inc.",
+      "sector": "Consumer Defensive",
+      "industry": "Household & Personal Products",
+      "score": 44,
+      "max_score": 100,
+      "grade": "C",
+      "market_cap": 5371483648,
+      "technical_score": 8,
+      "growth_score": 28,
+      "quality_score": 8,
+      "context_score": 0,
+      "moonshot_score": 30,
+      "criteria": [
+        {
+          "name": "Trend Alignment",
+          "category": "Momentum",
+          "passed": false,
+          "points": 0,
+          "value": "$90.07 > 50d($82.98) > 200d($104.99)",
+          "threshold": "Price > 50d > 200d"
+        },
+        {
+          "name": "Breakout Pattern",
+          "category": "Breakout",
+          "passed": false,
+          "points": 0,
+          "value": "40.3% from base, drift: -36.1%",
+          "threshold": "< 5% from ceiling, < 10% drift"
+        },
+        {
+          "name": "Consolidation",
+          "category": "Breakout",
+          "passed": false,
+          "points": 0,
+          "value": "55.4% depth ($67.37 - $150.99)",
+          "threshold": "Base depth < 45%"
+        },
+        {
+          "name": "Volume Dry-up",
+          "category": "Breakout",
+          "passed": true,
+          "points": 8,
+          "value": "110% of avg (2.2M vs 2.0M)",
+          "threshold": "5d vol < 1.2x 50d vol"
+        },
+        {
+          "name": "52W Proximity",
+          "category": "Timing",
+          "passed": false,
+          "points": 0,
+          "value": "59.7% of 52W high ($150.99)",
+          "threshold": "> 90% of 52W high"
+        },
+        {
+          "name": "Volatility Compression",
+          "category": "Timing",
+          "passed": false,
+          "points": 0,
+          "value": "112.7% of 20d ATR ($6.69 vs $5.94)",
+          "threshold": "14d ATR < 80% of 20d ATR"
+        },
+        {
+          "name": "Sales Growth (2yr)",
+          "category": "Growth",
+          "passed": true,
+          "points": 25,
+          "value": "37.8% (avg: 57.3%)",
+          "threshold": "Both years >= 10% required"
+        },
+        {
+          "name": "Earnings Growth",
+          "category": "Growth",
+          "passed": true,
+          "points": 3,
+          "value": "116.7%",
+          "threshold": "> 15%"
+        },
+        {
+          "name": "ROE Quality",
+          "category": "Quality",
+          "passed": false,
+          "points": 0,
+          "value": "10.8%",
+          "threshold": "> 15%"
+        },
+        {
+          "name": "Operating Margin",
+          "category": "Quality",
+          "passed": true,
+          "points": 5,
+          "value": "13.8%",
+          "threshold": "> 10%"
+        },
+        {
+          "name": "Valuation Sanity",
+          "category": "Quality",
+          "passed": false,
+          "points": 0,
+          "value": "N/A",
+          "threshold": "PEG < 2.0"
+        },
+        {
+          "name": "FCF Quality",
+          "category": "Quality",
+          "passed": true,
+          "points": 3,
+          "value": "$0.22B",
+          "threshold": "FCF > 0"
+        },
+        {
+          "name": "Industry Strength",
+          "category": "Context",
+          "passed": false,
+          "points": 0,
+          "value": "Consumer Defensive",
+          "threshold": "High-Conviction Sector"
+        },
+        {
+          "name": "Relative Strength",
+          "category": "Context",
+          "passed": false,
+          "points": 0,
+          "value": "-3.8%",
+          "threshold": "> 5% vs Market"
+        }
+      ],
+      "forward_pe": 24.644371,
+      "trailing_pe": 50.887005,
+      "peg_ratio": null,
+      "recommendation": "buy",
+      "target_mean": 112.78571,
+      "analyst_count": 14,
+      "current_price": 90.07
     },
     {
       "ticker": "BLSH",
@@ -5612,19 +5748,19 @@
       "score": 43,
       "max_score": 100,
       "grade": "C",
-      "market_cap": 4787222528,
+      "market_cap": 4615442944,
       "technical_score": 8,
       "growth_score": 30,
       "quality_score": 0,
       "context_score": 5,
-      "moonshot_score": 50,
+      "moonshot_score": 60,
       "criteria": [
         {
           "name": "Trend Alignment",
           "category": "Momentum",
           "passed": false,
           "points": 0,
-          "value": "$31.74 > 50d($37.21)",
+          "value": "$30.63 > 50d($36.90)",
           "threshold": "Price > 50d > 200d"
         },
         {
@@ -5632,7 +5768,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "58.0% from base, drift: -35.3%",
+          "value": "59.1% from base, drift: -34.8%",
           "threshold": "< 5% from ceiling, < 10% drift"
         },
         {
@@ -5640,7 +5776,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "67.2% depth ($24.79 - $75.49)",
+          "value": "66.9% depth ($24.79 - $74.98)",
           "threshold": "Base depth < 45%"
         },
         {
@@ -5648,7 +5784,7 @@
           "category": "Breakout",
           "passed": true,
           "points": 8,
-          "value": "70% of avg (1.5M vs 2.1M)",
+          "value": "56% of avg (1.2M vs 2.1M)",
           "threshold": "5d vol < 1.2x 50d vol"
         },
         {
@@ -5656,7 +5792,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "26.9% of 52W high ($118.00)",
+          "value": "26.0% of 52W high ($118.00)",
           "threshold": "> 90% of 52W high"
         },
         {
@@ -5664,7 +5800,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "105.9% of 20d ATR ($2.15 vs $2.03)",
+          "value": "104.3% of 20d ATR ($2.11 vs $2.02)",
           "threshold": "14d ATR < 80% of 20d ATR"
         },
         {
@@ -5728,17 +5864,17 @@
           "category": "Context",
           "passed": false,
           "points": 0,
-          "value": "-17.3%",
+          "value": "-16.0%",
           "threshold": "> 5% vs Market"
         }
       ],
-      "forward_pe": 32.4674,
+      "forward_pe": 31.302376,
       "trailing_pe": null,
       "peg_ratio": null,
       "recommendation": "buy",
       "target_mean": 45.2,
       "analyst_count": 10,
-      "current_price": 31.77
+      "current_price": 30.63
     },
     {
       "ticker": "CRCL",
@@ -5748,19 +5884,19 @@
       "score": 43,
       "max_score": 100,
       "grade": "C",
-      "market_cap": 16034658304,
+      "market_cap": 15563948032,
       "technical_score": 8,
       "growth_score": 30,
       "quality_score": 5,
       "context_score": 0,
-      "moonshot_score": 20,
+      "moonshot_score": 30,
       "criteria": [
         {
           "name": "Trend Alignment",
           "category": "Momentum",
           "passed": false,
           "points": 0,
-          "value": "$62.84 > 50d($73.73)",
+          "value": "$61.17 > 50d($73.18)",
           "threshold": "Price > 50d > 200d"
         },
         {
@@ -5768,7 +5904,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "60.6% from base, drift: -42.7%",
+          "value": "61.6% from base, drift: -42.7%",
           "threshold": "< 5% from ceiling, < 10% drift"
         },
         {
@@ -5784,7 +5920,7 @@
           "category": "Breakout",
           "passed": true,
           "points": 8,
-          "value": "83% of avg (8.8M vs 10.6M)",
+          "value": "78% of avg (8.1M vs 10.5M)",
           "threshold": "5d vol < 1.2x 50d vol"
         },
         {
@@ -5792,7 +5928,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "21.0% of 52W high ($298.99)",
+          "value": "20.5% of 52W high ($298.99)",
           "threshold": "> 90% of 52W high"
         },
         {
@@ -5800,7 +5936,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "103.1% of 20d ATR ($4.31 vs $4.18)",
+          "value": "102.1% of 20d ATR ($4.30 vs $4.21)",
           "threshold": "14d ATR < 80% of 20d ATR"
         },
         {
@@ -5864,17 +6000,17 @@
           "category": "Context",
           "passed": false,
           "points": 0,
-          "value": "-13.5%",
+          "value": "-14.3%",
           "threshold": "> 5% vs Market"
         }
       ],
-      "forward_pe": 54.477867,
+      "forward_pe": 52.878628,
       "trailing_pe": null,
       "peg_ratio": null,
       "recommendation": "buy",
       "target_mean": 129.71,
       "analyst_count": 20,
-      "current_price": 63.02
+      "current_price": 61.17
     },
     {
       "ticker": "PODD",
@@ -6428,7 +6564,7 @@
       "score": 41,
       "max_score": 100,
       "grade": "C",
-      "market_cap": 8700452864,
+      "market_cap": 8683910144,
       "technical_score": 10,
       "growth_score": 18,
       "quality_score": 13,
@@ -6440,7 +6576,7 @@
           "category": "Momentum",
           "passed": false,
           "points": 0,
-          "value": "$373.64 > 50d($393.90) > 200d($431.18)",
+          "value": "$372.70 > 50d($393.91) > 200d($430.76)",
           "threshold": "Price > 50d > 200d"
         },
         {
@@ -6448,7 +6584,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "22.9% from base, drift: -13.0%",
+          "value": "23.1% from base, drift: -13.0%",
           "threshold": "< 5% from ceiling, < 10% drift"
         },
         {
@@ -6456,7 +6592,7 @@
           "category": "Breakout",
           "passed": true,
           "points": 10,
-          "value": "28.0% depth ($349.00 - $484.78)",
+          "value": "29.6% depth ($341.06 - $484.78)",
           "threshold": "Base depth < 45%"
         },
         {
@@ -6464,7 +6600,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "174% of avg (0.4M vs 0.2M)",
+          "value": "126% of avg (0.3M vs 0.2M)",
           "threshold": "5d vol < 1.2x 50d vol"
         },
         {
@@ -6472,7 +6608,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "72.9% of 52W high ($512.34)",
+          "value": "72.7% of 52W high ($512.34)",
           "threshold": "> 90% of 52W high"
         },
         {
@@ -6480,7 +6616,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "106.6% of 20d ATR ($16.47 vs $15.45)",
+          "value": "107.1% of 20d ATR ($16.51 vs $15.41)",
           "threshold": "14d ATR < 80% of 20d ATR"
         },
         {
@@ -6544,17 +6680,17 @@
           "category": "Context",
           "passed": false,
           "points": 0,
-          "value": "-7.8%",
+          "value": "-8.5%",
           "threshold": "> 5% vs Market"
         }
       ],
-      "forward_pe": 16.752115,
-      "trailing_pe": 17.239613,
+      "forward_pe": 16.726784,
+      "trailing_pe": 17.21478,
       "peg_ratio": null,
       "recommendation": "buy",
-      "target_mean": 433.4,
+      "target_mean": 429.4,
       "analyst_count": 10,
-      "current_price": 373.41
+      "current_price": 372.7
     },
     {
       "ticker": "PRU",
@@ -7108,7 +7244,7 @@
       "score": 39,
       "max_score": 100,
       "grade": "D",
-      "market_cap": 6285812736,
+      "market_cap": 6103249408,
       "technical_score": 10,
       "growth_score": 16,
       "quality_score": 8,
@@ -7120,7 +7256,7 @@
           "category": "Momentum",
           "passed": false,
           "points": 0,
-          "value": "$67.20 > 50d($69.02) > 200d($75.69)",
+          "value": "$65.19 > 50d($69.01) > 200d($75.53)",
           "threshold": "Price > 50d > 200d"
         },
         {
@@ -7128,7 +7264,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "19.5% from base, drift: -9.4%",
+          "value": "21.9% from base, drift: -9.4%",
           "threshold": "< 5% from ceiling, < 10% drift"
         },
         {
@@ -7144,7 +7280,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "135% of avg (1.0M vs 0.7M)",
+          "value": "137% of avg (1.0M vs 0.7M)",
           "threshold": "5d vol < 1.2x 50d vol"
         },
         {
@@ -7152,7 +7288,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "67.4% of 52W high ($99.67)",
+          "value": "65.4% of 52W high ($99.67)",
           "threshold": "> 90% of 52W high"
         },
         {
@@ -7160,7 +7296,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "96.0% of 20d ATR ($2.32 vs $2.41)",
+          "value": "100.2% of 20d ATR ($2.34 vs $2.33)",
           "threshold": "14d ATR < 80% of 20d ATR"
         },
         {
@@ -7224,17 +7360,17 @@
           "category": "Context",
           "passed": false,
           "points": 0,
-          "value": "-9.0%",
+          "value": "-11.3%",
           "threshold": "> 5% vs Market"
         }
       ],
-      "forward_pe": 67.23144,
-      "trailing_pe": 101.727264,
+      "forward_pe": 65.27878,
+      "trailing_pe": 98.77273,
       "peg_ratio": null,
       "recommendation": "strong_buy",
       "target_mean": 93.79667,
       "analyst_count": 6,
-      "current_price": 67.14
+      "current_price": 65.19
     },
     {
       "ticker": "TPG",
@@ -7256,7 +7392,7 @@
           "category": "Momentum",
           "passed": false,
           "points": 0,
-          "value": "$44.21 > 50d($61.01) > 200d($56.78)",
+          "value": "$42.34 > 50d($60.55) > 200d($56.77)",
           "threshold": "Price > 50d > 200d"
         },
         {
@@ -7264,7 +7400,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "37.2% from base, drift: 8.3%",
+          "value": "39.8% from base, drift: 8.3%",
           "threshold": "< 5% from ceiling, < 10% drift"
         },
         {
@@ -7280,7 +7416,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "185% of avg (5.3M vs 2.9M)",
+          "value": "189% of avg (5.5M vs 2.9M)",
           "threshold": "5d vol < 1.2x 50d vol"
         },
         {
@@ -7288,7 +7424,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "62.8% of 52W high ($70.38)",
+          "value": "60.2% of 52W high ($70.38)",
           "threshold": "> 90% of 52W high"
         },
         {
@@ -7296,7 +7432,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "116.7% of 20d ATR ($3.50 vs $3.00)",
+          "value": "115.9% of 20d ATR ($3.57 vs $3.08)",
           "threshold": "14d ATR < 80% of 20d ATR"
         },
         {
@@ -7360,7 +7496,7 @@
           "category": "Context",
           "passed": false,
           "points": 0,
-          "value": "-30.4%",
+          "value": "-32.8%",
           "threshold": "> 5% vs Market"
         }
       ],
@@ -7380,7 +7516,7 @@
       "score": 37,
       "max_score": 100,
       "grade": "D",
-      "market_cap": 17018622976,
+      "market_cap": 15699505152,
       "technical_score": 8,
       "growth_score": 21,
       "quality_score": 8,
@@ -7392,7 +7528,7 @@
           "category": "Momentum",
           "passed": false,
           "points": 0,
-          "value": "$51.43 > 50d($68.44) > 200d($69.39)",
+          "value": "$47.13 > 50d($68.01) > 200d($69.37)",
           "threshold": "Price > 50d > 200d"
         },
         {
@@ -7400,7 +7536,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "48.6% from base, drift: -15.3%",
+          "value": "52.9% from base, drift: -15.3%",
           "threshold": "< 5% from ceiling, < 10% drift"
         },
         {
@@ -7408,7 +7544,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "50.4% depth ($49.60 - $100.00)",
+          "value": "51.5% depth ($48.55 - $100.00)",
           "threshold": "Base depth < 45%"
         },
         {
@@ -7416,7 +7552,7 @@
           "category": "Breakout",
           "passed": true,
           "points": 8,
-          "value": "107% of avg (6.7M vs 6.2M)",
+          "value": "96% of avg (6.1M vs 6.3M)",
           "threshold": "5d vol < 1.2x 50d vol"
         },
         {
@@ -7424,7 +7560,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "51.4% of 52W high ($100.00)",
+          "value": "47.1% of 52W high ($100.00)",
           "threshold": "> 90% of 52W high"
         },
         {
@@ -7432,7 +7568,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "105.2% of 20d ATR ($3.93 vs $3.73)",
+          "value": "103.4% of 20d ATR ($3.94 vs $3.81)",
           "threshold": "14d ATR < 80% of 20d ATR"
         },
         {
@@ -7496,153 +7632,17 @@
           "category": "Context",
           "passed": false,
           "points": 0,
-          "value": "-28.3%",
+          "value": "-35.3%",
           "threshold": "> 5% vs Market"
         }
       ],
-      "forward_pe": 13.697859,
-      "trailing_pe": 63.074074,
+      "forward_pe": 12.636134,
+      "trailing_pe": 58.185184,
       "peg_ratio": null,
       "recommendation": "buy",
       "target_mean": 84.48148,
       "analyst_count": 27,
-      "current_price": 51.09
-    },
-    {
-      "ticker": "ELF",
-      "name": "e.l.f. Beauty, Inc.",
-      "sector": "Consumer Defensive",
-      "industry": "Household & Personal Products",
-      "score": 36,
-      "max_score": 100,
-      "grade": "D",
-      "market_cap": 5607048704,
-      "technical_score": 0,
-      "growth_score": 28,
-      "quality_score": 8,
-      "context_score": 0,
-      "moonshot_score": 30,
-      "criteria": [
-        {
-          "name": "Trend Alignment",
-          "category": "Momentum",
-          "passed": false,
-          "points": 0,
-          "value": "$92.84 > 50d($82.72) > 200d($104.88)",
-          "threshold": "Price > 50d > 200d"
-        },
-        {
-          "name": "Breakout Pattern",
-          "category": "Breakout",
-          "passed": false,
-          "points": 0,
-          "value": "38.5% from base, drift: -36.1%",
-          "threshold": "< 5% from ceiling, < 10% drift"
-        },
-        {
-          "name": "Consolidation",
-          "category": "Breakout",
-          "passed": false,
-          "points": 0,
-          "value": "55.4% depth ($67.37 - $150.99)",
-          "threshold": "Base depth < 45%"
-        },
-        {
-          "name": "Volume Dry-up",
-          "category": "Breakout",
-          "passed": false,
-          "points": 0,
-          "value": "122% of avg (2.5M vs 2.0M)",
-          "threshold": "5d vol < 1.2x 50d vol"
-        },
-        {
-          "name": "52W Proximity",
-          "category": "Timing",
-          "passed": false,
-          "points": 0,
-          "value": "61.5% of 52W high ($150.99)",
-          "threshold": "> 90% of 52W high"
-        },
-        {
-          "name": "Volatility Compression",
-          "category": "Timing",
-          "passed": false,
-          "points": 0,
-          "value": "114.4% of 20d ATR ($6.61 vs $5.78)",
-          "threshold": "14d ATR < 80% of 20d ATR"
-        },
-        {
-          "name": "Sales Growth (2yr)",
-          "category": "Growth",
-          "passed": true,
-          "points": 25,
-          "value": "37.8% (avg: 57.3%)",
-          "threshold": "Both years >= 10% required"
-        },
-        {
-          "name": "Earnings Growth",
-          "category": "Growth",
-          "passed": true,
-          "points": 3,
-          "value": "116.7%",
-          "threshold": "> 15%"
-        },
-        {
-          "name": "ROE Quality",
-          "category": "Quality",
-          "passed": false,
-          "points": 0,
-          "value": "10.8%",
-          "threshold": "> 15%"
-        },
-        {
-          "name": "Operating Margin",
-          "category": "Quality",
-          "passed": true,
-          "points": 5,
-          "value": "13.8%",
-          "threshold": "> 10%"
-        },
-        {
-          "name": "Valuation Sanity",
-          "category": "Quality",
-          "passed": false,
-          "points": 0,
-          "value": "N/A",
-          "threshold": "PEG < 2.0"
-        },
-        {
-          "name": "FCF Quality",
-          "category": "Quality",
-          "passed": true,
-          "points": 3,
-          "value": "$0.22B",
-          "threshold": "FCF > 0"
-        },
-        {
-          "name": "Industry Strength",
-          "category": "Context",
-          "passed": false,
-          "points": 0,
-          "value": "Consumer Defensive",
-          "threshold": "High-Conviction Sector"
-        },
-        {
-          "name": "Relative Strength",
-          "category": "Context",
-          "passed": false,
-          "points": 0,
-          "value": "+1.1%",
-          "threshold": "> 5% vs Market"
-        }
-      ],
-      "forward_pe": 25.725143,
-      "trailing_pe": 53.11864,
-      "peg_ratio": null,
-      "recommendation": "buy",
-      "target_mean": 112.78571,
-      "analyst_count": 14,
-      "current_price": 94.02
+      "current_price": 47.13
     },
     {
       "ticker": "HOOD",
@@ -7652,7 +7652,7 @@
       "score": 33,
       "max_score": 100,
       "grade": "D",
-      "market_cap": 68600107008,
+      "market_cap": 64624136192,
       "technical_score": 8,
       "growth_score": 15,
       "quality_score": 10,
@@ -7664,7 +7664,7 @@
           "category": "Momentum",
           "passed": false,
           "points": 0,
-          "value": "$76.33 > 50d($105.38) > 200d($106.36)",
+          "value": "$71.78 > 50d($104.10) > 200d($106.48)",
           "threshold": "Price > 50d > 200d"
         },
         {
@@ -7672,7 +7672,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "50.4% from base, drift: -9.2%",
+          "value": "53.3% from base, drift: -9.2%",
           "threshold": "< 5% from ceiling, < 10% drift"
         },
         {
@@ -7688,7 +7688,7 @@
           "category": "Breakout",
           "passed": true,
           "points": 8,
-          "value": "105% of avg (29.5M vs 28.2M)",
+          "value": "95% of avg (26.9M vs 28.4M)",
           "threshold": "5d vol < 1.2x 50d vol"
         },
         {
@@ -7696,7 +7696,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "49.6% of 52W high ($153.86)",
+          "value": "46.7% of 52W high ($153.86)",
           "threshold": "> 90% of 52W high"
         },
         {
@@ -7704,7 +7704,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "105.0% of 20d ATR ($5.51 vs $5.25)",
+          "value": "101.4% of 20d ATR ($5.25 vs $5.18)",
           "threshold": "14d ATR < 80% of 20d ATR"
         },
         {
@@ -7768,17 +7768,17 @@
           "category": "Context",
           "passed": false,
           "points": 0,
-          "value": "-27.9%",
+          "value": "-32.4%",
           "threshold": "> 5% vs Market"
         }
       ],
-      "forward_pe": 27.190008,
-      "trailing_pe": 37.12683,
+      "forward_pe": 25.643131,
+      "trailing_pe": 35.014633,
       "peg_ratio": null,
       "recommendation": "buy",
-      "target_mean": 131.29,
+      "target_mean": 130.09952,
       "analyst_count": 21,
-      "current_price": 76.11
+      "current_price": 71.78
     },
     {
       "ticker": "IOT",
@@ -7788,7 +7788,7 @@
       "score": 33,
       "max_score": 100,
       "grade": "D",
-      "market_cap": 15457938432,
+      "market_cap": 14263539712,
       "technical_score": 8,
       "growth_score": 17,
       "quality_score": 3,
@@ -7800,7 +7800,7 @@
           "category": "Momentum",
           "passed": false,
           "points": 0,
-          "value": "$26.60 > 50d($32.96) > 200d($37.67)",
+          "value": "$24.72 > 50d($32.58) > 200d($37.58)",
           "threshold": "Price > 50d > 200d"
         },
         {
@@ -7808,7 +7808,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "44.0% from base, drift: 10.7%",
+          "value": "47.9% from base, drift: 10.7%",
           "threshold": "< 5% from ceiling, < 10% drift"
         },
         {
@@ -7824,7 +7824,7 @@
           "category": "Breakout",
           "passed": true,
           "points": 8,
-          "value": "98% of avg (7.4M vs 7.6M)",
+          "value": "91% of avg (6.9M vs 7.6M)",
           "threshold": "5d vol < 1.2x 50d vol"
         },
         {
@@ -7832,7 +7832,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "43.0% of 52W high ($61.90)",
+          "value": "39.9% of 52W high ($61.90)",
           "threshold": "> 90% of 52W high"
         },
         {
@@ -7840,7 +7840,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "107.8% of 20d ATR ($1.67 vs $1.55)",
+          "value": "105.2% of 20d ATR ($1.71 vs $1.62)",
           "threshold": "14d ATR < 80% of 20d ATR"
         },
         {
@@ -7904,17 +7904,17 @@
           "category": "Context",
           "passed": false,
           "points": 0,
-          "value": "-16.4%",
+          "value": "-22.9%",
           "threshold": "> 5% vs Market"
         }
       ],
-      "forward_pe": 46.080017,
+      "forward_pe": 42.51952,
       "trailing_pe": null,
       "peg_ratio": null,
       "recommendation": "buy",
       "target_mean": 46.02857,
       "analyst_count": 21,
-      "current_price": 26.79
+      "current_price": 24.72
     },
     {
       "ticker": "RBLX",
@@ -8060,7 +8060,7 @@
       "score": 32,
       "max_score": 100,
       "grade": "D",
-      "market_cap": 75980726272,
+      "market_cap": 70968221696,
       "technical_score": 10,
       "growth_score": 19,
       "quality_score": 3,
@@ -8072,7 +8072,7 @@
           "category": "Momentum",
           "passed": false,
           "points": 0,
-          "value": "$177.17 > 50d($209.25) > 200d($229.52)",
+          "value": "$164.66 > 50d($207.94) > 200d($229.40)",
           "threshold": "Price > 50d > 200d"
         },
         {
@@ -8080,7 +8080,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "37.9% from base, drift: -16.3%",
+          "value": "42.3% from base, drift: -16.3%",
           "threshold": "< 5% from ceiling, < 10% drift"
         },
         {
@@ -8088,7 +8088,7 @@
           "category": "Breakout",
           "passed": true,
           "points": 10,
-          "value": "43.7% depth ($160.70 - $285.50)",
+          "value": "44.1% depth ($159.46 - $285.50)",
           "threshold": "Base depth < 45%"
         },
         {
@@ -8096,7 +8096,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "212% of avg (10.6M vs 5.0M)",
+          "value": "220% of avg (11.2M vs 5.1M)",
           "threshold": "5d vol < 1.2x 50d vol"
         },
         {
@@ -8104,7 +8104,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "62.1% of 52W high ($285.50)",
+          "value": "57.7% of 52W high ($285.50)",
           "threshold": "> 90% of 52W high"
         },
         {
@@ -8112,7 +8112,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "112.6% of 20d ATR ($9.87 vs $8.77)",
+          "value": "110.5% of 20d ATR ($9.78 vs $8.86)",
           "threshold": "14d ATR < 80% of 20d ATR"
         },
         {
@@ -8176,17 +8176,17 @@
           "category": "Context",
           "passed": false,
           "points": 0,
-          "value": "-14.2%",
+          "value": "-20.7%",
           "threshold": "> 5% vs Market"
         }
       ],
-      "forward_pe": 22.50684,
-      "trailing_pe": 89.487305,
+      "forward_pe": 21.022045,
+      "trailing_pe": 83.16161,
       "peg_ratio": null,
       "recommendation": "buy",
-      "target_mean": 262.49762,
+      "target_mean": 262.2619,
       "analyst_count": 42,
-      "current_price": 176.29
+      "current_price": 164.66
     },
     {
       "ticker": "AXON",
@@ -8196,7 +8196,7 @@
       "score": 31,
       "max_score": 100,
       "grade": "D",
-      "market_cap": 34468622336,
+      "market_cap": 33636915200,
       "technical_score": 8,
       "growth_score": 15,
       "quality_score": 3,
@@ -8208,7 +8208,7 @@
           "category": "Momentum",
           "passed": false,
           "points": 0,
-          "value": "$432.07 > 50d($545.30) > 200d($674.47)",
+          "value": "$423.44 > 50d($542.84) > 200d($673.58)",
           "threshold": "Price > 50d > 200d"
         },
         {
@@ -8216,7 +8216,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "45.6% from base, drift: -18.2%",
+          "value": "46.7% from base, drift: -18.2%",
           "threshold": "< 5% from ceiling, < 10% drift"
         },
         {
@@ -8232,7 +8232,7 @@
           "category": "Breakout",
           "passed": true,
           "points": 8,
-          "value": "75% of avg (0.7M vs 0.9M)",
+          "value": "72% of avg (0.7M vs 0.9M)",
           "threshold": "5d vol < 1.2x 50d vol"
         },
         {
@@ -8240,7 +8240,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "48.8% of 52W high ($885.92)",
+          "value": "47.8% of 52W high ($885.92)",
           "threshold": "> 90% of 52W high"
         },
         {
@@ -8248,7 +8248,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "91.0% of 20d ATR ($24.22 vs $26.62)",
+          "value": "86.5% of 20d ATR ($22.74 vs $26.30)",
           "threshold": "14d ATR < 80% of 20d ATR"
         },
         {
@@ -8312,17 +8312,17 @@
           "category": "Context",
           "passed": false,
           "points": 0,
-          "value": "-29.2%",
+          "value": "-30.3%",
           "threshold": "> 5% vs Market"
         }
       ],
-      "forward_pe": 57.320972,
-      "trailing_pe": 136.88013,
+      "forward_pe": 55.937847,
+      "trailing_pe": 133.15723,
       "peg_ratio": null,
       "recommendation": "buy",
       "target_mean": 783.68,
       "analyst_count": 18,
-      "current_price": 433.91
+      "current_price": 423.44
     },
     {
       "ticker": "OWL",
@@ -8468,7 +8468,7 @@
       "score": 29,
       "max_score": 100,
       "grade": "D",
-      "market_cap": 10800157696,
+      "market_cap": 10753843200,
       "technical_score": 0,
       "growth_score": 19,
       "quality_score": 5,
@@ -8480,7 +8480,7 @@
           "category": "Momentum",
           "passed": false,
           "points": 0,
-          "value": "$81.74 > 50d($89.45) > 200d($65.80)",
+          "value": "$81.27 > 50d($89.80) > 200d($66.01)",
           "threshold": "Price > 50d > 200d"
         },
         {
@@ -8488,7 +8488,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "31.0% from base, drift: 33.3%",
+          "value": "31.3% from base, drift: 33.3%",
           "threshold": "< 5% from ceiling, < 10% drift"
         },
         {
@@ -8504,7 +8504,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "135% of avg (2.8M vs 2.1M)",
+          "value": "128% of avg (2.7M vs 2.1M)",
           "threshold": "5d vol < 1.2x 50d vol"
         },
         {
@@ -8512,7 +8512,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "69.0% of 52W high ($118.38)",
+          "value": "68.7% of 52W high ($118.38)",
           "threshold": "> 90% of 52W high"
         },
         {
@@ -8520,7 +8520,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "100.9% of 20d ATR ($7.38 vs $7.31)",
+          "value": "104.4% of 20d ATR ($7.31 vs $7.00)",
           "threshold": "14d ATR < 80% of 20d ATR"
         },
         {
@@ -8584,17 +8584,17 @@
           "category": "Context",
           "passed": false,
           "points": 0,
-          "value": "-22.0%",
+          "value": "-27.2%",
           "threshold": "> 5% vs Market"
         }
       ],
-      "forward_pe": 124.679214,
-      "trailing_pe": 1020.25006,
+      "forward_pe": 124.14456,
+      "trailing_pe": 1015.875,
       "peg_ratio": null,
       "recommendation": "none",
       "target_mean": 111.88889,
       "analyst_count": 9,
-      "current_price": 81.62
+      "current_price": 81.27
     },
     {
       "ticker": "BROS",
@@ -8604,7 +8604,7 @@
       "score": 28,
       "max_score": 100,
       "grade": "D",
-      "market_cap": 8031440384,
+      "market_cap": 7779686400,
       "technical_score": 10,
       "growth_score": 18,
       "quality_score": 0,
@@ -8616,7 +8616,7 @@
           "category": "Momentum",
           "passed": false,
           "points": 0,
-          "value": "$49.10 > 50d($59.25) > 200d($61.39)",
+          "value": "$47.28 > 50d($59.02) > 200d($61.33)",
           "threshold": "Price > 50d > 200d"
         },
         {
@@ -8624,7 +8624,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "34.2% from base, drift: -11.7%",
+          "value": "36.7% from base, drift: -11.7%",
           "threshold": "< 5% from ceiling, < 10% drift"
         },
         {
@@ -8640,7 +8640,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "202% of avg (9.6M vs 4.7M)",
+          "value": "137% of avg (6.6M vs 4.8M)",
           "threshold": "5d vol < 1.2x 50d vol"
         },
         {
@@ -8648,7 +8648,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "56.5% of 52W high ($86.88)",
+          "value": "54.4% of 52W high ($86.88)",
           "threshold": "> 90% of 52W high"
         },
         {
@@ -8656,7 +8656,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "108.2% of 20d ATR ($3.53 vs $3.26)",
+          "value": "103.7% of 20d ATR ($3.39 vs $3.27)",
           "threshold": "14d ATR < 80% of 20d ATR"
         },
         {
@@ -8720,17 +8720,153 @@
           "category": "Context",
           "passed": false,
           "points": 0,
-          "value": "-19.8%",
+          "value": "-22.0%",
           "threshold": "> 5% vs Market"
         }
       ],
-      "forward_pe": 41.03405,
-      "trailing_pe": 76.26563,
+      "forward_pe": 39.74779,
+      "trailing_pe": 73.875,
       "peg_ratio": null,
       "recommendation": "strong_buy",
       "target_mean": 77.1,
       "analyst_count": 20,
-      "current_price": 48.81
+      "current_price": 47.28
+    },
+    {
+      "ticker": "DKNG",
+      "name": "DraftKings Inc.",
+      "sector": "Consumer Cyclical",
+      "industry": "Gambling",
+      "score": 28,
+      "max_score": 100,
+      "grade": "D",
+      "market_cap": 10856418304,
+      "technical_score": 8,
+      "growth_score": 17,
+      "quality_score": 3,
+      "context_score": 0,
+      "moonshot_score": 60,
+      "criteria": [
+        {
+          "name": "Trend Alignment",
+          "category": "Momentum",
+          "passed": false,
+          "points": 0,
+          "value": "$21.81 > 50d($31.03) > 200d($36.79)",
+          "threshold": "Price > 50d > 200d"
+        },
+        {
+          "name": "Breakout Pattern",
+          "category": "Breakout",
+          "passed": false,
+          "points": 0,
+          "value": "55.3% from base, drift: -24.2%",
+          "threshold": "< 5% from ceiling, < 10% drift"
+        },
+        {
+          "name": "Consolidation",
+          "category": "Breakout",
+          "passed": false,
+          "points": 0,
+          "value": "56.9% depth ($21.01 - $48.78)",
+          "threshold": "Base depth < 45%"
+        },
+        {
+          "name": "Volume Dry-up",
+          "category": "Breakout",
+          "passed": true,
+          "points": 8,
+          "value": "117% of avg (16.3M vs 14.0M)",
+          "threshold": "5d vol < 1.2x 50d vol"
+        },
+        {
+          "name": "52W Proximity",
+          "category": "Timing",
+          "passed": false,
+          "points": 0,
+          "value": "40.8% of 52W high ($53.50)",
+          "threshold": "> 90% of 52W high"
+        },
+        {
+          "name": "Volatility Compression",
+          "category": "Timing",
+          "passed": false,
+          "points": 0,
+          "value": "100.1% of 20d ATR ($1.31 vs $1.31)",
+          "threshold": "14d ATR < 80% of 20d ATR"
+        },
+        {
+          "name": "Sales Growth (2yr)",
+          "category": "Growth",
+          "passed": true,
+          "points": 17,
+          "value": "42.8% (avg: 36.4%)",
+          "threshold": "Both years >= 10% required"
+        },
+        {
+          "name": "Earnings Growth",
+          "category": "Growth",
+          "passed": false,
+          "points": 0,
+          "value": "N/A",
+          "threshold": "> 15%"
+        },
+        {
+          "name": "ROE Quality",
+          "category": "Quality",
+          "passed": false,
+          "points": 0,
+          "value": "0.5%",
+          "threshold": "> 15%"
+        },
+        {
+          "name": "Operating Margin",
+          "category": "Quality",
+          "passed": false,
+          "points": 0,
+          "value": "8.3%",
+          "threshold": "> 10%"
+        },
+        {
+          "name": "Valuation Sanity",
+          "category": "Quality",
+          "passed": false,
+          "points": 0,
+          "value": "N/A",
+          "threshold": "PEG < 2.0"
+        },
+        {
+          "name": "FCF Quality",
+          "category": "Quality",
+          "passed": true,
+          "points": 3,
+          "value": "$0.61B",
+          "threshold": "FCF > 0"
+        },
+        {
+          "name": "Industry Strength",
+          "category": "Context",
+          "passed": false,
+          "points": 0,
+          "value": "Consumer Cyclical",
+          "threshold": "High-Conviction Sector"
+        },
+        {
+          "name": "Relative Strength",
+          "category": "Context",
+          "passed": false,
+          "points": 0,
+          "value": "-31.0%",
+          "threshold": "> 5% vs Market"
+        }
+      ],
+      "forward_pe": 11.538827,
+      "trailing_pe": null,
+      "peg_ratio": null,
+      "recommendation": "buy",
+      "target_mean": 36.61471,
+      "analyst_count": 34,
+      "current_price": 21.81
     },
     {
       "ticker": "RKLB",
@@ -9012,7 +9148,7 @@
       "score": 23,
       "max_score": 100,
       "grade": "F",
-      "market_cap": 4444076032,
+      "market_cap": 4046652160,
       "technical_score": 0,
       "growth_score": 15,
       "quality_score": 3,
@@ -9024,7 +9160,7 @@
           "category": "Momentum",
           "passed": false,
           "points": 0,
-          "value": "$26.14 > 50d($35.25) > 200d($43.09)",
+          "value": "$24.03 > 50d($34.95) > 200d($42.97)",
           "threshold": "Price > 50d > 200d"
         },
         {
@@ -9032,7 +9168,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "50.1% from base, drift: -14.6%",
+          "value": "54.1% from base, drift: -14.6%",
           "threshold": "< 5% from ceiling, < 10% drift"
         },
         {
@@ -9048,7 +9184,7 @@
           "category": "Breakout",
           "passed": false,
           "points": 0,
-          "value": "120% of avg (5.6M vs 4.7M)",
+          "value": "147% of avg (7.1M vs 4.8M)",
           "threshold": "5d vol < 1.2x 50d vol"
         },
         {
@@ -9056,7 +9192,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "36.2% of 52W high ($72.17)",
+          "value": "33.3% of 52W high ($72.17)",
           "threshold": "> 90% of 52W high"
         },
         {
@@ -9064,7 +9200,7 @@
           "category": "Timing",
           "passed": false,
           "points": 0,
-          "value": "103.3% of 20d ATR ($2.00 vs $1.94)",
+          "value": "105.5% of 20d ATR ($2.01 vs $1.90)",
           "threshold": "14d ATR < 80% of 20d ATR"
         },
         {
@@ -9128,153 +9264,17 @@
           "category": "Context",
           "passed": false,
           "points": 0,
-          "value": "-21.1%",
+          "value": "-35.7%",
           "threshold": "> 5% vs Market"
         }
       ],
-      "forward_pe": 25.694199,
+      "forward_pe": 23.396423,
       "trailing_pe": null,
       "peg_ratio": null,
       "recommendation": "buy",
-      "target_mean": 49.46154,
+      "target_mean": 49.26923,
       "analyst_count": 26,
-      "current_price": 26.39
-    },
-    {
-      "ticker": "DKNG",
-      "name": "DraftKings Inc.",
-      "sector": "Consumer Cyclical",
-      "industry": "Gambling",
-      "score": 20,
-      "max_score": 100,
-      "grade": "F",
-      "market_cap": 11105304576,
-      "technical_score": 0,
-      "growth_score": 17,
-      "quality_score": 3,
-      "context_score": 0,
-      "moonshot_score": 60,
-      "criteria": [
-        {
-          "name": "Trend Alignment",
-          "category": "Momentum",
-          "passed": false,
-          "points": 0,
-          "value": "$22.22 > 50d($31.29) > 200d($36.85)",
-          "threshold": "Price > 50d > 200d"
-        },
-        {
-          "name": "Breakout Pattern",
-          "category": "Breakout",
-          "passed": false,
-          "points": 0,
-          "value": "54.5% from base, drift: -24.2%",
-          "threshold": "< 5% from ceiling, < 10% drift"
-        },
-        {
-          "name": "Consolidation",
-          "category": "Breakout",
-          "passed": false,
-          "points": 0,
-          "value": "48.7% depth ($25.01 - $48.78)",
-          "threshold": "Base depth < 45%"
-        },
-        {
-          "name": "Volume Dry-up",
-          "category": "Breakout",
-          "passed": false,
-          "points": 0,
-          "value": "192% of avg (26.7M vs 13.9M)",
-          "threshold": "5d vol < 1.2x 50d vol"
-        },
-        {
-          "name": "52W Proximity",
-          "category": "Timing",
-          "passed": false,
-          "points": 0,
-          "value": "41.5% of 52W high ($53.50)",
-          "threshold": "> 90% of 52W high"
-        },
-        {
-          "name": "Volatility Compression",
-          "category": "Timing",
-          "passed": false,
-          "points": 0,
-          "value": "96.3% of 20d ATR ($1.28 vs $1.33)",
-          "threshold": "14d ATR < 80% of 20d ATR"
-        },
-        {
-          "name": "Sales Growth (2yr)",
-          "category": "Growth",
-          "passed": true,
-          "points": 17,
-          "value": "42.8% (avg: 36.4%)",
-          "threshold": "Both years >= 10% required"
-        },
-        {
-          "name": "Earnings Growth",
-          "category": "Growth",
-          "passed": false,
-          "points": 0,
-          "value": "N/A",
-          "threshold": "> 15%"
-        },
-        {
-          "name": "ROE Quality",
-          "category": "Quality",
-          "passed": false,
-          "points": 0,
-          "value": "0.5%",
-          "threshold": "> 15%"
-        },
-        {
-          "name": "Operating Margin",
-          "category": "Quality",
-          "passed": false,
-          "points": 0,
-          "value": "8.3%",
-          "threshold": "> 10%"
-        },
-        {
-          "name": "Valuation Sanity",
-          "category": "Quality",
-          "passed": false,
-          "points": 0,
-          "value": "N/A",
-          "threshold": "PEG < 2.0"
-        },
-        {
-          "name": "FCF Quality",
-          "category": "Quality",
-          "passed": true,
-          "points": 3,
-          "value": "$0.61B",
-          "threshold": "FCF > 0"
-        },
-        {
-          "name": "Industry Strength",
-          "category": "Context",
-          "passed": false,
-          "points": 0,
-          "value": "Consumer Cyclical",
-          "threshold": "High-Conviction Sector"
-        },
-        {
-          "name": "Relative Strength",
-          "category": "Context",
-          "passed": false,
-          "points": 0,
-          "value": "-29.7%",
-          "threshold": "> 5% vs Market"
-        }
-      ],
-      "forward_pe": 11.549532,
-      "trailing_pe": null,
-      "peg_ratio": null,
-      "recommendation": "buy",
-      "target_mean": 37.11765,
-      "analyst_count": 34,
-      "current_price": 22.31
+      "current_price": 24.03
     }
   ]
 }
