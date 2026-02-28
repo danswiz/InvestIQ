@@ -128,5 +128,17 @@ def get_news(ticker):
     except Exception as e:
         return jsonify({"error": str(e), "news": []}), 500
 
+@app.route('/api/watchlist')
+def watchlist():
+    """Serve watchlist.json for portfolio holdings"""
+    try:
+        with open('watchlist.json', 'r') as f:
+            data = json.load(f)
+        return jsonify(data)
+    except FileNotFoundError:
+        return jsonify({"error": "Watchlist not generated yet"}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=18791, debug=True)
