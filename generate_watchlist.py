@@ -36,7 +36,12 @@ def load_ratings():
                 for ticker, stock in stocks_data.items():
                     ratings[ticker] = {
                         'score': stock.get('score', 0),
-                        'grade': stock.get('grade', 'N/A')
+                        'grade': stock.get('grade', 'N/A'),
+                        'technical_score': stock.get('technical_score', 0),
+                        'growth_score': stock.get('growth_score', 0),
+                        'quality_score': stock.get('quality_score', 0),
+                        'context_score': stock.get('context_score', 0),
+                        'moonshot_score': stock.get('moonshot_score', 0),
                     }
             else:
                 for stock in stocks_data:
@@ -44,7 +49,12 @@ def load_ratings():
                     if ticker:
                         ratings[ticker] = {
                             'score': stock.get('score', 0),
-                            'grade': stock.get('grade', 'N/A')
+                            'grade': stock.get('grade', 'N/A'),
+                            'technical_score': stock.get('technical_score', 0),
+                            'growth_score': stock.get('growth_score', 0),
+                            'quality_score': stock.get('quality_score', 0),
+                            'context_score': stock.get('context_score', 0),
+                            'moonshot_score': stock.get('moonshot_score', 0),
                         }
             logger.info(f"Loaded ratings for {len(ratings)} stocks")
             return ratings
@@ -97,6 +107,11 @@ def fetch_stock_data(ticker, ratings):
             "peg_ratio": round(peg_ratio, 2) if peg_ratio else None,
             "score": rating['score'],
             "grade": rating['grade'],
+            "technical_score": rating.get('technical_score', 0),
+            "growth_score": rating.get('growth_score', 0),
+            "quality_score": rating.get('quality_score', 0),
+            "context_score": rating.get('context_score', 0),
+            "moonshot_score": rating.get('moonshot_score', 0),
             "daily_change": round(daily_change, 2) if daily_change else None
         }
     except Exception as e:
@@ -113,6 +128,11 @@ def fetch_stock_data(ticker, ratings):
             "peg_ratio": None,
             "score": 0,
             "grade": "N/A",
+            "technical_score": 0,
+            "growth_score": 0,
+            "quality_score": 0,
+            "context_score": 0,
+            "moonshot_score": 0,
             "daily_change": None
         }
 
