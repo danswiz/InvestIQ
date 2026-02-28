@@ -463,7 +463,8 @@ def run_scan():
     conn.close()
     
     # FILTER: Only include stocks that passed BOTH years >= 10% revenue growth
-    filtered_results = [r for r in results if r.get('growth_score', 0) >= 15]
+    # Filter: both years >= 10% revenue growth (growth_score >= 24) AND overall score >= 55
+    filtered_results = [r for r in results if r.get('growth_score', 0) >= 24 and r['score'] >= 55]
     
     results.sort(key=lambda x: x['score'], reverse=True)
     filtered_results.sort(key=lambda x: x['score'], reverse=True)
