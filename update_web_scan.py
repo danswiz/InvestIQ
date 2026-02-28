@@ -511,20 +511,30 @@ def run_scan():
     with open('top_stocks.json', 'w') as f:
         json.dump(top_output, f, indent=2, cls=NumpyEncoder)
     
-    # Save ALL stocks with full details for website detail view
+    # Save ALL stocks — strip criteria array to reduce file size / memory
+    import gc
+    all_stocks_slim = {}
+    for s in results:
+        slim = {k: v for k, v in s.items() if k != 'criteria'}
+        all_stocks_slim[s['ticker']] = slim
+    
     all_output = {
         'version': '5.0',
         'last_scan': datetime.now().strftime('%Y-%m-%d %H:%M PST'),
         'total_stocks': len(results),
-        'stocks': {s['ticker']: s for s in results}  # Dict for O(1) lookup
+        'stocks': all_stocks_slim
     }
+    
+    total_count = len(results)
+    del results  # Free memory before serialization
+    gc.collect()
     
     with open('all_stocks.json', 'w') as f:
         json.dump(all_output, f, indent=2, cls=NumpyEncoder)
     
     logger.info(f"✅ Saved {len(filtered_results)} top stocks (both years >= 10% growth)")
-    logger.info(f"   Saved {len(results)} total stocks with details to all_stocks.json")
-    logger.info(f"   Filtered out: {len(results) - len(filtered_results)} stocks failed revenue gate")
+    logger.info(f"   Saved {total_count} total stocks with details to all_stocks.json")
+    logger.info(f"   Filtered out: {total_count - len(filtered_results)} stocks failed revenue gate")
     print(f"✅ Scan complete: {len(filtered_results)} top stocks, {len(results)} total")
     print(f"   Top 5: {', '.join([s['ticker'] + ' ' + str(s['score']) for s in filtered_results[:5]])}")
 
