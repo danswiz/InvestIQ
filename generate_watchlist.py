@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
 """
-Generate watchlist.json for InvestIQ portfolio holdings
-Fetches live data from yfinance + rating scores from all_stocks.json
+Generate watchlist.json for InvestIQ portfolio holdings.
+Reads all scores and fundamentals from all_stocks.json (database).
+Only fetches live price for daily % change via yfinance bulk download.
 """
 import json
 import yfinance as yf
 from datetime import datetime
 from config import (
-    TRADING_ACCOUNT, CORE_ETFS, 
+    TRADING_ACCOUNT, CORE_ETFS,
     GRID_TO_CHIP, DEFENSE_AEROSPACE, AI_SEMIS, BIOTECH
 )
 from utils.logger import get_logger
 
 logger = get_logger('watchlist')
 
-# Portfolio baskets
 BASKETS = {
     "Trading Account": TRADING_ACCOUNT,
     "IRA Core ETFs": CORE_ETFS,
@@ -24,162 +24,165 @@ BASKETS = {
     "Biotech": BIOTECH
 }
 
-def load_ratings():
-    """Load rating scores from all_stocks.json"""
+
+def load_stock_db():
+    """Load all stock data from all_stocks.json"""
     try:
         with open('all_stocks.json', 'r') as f:
             data = json.load(f)
-            ratings = {}
-            stocks_data = data.get('stocks', {})
-            # Handle both dict (keyed by ticker) and list formats
-            if isinstance(stocks_data, dict):
-                for ticker, stock in stocks_data.items():
-                    ratings[ticker] = {
-                        'score': stock.get('score', 0),
-                        'grade': stock.get('grade', 'N/A'),
-                        'technical_score': stock.get('technical_score', 0),
-                        'growth_score': stock.get('growth_score', 0),
-                        'quality_score': stock.get('quality_score', 0),
-                        'context_score': stock.get('context_score', 0),
-                        'moonshot_score': stock.get('moonshot_score', 0),
-                        'rotation_score': stock.get('rotation_score', 0),
-                        'rotation_signal': stock.get('rotation_signal', 'N/A'),
-                    }
-            else:
-                for stock in stocks_data:
-                    ticker = stock.get('ticker')
-                    if ticker:
-                        ratings[ticker] = {
-                            'score': stock.get('score', 0),
-                            'grade': stock.get('grade', 'N/A'),
-                            'technical_score': stock.get('technical_score', 0),
-                            'growth_score': stock.get('growth_score', 0),
-                            'quality_score': stock.get('quality_score', 0),
-                            'context_score': stock.get('context_score', 0),
-                            'moonshot_score': stock.get('moonshot_score', 0),
-                            'rotation_score': stock.get('rotation_score', 0),
-                            'rotation_signal': stock.get('rotation_signal', 'N/A'),
-                        }
-            logger.info(f"Loaded ratings for {len(ratings)} stocks")
-            return ratings
+            stocks = data.get('stocks', {})
+            if isinstance(stocks, dict):
+                logger.info(f"Loaded {len(stocks)} stocks from database")
+                return stocks
+            # Handle list format (convert to dict)
+            return {s['ticker']: s for s in stocks if 'ticker' in s}
     except Exception as e:
         logger.warning(f"Could not load all_stocks.json: {e}")
         return {}
 
-def fetch_stock_data(ticker, ratings):
-    """Fetch fundamental data for a single ticker"""
+
+def fetch_live_prices(tickers):
+    """Bulk fetch live prices + previous close for daily % change"""
+    live = {}
     try:
-        logger.info(f"Fetching data for {ticker}...")
-        stock = yf.Ticker(ticker)
-        info = stock.info
-        
-        # Get rating from all_stocks.json
-        rating = ratings.get(ticker, {'score': 0, 'grade': 'N/A'})
-        
-        # Calculate daily price change
-        current_price = info.get('regularMarketPrice') or info.get('currentPrice')
-        previous_close = info.get('previousClose')
-        daily_change = None
-        if current_price and previous_close and previous_close > 0:
-            daily_change = ((current_price - previous_close) / previous_close) * 100
-        
-        # Get PE ratios (may be None for ETFs)
-        trailing_pe = info.get('trailingPE')
-        forward_pe = info.get('forwardPE')
-        
-        # Growth rates (convert from decimal to percentage)
-        revenue_growth = info.get('revenueGrowth')
-        if revenue_growth is not None:
-            revenue_growth = revenue_growth * 100
-        
-        earnings_growth = info.get('earningsGrowth')
-        if earnings_growth is not None:
-            earnings_growth = earnings_growth * 100
-        
-        # PEG ratio
-        peg_ratio = info.get('pegRatio') or info.get('trailingPegRatio')
-        
-        return {
-            "ticker": ticker,
-            "name": info.get('longName') or info.get('shortName') or ticker,
-            "price": round(current_price, 2) if current_price else None,
-            "previous_close": round(previous_close, 2) if previous_close else None,
-            "trailing_pe": round(trailing_pe, 2) if trailing_pe else None,
-            "forward_pe": round(forward_pe, 2) if forward_pe else None,
-            "revenue_growth": round(revenue_growth, 2) if revenue_growth else None,
-            "earnings_growth": round(earnings_growth, 2) if earnings_growth else None,
-            "peg_ratio": round(peg_ratio, 2) if peg_ratio else None,
-            "score": rating['score'],
-            "grade": rating['grade'],
-            "technical_score": rating.get('technical_score', 0),
-            "growth_score": rating.get('growth_score', 0),
-            "quality_score": rating.get('quality_score', 0),
-            "context_score": rating.get('context_score', 0),
-            "moonshot_score": rating.get('moonshot_score', 0),
-            "rotation_score": rating.get('rotation_score', 0),
-            "rotation_signal": rating.get('rotation_signal', 'N/A'),
-            "daily_change": round(daily_change, 2) if daily_change else None
-        }
+        # yfinance bulk download — single API call for all tickers
+        data = yf.download(tickers, period="2d", group_by="ticker", progress=False, threads=True)
+        for t in tickers:
+            try:
+                if len(tickers) == 1:
+                    closes = data['Close'].dropna()
+                else:
+                    closes = data[t]['Close'].dropna()
+                if len(closes) >= 2:
+                    prev = float(closes.iloc[-2])
+                    curr = float(closes.iloc[-1])
+                    live[t] = {
+                        'price': round(curr, 2),
+                        'previous_close': round(prev, 2),
+                        'daily_change': round((curr - prev) / prev * 100, 2)
+                    }
+                elif len(closes) == 1:
+                    live[t] = {
+                        'price': round(float(closes.iloc[-1]), 2),
+                        'previous_close': None,
+                        'daily_change': None
+                    }
+            except Exception:
+                pass
     except Exception as e:
-        logger.error(f"Failed to fetch {ticker}: {e}")
-        return {
-            "ticker": ticker,
-            "name": ticker,
-            "price": None,
-            "previous_close": None,
-            "trailing_pe": None,
-            "forward_pe": None,
-            "revenue_growth": None,
-            "earnings_growth": None,
-            "peg_ratio": None,
-            "score": 0,
-            "grade": "N/A",
-            "technical_score": 0,
-            "growth_score": 0,
-            "quality_score": 0,
-            "context_score": 0,
-            "moonshot_score": 0,
-            "rotation_score": 0,
-            "rotation_signal": "N/A",
-            "daily_change": None
-        }
+        logger.warning(f"Bulk price fetch failed: {e}")
+    return live
+
+
+def build_stock_entry(ticker, basket_name, db, live_prices):
+    """Build a watchlist entry from DB + live price data"""
+    stock = db.get(ticker, {})
+    live = live_prices.get(ticker, {})
+
+    # Extract revenue/earnings growth from criteria if available
+    revenue_growth = None
+    earnings_growth = None
+    for c in stock.get('criteria', []):
+        if c.get('name') == 'Sales Growth (2yr)' and c.get('value'):
+            # Parse "Cur: 22.7%, Prior: 16.7%"
+            try:
+                parts = c['value'].split(',')
+                cur = parts[0].split(':')[1].strip().replace('%', '')
+                revenue_growth = float(cur)
+            except:
+                pass
+        if c.get('name') == 'Earnings Acceleration' and c.get('value'):
+            try:
+                val = c['value']
+                if 'accelerating' in val.lower():
+                    earnings_growth = 'Accelerating'
+                elif 'positive' in val.lower():
+                    earnings_growth = 'Positive'
+                elif 'decelerating' in val.lower():
+                    earnings_growth = 'Decelerating'
+            except:
+                pass
+
+    return {
+        "ticker": ticker,
+        "name": stock.get('name', ticker),
+        "sector": stock.get('sector', ''),
+        "industry": stock.get('industry', ''),
+        "price": live.get('price') or stock.get('current_price'),
+        "previous_close": live.get('previous_close'),
+        "daily_change": live.get('daily_change'),
+        "trailing_pe": round(stock['trailing_pe'], 2) if stock.get('trailing_pe') else None,
+        "forward_pe": round(stock['forward_pe'], 2) if stock.get('forward_pe') else None,
+        "revenue_growth": revenue_growth,
+        "earnings_growth": earnings_growth,
+        "peg_ratio": round(stock['peg_ratio'], 2) if stock.get('peg_ratio') else None,
+        "market_cap": stock.get('market_cap'),
+        # Rater v5.0 scores (from DB)
+        "score": stock.get('score', 0),
+        "grade": stock.get('grade', 'N/A'),
+        "technical_score": stock.get('technical_score', 0),
+        "growth_score": stock.get('growth_score', 0),
+        "quality_score": stock.get('quality_score', 0),
+        "context_score": stock.get('context_score', 0),
+        "moonshot_score": stock.get('moonshot_score', 0),
+        # Rotation Catcher scores (from DB)
+        "rotation_score": stock.get('rotation_score', 0),
+        "rotation_signal": stock.get('rotation_signal', 'N/A'),
+        # Analyst data
+        "recommendation": stock.get('recommendation'),
+        "target_mean": round(stock['target_mean'], 2) if stock.get('target_mean') else None,
+        "analyst_count": stock.get('analyst_count', 0),
+        # Basket
+        "basket": basket_name,
+    }
+
 
 def generate_watchlist():
-    """Generate complete watchlist.json"""
+    """Generate watchlist.json from database + live prices"""
     logger.info("Starting watchlist generation...")
-    
-    # Load existing ratings
-    ratings = load_ratings()
-    
-    # Process each basket
+
+    # Load DB
+    db = load_stock_db()
+
+    # Collect all tickers
+    all_tickers = []
+    for tickers in BASKETS.values():
+        all_tickers.extend(tickers)
+    all_tickers = list(set(all_tickers))
+
+    # Bulk fetch live prices (single API call)
+    logger.info(f"Fetching live prices for {len(all_tickers)} tickers...")
+    live_prices = fetch_live_prices(all_tickers)
+    logger.info(f"Got live prices for {len(live_prices)} tickers")
+
+    # Build watchlist
     watchlist_data = {
         "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M EST"),
         "baskets": {},
         "all": []
     }
-    
+
     for basket_name, tickers in BASKETS.items():
         logger.info(f"Processing basket: {basket_name} ({len(tickers)} holdings)")
         basket_stocks = []
-        
+
         for ticker in tickers:
-            stock_data = fetch_stock_data(ticker, ratings)
-            stock_data['basket'] = basket_name
-            basket_stocks.append(stock_data)
-            watchlist_data['all'].append(stock_data)
-        
+            entry = build_stock_entry(ticker, basket_name, db, live_prices)
+            basket_stocks.append(entry)
+            watchlist_data['all'].append(entry)
+
         watchlist_data['baskets'][basket_name] = basket_stocks
-    
-    # Write to file
-    output_path = 'watchlist.json'
-    with open(output_path, 'w') as f:
+
+    # Write
+    with open('watchlist.json', 'w') as f:
         json.dump(watchlist_data, f, indent=2)
-    
-    logger.info(f"✓ Watchlist generated: {output_path}")
+
+    logger.info(f"✓ Watchlist generated: watchlist.json")
     logger.info(f"  Total holdings: {len(watchlist_data['all'])}")
     logger.info(f"  Baskets: {len(watchlist_data['baskets'])}")
-    
+
     return watchlist_data
+
 
 if __name__ == "__main__":
     result = generate_watchlist()
