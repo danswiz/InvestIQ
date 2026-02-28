@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-InvestIQ Website Scan - v4.3 TTM-Based (100 Point Scale)
+InvestIQ Website Scan - v5.0 Enhanced Algorithm (100 Point Scale)
 Updates top_stocks.json and all_stocks.json for website display
 """
 import json
@@ -10,6 +10,8 @@ import sys
 from datetime import datetime
 import config
 from utils.logger import get_logger
+import yfinance as yf
+import pandas as pd
 
 logger = get_logger('web_scan')
 
@@ -17,6 +19,47 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from rater import CriterionResult, get_ttm_growth
 
 DB_PATH = config.DB_PATH
+
+# v5.0 Global Caches
+_spy_cache = None
+_sector_etf_cache = {}
+
+def get_spy_data():
+    """Fetch SPY data once per session and cache it"""
+    global _spy_cache
+    if _spy_cache is None:
+        try:
+            spy = yf.Ticker("SPY")
+            _spy_cache = spy.history(period="1y")
+        except:
+            _spy_cache = pd.DataFrame()  # Empty fallback
+    return _spy_cache
+
+def get_sector_etf_data(sector_etf):
+    """Fetch sector ETF data once per ETF per session and cache it"""
+    global _sector_etf_cache
+    if sector_etf not in _sector_etf_cache:
+        try:
+            etf = yf.Ticker(sector_etf)
+            _sector_etf_cache[sector_etf] = etf.history(period="6mo")
+        except:
+            _sector_etf_cache[sector_etf] = pd.DataFrame()  # Empty fallback
+    return _sector_etf_cache[sector_etf]
+
+# Sector to ETF mapping
+SECTOR_ETFS = {
+    'Technology': 'XLK',
+    'Consumer Cyclical': 'XLY',
+    'Energy': 'XLE',
+    'Basic Materials': 'XLB',
+    'Industrials': 'XLI',
+    'Healthcare': 'XLV',
+    'Financial Services': 'XLF',
+    'Consumer Defensive': 'XLP',
+    'Utilities': 'XLU',
+    'Real Estate': 'XLRE',
+    'Communication Services': 'XLC'
+}
 
 def get_db_connection():
     return sqlite3.connect(DB_PATH)
@@ -95,15 +138,15 @@ def rate_stock_v43_full(symbol, conn):
         proximity_val = f"{(proximity*100):.1f}% of 52W high (${high_52w:.2f})"
         results.append(CriterionResult("52W Proximity", "Timing", passed_52w, proximity_val, "> 90% of 52W high", 5 if passed_52w else 0))
         
-        # 6. Volatility Compression (5 pts)
-        atr_current = (hist['high'].tail(14) - hist['low'].tail(14)).mean()
-        atr_20d = (hist['high'].tail(20) - hist['low'].tail(20)).mean()
-        atr_ratio = atr_current / atr_20d if atr_20d > 0 else 1
-        passed_atr = bool(atr_ratio < 0.8)
-        atr_val = f"{(atr_ratio*100):.1f}% of 20d ATR (${atr_current:.2f} vs ${atr_20d:.2f})"
-        results.append(CriterionResult("Volatility Compression", "Timing", passed_atr, atr_val, "14d ATR < 80% of 20d ATR", 5 if passed_atr else 0))
+        # 6. Volatility Compression (5 pts) - FIXED v5.0: 10d vs 50d
+        atr_10d = (hist['high'].tail(10) - hist['low'].tail(10)).mean()
+        atr_50d = (hist['high'].tail(50) - hist['low'].tail(50)).mean()
+        atr_ratio = atr_10d / atr_50d if atr_50d > 0 else 1
+        passed_atr = bool(atr_ratio < 0.75)  # 25% compression = squeeze
+        atr_val = f"{(atr_ratio*100):.1f}% of 50d ATR (${atr_10d:.2f} vs ${atr_50d:.2f})"
+        results.append(CriterionResult("Volatility Compression", "Timing", passed_atr, atr_val, "10d ATR < 75% of 50d ATR", 5 if passed_atr else 0))
         
-        # 7. Sales Growth with TTM/Fiscal Consistency (0-30 pts)
+        # 7. Sales Growth with Graduated Scoring (0-30 pts) - ENHANCED v5.0
         rev_g_fallback = info.get('revenueGrowth')
         rev_g, rev_g_prior = get_ttm_growth(symbol, conn)
         
@@ -124,26 +167,90 @@ def rate_stock_v43_full(symbol, conn):
             except:
                 pass
         
-        if rev_g is None or rev_g < 0.10:
+        # GRADUATED SCORING (v5.0): Softer gate, rewards tiers
+        if rev_g is None:
             sales_points = 0
-            growth_display = f"{float(rev_g)*100:.1f}% (current < 10%)" if rev_g else "N/A"
-        elif rev_g_prior is None or rev_g_prior < 0.10:
-            sales_points = 0
-            growth_display = f"{float(rev_g)*100:.1f}% (prior < 10%)" if rev_g else "N/A"
+            growth_display = "N/A"
         else:
-            avg_growth = (rev_g + rev_g_prior) / 2
-            consistency_bonus = 3
-            base_score = min(max(0, (avg_growth / 0.30) * 12), 27)
-            sales_points = base_score + consistency_bonus
-            growth_display = f"{float(rev_g)*100:.1f}% (avg: {float(avg_growth)*100:.1f}%)"
+            # Current year points (0-15)
+            if rev_g >= 0.20:
+                current_pts = 15
+            elif rev_g >= 0.10:
+                current_pts = 12
+            elif rev_g >= 0.05:
+                current_pts = 6
+            else:
+                current_pts = 0
+            
+            # Prior year points (0-12)
+            if rev_g_prior is not None:
+                if rev_g_prior >= 0.20:
+                    prior_pts = 12
+                elif rev_g_prior >= 0.10:
+                    prior_pts = 9
+                elif rev_g_prior >= 0.05:
+                    prior_pts = 4
+                else:
+                    prior_pts = 0
+            else:
+                prior_pts = 0
+            
+            # Consistency bonus: both years >= 10% = +3
+            consistency_bonus = 3 if (rev_g >= 0.10 and rev_g_prior is not None and rev_g_prior >= 0.10) else 0
+            
+            sales_points = current_pts + prior_pts + consistency_bonus  # max 30
+            
+            if rev_g_prior is not None:
+                growth_display = f"Cur: {float(rev_g)*100:.1f}%, Prior: {float(rev_g_prior)*100:.1f}%"
+            else:
+                growth_display = f"Current: {float(rev_g)*100:.1f}%"
         
-        results.append(CriterionResult("Sales Growth (2yr)", "Growth", sales_points > 0, growth_display, "Both years >= 10% required", int(sales_points)))
+        results.append(CriterionResult("Sales Growth (2yr)", "Growth", sales_points > 0, growth_display, "Graduated: 20%/10%/5% tiers", int(sales_points)))
         
-        # 8. Earnings Growth (3 pts)
-        earn_g = info.get('earningsGrowth')
-        passed_earn = bool(earn_g is not None and earn_g > 0.15)
-        earn_val = f"{float(earn_g)*100:.1f}%" if earn_g else "N/A"
-        results.append(CriterionResult("Earnings Growth", "Growth", passed_earn, earn_val, "> 15%", 3 if passed_earn else 0))
+        # 8. Earnings Acceleration (8 pts) - NEW v5.0
+        # Fetch quarterly EPS and check if growth is ACCELERATING
+        earnings_accel_pts = 0
+        earnings_accel_val = "N/A"
+        try:
+            # Fetch from yfinance since we need quarterly income statement
+            import yfinance as yf
+            stock = yf.Ticker(symbol)
+            quarterly_income = stock.quarterly_income_stmt
+            
+            if quarterly_income is not None and not quarterly_income.empty and 'Net Income' in quarterly_income.index:
+                # Get Net Income values (most recent quarters first in columns)
+                net_income = quarterly_income.loc['Net Income'].dropna()
+                if len(net_income) >= 3:
+                    # Reverse to chronological order (oldest first)
+                    net_income_values = net_income.values[::-1]
+                    
+                    # Calculate growth rates between consecutive quarters
+                    growth_rates = []
+                    for i in range(1, min(len(net_income_values), 4)):
+                        if net_income_values[i-1] != 0:
+                            gr = (net_income_values[i] - net_income_values[i-1]) / abs(net_income_values[i-1])
+                            growth_rates.append(gr)
+                    
+                    if len(growth_rates) >= 2:
+                        # Check if growth rates are increasing (acceleration)
+                        accelerating = all(growth_rates[i] > growth_rates[i-1] for i in range(1, len(growth_rates)))
+                        positive = all(gr > 0 for gr in growth_rates)
+                        
+                        if accelerating and positive:
+                            earnings_accel_pts = 8
+                            earnings_accel_val = "Accelerating"
+                        elif positive:
+                            earnings_accel_pts = 4
+                            earnings_accel_val = "Positive, flat"
+                        else:
+                            earnings_accel_pts = 0
+                            earnings_accel_val = "Decelerating/Negative"
+                    else:
+                        earnings_accel_val = "Insufficient quarters"
+        except Exception as e:
+            earnings_accel_val = "Data unavailable"
+        
+        results.append(CriterionResult("Earnings Acceleration", "Growth", earnings_accel_pts > 0, earnings_accel_val, "QoQ growth accelerating", earnings_accel_pts))
         
         # 9. ROE Quality (5 pts)
         roe = info.get('returnOnEquity')
@@ -169,18 +276,70 @@ def rate_stock_v43_full(symbol, conn):
         fcf_val = f"${float(fcf)/1e9:.2f}B" if fcf else "N/A"
         results.append(CriterionResult("FCF Quality", "Quality", passed_fcf, fcf_val, "FCF > 0", 3 if passed_fcf else 0))
         
-        # 13. Industry Strength (5 pts)
+        # 13. Industry Strength (5 pts) - DYNAMIC v5.0
         sector = info.get('sector', '')
-        strong_sectors = ['Technology', 'Healthcare', 'Communication Services', 'Industrials']
-        passed_ind = sector in strong_sectors
-        results.append(CriterionResult("Industry Strength", "Context", passed_ind, sector, "High-Conviction Sector", 5 if passed_ind else 0))
+        sector_etf = SECTOR_ETFS.get(sector)
+        passed_ind = False
+        ind_val = sector or "Unknown"
         
-        # 14. Relative Strength (5 pts)
-        price_1m = close.iloc[-22] if len(close) >= 22 else close.iloc[0]
-        ret_1m = (current_price - price_1m) / price_1m
-        passed_rs = bool(ret_1m > 0.05)
-        rs_val = f"{float(ret_1m)*100:+.1f}%"
-        results.append(CriterionResult("Relative Strength", "Context", passed_rs, rs_val, "> 5% vs Market", 5 if passed_rs else 0))
+        if sector_etf:
+            try:
+                spy_hist = get_spy_data()
+                etf_hist = get_sector_etf_data(sector_etf)
+                
+                if not spy_hist.empty and not etf_hist.empty and len(spy_hist) >= 63 and len(etf_hist) >= 63:
+                    spy_close = spy_hist['Close']
+                    etf_close = etf_hist['Close']
+                    
+                    # 3-month returns
+                    etf_3m_return = (etf_close.iloc[-1] - etf_close.iloc[-63]) / etf_close.iloc[-63]
+                    spy_3m_return = (spy_close.iloc[-1] - spy_close.iloc[-63]) / spy_close.iloc[-63]
+                    
+                    sector_outperformance = etf_3m_return - spy_3m_return
+                    passed_ind = sector_outperformance > 0
+                    
+                    ind_val = f"{sector} ({sector_etf}: {float(sector_outperformance)*100:+.1f}% vs SPY)"
+            except:
+                ind_val = f"{sector} (no data)"
+        
+        results.append(CriterionResult("Industry Strength", "Context", passed_ind, ind_val, "Sector outperforming SPY (3mo)", 5 if passed_ind else 0))
+        
+        # 14. Relative Strength (5 pts) - REAL RS v5.0
+        rs_points = 0
+        rs_val = "N/A"
+        
+        try:
+            spy_hist = get_spy_data()
+            
+            if not spy_hist.empty and len(close) >= 130 and len(spy_hist) >= 130:
+                # 6-month returns (130 trading days ≈ 6 months)
+                price_6m_ago = close.iloc[-130]
+                stock_6m_return = (current_price - price_6m_ago) / price_6m_ago
+                
+                spy_close = spy_hist['Close']
+                spy_6m_return = (spy_close.iloc[-1] - spy_close.iloc[-130]) / spy_close.iloc[-130]
+                
+                # RS = relative outperformance
+                relative_strength = stock_6m_return - spy_6m_return
+                
+                # Score: outperforming SPY by >10% = 5pts, >5% = 3pts, >0% = 1pt
+                if relative_strength > 0.10:
+                    rs_points = 5
+                elif relative_strength > 0.05:
+                    rs_points = 3
+                elif relative_strength > 0:
+                    rs_points = 1
+                else:
+                    rs_points = 0
+                
+                rs_val = f"{float(relative_strength)*100:+.1f}% vs SPY (6mo)"
+            else:
+                rs_val = "Insufficient data"
+        except:
+            rs_val = "Error calculating RS"
+        
+        passed_rs = rs_points > 0
+        results.append(CriterionResult("Relative Strength", "Context", passed_rs, rs_val, ">0% outperformance vs SPY", rs_points))
         
         # 15. Size Penalty
         market_cap = info.get('marketCap', 0)
@@ -221,8 +380,8 @@ def rate_stock_v43_full(symbol, conn):
         if passed_rs:
             ms_pts += 30 # Simple proxy: if passed 5% outperformance gate
             
-        # Calculate total
-        total = sum(r.points for r in results)
+        # Calculate total (capped at 100)
+        total = min(100, sum(r.points for r in results))
         
         # Grading
         if total >= 70: grade = 'A'
@@ -282,7 +441,7 @@ def rate_stock_v43_full(symbol, conn):
         return None
 
 def run_scan():
-    logger.info("🚀 Starting InvestIQ v4.3 Full Scan (All Stocks + Details)...")
+    logger.info("🚀 Starting InvestIQ v5.0 Full Scan (All Stocks + Details)...")
     
     conn = get_db_connection()
     c = conn.cursor()
@@ -311,26 +470,39 @@ def run_scan():
     
     # Save filtered top stocks for main display
     top_output = {
-        'version': '4.3',
+        'version': '5.0',
         'max_score': 100,
         'last_scan': datetime.now().strftime('%Y-%m-%d %H:%M PST'),
         'total_stocks': len(filtered_results),
         'stocks': filtered_results[:100]
     }
     
+    import numpy as np
+    class NumpyEncoder(json.JSONEncoder):
+        def default(self, obj):
+            if isinstance(obj, (np.bool_, bool)):
+                return bool(obj)
+            if isinstance(obj, (np.integer,)):
+                return int(obj)
+            if isinstance(obj, (np.floating,)):
+                return float(obj)
+            if isinstance(obj, np.ndarray):
+                return obj.tolist()
+            return super().default(obj)
+    
     with open('top_stocks.json', 'w') as f:
-        json.dump(top_output, f, indent=2)
+        json.dump(top_output, f, indent=2, cls=NumpyEncoder)
     
     # Save ALL stocks with full details for website detail view
     all_output = {
-        'version': '4.3',
+        'version': '5.0',
         'last_scan': datetime.now().strftime('%Y-%m-%d %H:%M PST'),
         'total_stocks': len(results),
         'stocks': {s['ticker']: s for s in results}  # Dict for O(1) lookup
     }
     
     with open('all_stocks.json', 'w') as f:
-        json.dump(all_output, f, indent=2)
+        json.dump(all_output, f, indent=2, cls=NumpyEncoder)
     
     logger.info(f"✅ Saved {len(filtered_results)} top stocks (both years >= 10% growth)")
     logger.info(f"   Saved {len(results)} total stocks with details to all_stocks.json")
