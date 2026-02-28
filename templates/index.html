@@ -518,11 +518,14 @@
                     try {
                         response = await fetch('/api/watchlist');
                         if (!response.ok) throw new Error('API not available');
+                        const ct = response.headers.get('content-type') || '';
+                        if (!ct.includes('json')) throw new Error('Not JSON response');
+                        watchlistData = await response.json();
                     } catch {
                         response = await fetch('watchlist.json?v=' + Date.now());
+                        if (!response.ok) throw new Error('Watchlist not available');
+                        watchlistData = await response.json();
                     }
-                    if (!response.ok) throw new Error('Watchlist not available');
-                    watchlistData = await response.json();
                     document.getElementById('watchlist-updated').textContent = watchlistData.last_updated;
                     renderWatchlist();
                 } catch (err) {
@@ -543,8 +546,8 @@
 
         async function fetchLivePrices() {
             try {
-                const res = await fetch('/api/watchlist/live');
-                if (!res.ok) return;
+                const res = await fetch('/api/watchlist/live').catch(() => null);
+                if (!res || !res.ok) return;
                 const live = await res.json();
                 
                 if (!live.prices || !watchlistData) return;
@@ -770,7 +773,9 @@
             if (allStocksCache) return allStocksCache;
             if (allStocksLoading) return allStocksLoading;
             
-            allStocksLoading = fetch('/api/all_stocks').catch(() => fetch('all_stocks.json?v=' + Date.now()))
+            allStocksLoading = fetch('/api/all_stocks')
+                .then(r => { if (!r.ok || !(r.headers.get('content-type')||'').includes('json')) throw new Error(); return r; })
+                .catch(() => fetch('all_stocks.json?v=' + Date.now()))
                 .then(res => {
                     if (!res.ok) throw new Error(`HTTP ${res.status}`);
                     return res.json();
