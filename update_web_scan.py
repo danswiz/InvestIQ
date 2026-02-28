@@ -17,6 +17,7 @@ logger = get_logger('web_scan')
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from rater import CriterionResult, get_ttm_growth
+from rotation_catcher import RotationCatcher
 
 DB_PATH = config.DB_PATH
 
@@ -441,7 +442,7 @@ def rate_stock_v43_full(symbol, conn):
         return None
 
 def run_scan():
-    logger.info("🚀 Starting InvestIQ v5.0 Full Scan (All Stocks + Details)...")
+    logger.info("🚀 Starting InvestIQ v5.0 Full Scan (All Stocks + Details + Rotation)...")
     
     conn = get_db_connection()
     c = conn.cursor()
@@ -451,10 +452,26 @@ def run_scan():
     
     logger.info(f"Found {len(tickers)} tickers")
     
+    # Create one RotationCatcher instance (shares caches across all stocks)
+    rc = RotationCatcher()
+    logger.info("Initialized RotationCatcher with session-level caching")
+    
     results = []
     for i, ticker in enumerate(tickers, 1):
         data = rate_stock_v43_full(ticker, conn)
         if data:
+            # Add rotation score
+            try:
+                rotation_result = rc.score(ticker)
+                data['rotation_score'] = rotation_result['composite_score']
+                data['rotation_signal'] = rotation_result['signal']
+                data['rotation_convergence'] = rotation_result['convergence_bonus']
+            except Exception as e:
+                logger.warning(f"Rotation scoring failed for {ticker}: {e}")
+                data['rotation_score'] = 0
+                data['rotation_signal'] = 'NO DATA'
+                data['rotation_convergence'] = 0
+            
             results.append(data)
         
         if i % 100 == 0:

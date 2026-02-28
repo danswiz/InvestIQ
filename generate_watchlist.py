@@ -42,6 +42,8 @@ def load_ratings():
                         'quality_score': stock.get('quality_score', 0),
                         'context_score': stock.get('context_score', 0),
                         'moonshot_score': stock.get('moonshot_score', 0),
+                        'rotation_score': stock.get('rotation_score', 0),
+                        'rotation_signal': stock.get('rotation_signal', 'N/A'),
                     }
             else:
                 for stock in stocks_data:
@@ -55,6 +57,8 @@ def load_ratings():
                             'quality_score': stock.get('quality_score', 0),
                             'context_score': stock.get('context_score', 0),
                             'moonshot_score': stock.get('moonshot_score', 0),
+                            'rotation_score': stock.get('rotation_score', 0),
+                            'rotation_signal': stock.get('rotation_signal', 'N/A'),
                         }
             logger.info(f"Loaded ratings for {len(ratings)} stocks")
             return ratings
@@ -112,6 +116,8 @@ def fetch_stock_data(ticker, ratings):
             "quality_score": rating.get('quality_score', 0),
             "context_score": rating.get('context_score', 0),
             "moonshot_score": rating.get('moonshot_score', 0),
+            "rotation_score": rating.get('rotation_score', 0),
+            "rotation_signal": rating.get('rotation_signal', 'N/A'),
             "daily_change": round(daily_change, 2) if daily_change else None
         }
     except Exception as e:
@@ -133,6 +139,8 @@ def fetch_stock_data(ticker, ratings):
             "quality_score": 0,
             "context_score": 0,
             "moonshot_score": 0,
+            "rotation_score": 0,
+            "rotation_signal": "N/A",
             "daily_change": None
         }
 
