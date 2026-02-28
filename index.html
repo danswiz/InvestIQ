@@ -173,6 +173,7 @@
                             <th onclick="sortTable('sector')">Industry</th>
                             <th onclick="sortTable('score')">Score</th>
                             <th onclick="sortTable('moonshot_score')">Moonshot</th>
+                            <th onclick="sortTable('rotation_score')">Rotation</th>
                             <th onclick="sortTable('grade')">Grade</th>
                             <th>Action</th>
                         </tr>
@@ -327,11 +328,12 @@
                             <th onclick="sortWatchlist('peg_ratio')">PEG</th>
                             <th onclick="sortWatchlist('score')">Score</th>
                             <th onclick="sortWatchlist('moonshot_score')">Moonshot</th>
+                            <th onclick="sortWatchlist('rotation_score')">Rotation</th>
                             <th onclick="sortWatchlist('grade')">Grade</th>
                         </tr>
                     </thead>
                     <tbody id="watchlist-tbody">
-                        <tr><td colspan="11" style="text-align: center; padding: 40px; color: var(--text-dim);">Loading watchlist...</td></tr>
+                        <tr><td colspan="12" style="text-align: center; padding: 40px; color: var(--text-dim);">Loading watchlist...</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -383,6 +385,9 @@
             
             tbody.innerHTML = filtered.map(stock => {
                 const scoreColor = stock.score >= 80 ? '#38bdf8' : stock.score >= 70 ? '#10b981' : stock.score >= 55 ? '#f59e0b' : '#94a3b8';
+                const rotationScore = stock.rotation_score || 0;
+                const rotationColor = rotationScore >= 80 ? '#10b981' : rotationScore >= 60 ? '#eab308' : rotationScore >= 40 ? '#94a3b8' : '#64748b';
+                const rotationWeight = rotationScore >= 80 ? '700' : rotationScore >= 60 ? '600' : '400';
                 return `
                     <tr data-sector="${stock.sector}">
                         <td class="font-bold text-sky-400">${stock.ticker}</td>
@@ -404,6 +409,7 @@
                             </div>
                         </td>
                         <td class="text-center font-bold text-amber-400">${stock.moonshot_score || 0}%</td>
+                        <td class="text-center" style="color: ${rotationColor}; font-weight: ${rotationWeight};">${rotationScore.toFixed(1)}</td>
                         <td><span class="grade-badge grade-${stock.grade}">${stock.grade}</span></td>
                         <td><button onclick="viewStock('${stock.ticker}')" class="text-xs bg-slate-700 px-3 py-1 rounded hover:bg-slate-600 transition">Analyze</button></td>
                     </tr>
@@ -601,6 +607,7 @@
                         <div class="score-breakdown">T:${stock.technical_score || 0} G:${stock.growth_score || 0} Q:${stock.quality_score || 0} C:${stock.context_score || 0}</div>
                     </td>
                     <td class="text-center font-bold text-amber-400">${stock.moonshot_score || 0}%</td>
+                    <td class="text-center" style="color: ${getRotationColor(stock.rotation_score || 0)}; font-weight: ${getRotationWeight(stock.rotation_score || 0)};">${(stock.rotation_score || 0).toFixed(1)}</td>
                     <td><span class="grade-badge grade-${stock.grade}">${stock.grade}</span></td>
                 </tr>
             `;
@@ -614,6 +621,19 @@
             'AI Semis': '🧠',
             'Biotech': '🧬'
         };
+        
+        function getRotationColor(score) {
+            if (score >= 80) return '#10b981';
+            if (score >= 60) return '#eab308';
+            if (score >= 40) return '#94a3b8';
+            return '#64748b';
+        }
+        
+        function getRotationWeight(score) {
+            if (score >= 80) return '700';
+            if (score >= 60) return '600';
+            return '400';
+        }
 
         function renderWatchlist() {
             if (!watchlistData) return;
@@ -624,7 +644,7 @@
             if (currentBasketFilter !== 'all') {
                 const stocks = watchlistData.baskets[currentBasketFilter] || [];
                 if (stocks.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="11" style="text-align: center; padding: 40px; color: var(--text-dim);">No holdings in this basket</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="12" style="text-align: center; padding: 40px; color: var(--text-dim);">No holdings in this basket</td></tr>';
                     return;
                 }
                 tbody.innerHTML = stocks.map(renderStockRow).join('');
@@ -647,7 +667,7 @@
                 const totalValue = stocks.reduce((s, st) => s + (st.price || 0), 0);
                 html += `
                     <tr class="basket-header" data-basket="${basket}">
-                        <td colspan="11" style="background: #0a0f1d; padding: 14px 16px; border-bottom: 2px solid var(--accent); font-weight: 700; font-size: 0.95rem;">
+                        <td colspan="12" style="background: #0a0f1d; padding: 14px 16px; border-bottom: 2px solid var(--accent); font-weight: 700; font-size: 0.95rem;">
                             ${icon} ${basket} 
                             <span style="font-size: 0.75rem; color: var(--text-dim); font-weight: 400; margin-left: 8px;">${stocks.length} holdings</span>
                             <span class="basket-avg" style="font-size: 0.75rem; color: ${avgColor}; font-weight: 600; margin-left: 12px;">Avg: ${avgPrefix}${avgChange.toFixed(2)}%</span>
