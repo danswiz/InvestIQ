@@ -513,7 +513,14 @@
             
             if (!watchlistData) {
                 try {
-                    const response = await fetch('/api/watchlist');
+                    // Try API first (local Flask), fall back to static JSON (GitHub Pages)
+                    let response;
+                    try {
+                        response = await fetch('/api/watchlist');
+                        if (!response.ok) throw new Error('API not available');
+                    } catch {
+                        response = await fetch('watchlist.json');
+                    }
                     if (!response.ok) throw new Error('Watchlist not available');
                     watchlistData = await response.json();
                     document.getElementById('watchlist-updated').textContent = watchlistData.last_updated;
@@ -763,7 +770,7 @@
             if (allStocksCache) return allStocksCache;
             if (allStocksLoading) return allStocksLoading;
             
-            allStocksLoading = fetch('/api/all_stocks')
+            allStocksLoading = fetch('/api/all_stocks').catch(() => fetch('all_stocks.json'))
                 .then(res => {
                     if (!res.ok) throw new Error(`HTTP ${res.status}`);
                     return res.json();
