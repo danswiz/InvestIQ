@@ -135,7 +135,7 @@
         <div style="font-weight: 800; font-size: 1.5rem; margin-bottom: 40px; color: var(--accent); letter-spacing: -1px;">InvestIQ</div>
         <nav>
             <div class="nav-item active" onclick="showDashboard(); toggleMenu();">Breakout Hunter</div>
-            <div class="nav-item" onclick="showAlert('Watchlist coming soon!'); toggleMenu();">Watchlist</div>
+            <div class="nav-item" onclick="showWatchlist(); toggleMenu();">Watchlist</div>
             <div class="nav-item" onclick="showAlert('Portfolio tracker coming soon!'); toggleMenu();">Portfolio</div>
         </nav>
         <div style="margin-top: auto; font-size: 0.7rem; color: var(--text-dim)">v4.2 High Potential (100pt)</div>
@@ -287,6 +287,54 @@
                 </div>
             </div>
         </div>
+
+        <!-- WATCHLIST VIEW -->
+        <div id="watchlist-view" style="display: none;">
+            <div style="display: flex; gap: 8px; margin-bottom: 16px; align-items: center;">
+                <button onclick="showDashboard()" class="text-sm text-slate-400 hover:text-white flex items-center">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    Back to Dashboard
+                </button>
+            </div>
+
+            <div style="margin-bottom: 24px; margin-left: 0;">
+                <h2 class="text-2xl font-bold mb-2">📊 My Watchlist</h2>
+                <span style="font-size: 0.8rem; color: var(--text-dim);">Last Updated: <strong id="watchlist-updated" style="color: var(--accent);">Loading...</strong></span>
+            </div>
+
+            <!-- Basket Filter Pills -->
+            <div class="filter-pills" id="basket-filters">
+                <span class="filter-pill active" onclick="filterWatchlist('all')">Show All</span>
+                <span class="filter-pill" onclick="filterWatchlist('Trading Account')">Trading Account</span>
+                <span class="filter-pill" onclick="filterWatchlist('Roth IRA')">Roth IRA</span>
+                <span class="filter-pill" onclick="filterWatchlist('IRA Core ETFs')">Core ETFs</span>
+                <span class="filter-pill" onclick="filterWatchlist('IRA Grid-to-Chip')">Grid-to-Chip</span>
+                <span class="filter-pill" onclick="filterWatchlist('IRA AI Semis')">AI Semis</span>
+            </div>
+
+            <div style="overflow-x: auto; background: var(--surface); border-radius: 12px; border: 1px solid #2d3748;">
+                <table id="watchlist-table">
+                    <thead>
+                        <tr>
+                            <th onclick="sortWatchlist('ticker')">Ticker</th>
+                            <th onclick="sortWatchlist('name')">Company</th>
+                            <th onclick="sortWatchlist('basket')">Basket</th>
+                            <th onclick="sortWatchlist('trailing_pe')">Current PE</th>
+                            <th onclick="sortWatchlist('forward_pe')">Forward PE</th>
+                            <th onclick="sortWatchlist('revenue_growth')">Rev Growth</th>
+                            <th onclick="sortWatchlist('earnings_growth')">Earn Growth</th>
+                            <th onclick="sortWatchlist('peg_ratio')">PEG</th>
+                            <th onclick="sortWatchlist('score')">Score</th>
+                            <th onclick="sortWatchlist('grade')">Grade</th>
+                            <th onclick="sortWatchlist('daily_change')">Daily Chg</th>
+                        </tr>
+                    </thead>
+                    <tbody id="watchlist-tbody">
+                        <tr><td colspan="11" style="text-align: center; padding: 40px; color: var(--text-dim);">Loading watchlist...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </main>
 
     <script>
@@ -428,6 +476,7 @@
         function showDashboard() {
             document.getElementById('dashboard-view').style.display = 'block';
             document.getElementById('detail-view').style.display = 'none';
+            document.getElementById('watchlist-view').style.display = 'none';
             
             if (window.tvCheckInterval) {
                 clearInterval(window.tvCheckInterval);
@@ -439,6 +488,151 @@
                 chartContainer.innerHTML = '';
             }
             window.tvWidget = null;
+        }
+
+        // Watchlist functionality
+        let watchlistData = null;
+        let currentBasketFilter = 'all';
+        let watchlistSortColumn = null;
+        let watchlistSortDirection = 'asc';
+
+        async function showWatchlist() {
+            document.getElementById('dashboard-view').style.display = 'none';
+            document.getElementById('detail-view').style.display = 'none';
+            document.getElementById('watchlist-view').style.display = 'block';
+            
+            if (!watchlistData) {
+                try {
+                    const response = await fetch('/api/watchlist');
+                    if (!response.ok) throw new Error('Watchlist not available');
+                    watchlistData = await response.json();
+                    document.getElementById('watchlist-updated').textContent = watchlistData.last_updated;
+                    renderWatchlist();
+                } catch (err) {
+                    document.getElementById('watchlist-tbody').innerHTML = 
+                        '<tr><td colspan="11" style="text-align: center; padding: 40px; color: #dc2626;">Error loading watchlist: ' + err.message + '</td></tr>';
+                }
+            } else {
+                renderWatchlist();
+            }
+        }
+
+        function renderWatchlist() {
+            if (!watchlistData) return;
+            
+            const tbody = document.getElementById('watchlist-tbody');
+            const stocks = currentBasketFilter === 'all' 
+                ? watchlistData.all 
+                : watchlistData.baskets[currentBasketFilter] || [];
+            
+            if (stocks.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="11" style="text-align: center; padding: 40px; color: var(--text-dim);">No holdings in this basket</td></tr>';
+                return;
+            }
+            
+            tbody.innerHTML = stocks.map(stock => {
+                const changeColor = stock.daily_change > 0 ? '#10b981' : stock.daily_change < 0 ? '#ef4444' : 'var(--text-dim)';
+                const changePrefix = stock.daily_change > 0 ? '+' : '';
+                
+                const pegColor = stock.peg_ratio === null ? 'var(--text-dim)' :
+                                 stock.peg_ratio < 1.5 ? '#10b981' :
+                                 stock.peg_ratio < 2.5 ? '#eab308' : '#ef4444';
+                
+                const revGrowthColor = stock.revenue_growth === null ? 'var(--text-dim)' :
+                                       stock.revenue_growth > 0 ? '#10b981' : '#ef4444';
+                
+                const earnGrowthColor = stock.earnings_growth === null ? 'var(--text-dim)' :
+                                        stock.earnings_growth > 0 ? '#10b981' : '#ef4444';
+                
+                const scorePercent = Math.min(stock.score, 100);
+                const scoreColor = scorePercent >= 70 ? '#059669' : 
+                                   scorePercent >= 50 ? '#0284c7' : 
+                                   scorePercent >= 30 ? '#d97706' : '#dc2626';
+                
+                return `
+                    <tr>
+                        <td><a href="#" onclick="viewStock('${stock.ticker}'); return false;" class="text-sky-400 hover:text-sky-300 font-bold">${stock.ticker}</a></td>
+                        <td>${stock.name}</td>
+                        <td><span style="font-size: 0.75rem; color: var(--text-dim);">${stock.basket}</span></td>
+                        <td>${stock.trailing_pe !== null ? stock.trailing_pe.toFixed(2) : '<span style="color: var(--text-dim);">N/A</span>'}</td>
+                        <td>${stock.forward_pe !== null ? stock.forward_pe.toFixed(2) : '<span style="color: var(--text-dim);">N/A</span>'}</td>
+                        <td style="color: ${revGrowthColor};">${stock.revenue_growth !== null ? stock.revenue_growth.toFixed(1) + '%' : '<span style="color: var(--text-dim);">N/A</span>'}</td>
+                        <td style="color: ${earnGrowthColor};">${stock.earnings_growth !== null ? stock.earnings_growth.toFixed(1) + '%' : '<span style="color: var(--text-dim);">N/A</span>'}</td>
+                        <td style="color: ${pegColor}; font-weight: 600;">${stock.peg_ratio !== null ? stock.peg_ratio.toFixed(2) : '<span style="color: var(--text-dim); font-weight: 400;">N/A</span>'}</td>
+                        <td>
+                            <div class="score-container">
+                                <div class="score-bar-bg">
+                                    <div class="score-bar-fill" style="width: ${scorePercent}%; background: ${scoreColor};"></div>
+                                </div>
+                                <span class="score-text">${stock.score}</span>
+                            </div>
+                        </td>
+                        <td><span class="grade-badge grade-${stock.grade}">${stock.grade}</span></td>
+                        <td style="color: ${changeColor}; font-weight: 600;">${stock.daily_change !== null ? changePrefix + stock.daily_change.toFixed(2) + '%' : '<span style="color: var(--text-dim); font-weight: 400;">N/A</span>'}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function filterWatchlist(basket) {
+            currentBasketFilter = basket;
+            
+            // Update pill active states
+            document.querySelectorAll('#basket-filters .filter-pill').forEach(pill => {
+                pill.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            renderWatchlist();
+        }
+
+        function sortWatchlist(column) {
+            if (!watchlistData) return;
+            
+            // Toggle direction if same column, otherwise default to ascending
+            if (watchlistSortColumn === column) {
+                watchlistSortDirection = watchlistSortDirection === 'asc' ? 'desc' : 'asc';
+            } else {
+                watchlistSortColumn = column;
+                watchlistSortDirection = 'asc';
+            }
+            
+            // Update header indicators
+            document.querySelectorAll('#watchlist-table th').forEach(th => {
+                th.classList.remove('sort-asc', 'sort-desc');
+            });
+            event.target.classList.add(watchlistSortDirection === 'asc' ? 'sort-asc' : 'sort-desc');
+            
+            // Sort the data
+            const sortData = (stocks) => {
+                return [...stocks].sort((a, b) => {
+                    let aVal = a[column];
+                    let bVal = b[column];
+                    
+                    // Handle null values
+                    if (aVal === null && bVal === null) return 0;
+                    if (aVal === null) return 1;
+                    if (bVal === null) return -1;
+                    
+                    // String comparison
+                    if (typeof aVal === 'string') {
+                        aVal = aVal.toLowerCase();
+                        bVal = bVal.toLowerCase();
+                    }
+                    
+                    const comparison = aVal < bVal ? -1 : aVal > bVal ? 1 : 0;
+                    return watchlistSortDirection === 'asc' ? comparison : -comparison;
+                });
+            };
+            
+            // Apply sort
+            if (currentBasketFilter === 'all') {
+                watchlistData.all = sortData(watchlistData.all);
+            } else {
+                watchlistData.baskets[currentBasketFilter] = sortData(watchlistData.baskets[currentBasketFilter]);
+            }
+            
+            renderWatchlist();
         }
 
         document.addEventListener('DOMContentLoaded', function() {
