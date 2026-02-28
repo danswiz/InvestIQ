@@ -234,6 +234,11 @@
                             <div class="text-xs text-amber-500 uppercase font-bold tracking-wider mb-2">Moonshot</div>
                             <div class="text-xl lg:text-2xl font-bold text-amber-400" id="moonshot-score">0%</div>
                         </div>
+                        <div class="card p-4 lg:p-6 bg-gradient-to-br from-slate-800 to-cyan-900/20 border border-cyan-500/30">
+                            <div class="text-xs text-cyan-500 uppercase font-bold tracking-wider mb-2">Rotation</div>
+                            <div class="text-xl lg:text-2xl font-bold" id="rotation-score">0</div>
+                            <div class="text-xs mt-1" id="rotation-signal" style="color: var(--text-dim);">—</div>
+                        </div>
                     </div>
                 </div>
 
@@ -806,6 +811,13 @@
                 document.getElementById('quality-score').innerText = data.quality_score || 0;
                 document.getElementById('context-score').innerText = data.context_score || 0;
                 document.getElementById('moonshot-score').innerText = (data.moonshot_score || 0) + '%';
+                
+                const rotScore = data.rotation_score || 0;
+                const rotSignal = data.rotation_signal || 'N/A';
+                document.getElementById('rotation-score').innerText = rotScore.toFixed ? rotScore.toFixed(1) : rotScore;
+                document.getElementById('rotation-signal').innerText = rotSignal;
+                const rotEl = document.getElementById('rotation-score');
+                rotEl.style.color = rotScore >= 80 ? '#10b981' : rotScore >= 60 ? '#eab308' : rotScore >= 40 ? '#94a3b8' : '#64748b';
 
                 // Analyst data from cache
                 document.getElementById('rec-key').innerText = data.recommendation ? data.recommendation.toUpperCase() : 'N/A';
