@@ -326,11 +326,12 @@
                             <th onclick="sortWatchlist('earnings_growth')">Earn Growth</th>
                             <th onclick="sortWatchlist('peg_ratio')">PEG</th>
                             <th onclick="sortWatchlist('score')">Score</th>
+                            <th onclick="sortWatchlist('moonshot_score')">Moonshot</th>
                             <th onclick="sortWatchlist('grade')">Grade</th>
                         </tr>
                     </thead>
                     <tbody id="watchlist-tbody">
-                        <tr><td colspan="10" style="text-align: center; padding: 40px; color: var(--text-dim);">Loading watchlist...</td></tr>
+                        <tr><td colspan="11" style="text-align: center; padding: 40px; color: var(--text-dim);">Loading watchlist...</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -513,7 +514,7 @@
                     renderWatchlist();
                 } catch (err) {
                     document.getElementById('watchlist-tbody').innerHTML = 
-                        '<tr><td colspan="10" style="text-align: center; padding: 40px; color: #dc2626;">Error loading watchlist: ' + err.message + '</td></tr>';
+                        '<tr><td colspan="11" style="text-align: center; padding: 40px; color: #dc2626;">Error loading watchlist: ' + err.message + '</td></tr>';
                     return;
                 }
             } else {
@@ -595,9 +596,11 @@
                             <div class="score-bar-bg">
                                 <div class="score-bar-fill" style="width: ${scorePercent}%; background: ${scoreColor};"></div>
                             </div>
-                            <span class="score-text">${stock.score}</span>
+                            <span class="score-text">${stock.score}/100</span>
                         </div>
+                        <div class="score-breakdown">T:${stock.technical_score || 0} G:${stock.growth_score || 0} Q:${stock.quality_score || 0} C:${stock.context_score || 0}</div>
                     </td>
+                    <td class="text-center font-bold text-amber-400">${stock.moonshot_score || 0}%</td>
                     <td><span class="grade-badge grade-${stock.grade}">${stock.grade}</span></td>
                 </tr>
             `;
@@ -621,7 +624,7 @@
             if (currentBasketFilter !== 'all') {
                 const stocks = watchlistData.baskets[currentBasketFilter] || [];
                 if (stocks.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="10" style="text-align: center; padding: 40px; color: var(--text-dim);">No holdings in this basket</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="11" style="text-align: center; padding: 40px; color: var(--text-dim);">No holdings in this basket</td></tr>';
                     return;
                 }
                 tbody.innerHTML = stocks.map(renderStockRow).join('');
@@ -644,7 +647,7 @@
                 const totalValue = stocks.reduce((s, st) => s + (st.price || 0), 0);
                 html += `
                     <tr class="basket-header" data-basket="${basket}">
-                        <td colspan="10" style="background: #0a0f1d; padding: 14px 16px; border-bottom: 2px solid var(--accent); font-weight: 700; font-size: 0.95rem;">
+                        <td colspan="11" style="background: #0a0f1d; padding: 14px 16px; border-bottom: 2px solid var(--accent); font-weight: 700; font-size: 0.95rem;">
                             ${icon} ${basket} 
                             <span style="font-size: 0.75rem; color: var(--text-dim); font-weight: 400; margin-left: 8px;">${stocks.length} holdings</span>
                             <span class="basket-avg" style="font-size: 0.75rem; color: ${avgColor}; font-weight: 600; margin-left: 12px;">Avg: ${avgPrefix}${avgChange.toFixed(2)}%</span>
