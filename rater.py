@@ -2,6 +2,7 @@ import yfinance as yf
 import pandas as pd
 import numpy as np
 import os
+import math
 import traceback
 from datetime import datetime, timedelta
 from dataclasses import dataclass, asdict
@@ -95,7 +96,7 @@ class BreakoutRater:
             "Trend Alignment": 8,        # Direction
             
             # Growth (38 pts)
-            "Sales Growth": 30,          # Revenue engine (graduated)
+            "Revenue Score": 30,          # Revenue engine (4-component: magnitude+consistency+accel+beats)
             "Earnings Acceleration": 8,  # QoQ EPS growth acceleration (NEW v5.0)
             
             # Quality (18 pts)
@@ -199,97 +200,177 @@ class BreakoutRater:
             results.append(CriterionResult("Volatility Compression", "Timing", passed_atr, atr_val, "10d ATR < 75% of 50d ATR", 5 if passed_atr else 0))
 
             # --- 3. GROWTH & QUALITY ---
-            # Sales Growth with Graduated Scoring (0-30 pts) - ENHANCED v5.0
-            # Uses quarterly data for Trailing Twelve Months comparison
+            # Revenue Score (0-30 pts) - v5.1: 4-component continuous scoring
+            # Components: Magnitude (35%), Consistency (25%), Acceleration (25%), Beat Rate (15%)
+            # Scaled to 30 pts max
             
-            rev_g = info.get('revenueGrowth')  # Fallback to yfinance TTM
-            rev_g_prior = None
+            def _sigmoid_normalize(value, center=0.10, scale=5.0):
+                """Sigmoid normalization: returns 0-1, centered at 'center'"""
+                return 1.0 / (1.0 + math.exp(-scale * (value - center)))
             
-            # Calculate TTM from quarterly data if available
+            revenue_pts = 0
+            growth_display = "N/A"
+            rev_components = {}
+            
             try:
+                # Get quarterly revenue data (chronological order, oldest first)
+                quarterly_rev = []
+                
+                # Try yfinance quarterly income statement
+                quarterly_income = stock.quarterly_income_stmt
+                if quarterly_income is not None and not quarterly_income.empty and 'Total Revenue' in quarterly_income.index:
+                    rev_series = quarterly_income.loc['Total Revenue'].dropna()
+                    for dt, val in reversed(list(rev_series.items())):
+                        quarterly_rev.append({'date': dt, 'revenue': float(val)})
+                
+                # Fallback: quarterly_financials
+                if not quarterly_rev:
+                    qf = stock.quarterly_financials
+                    if qf is not None and not qf.empty and 'Total Revenue' in qf.index:
+                        rev_series = qf.loc['Total Revenue'].dropna()
+                        for dt, val in reversed(list(rev_series.items())):
+                            quarterly_rev.append({'date': dt, 'revenue': float(val)})
+                
+                # Fallback: DB (has more history)
                 if db:
-                    c = db.conn.cursor()
-                    # Get last 12 quarters for TTM calculations
-                    c.execute('''
-                        SELECT year, quarter, revenue FROM quarterly_revenue
-                        WHERE symbol = ? AND revenue IS NOT NULL
-                        ORDER BY year DESC, quarter DESC
-                        LIMIT 12
-                    ''', (ticker,))
-                    rows = c.fetchall()
-                    
-                    if len(rows) >= 8:
-                        # TTM Current = sum of most recent 4 quarters
-                        ttm_current = sum(r[2] for r in rows[0:4])
-                        # TTM Prior Year = sum of quarters 5-8 (4 quarters ago)
-                        ttm_prior = sum(r[2] for r in rows[4:8])
-                        
-                        if ttm_prior > 0:
-                            rev_g = (ttm_current - ttm_prior) / ttm_prior
-                        
-                        # TTM 2 Years Ago = sum of quarters 9-12 (if available)
-                        if len(rows) >= 12:
-                            ttm_2yr = sum(r[2] for r in rows[8:12])
-                            if ttm_2yr > 0:
-                                rev_g_prior = (ttm_prior - ttm_2yr) / ttm_2yr
-            except:
-                pass
-            
-            # For prior year, fallback to fiscal year data if TTM not available
-            if rev_g_prior is None:
-                try:
-                    if db:
+                    try:
                         c = db.conn.cursor()
                         c.execute('''
-                            SELECT revenue_growth_yoy FROM revenue_history 
-                            WHERE symbol = ? AND revenue_growth_yoy IS NOT NULL
-                            ORDER BY fiscal_year DESC LIMIT 1 OFFSET 1
+                            SELECT year, quarter, revenue FROM quarterly_revenue
+                            WHERE symbol = ? AND revenue IS NOT NULL
+                            ORDER BY year ASC, quarter ASC
                         ''', (ticker,))
-                        row = c.fetchone()
-                        if row:
-                            rev_g_prior = row[0]
+                        db_rows = c.fetchall()
+                        if len(db_rows) > len(quarterly_rev):
+                            quarterly_rev = [{'date': None, 'revenue': float(row[2])} for row in db_rows]
+                    except:
+                        pass
+                
+                revenues = [q['revenue'] for q in quarterly_rev]
+                n = len(revenues)
+                
+                # === COMPONENT 1: Magnitude (35% of 30 = 10.5 pts max) ===
+                # TTM YoY growth with sigmoid normalization
+                yoy_growth = None
+                magnitude = 0
+                
+                if n >= 8:
+                    # Full TTM comparison: last 4Q vs prior 4Q
+                    ttm_current = sum(revenues[n-4:n])
+                    ttm_prior = sum(revenues[n-8:n-4])
+                    if ttm_prior > 0:
+                        yoy_growth = ttm_current / ttm_prior - 1.0
+                elif n >= 5:
+                    # 5 quarters: compare most recent Q to same Q last year
+                    if revenues[0] > 0:
+                        yoy_growth = revenues[-1] / revenues[0] - 1.0
+                
+                # Fallback to annual data or yfinance TTM
+                if yoy_growth is None:
+                    # Try annual income statement
+                    try:
+                        ann_inc = stock.income_stmt
+                        if ann_inc is not None and 'Total Revenue' in ann_inc.index:
+                            ann_rev = ann_inc.loc['Total Revenue'].dropna()
+                            if len(ann_rev) >= 2:
+                                yoy_growth = float(ann_rev.iloc[0]) / float(ann_rev.iloc[1]) - 1.0
+                    except:
+                        pass
+                
+                if yoy_growth is None:
+                    rev_g = info.get('revenueGrowth')
+                    if rev_g is not None:
+                        yoy_growth = float(rev_g)
+                
+                if yoy_growth is not None:
+                    magnitude = _sigmoid_normalize(yoy_growth, center=0.10, scale=5.0) * 10.5
+                    rev_components['yoy_growth'] = round(yoy_growth * 100, 1)
+                
+                # === COMPONENT 2: Consistency (25% of 30 = 7.5 pts max) ===
+                # Coefficient of variation across quarterly YoY growth rates
+                # With 5 quarters we get 1 YoY pair; with 8+ we get 4+ pairs
+                consistency = 0
+                q_yoy_growths = []
+                
+                if n >= 5:
+                    # Calculate YoY growth for each quarter that has a year-ago comp
+                    for i in range(4, n):
+                        if revenues[i-4] > 0:
+                            g = revenues[i] / revenues[i-4] - 1.0
+                            q_yoy_growths.append(g)
+                
+                if len(q_yoy_growths) >= 2:
+                    mean_g = np.mean(q_yoy_growths)
+                    std_g = np.std(q_yoy_growths)
+                    cv = std_g / abs(mean_g) if abs(mean_g) > 0.001 else 1.0
+                    consistency = max(0, (1.0 - min(cv, 2.0))) * 7.5  # cap CV at 2.0
+                    rev_components['consistency_cv'] = round(cv, 2)
+                    rev_components['q_yoy_count'] = len(q_yoy_growths)
+                
+                # === COMPONENT 3: Acceleration (25% of 30 = 7.5 pts max) ===
+                # Recent quarters YoY growth vs older quarters
+                accel = 0
+                if len(q_yoy_growths) >= 2:
+                    mid = len(q_yoy_growths) // 2
+                    recent_avg = np.mean(q_yoy_growths[mid:])
+                    older_avg = np.mean(q_yoy_growths[:mid])
+                    accel_diff = recent_avg - older_avg
+                    accel = _sigmoid_normalize(accel_diff, center=0.0, scale=10.0) * 7.5
+                    rev_components['acceleration'] = round(accel_diff * 100, 1)
+                elif len(q_yoy_growths) == 1 and yoy_growth is not None:
+                    # Only 1 YoY point: neutral acceleration
+                    accel = 3.75  # midpoint
+                
+                # === COMPONENT 4: Earnings Beat Rate (15% of 30 = 4.5 pts max) ===
+                beat_pts = 0
+                try:
+                    eh = stock.earnings_history
+                    if eh is not None and not eh.empty and len(eh) >= 2:
+                        recent = eh.tail(4)
+                        beats = sum(1 for _, row in recent.iterrows() 
+                                   if pd.notna(row.get('epsActual')) and pd.notna(row.get('epsEstimate'))
+                                   and row['epsActual'] > row['epsEstimate'])
+                        beat_rate = beats / len(recent)
+                        
+                        surprises = []
+                        for _, row in recent.iterrows():
+                            if (pd.notna(row.get('epsActual')) and pd.notna(row.get('epsEstimate')) 
+                                and row['epsEstimate'] != 0):
+                                surprises.append((row['epsActual'] - row['epsEstimate']) / abs(row['epsEstimate']))
+                        avg_surprise = np.mean(surprises) if surprises else 0
+                        
+                        raw_beat = min(100, beat_rate * 50 + avg_surprise * 500)
+                        beat_pts = max(0, raw_beat * 0.045)
+                        rev_components['beat_rate'] = round(beat_rate * 100, 0)
+                        rev_components['avg_surprise'] = round(avg_surprise * 100, 1)
                 except:
                     pass
+                
+                revenue_pts = min(30, magnitude + consistency + accel + beat_pts)
+                
+                # Build display string
+                parts = []
+                if yoy_growth is not None:
+                    parts.append(f"YoY: {yoy_growth*100:.1f}%")
+                if 'acceleration' in rev_components:
+                    sign = "+" if rev_components['acceleration'] > 0 else ""
+                    parts.append(f"Accel: {sign}{rev_components['acceleration']:.0f}pp")
+                if 'beat_rate' in rev_components:
+                    parts.append(f"Beats: {rev_components['beat_rate']:.0f}%")
+                growth_display = ", ".join(parts) if parts else "N/A"
+                
+                if not parts:
+                    # Absolute fallback
+                    rev_g = info.get('revenueGrowth')
+                    if rev_g is not None:
+                        magnitude = _sigmoid_normalize(float(rev_g), center=0.10, scale=5.0) * 10.5
+                        revenue_pts = magnitude
+                        growth_display = f"TTM: {float(rev_g)*100:.1f}% (fallback)"
+                        
+            except Exception as e:
+                growth_display = f"Error: {str(e)[:30]}"
             
-            # GRADUATED SCORING (v5.0): Softer gate, rewards tiers
-            if rev_g is None:
-                sales_points = 0
-                growth_display = "N/A"
-            else:
-                # Current year points (0-15)
-                if rev_g >= 0.20:
-                    current_pts = 15
-                elif rev_g >= 0.10:
-                    current_pts = 12
-                elif rev_g >= 0.05:
-                    current_pts = 6
-                else:
-                    current_pts = 0
-                
-                # Prior year points (0-12)
-                if rev_g_prior is not None:
-                    if rev_g_prior >= 0.20:
-                        prior_pts = 12
-                    elif rev_g_prior >= 0.10:
-                        prior_pts = 9
-                    elif rev_g_prior >= 0.05:
-                        prior_pts = 4
-                    else:
-                        prior_pts = 0
-                else:
-                    prior_pts = 0
-                
-                # Consistency bonus: both years >= 10% = +3
-                consistency_bonus = 3 if (rev_g >= 0.10 and rev_g_prior is not None and rev_g_prior >= 0.10) else 0
-                
-                sales_points = current_pts + prior_pts + consistency_bonus  # max 30
-                
-                if rev_g_prior is not None:
-                    growth_display = f"Cur: {float(rev_g)*100:.1f}%, Prior: {float(rev_g_prior)*100:.1f}%"
-                else:
-                    growth_display = f"Current: {float(rev_g)*100:.1f}%"
-            
-            results.append(CriterionResult("Sales Growth (2yr)", "Growth", sales_points > 0, growth_display, "Graduated: 20%/10%/5% tiers", int(sales_points)))
+            results.append(CriterionResult("Revenue Score", "Growth", revenue_pts >= 15, growth_display, "Magnitude+Consistency+Accel+Beats", int(revenue_pts)))
 
             # Earnings Acceleration (8 pts) - NEW v5.0
             # Fetch quarterly EPS and check if growth is ACCELERATING
