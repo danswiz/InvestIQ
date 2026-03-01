@@ -30,7 +30,7 @@ POSITION_SIZES = {
     "VGT": 40.13, "VUG": 17.22, "GOOGL": 39.75,  # Combined GOOGL (19.88%) + GOOG (19.87%)
     # IRA Core ETFs (~41.5% of IRA)
     "COPX": 13.19, "GLD": 11.20, "XLI": 10.83, "VOO": 2.77,
-    "DXJ": 1.35, "INDA": 1.23, "SIL": 0.74, "EEM": 0.0,
+    "DXJ": 1.35, "INDA": 1.23, "SIL": 0.74,
     # Grid-to-Chip (22.5% of IRA)
     "NLR": 16.90, "VRT": 11.86, "CEG": 11.34, "PWR": 10.96,
     "GEV": 10.69, "ETN": 8.33, "GRID": 5.93, "NVT": 5.73,

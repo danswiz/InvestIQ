@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-03-01 09:13 EST",
+  "last_updated": "2026-03-01 09:22 EST",
   "baskets": {
     "Trading Account": [
       {
@@ -293,35 +293,6 @@
         "analyst_count": 0,
         "basket": "IRA Core ETFs",
         "position_size": 0.74
-      },
-      {
-        "ticker": "EEM",
-        "name": "EEM",
-        "sector": "Unknown",
-        "industry": "Unknown",
-        "price": 62.58,
-        "previous_close": 62.71,
-        "daily_change": -0.21,
-        "trailing_pe": null,
-        "forward_pe": null,
-        "revenue_growth": null,
-        "earnings_growth": null,
-        "peg_ratio": null,
-        "market_cap": 0,
-        "score": 36,
-        "grade": "D",
-        "technical_score": 31,
-        "growth_score": 0,
-        "quality_score": 0,
-        "context_score": 5,
-        "moonshot_score": 30,
-        "rotation_score": 43.8,
-        "rotation_signal": "NEUTRAL",
-        "recommendation": "N/A",
-        "target_mean": null,
-        "analyst_count": 0,
-        "basket": "IRA Core ETFs",
-        "position_size": 0.0
       }
     ],
     "Grid-to-Chip": [
@@ -1667,35 +1638,6 @@
       "analyst_count": 0,
       "basket": "IRA Core ETFs",
       "position_size": 0.74
-    },
-    {
-      "ticker": "EEM",
-      "name": "EEM",
-      "sector": "Unknown",
-      "industry": "Unknown",
-      "price": 62.58,
-      "previous_close": 62.71,
-      "daily_change": -0.21,
-      "trailing_pe": null,
-      "forward_pe": null,
-      "revenue_growth": null,
-      "earnings_growth": null,
-      "peg_ratio": null,
-      "market_cap": 0,
-      "score": 36,
-      "grade": "D",
-      "technical_score": 31,
-      "growth_score": 0,
-      "quality_score": 0,
-      "context_score": 5,
-      "moonshot_score": 30,
-      "rotation_score": 43.8,
-      "rotation_signal": "NEUTRAL",
-      "recommendation": "N/A",
-      "target_mean": null,
-      "analyst_count": 0,
-      "basket": "IRA Core ETFs",
-      "position_size": 0.0
     },
     {
       "ticker": "NLR",
