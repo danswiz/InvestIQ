@@ -585,19 +585,23 @@ def run_scan():
     with open('top_stocks.json', 'w') as f:
         json.dump(top_output, f, indent=2, cls=NumpyEncoder)
     
-    # Save ALL stocks — keep criteria for top stocks, strip for rest to save memory
+    # Save ALL stocks — keep criteria for top stocks + portfolio holdings, strip for rest
     import gc
+    from config import ALL_HOLDINGS
     top_tickers = set(s['ticker'] for s in filtered_results)
+    portfolio_tickers = set(ALL_HOLDINGS)
+    keep_criteria = top_tickers | portfolio_tickers  # Union: top stocks + all holdings
+    
     all_stocks_slim = {}
     for s in results:
-        if s['ticker'] in top_tickers:
+        if s['ticker'] in keep_criteria:
             all_stocks_slim[s['ticker']] = s  # Keep criteria for detail view
         else:
             slim = {k: v for k, v in s.items() if k != 'criteria'}
             all_stocks_slim[s['ticker']] = slim
     
     all_output = {
-        'version': '5.0',
+        'version': '5.1',
         'last_scan': datetime.now().strftime('%Y-%m-%d %H:%M PST'),
         'total_stocks': len(results),
         'stocks': all_stocks_slim
