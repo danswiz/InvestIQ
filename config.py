@@ -30,7 +30,7 @@ DEFENSE_AEROSPACE = ['LMT', 'NOC', 'LHX', 'HWM', 'HEI', 'RTX', 'HII', 'UFO', 'EU
 BIOTECH = ['XBI', 'LLY', 'ALNY', 'HALO']
 
 # IRA (~66%) - Core ETFs
-CORE_ETFS = ['COPX', 'GLD', 'XLI', 'VOO', 'DXJ', 'INDA', 'SIL', 'EEM']
+CORE_ETFS = ['COPX', 'GLD', 'XLI', 'VOO', 'DXJ', 'INDA', 'SIL']
 
 # IRA - Grid-to-Chip
 GRID_TO_CHIP = ['NLR', 'VRT', 'CEG', 'PWR', 'GEV', 'ETN', 'GRID', 'NVT', 'FIX', 'CCJ', 'APH', 'HUBB']
