@@ -1077,16 +1077,23 @@
                 </tr>`;
             }).join('');
 
-            // Industry breakdown
-            const indEntries = Object.entries(d.industry_breakdown).sort((a, b) => b[1].avg_rotation - a[1].avg_rotation).slice(0, 15);
+            // Industry Dominance
+            const indEntries = Object.entries(d.industry_breakdown).sort((a, b) => b[1].count - a[1].count).slice(0, 15);
+            const secEntries = Object.entries(d.sector_breakdown).sort((a, b) => b[1].count - a[1].count);
             document.getElementById('rotation-industries').innerHTML = `
-                <h3 style="font-size:1rem;font-weight:700;margin-bottom:12px;">🏭 Top Rotating Industries</h3>
-                <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;">
-                    ${indEntries.map(([name, v]) => `<div class="card" style="padding:12px;">
-                        <div style="font-weight:700;font-size:0.85rem;margin-bottom:4px;">${name}</div>
-                        <div style="font-size:0.75rem;color:var(--text-dim);">${v.count} stocks • Avg rotation: <b style="color:#10b981;">${v.avg_rotation}</b></div>
-                        <div style="font-size:0.7rem;color:#38bdf8;margin-top:4px;">${v.tickers.map(t => `<a href="#" onclick="viewStock('${t}'); return false;" class="text-sky-400 hover:text-sky-300">${t}</a>`).join(', ')}</div>
-                    </div>`).join('')}
+                <div class="card" style="padding:20px;font-family:'SF Mono','Fira Code','Consolas',monospace;font-size:0.82rem;line-height:1.8;">
+                    <div style="font-weight:800;font-size:0.95rem;margin-bottom:4px;color:#e2e8f0;">INDUSTRY DOMINANCE</div>
+                    <div style="border-top:2px double rgba(255,255,255,0.15);margin-bottom:12px;"></div>
+                    ${indEntries.map(([name, v]) => {
+                        const pad = String(v.count).padStart(2, ' ');
+                        return `<div style="white-space:nowrap;overflow-x:auto;"><span style="color:#e2e8f0;">${pad}×</span> <span style="color:#94a3b8;">${name}</span> <span style="color:var(--text-dim);float:right;">avg ${v.avg_rotation}</span></div>`;
+                    }).join('')}
+                    <div style="font-weight:800;font-size:0.95rem;margin:24px 0 4px 0;color:#e2e8f0;">SECTOR BREAKDOWN</div>
+                    <div style="border-top:2px double rgba(255,255,255,0.15);margin-bottom:12px;"></div>
+                    ${secEntries.map(([name, v]) => {
+                        const pad = String(v.count).padStart(2, ' ');
+                        return `<div style="white-space:nowrap;overflow-x:auto;"><span style="color:#e2e8f0;">${pad}×</span> <span style="color:#94a3b8;">${name}</span> <span style="color:var(--text-dim);float:right;">avg ${v.avg_rotation}</span></div>`;
+                    }).join('')}
                 </div>`;
         }
 
