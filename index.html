@@ -693,12 +693,22 @@
                 const avgColor = avgChange > 0 ? '#10b981' : avgChange < 0 ? '#ef4444' : 'var(--text-dim)';
                 const avgPrefix = avgChange > 0 ? '+' : '';
                 
-                const totalValue = stocks.reduce((s, st) => s + (st.price || 0), 0);
+                const basketWeights = {
+                    'Trading Account': '26% of portfolio',
+                    'IRA Core ETFs': '~41.5% of IRA',
+                    'Grid-to-Chip': '22.5% of IRA',
+                    'Defense & Aerospace': '18% of IRA',
+                    'AI Semis': '15% of IRA',
+                    'Biotech': '3% of IRA'
+                };
+                const weight = basketWeights[basket] || '';
+                
                 html += `
                     <tr class="basket-header" data-basket="${basket}">
                         <td colspan="12" style="background: #0a0f1d; padding: 14px 16px; border-bottom: 2px solid var(--accent); font-weight: 700; font-size: 0.95rem;">
                             ${icon} ${basket} 
-                            <span style="font-size: 0.75rem; color: var(--text-dim); font-weight: 400; margin-left: 8px;">${stocks.length} holdings</span>
+                            <span style="font-size: 0.75rem; color: var(--accent); font-weight: 600; margin-left: 8px;">${weight}</span>
+                            <span style="font-size: 0.75rem; color: var(--text-dim); font-weight: 400; margin-left: 8px;">· ${stocks.length} holdings</span>
                             <span class="basket-avg" style="font-size: 0.75rem; color: ${avgColor}; font-weight: 600; margin-left: 12px;">Avg: ${avgPrefix}${avgChange.toFixed(2)}%</span>
                         </td>
                     </tr>
