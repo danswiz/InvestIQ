@@ -211,5 +211,81 @@ def watchlist_live():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.route('/api/rotation')
+def rotation_scan():
+    """Serve rotation scan data from all_stocks.json"""
+    try:
+        with open('all_stocks.json', 'r') as f:
+            data = json.load(f)
+
+        last_scan = data.get('last_scan', 'Unknown')
+        stocks = data.get('stocks', {})
+
+        strong_buys = []
+        watch = []
+        industry_breakdown = {}
+        sector_breakdown = {}
+
+        for ticker, s in stocks.items():
+            rot = s.get('rotation_score', 0) or 0
+            if rot < 60:
+                continue
+
+            obj = {
+                'ticker': s.get('ticker', ticker),
+                'name': s.get('name', ticker),
+                'rotation_score': rot,
+                'rotation_signal': s.get('rotation_signal', 'NEUTRAL'),
+                'rotation_convergence': s.get('rotation_convergence', 0),
+                'score': s.get('score', 0),
+                'grade': s.get('grade', '?'),
+                'sector': s.get('sector', 'Unknown'),
+                'industry': s.get('industry', 'Unknown'),
+                'current_price': s.get('current_price', 0)
+            }
+
+            sig = (s.get('rotation_signal') or '').upper()
+            if 'BUY' in sig:
+                strong_buys.append(obj)
+            else:
+                watch.append(obj)
+
+            # Industry breakdown
+            ind = obj['industry']
+            if ind not in industry_breakdown:
+                industry_breakdown[ind] = {'count': 0, 'total_rot': 0, 'tickers': []}
+            industry_breakdown[ind]['count'] += 1
+            industry_breakdown[ind]['total_rot'] += rot
+            industry_breakdown[ind]['tickers'].append(obj['ticker'])
+
+            # Sector breakdown
+            sec = obj['sector']
+            if sec not in sector_breakdown:
+                sector_breakdown[sec] = {'count': 0, 'total_rot': 0, 'tickers': []}
+            sector_breakdown[sec]['count'] += 1
+            sector_breakdown[sec]['total_rot'] += rot
+            sector_breakdown[sec]['tickers'].append(obj['ticker'])
+
+        # Compute averages
+        for b in (industry_breakdown, sector_breakdown):
+            for k, v in b.items():
+                v['avg_rotation'] = round(v['total_rot'] / v['count'], 1) if v['count'] else 0
+                del v['total_rot']
+
+        strong_buys.sort(key=lambda x: x['rotation_score'], reverse=True)
+        watch.sort(key=lambda x: x['rotation_score'], reverse=True)
+
+        return jsonify({
+            'last_scan': last_scan,
+            'strong_buys': strong_buys,
+            'watch': watch,
+            'industry_breakdown': industry_breakdown,
+            'sector_breakdown': sector_breakdown
+        })
+    except FileNotFoundError:
+        return jsonify({'error': 'Stock data not found'}), 500
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=18791, debug=True)

@@ -154,6 +154,7 @@
         <nav>
             <div class="nav-item active" onclick="showDashboard(); toggleMenu();">Breakout Hunter</div>
             <div class="nav-item" onclick="showWatchlist(); toggleMenu();">Portfolio</div>
+            <div class="nav-item" onclick="showRotation(); toggleMenu();">Rotation Scan</div>
             <div class="nav-item" onclick="showAlert('Watchlist coming soon!'); toggleMenu();">Watchlist</div>
             <div class="nav-item" onclick="showAlert('Chat with AI coming soon!'); toggleMenu();">💬 Chat with AI</div>
         </nav>
@@ -362,6 +363,38 @@
                 </table>
             </div>
         </div>
+
+        <!-- ROTATION SCAN VIEW -->
+        <div id="rotation-view" style="display: none;">
+            <div style="display: flex; gap: 8px; margin-bottom: 16px; align-items: center;">
+                <button onclick="showDashboard()" class="text-sm text-slate-400 hover:text-white flex items-center">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    Back to Dashboard
+                </button>
+            </div>
+            <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 4px;">🔄 Rotation Scan</h2>
+            <p style="color: var(--text-dim); font-size: 0.8rem; margin-bottom: 24px;">Last scan: <span id="rotation-last-scan">—</span></p>
+            <!-- Summary Cards -->
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px;" id="rotation-summary"></div>
+
+            <!-- Dream Setups -->
+            <div id="rotation-dream" style="margin-bottom: 24px;"></div>
+
+            <!-- Main Table -->
+            <div class="card" style="overflow-x: auto; margin-bottom: 24px;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 0.8rem;">
+                    <thead>
+                        <tr id="rotation-thead"></tr>
+                    </thead>
+                    <tbody id="rotation-tbody">
+                        <tr><td colspan="9" style="text-align: center; padding: 40px; color: var(--text-dim);">Loading rotation data...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Industry Breakdown -->
+            <div id="rotation-industries" style="margin-bottom: 24px;"></div>
+        </div>
     </main>
 
     <script>
@@ -508,6 +541,7 @@
             document.getElementById('dashboard-view').style.display = 'block';
             document.getElementById('detail-view').style.display = 'none';
             document.getElementById('watchlist-view').style.display = 'none';
+            document.getElementById('rotation-view').style.display = 'none';
             if (liveRefreshTimer) { clearInterval(liveRefreshTimer); liveRefreshTimer = null; }
             
             if (window.tvCheckInterval) {
@@ -534,6 +568,7 @@
             document.getElementById('dashboard-view').style.display = 'none';
             document.getElementById('detail-view').style.display = 'none';
             document.getElementById('watchlist-view').style.display = 'block';
+            document.getElementById('rotation-view').style.display = 'none';
             
             if (!watchlistData) {
                 try {
@@ -825,6 +860,8 @@
         async function viewStock(ticker) {
             document.getElementById('dashboard-view').style.display = 'none';
             document.getElementById('detail-view').style.display = 'block';
+            document.getElementById('rotation-view').style.display = 'none';
+            document.getElementById('watchlist-view').style.display = 'none';
             
             document.getElementById('criteria-list').innerHTML = 'Loading intelligence...';
             document.getElementById('news-list').innerHTML = '';
@@ -929,6 +966,138 @@
                 showAlert("Error loading stock data: " + err.message);
                 showDashboard();
             }
+        }
+        // ===== ROTATION SCAN =====
+        let rotationData = null;
+        let rotationSort = { column: 'rotation_score', direction: 'desc' };
+
+        async function showRotation() {
+            document.getElementById('dashboard-view').style.display = 'none';
+            document.getElementById('detail-view').style.display = 'none';
+            document.getElementById('watchlist-view').style.display = 'none';
+            document.getElementById('rotation-view').style.display = 'block';
+            if (liveRefreshTimer) { clearInterval(liveRefreshTimer); liveRefreshTimer = null; }
+
+            if (!rotationData) {
+                try {
+                    const resp = await fetch('/api/rotation');
+                    if (!resp.ok) throw new Error('Rotation data unavailable');
+                    rotationData = await resp.json();
+                } catch(e) {
+                    document.getElementById('rotation-tbody').innerHTML = `<tr><td colspan="9" style="text-align:center;padding:40px;color:var(--text-dim);">Error: ${e.message}</td></tr>`;
+                    return;
+                }
+            }
+            renderRotation();
+        }
+
+        function renderRotation() {
+            const d = rotationData;
+            document.getElementById('rotation-last-scan').textContent = d.last_scan || '—';
+
+            const allStocks = [...d.strong_buys, ...d.watch];
+            const dreamSetups = allStocks.filter(s => s.rotation_score >= 60 && s.grade === 'A');
+            const industryCount = Object.keys(d.industry_breakdown).length;
+
+            // Summary cards
+            document.getElementById('rotation-summary').innerHTML = [
+                { label: 'Strong Rotation Buys', value: d.strong_buys.length, color: '#10b981' },
+                { label: 'Rotation Watch', value: d.watch.length, color: '#38bdf8' },
+                { label: 'Industries Rotating', value: industryCount, color: '#a78bfa' }
+            ].map(c => `<div class="card" style="text-align:center;padding:16px;">
+                <div style="font-size:2rem;font-weight:800;color:${c.color};">${c.value}</div>
+                <div style="font-size:0.75rem;color:var(--text-dim);margin-top:4px;">${c.label}</div>
+            </div>`).join('');
+
+            // Dream Setups
+            if (dreamSetups.length > 0) {
+                document.getElementById('rotation-dream').innerHTML = `
+                    <h3 style="font-size:1rem;font-weight:700;margin-bottom:12px;">⭐ Dream Setups <span style="font-size:0.75rem;color:var(--text-dim);">(Rotation ≥ 60 + Grade A)</span></h3>
+                    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;">
+                        ${dreamSetups.map(s => `<div class="card" style="padding:14px;">
+                            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                                <a href="#" onclick="viewStock('${s.ticker}'); return false;" class="text-sky-400 hover:text-sky-300 font-bold" style="font-size:1.1rem;">${s.ticker}</a>
+                                <span style="background:#10b981;color:#000;padding:2px 8px;border-radius:4px;font-weight:700;font-size:0.75rem;">A</span>
+                            </div>
+                            <div style="font-size:0.75rem;color:var(--text-dim);margin-bottom:6px;">${s.name}</div>
+                            <div style="display:flex;justify-content:space-between;font-size:0.8rem;">
+                                <span>Rotation: <b style="color:#10b981;">${s.rotation_score}</b></span>
+                                <span>Quality: <b>${s.score}</b></span>
+                            </div>
+                            <div style="font-size:0.7rem;color:var(--text-dim);margin-top:4px;">${s.sector} • ${s.industry}</div>
+                        </div>`).join('')}
+                    </div>`;
+            } else {
+                document.getElementById('rotation-dream').innerHTML = '';
+            }
+
+            // Table header
+            const cols = [
+                { key: 'ticker', label: 'Ticker' },
+                { key: 'rotation_score', label: 'Rotation' },
+                { key: 'rotation_signal', label: 'Signal' },
+                { key: 'rotation_convergence', label: 'Conv.' },
+                { key: 'score', label: 'Quality' },
+                { key: 'grade', label: 'Grade' },
+                { key: 'sector', label: 'Sector' },
+                { key: 'industry', label: 'Industry' },
+                { key: 'current_price', label: 'Price' }
+            ];
+            document.getElementById('rotation-thead').innerHTML = cols.map(c => {
+                const arrow = rotationSort.column === c.key ? (rotationSort.direction === 'desc' ? ' ▼' : ' ▲') : '';
+                return `<th onclick="sortRotation('${c.key}')" style="cursor:pointer;padding:10px 8px;text-align:left;white-space:nowrap;border-bottom:1px solid rgba(255,255,255,0.05);color:var(--text-dim);font-size:0.7rem;text-transform:uppercase;">${c.label}${arrow}</th>`;
+            }).join('');
+
+            // Sort
+            const sorted = [...allStocks].sort((a, b) => {
+                const col = rotationSort.column;
+                let va = a[col], vb = b[col];
+                if (typeof va === 'string') va = va.toLowerCase();
+                if (typeof vb === 'string') vb = vb.toLowerCase();
+                if (col === 'ticker') {
+                    return rotationSort.direction === 'asc' ? (va < vb ? -1 : 1) : (va > vb ? -1 : 1);
+                }
+                return rotationSort.direction === 'desc' ? (vb > va ? 1 : vb < va ? -1 : 0) : (va > vb ? 1 : va < vb ? -1 : 0);
+            });
+
+            // Table body
+            document.getElementById('rotation-tbody').innerHTML = sorted.map(s => {
+                const sigColor = s.rotation_signal.includes('BUY') ? '#10b981' : s.rotation_signal === 'NEUTRAL' ? '#94a3b8' : '#f59e0b';
+                const gradeColor = s.grade === 'A' ? '#10b981' : s.grade === 'B' ? '#38bdf8' : s.grade === 'C' ? '#f59e0b' : '#ef4444';
+                return `<tr style="border-bottom:1px solid rgba(255,255,255,0.03);">
+                    <td style="padding:8px;"><a href="#" onclick="viewStock('${s.ticker}'); return false;" class="text-sky-400 hover:text-sky-300 font-bold">${s.ticker}</a></td>
+                    <td style="padding:8px;font-weight:700;color:#10b981;">${s.rotation_score}</td>
+                    <td style="padding:8px;"><span style="color:${sigColor};font-weight:600;font-size:0.75rem;">${s.rotation_signal}</span></td>
+                    <td style="padding:8px;">${s.rotation_convergence}</td>
+                    <td style="padding:8px;">${s.score}</td>
+                    <td style="padding:8px;"><span style="color:${gradeColor};font-weight:700;">${s.grade}</span></td>
+                    <td style="padding:8px;font-size:0.75rem;color:var(--text-dim);">${s.sector}</td>
+                    <td style="padding:8px;font-size:0.75rem;color:var(--text-dim);">${s.industry}</td>
+                    <td style="padding:8px;">$${s.current_price ? s.current_price.toFixed(2) : '—'}</td>
+                </tr>`;
+            }).join('');
+
+            // Industry breakdown
+            const indEntries = Object.entries(d.industry_breakdown).sort((a, b) => b[1].avg_rotation - a[1].avg_rotation).slice(0, 15);
+            document.getElementById('rotation-industries').innerHTML = `
+                <h3 style="font-size:1rem;font-weight:700;margin-bottom:12px;">🏭 Top Rotating Industries</h3>
+                <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;">
+                    ${indEntries.map(([name, v]) => `<div class="card" style="padding:12px;">
+                        <div style="font-weight:700;font-size:0.85rem;margin-bottom:4px;">${name}</div>
+                        <div style="font-size:0.75rem;color:var(--text-dim);">${v.count} stocks • Avg rotation: <b style="color:#10b981;">${v.avg_rotation}</b></div>
+                        <div style="font-size:0.7rem;color:#38bdf8;margin-top:4px;">${v.tickers.map(t => `<a href="#" onclick="viewStock('${t}'); return false;" class="text-sky-400 hover:text-sky-300">${t}</a>`).join(', ')}</div>
+                    </div>`).join('')}
+                </div>`;
+        }
+
+        function sortRotation(col) {
+            if (rotationSort.column === col) {
+                rotationSort.direction = rotationSort.direction === 'desc' ? 'asc' : 'desc';
+            } else {
+                rotationSort.column = col;
+                rotationSort.direction = col === 'ticker' ? 'asc' : 'desc';
+            }
+            renderRotation();
         }
     </script>
 </body>
