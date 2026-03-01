@@ -380,20 +380,28 @@
             <!-- Dream Setups -->
             <div id="rotation-dream" style="margin-bottom: 24px;"></div>
 
-            <!-- Main Table -->
-            <div class="card" style="overflow-x: auto; margin-bottom: 24px;">
-                <table style="width: 100%; border-collapse: collapse; font-size: 0.8rem;">
-                    <thead>
-                        <tr id="rotation-thead"></tr>
-                    </thead>
-                    <tbody id="rotation-tbody">
-                        <tr><td colspan="9" style="text-align: center; padding: 40px; color: var(--text-dim);">Loading rotation data...</td></tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Industry Breakdown -->
+            <!-- Industry/Sector Breakdown (before table) -->
             <div id="rotation-industries" style="margin-bottom: 24px;"></div>
+
+            <!-- Main Table (collapsible) -->
+            <div style="margin-bottom: 24px;">
+                <div id="rotation-table-toggle" onclick="document.getElementById('rotation-table-body').style.display = document.getElementById('rotation-table-body').style.display === 'none' ? 'block' : 'none'; this.querySelector('.toggle-arrow').textContent = document.getElementById('rotation-table-body').style.display === 'none' ? '▶' : '▼';" style="cursor:pointer;padding:12px 16px;background:#1e293b;border-radius:8px 8px 0 0;display:flex;justify-content:space-between;align-items:center;">
+                    <span style="font-weight:700;font-size:0.9rem;" id="rotation-table-title">👀 ROTATION WATCH — Loading...</span>
+                    <span class="toggle-arrow" style="color:var(--text-dim);">▼</span>
+                </div>
+                <div id="rotation-table-body">
+                    <div class="card" style="overflow-x: auto; border-radius: 0 0 8px 8px;">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 0.8rem;">
+                            <thead>
+                                <tr id="rotation-thead"></tr>
+                            </thead>
+                            <tbody id="rotation-tbody">
+                                <tr><td colspan="8" style="text-align: center; padding: 40px; color: var(--text-dim);">Loading rotation data...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 
@@ -999,6 +1007,9 @@
             const dreamSetups = allStocks.filter(s => s.rotation_score >= 60 && s.grade === 'A');
             const industryCount = Object.keys(d.industry_breakdown).length;
 
+            // Update collapsible table title
+            document.getElementById('rotation-table-title').textContent = `👀 ROTATION WATCH — ${allStocks.length} stocks`;
+
             // Summary cards
             document.getElementById('rotation-summary').innerHTML = [
                 { label: 'Strong Rotation Buys', value: d.strong_buys.length, color: '#10b981' },
@@ -1031,11 +1042,10 @@
                 document.getElementById('rotation-dream').innerHTML = '';
             }
 
-            // Table header
+            // Table header (no Signal column — entire table is rotation watch)
             const cols = [
                 { key: 'ticker', label: 'Ticker' },
                 { key: 'rotation_score', label: 'Rotation' },
-                { key: 'rotation_signal', label: 'Signal' },
                 { key: 'rotation_convergence', label: 'Conv.' },
                 { key: 'score', label: 'Quality' },
                 { key: 'grade', label: 'Grade' },
@@ -1062,12 +1072,10 @@
 
             // Table body
             document.getElementById('rotation-tbody').innerHTML = sorted.map(s => {
-                const sigColor = s.rotation_signal.includes('BUY') ? '#10b981' : s.rotation_signal === 'NEUTRAL' ? '#94a3b8' : '#f59e0b';
                 const gradeColor = s.grade === 'A' ? '#10b981' : s.grade === 'B' ? '#38bdf8' : s.grade === 'C' ? '#f59e0b' : '#ef4444';
                 return `<tr style="border-bottom:1px solid rgba(255,255,255,0.03);">
                     <td style="padding:8px;"><a href="#" onclick="viewStock('${s.ticker}'); return false;" class="text-sky-400 hover:text-sky-300 font-bold">${s.ticker}</a></td>
                     <td style="padding:8px;font-weight:700;color:#10b981;">${s.rotation_score}</td>
-                    <td style="padding:8px;"><span style="color:${sigColor};font-weight:600;font-size:0.75rem;">${s.rotation_signal}</span></td>
                     <td style="padding:8px;">${s.rotation_convergence}</td>
                     <td style="padding:8px;">${s.score}</td>
                     <td style="padding:8px;"><span style="color:${gradeColor};font-weight:700;">${s.grade}</span></td>
@@ -1082,17 +1090,17 @@
             const secEntries = Object.entries(d.sector_breakdown).sort((a, b) => b[1].pct - a[1].pct);
             document.getElementById('rotation-industries').innerHTML = `
                 <div class="card" style="padding:20px;font-family:'SF Mono','Fira Code','Consolas',monospace;font-size:0.82rem;line-height:1.8;">
-                    <div style="font-weight:800;font-size:0.95rem;margin-bottom:4px;color:#e2e8f0;">INDUSTRY DOMINANCE <span style="font-size:0.7rem;font-weight:400;color:var(--text-dim);">(sorted by % of sector rotating)</span></div>
-                    <div style="border-top:2px double rgba(255,255,255,0.15);margin-bottom:12px;"></div>
-                    ${indEntries.map(([name, v]) => {
-                        const pctColor = v.pct >= 20 ? '#10b981' : v.pct >= 10 ? '#f59e0b' : '#94a3b8';
-                        return `<div style="display:flex;justify-content:space-between;padding:2px 0;"><span style="color:#94a3b8;">${v.count}/${v.total} ${name}</span><span><span style="color:${pctColor};font-weight:700;">${v.pct}%</span> <span style="color:var(--text-dim);margin-left:10px;">avg ${v.avg_rotation}</span></span></div>`;
-                    }).join('')}
-                    <div style="font-weight:800;font-size:0.95rem;margin:24px 0 4px 0;color:#e2e8f0;">SECTOR BREAKDOWN</div>
+                    <div style="font-weight:800;font-size:0.95rem;margin-bottom:4px;color:#e2e8f0;">SECTOR BREAKDOWN</div>
                     <div style="border-top:2px double rgba(255,255,255,0.15);margin-bottom:12px;"></div>
                     ${secEntries.map(([name, v]) => {
-                        const pctColor = v.pct >= 10 ? '#10b981' : v.pct >= 5 ? '#f59e0b' : '#94a3b8';
-                        return `<div style="display:flex;justify-content:space-between;padding:2px 0;"><span style="color:#94a3b8;">${v.count}/${v.total} ${name}</span><span><span style="color:${pctColor};font-weight:700;">${v.pct}%</span> <span style="color:var(--text-dim);margin-left:10px;">avg ${v.avg_rotation}</span></span></div>`;
+                        const pctColor = v.pct >= 15 ? '#10b981' : v.pct >= 7 ? '#f59e0b' : '#94a3b8';
+                        return `<div style="display:flex;justify-content:space-between;padding:3px 0;"><span style="color:#e2e8f0;font-weight:600;">${name}</span><span><span style="color:${pctColor};font-weight:700;">${v.count} (${v.pct}%)</span> <span style="color:var(--text-dim);margin-left:10px;">avg ${v.avg_rotation}</span></span></div>`;
+                    }).join('')}
+                    <div style="font-weight:800;font-size:0.95rem;margin:24px 0 4px 0;color:#e2e8f0;">INDUSTRY DOMINANCE</div>
+                    <div style="border-top:2px double rgba(255,255,255,0.15);margin-bottom:12px;"></div>
+                    ${indEntries.map(([name, v]) => {
+                        const pctColor = v.pct >= 25 ? '#10b981' : v.pct >= 12 ? '#f59e0b' : '#94a3b8';
+                        return `<div style="display:flex;justify-content:space-between;padding:3px 0;"><span style="color:#e2e8f0;font-weight:600;">${name}</span><span><span style="color:${pctColor};font-weight:700;">${v.count} (${v.pct}%)</span> <span style="color:var(--text-dim);margin-left:10px;">avg ${v.avg_rotation}</span></span></div>`;
                     }).join('')}
                 </div>`;
         }
