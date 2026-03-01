@@ -1,5 +1,5 @@
 {
-  "version": "5.0",
+  "version": "5.1",
   "last_scan": "2026-03-01 09:37 PST",
   "total_stocks": 1013,
   "stocks": {
@@ -38180,7 +38180,121 @@
       "current_price": null,
       "rotation_score": 21.3,
       "rotation_signal": "WEAK",
-      "rotation_convergence": 0
+      "rotation_convergence": 0,
+      "criteria": [
+        {
+          "name": "Trend Alignment",
+          "category": "Momentum",
+          "passed": true,
+          "value": "$46.63 > $45.38 (rising)",
+          "threshold": "Price > SMA50 > SMA200",
+          "points": 8
+        },
+        {
+          "name": "Breakout Pattern",
+          "category": "Breakout",
+          "passed": true,
+          "value": "+3.7% from Base",
+          "threshold": "Flat Base + Near High",
+          "points": 22
+        },
+        {
+          "name": "Consolidation",
+          "category": "Breakout",
+          "passed": true,
+          "value": "Depth 20%",
+          "threshold": "Depth < 40%",
+          "points": 10
+        },
+        {
+          "name": "Volume Dry-up",
+          "category": "Breakout",
+          "passed": true,
+          "value": "0.8x avg",
+          "threshold": "Vol < 1.2x Avg",
+          "points": 8
+        },
+        {
+          "name": "52W Proximity",
+          "category": "Timing",
+          "passed": true,
+          "value": "96.3%",
+          "threshold": "> 90% of 52W High",
+          "points": 5
+        },
+        {
+          "name": "Volatility Compression",
+          "category": "Timing",
+          "passed": false,
+          "value": "101% of 50d ATR",
+          "threshold": "10d ATR < 75% of 50d ATR",
+          "points": 0
+        },
+        {
+          "name": "Revenue Score",
+          "category": "Growth",
+          "passed": false,
+          "value": "N/A",
+          "threshold": "Magnitude+Consistency+Accel+Beats",
+          "points": 0
+        },
+        {
+          "name": "Earnings Acceleration",
+          "category": "Growth",
+          "passed": false,
+          "value": "N/A",
+          "threshold": "QoQ growth accelerating",
+          "points": 0
+        },
+        {
+          "name": "ROE Quality",
+          "category": "Quality",
+          "passed": false,
+          "value": "N/A",
+          "threshold": "> 15%",
+          "points": 0
+        },
+        {
+          "name": "Operating Margin",
+          "category": "Quality",
+          "passed": false,
+          "value": "N/A",
+          "threshold": "> 10%",
+          "points": 0
+        },
+        {
+          "name": "Valuation Sanity",
+          "category": "Quality",
+          "passed": false,
+          "value": "N/A",
+          "threshold": "PEG < 2.0",
+          "points": 0
+        },
+        {
+          "name": "FCF Quality",
+          "category": "Quality",
+          "passed": false,
+          "value": "Negative/NA",
+          "threshold": "FCF > 0",
+          "points": 0
+        },
+        {
+          "name": "Industry Strength",
+          "category": "Context",
+          "passed": false,
+          "value": "Unknown",
+          "threshold": "Sector outperforming SPY (3mo)",
+          "points": 0
+        },
+        {
+          "name": "Relative Strength",
+          "category": "Context",
+          "passed": true,
+          "value": "+4.2% vs SPY (6mo)",
+          "threshold": ">0% outperformance vs SPY",
+          "points": 1
+        }
+      ]
     },
     "FAST": {
       "ticker": "FAST",
@@ -38587,12 +38701,12 @@
       "name": "Huntington Ingalls Industries, ",
       "sector": "Industrials",
       "industry": "Aerospace & Defense",
-      "score": 53,
+      "score": 58,
       "max_score": 100,
-      "grade": "C",
+      "grade": "B",
       "market_cap": 17444159488,
       "technical_score": 31,
-      "growth_score": 9,
+      "growth_score": 14,
       "quality_score": 3,
       "context_score": 10,
       "moonshot_score": 60,
@@ -38605,7 +38719,121 @@
       "current_price": 444.52,
       "rotation_score": 52.9,
       "rotation_signal": "NEUTRAL",
-      "rotation_convergence": 0
+      "rotation_convergence": 0,
+      "criteria": [
+        {
+          "name": "Trend Alignment",
+          "category": "Momentum",
+          "passed": true,
+          "value": "$444.52 > $395.92 > $301.25",
+          "threshold": "Price > SMA50 > SMA200",
+          "points": 8
+        },
+        {
+          "name": "Breakout Pattern",
+          "category": "Breakout",
+          "passed": false,
+          "value": "+0.7% from Base",
+          "threshold": "Flat Base + Near High",
+          "points": 0
+        },
+        {
+          "name": "Consolidation",
+          "category": "Breakout",
+          "passed": true,
+          "value": "Depth 41%",
+          "threshold": "Depth < 40%",
+          "points": 10
+        },
+        {
+          "name": "Volume Dry-up",
+          "category": "Breakout",
+          "passed": true,
+          "value": "0.7x avg",
+          "threshold": "Vol < 1.2x Avg",
+          "points": 8
+        },
+        {
+          "name": "52W Proximity",
+          "category": "Timing",
+          "passed": true,
+          "value": "98.4%",
+          "threshold": "> 90% of 52W High",
+          "points": 5
+        },
+        {
+          "name": "Volatility Compression",
+          "category": "Timing",
+          "passed": false,
+          "value": "115% of 50d ATR",
+          "threshold": "10d ATR < 75% of 50d ATR",
+          "points": 0
+        },
+        {
+          "name": "Revenue Score",
+          "category": "Growth",
+          "passed": false,
+          "value": "YoY: 15.7%, Beats: 100%",
+          "threshold": "Magnitude+Consistency+Accel+Beats",
+          "points": 14
+        },
+        {
+          "name": "Earnings Acceleration",
+          "category": "Growth",
+          "passed": false,
+          "value": "Decelerating/Negative",
+          "threshold": "QoQ growth accelerating",
+          "points": 0
+        },
+        {
+          "name": "ROE Quality",
+          "category": "Quality",
+          "passed": false,
+          "value": "12.4%",
+          "threshold": "> 15%",
+          "points": 0
+        },
+        {
+          "name": "Operating Margin",
+          "category": "Quality",
+          "passed": false,
+          "value": "5.9%",
+          "threshold": "> 10%",
+          "points": 0
+        },
+        {
+          "name": "Valuation Sanity",
+          "category": "Quality",
+          "passed": false,
+          "value": "N/A",
+          "threshold": "PEG < 2.0",
+          "points": 0
+        },
+        {
+          "name": "FCF Quality",
+          "category": "Quality",
+          "passed": true,
+          "value": "Positive",
+          "threshold": "FCF > 0",
+          "points": 3
+        },
+        {
+          "name": "Industry Strength",
+          "category": "Context",
+          "passed": true,
+          "value": "Industrials (XLI: +15.1% vs SPY)",
+          "threshold": "Sector outperforming SPY (3mo)",
+          "points": 5
+        },
+        {
+          "name": "Relative Strength",
+          "category": "Context",
+          "passed": true,
+          "value": "+59.3% vs SPY (6mo)",
+          "threshold": ">0% outperformance vs SPY",
+          "points": 5
+        }
+      ]
     },
     "MCK": {
       "ticker": "MCK",
@@ -38687,12 +38915,12 @@
       "name": "Quanta Services, Inc.",
       "sector": "Industrials",
       "industry": "Engineering & Construction",
-      "score": 53,
+      "score": 57,
       "max_score": 100,
-      "grade": "C",
+      "grade": "B",
       "market_cap": 83964174336,
       "technical_score": 31,
-      "growth_score": 9,
+      "growth_score": 13,
       "quality_score": 3,
       "context_score": 10,
       "moonshot_score": 50,
@@ -38705,7 +38933,121 @@
       "current_price": 563.08,
       "rotation_score": 60.7,
       "rotation_signal": "ROTATION WATCH",
-      "rotation_convergence": 0
+      "rotation_convergence": 0,
+      "criteria": [
+        {
+          "name": "Trend Alignment",
+          "category": "Momentum",
+          "passed": true,
+          "value": "$563.08 > $475.23 > $418.50",
+          "threshold": "Price > SMA50 > SMA200",
+          "points": 8
+        },
+        {
+          "name": "Breakout Pattern",
+          "category": "Breakout",
+          "passed": false,
+          "value": "+0.5% from Base",
+          "threshold": "Flat Base + Near High",
+          "points": 0
+        },
+        {
+          "name": "Consolidation",
+          "category": "Breakout",
+          "passed": true,
+          "value": "Depth 36%",
+          "threshold": "Depth < 40%",
+          "points": 10
+        },
+        {
+          "name": "Volume Dry-up",
+          "category": "Breakout",
+          "passed": true,
+          "value": "1.0x avg",
+          "threshold": "Vol < 1.2x Avg",
+          "points": 8
+        },
+        {
+          "name": "52W Proximity",
+          "category": "Timing",
+          "passed": true,
+          "value": "98.1%",
+          "threshold": "> 90% of 52W High",
+          "points": 5
+        },
+        {
+          "name": "Volatility Compression",
+          "category": "Timing",
+          "passed": false,
+          "value": "125% of 50d ATR",
+          "threshold": "10d ATR < 75% of 50d ATR",
+          "points": 0
+        },
+        {
+          "name": "Revenue Score",
+          "category": "Growth",
+          "passed": false,
+          "value": "YoY: 17.5%, Beats: 100%",
+          "threshold": "Magnitude+Consistency+Accel+Beats",
+          "points": 13
+        },
+        {
+          "name": "Earnings Acceleration",
+          "category": "Growth",
+          "passed": false,
+          "value": "Decelerating/Negative",
+          "threshold": "QoQ growth accelerating",
+          "points": 0
+        },
+        {
+          "name": "ROE Quality",
+          "category": "Quality",
+          "passed": false,
+          "value": "12.7%",
+          "threshold": "> 15%",
+          "points": 0
+        },
+        {
+          "name": "Operating Margin",
+          "category": "Quality",
+          "passed": false,
+          "value": "5.2%",
+          "threshold": "> 10%",
+          "points": 0
+        },
+        {
+          "name": "Valuation Sanity",
+          "category": "Quality",
+          "passed": false,
+          "value": "N/A",
+          "threshold": "PEG < 2.0",
+          "points": 0
+        },
+        {
+          "name": "FCF Quality",
+          "category": "Quality",
+          "passed": true,
+          "value": "Positive",
+          "threshold": "FCF > 0",
+          "points": 3
+        },
+        {
+          "name": "Industry Strength",
+          "category": "Context",
+          "passed": true,
+          "value": "Industrials (XLI: +15.1% vs SPY)",
+          "threshold": "Sector outperforming SPY (3mo)",
+          "points": 5
+        },
+        {
+          "name": "Relative Strength",
+          "category": "Context",
+          "passed": true,
+          "value": "+41.4% vs SPY (6mo)",
+          "threshold": ">0% outperformance vs SPY",
+          "points": 5
+        }
+      ]
     },
     "ROK": {
       "ticker": "ROK",
@@ -39087,12 +39429,12 @@
       "name": "Micron Technology, Inc.",
       "sector": "Technology",
       "industry": "Semiconductors",
-      "score": 52,
+      "score": 56,
       "max_score": 100,
-      "grade": "C",
+      "grade": "B",
       "market_cap": 464126246912,
       "technical_score": 21,
-      "growth_score": 13,
+      "growth_score": 17,
       "quality_score": 13,
       "context_score": 5,
       "moonshot_score": 50,
@@ -39105,7 +39447,121 @@
       "current_price": 412.37,
       "rotation_score": 67.3,
       "rotation_signal": "ROTATION WATCH",
-      "rotation_convergence": 4
+      "rotation_convergence": 4,
+      "criteria": [
+        {
+          "name": "Trend Alignment",
+          "category": "Momentum",
+          "passed": true,
+          "value": "$412.37 > $361.41 > $207.66",
+          "threshold": "Price > SMA50 > SMA200",
+          "points": 8
+        },
+        {
+          "name": "Breakout Pattern",
+          "category": "Breakout",
+          "passed": false,
+          "value": "+9.5% from Base",
+          "threshold": "Flat Base + Near High",
+          "points": 0
+        },
+        {
+          "name": "Consolidation",
+          "category": "Breakout",
+          "passed": false,
+          "value": "Depth 75%",
+          "threshold": "Depth < 40%",
+          "points": 0
+        },
+        {
+          "name": "Volume Dry-up",
+          "category": "Breakout",
+          "passed": true,
+          "value": "0.8x avg",
+          "threshold": "Vol < 1.2x Avg",
+          "points": 8
+        },
+        {
+          "name": "52W Proximity",
+          "category": "Timing",
+          "passed": true,
+          "value": "90.5%",
+          "threshold": "> 90% of 52W High",
+          "points": 5
+        },
+        {
+          "name": "Volatility Compression",
+          "category": "Timing",
+          "passed": false,
+          "value": "106% of 50d ATR",
+          "threshold": "10d ATR < 75% of 50d ATR",
+          "points": 0
+        },
+        {
+          "name": "Revenue Score",
+          "category": "Growth",
+          "passed": true,
+          "value": "YoY: 56.7%, Beats: 100%",
+          "threshold": "Magnitude+Consistency+Accel+Beats",
+          "points": 17
+        },
+        {
+          "name": "Earnings Acceleration",
+          "category": "Growth",
+          "passed": false,
+          "value": "Decelerating/Negative",
+          "threshold": "QoQ growth accelerating",
+          "points": 0
+        },
+        {
+          "name": "ROE Quality",
+          "category": "Quality",
+          "passed": true,
+          "value": "22.6%",
+          "threshold": "> 15%",
+          "points": 5
+        },
+        {
+          "name": "Operating Margin",
+          "category": "Quality",
+          "passed": true,
+          "value": "45.0%",
+          "threshold": "> 10%",
+          "points": 5
+        },
+        {
+          "name": "Valuation Sanity",
+          "category": "Quality",
+          "passed": false,
+          "value": "N/A",
+          "threshold": "PEG < 2.0",
+          "points": 0
+        },
+        {
+          "name": "FCF Quality",
+          "category": "Quality",
+          "passed": true,
+          "value": "Positive",
+          "threshold": "FCF > 0",
+          "points": 3
+        },
+        {
+          "name": "Industry Strength",
+          "category": "Context",
+          "passed": false,
+          "value": "Technology (XLK: -3.3% vs SPY)",
+          "threshold": "Sector outperforming SPY (3mo)",
+          "points": 0
+        },
+        {
+          "name": "Relative Strength",
+          "category": "Context",
+          "passed": true,
+          "value": "+243.9% vs SPY (6mo)",
+          "threshold": ">0% outperformance vs SPY",
+          "points": 5
+        }
+      ]
     },
     "NXST": {
       "ticker": "NXST",
@@ -39412,12 +39868,12 @@
       "name": "Eaton Corporation, PLC",
       "sector": "Industrials",
       "industry": "Specialty Industrial Machinery",
-      "score": 51,
+      "score": 53,
       "max_score": 100,
       "grade": "C",
       "market_cap": 146345656320,
       "technical_score": 23,
-      "growth_score": 9,
+      "growth_score": 11,
       "quality_score": 13,
       "context_score": 6,
       "moonshot_score": 30,
@@ -39430,7 +39886,121 @@
       "current_price": 375.92,
       "rotation_score": 43.0,
       "rotation_signal": "NEUTRAL",
-      "rotation_convergence": 0
+      "rotation_convergence": 0,
+      "criteria": [
+        {
+          "name": "Trend Alignment",
+          "category": "Momentum",
+          "passed": false,
+          "value": "$375.92 > $346.90 > $353.11",
+          "threshold": "Price > SMA50 > SMA200",
+          "points": 0
+        },
+        {
+          "name": "Breakout Pattern",
+          "category": "Breakout",
+          "passed": false,
+          "value": "+8.0% from Base",
+          "threshold": "Flat Base + Near High",
+          "points": 0
+        },
+        {
+          "name": "Consolidation",
+          "category": "Breakout",
+          "passed": true,
+          "value": "Depth 24%",
+          "threshold": "Depth < 40%",
+          "points": 10
+        },
+        {
+          "name": "Volume Dry-up",
+          "category": "Breakout",
+          "passed": true,
+          "value": "0.8x avg",
+          "threshold": "Vol < 1.2x Avg",
+          "points": 8
+        },
+        {
+          "name": "52W Proximity",
+          "category": "Timing",
+          "passed": true,
+          "value": "92.0%",
+          "threshold": "> 90% of 52W High",
+          "points": 5
+        },
+        {
+          "name": "Volatility Compression",
+          "category": "Timing",
+          "passed": false,
+          "value": "112% of 50d ATR",
+          "threshold": "10d ATR < 75% of 50d ATR",
+          "points": 0
+        },
+        {
+          "name": "Revenue Score",
+          "category": "Growth",
+          "passed": false,
+          "value": "YoY: 10.1%, Beats: 100%",
+          "threshold": "Magnitude+Consistency+Accel+Beats",
+          "points": 11
+        },
+        {
+          "name": "Earnings Acceleration",
+          "category": "Growth",
+          "passed": false,
+          "value": "Decelerating/Negative",
+          "threshold": "QoQ growth accelerating",
+          "points": 0
+        },
+        {
+          "name": "ROE Quality",
+          "category": "Quality",
+          "passed": true,
+          "value": "21.5%",
+          "threshold": "> 15%",
+          "points": 5
+        },
+        {
+          "name": "Operating Margin",
+          "category": "Quality",
+          "passed": true,
+          "value": "19.5%",
+          "threshold": "> 10%",
+          "points": 5
+        },
+        {
+          "name": "Valuation Sanity",
+          "category": "Quality",
+          "passed": false,
+          "value": "N/A",
+          "threshold": "PEG < 2.0",
+          "points": 0
+        },
+        {
+          "name": "FCF Quality",
+          "category": "Quality",
+          "passed": true,
+          "value": "Positive",
+          "threshold": "FCF > 0",
+          "points": 3
+        },
+        {
+          "name": "Industry Strength",
+          "category": "Context",
+          "passed": true,
+          "value": "Industrials (XLI: +15.1% vs SPY)",
+          "threshold": "Sector outperforming SPY (3mo)",
+          "points": 5
+        },
+        {
+          "name": "Relative Strength",
+          "category": "Context",
+          "passed": true,
+          "value": "+1.2% vs SPY (6mo)",
+          "threshold": ">0% outperformance vs SPY",
+          "points": 1
+        }
+      ]
     },
     "EXP": {
       "ticker": "EXP",
@@ -39587,12 +40157,12 @@
       "name": "Alnylam Pharmaceuticals, Inc.",
       "sector": "Healthcare",
       "industry": "Biotechnology",
-      "score": 50,
+      "score": 54,
       "max_score": 100,
       "grade": "C",
       "market_cap": 44152897536,
       "technical_score": 18,
-      "growth_score": 14,
+      "growth_score": 18,
       "quality_score": 13,
       "context_score": 5,
       "moonshot_score": 20,
@@ -39605,7 +40175,121 @@
       "current_price": 332.92,
       "rotation_score": 33.2,
       "rotation_signal": "WEAK",
-      "rotation_convergence": 0
+      "rotation_convergence": 0,
+      "criteria": [
+        {
+          "name": "Trend Alignment",
+          "category": "Momentum",
+          "passed": false,
+          "value": "$332.92 > $362.37 > $390.31",
+          "threshold": "Price > SMA50 > SMA200",
+          "points": 0
+        },
+        {
+          "name": "Breakout Pattern",
+          "category": "Breakout",
+          "passed": false,
+          "value": "+32.8% from Base",
+          "threshold": "Flat Base + Near High",
+          "points": 0
+        },
+        {
+          "name": "Consolidation",
+          "category": "Breakout",
+          "passed": true,
+          "value": "Depth 40%",
+          "threshold": "Depth < 40%",
+          "points": 10
+        },
+        {
+          "name": "Volume Dry-up",
+          "category": "Breakout",
+          "passed": true,
+          "value": "0.6x avg",
+          "threshold": "Vol < 1.2x Avg",
+          "points": 8
+        },
+        {
+          "name": "52W Proximity",
+          "category": "Timing",
+          "passed": false,
+          "value": "67.2%",
+          "threshold": "> 90% of 52W High",
+          "points": 0
+        },
+        {
+          "name": "Volatility Compression",
+          "category": "Timing",
+          "passed": false,
+          "value": "96% of 50d ATR",
+          "threshold": "10d ATR < 75% of 50d ATR",
+          "points": 0
+        },
+        {
+          "name": "Revenue Score",
+          "category": "Growth",
+          "passed": true,
+          "value": "YoY: 84.9%, Beats: 75%",
+          "threshold": "Magnitude+Consistency+Accel+Beats",
+          "points": 18
+        },
+        {
+          "name": "Earnings Acceleration",
+          "category": "Growth",
+          "passed": false,
+          "value": "Decelerating/Negative",
+          "threshold": "QoQ growth accelerating",
+          "points": 0
+        },
+        {
+          "name": "ROE Quality",
+          "category": "Quality",
+          "passed": true,
+          "value": "73.3%",
+          "threshold": "> 15%",
+          "points": 5
+        },
+        {
+          "name": "Operating Margin",
+          "category": "Quality",
+          "passed": true,
+          "value": "12.0%",
+          "threshold": "> 10%",
+          "points": 5
+        },
+        {
+          "name": "Valuation Sanity",
+          "category": "Quality",
+          "passed": false,
+          "value": "N/A",
+          "threshold": "PEG < 2.0",
+          "points": 0
+        },
+        {
+          "name": "FCF Quality",
+          "category": "Quality",
+          "passed": true,
+          "value": "Positive",
+          "threshold": "FCF > 0",
+          "points": 3
+        },
+        {
+          "name": "Industry Strength",
+          "category": "Context",
+          "passed": true,
+          "value": "Healthcare (XLV: +0.3% vs SPY)",
+          "threshold": "Sector outperforming SPY (3mo)",
+          "points": 5
+        },
+        {
+          "name": "Relative Strength",
+          "category": "Context",
+          "passed": false,
+          "value": "-33.6% vs SPY (6mo)",
+          "threshold": ">0% outperformance vs SPY",
+          "points": 0
+        }
+      ]
     },
     "CVS": {
       "ticker": "CVS",
@@ -40387,12 +41071,12 @@
       "name": "Western Digital Corporation",
       "sector": "Technology",
       "industry": "Computer Hardware",
-      "score": 49,
+      "score": 54,
       "max_score": 100,
       "grade": "C",
       "market_cap": 95629238272,
       "technical_score": 21,
-      "growth_score": 10,
+      "growth_score": 15,
       "quality_score": 13,
       "context_score": 5,
       "moonshot_score": 30,
@@ -40405,7 +41089,121 @@
       "current_price": 279.7,
       "rotation_score": 51.6,
       "rotation_signal": "NEUTRAL",
-      "rotation_convergence": 0
+      "rotation_convergence": 0,
+      "criteria": [
+        {
+          "name": "Trend Alignment",
+          "category": "Momentum",
+          "passed": true,
+          "value": "$279.70 > $235.42 > $132.82",
+          "threshold": "Price > SMA50 > SMA200",
+          "points": 8
+        },
+        {
+          "name": "Breakout Pattern",
+          "category": "Breakout",
+          "passed": false,
+          "value": "+9.7% from Base",
+          "threshold": "Flat Base + Near High",
+          "points": 0
+        },
+        {
+          "name": "Consolidation",
+          "category": "Breakout",
+          "passed": false,
+          "value": "Depth 76%",
+          "threshold": "Depth < 40%",
+          "points": 0
+        },
+        {
+          "name": "Volume Dry-up",
+          "category": "Breakout",
+          "passed": true,
+          "value": "1.0x avg",
+          "threshold": "Vol < 1.2x Avg",
+          "points": 8
+        },
+        {
+          "name": "52W Proximity",
+          "category": "Timing",
+          "passed": true,
+          "value": "90.3%",
+          "threshold": "> 90% of 52W High",
+          "points": 5
+        },
+        {
+          "name": "Volatility Compression",
+          "category": "Timing",
+          "passed": false,
+          "value": "110% of 50d ATR",
+          "threshold": "10d ATR < 75% of 50d ATR",
+          "points": 0
+        },
+        {
+          "name": "Revenue Score",
+          "category": "Growth",
+          "passed": true,
+          "value": "YoY: 25.2%, Beats: 100%",
+          "threshold": "Magnitude+Consistency+Accel+Beats",
+          "points": 15
+        },
+        {
+          "name": "Earnings Acceleration",
+          "category": "Growth",
+          "passed": false,
+          "value": "Decelerating/Negative",
+          "threshold": "QoQ growth accelerating",
+          "points": 0
+        },
+        {
+          "name": "ROE Quality",
+          "category": "Quality",
+          "passed": true,
+          "value": "41.1%",
+          "threshold": "> 15%",
+          "points": 5
+        },
+        {
+          "name": "Operating Margin",
+          "category": "Quality",
+          "passed": true,
+          "value": "15.4%",
+          "threshold": "> 10%",
+          "points": 5
+        },
+        {
+          "name": "Valuation Sanity",
+          "category": "Quality",
+          "passed": false,
+          "value": "N/A",
+          "threshold": "PEG < 2.0",
+          "points": 0
+        },
+        {
+          "name": "FCF Quality",
+          "category": "Quality",
+          "passed": true,
+          "value": "Positive",
+          "threshold": "FCF > 0",
+          "points": 3
+        },
+        {
+          "name": "Industry Strength",
+          "category": "Context",
+          "passed": false,
+          "value": "Technology (XLK: -3.3% vs SPY)",
+          "threshold": "Sector outperforming SPY (3mo)",
+          "points": 0
+        },
+        {
+          "name": "Relative Strength",
+          "category": "Context",
+          "passed": true,
+          "value": "+257.2% vs SPY (6mo)",
+          "threshold": ">0% outperformance vs SPY",
+          "points": 5
+        }
+      ]
     },
     "AMCR": {
       "ticker": "AMCR",
@@ -41237,12 +42035,12 @@
       "name": "Advanced Micro Devices, Inc.",
       "sector": "Technology",
       "industry": "Semiconductors",
-      "score": 46,
+      "score": 49,
       "max_score": 100,
       "grade": "C",
       "market_cap": 326424559616,
       "technical_score": 18,
-      "growth_score": 15,
+      "growth_score": 18,
       "quality_score": 8,
       "context_score": 5,
       "moonshot_score": 40,
@@ -41255,7 +42053,121 @@
       "current_price": 200.21,
       "rotation_score": 43.8,
       "rotation_signal": "NEUTRAL",
-      "rotation_convergence": 0
+      "rotation_convergence": 0,
+      "criteria": [
+        {
+          "name": "Trend Alignment",
+          "category": "Momentum",
+          "passed": false,
+          "value": "$200.21 > $218.66 > $186.58",
+          "threshold": "Price > SMA50 > SMA200",
+          "points": 0
+        },
+        {
+          "name": "Breakout Pattern",
+          "category": "Breakout",
+          "passed": false,
+          "value": "+25.0% from Base",
+          "threshold": "Flat Base + Near High",
+          "points": 0
+        },
+        {
+          "name": "Consolidation",
+          "category": "Breakout",
+          "passed": true,
+          "value": "Depth 44%",
+          "threshold": "Depth < 40%",
+          "points": 10
+        },
+        {
+          "name": "Volume Dry-up",
+          "category": "Breakout",
+          "passed": true,
+          "value": "1.2x avg",
+          "threshold": "Vol < 1.2x Avg",
+          "points": 8
+        },
+        {
+          "name": "52W Proximity",
+          "category": "Timing",
+          "passed": false,
+          "value": "75.0%",
+          "threshold": "> 90% of 52W High",
+          "points": 0
+        },
+        {
+          "name": "Volatility Compression",
+          "category": "Timing",
+          "passed": false,
+          "value": "78% of 50d ATR",
+          "threshold": "10d ATR < 75% of 50d ATR",
+          "points": 0
+        },
+        {
+          "name": "Revenue Score",
+          "category": "Growth",
+          "passed": false,
+          "value": "YoY: 34.1%, Beats: 75%",
+          "threshold": "Magnitude+Consistency+Accel+Beats",
+          "points": 14
+        },
+        {
+          "name": "Earnings Acceleration",
+          "category": "Growth",
+          "passed": true,
+          "value": "Positive, flat",
+          "threshold": "QoQ growth accelerating",
+          "points": 4
+        },
+        {
+          "name": "ROE Quality",
+          "category": "Quality",
+          "passed": false,
+          "value": "7.1%",
+          "threshold": "> 15%",
+          "points": 0
+        },
+        {
+          "name": "Operating Margin",
+          "category": "Quality",
+          "passed": true,
+          "value": "17.1%",
+          "threshold": "> 10%",
+          "points": 5
+        },
+        {
+          "name": "Valuation Sanity",
+          "category": "Quality",
+          "passed": false,
+          "value": "N/A",
+          "threshold": "PEG < 2.0",
+          "points": 0
+        },
+        {
+          "name": "FCF Quality",
+          "category": "Quality",
+          "passed": true,
+          "value": "Positive",
+          "threshold": "FCF > 0",
+          "points": 3
+        },
+        {
+          "name": "Industry Strength",
+          "category": "Context",
+          "passed": false,
+          "value": "Technology (XLK: -3.3% vs SPY)",
+          "threshold": "Sector outperforming SPY (3mo)",
+          "points": 0
+        },
+        {
+          "name": "Relative Strength",
+          "category": "Context",
+          "passed": true,
+          "value": "+12.4% vs SPY (6mo)",
+          "threshold": ">0% outperformance vs SPY",
+          "points": 5
+        }
+      ]
     },
     "ARW": {
       "ticker": "ARW",
@@ -41337,12 +42249,12 @@
       "name": "Halozyme Therapeutics, Inc.",
       "sector": "Healthcare",
       "industry": "Biotechnology",
-      "score": 46,
+      "score": 49,
       "max_score": 100,
       "grade": "C",
       "market_cap": 8205722112,
       "technical_score": 18,
-      "growth_score": 10,
+      "growth_score": 13,
       "quality_score": 13,
       "context_score": 5,
       "moonshot_score": 10,
@@ -41355,7 +42267,121 @@
       "current_price": 69.53,
       "rotation_score": 39.7,
       "rotation_signal": "WEAK",
-      "rotation_convergence": 0
+      "rotation_convergence": 0,
+      "criteria": [
+        {
+          "name": "Trend Alignment",
+          "category": "Momentum",
+          "passed": false,
+          "value": "$69.53 > $72.16 > $65.91",
+          "threshold": "Price > SMA50 > SMA200",
+          "points": 0
+        },
+        {
+          "name": "Breakout Pattern",
+          "category": "Breakout",
+          "passed": false,
+          "value": "+15.4% from Base",
+          "threshold": "Flat Base + Near High",
+          "points": 0
+        },
+        {
+          "name": "Consolidation",
+          "category": "Breakout",
+          "passed": true,
+          "value": "Depth 26%",
+          "threshold": "Depth < 40%",
+          "points": 10
+        },
+        {
+          "name": "Volume Dry-up",
+          "category": "Breakout",
+          "passed": true,
+          "value": "0.8x avg",
+          "threshold": "Vol < 1.2x Avg",
+          "points": 8
+        },
+        {
+          "name": "52W Proximity",
+          "category": "Timing",
+          "passed": false,
+          "value": "84.6%",
+          "threshold": "> 90% of 52W High",
+          "points": 0
+        },
+        {
+          "name": "Volatility Compression",
+          "category": "Timing",
+          "passed": false,
+          "value": "117% of 50d ATR",
+          "threshold": "10d ATR < 75% of 50d ATR",
+          "points": 0
+        },
+        {
+          "name": "Revenue Score",
+          "category": "Growth",
+          "passed": false,
+          "value": "YoY: 51.6%, Beats: 75%",
+          "threshold": "Magnitude+Consistency+Accel+Beats",
+          "points": 13
+        },
+        {
+          "name": "Earnings Acceleration",
+          "category": "Growth",
+          "passed": false,
+          "value": "Decelerating/Negative",
+          "threshold": "QoQ growth accelerating",
+          "points": 0
+        },
+        {
+          "name": "ROE Quality",
+          "category": "Quality",
+          "passed": true,
+          "value": "153.6%",
+          "threshold": "> 15%",
+          "points": 5
+        },
+        {
+          "name": "Operating Margin",
+          "category": "Quality",
+          "passed": true,
+          "value": "56.3%",
+          "threshold": "> 10%",
+          "points": 5
+        },
+        {
+          "name": "Valuation Sanity",
+          "category": "Quality",
+          "passed": false,
+          "value": "N/A",
+          "threshold": "PEG < 2.0",
+          "points": 0
+        },
+        {
+          "name": "FCF Quality",
+          "category": "Quality",
+          "passed": true,
+          "value": "Positive",
+          "threshold": "FCF > 0",
+          "points": 3
+        },
+        {
+          "name": "Industry Strength",
+          "category": "Context",
+          "passed": true,
+          "value": "Healthcare (XLV: +0.3% vs SPY)",
+          "threshold": "Sector outperforming SPY (3mo)",
+          "points": 5
+        },
+        {
+          "name": "Relative Strength",
+          "category": "Context",
+          "passed": false,
+          "value": "-10.1% vs SPY (6mo)",
+          "threshold": ">0% outperformance vs SPY",
+          "points": 0
+        }
+      ]
     },
     "ISRG": {
       "ticker": "ISRG",
@@ -41412,12 +42438,12 @@
       "name": "Marvell Technology, Inc.",
       "sector": "Technology",
       "industry": "Semiconductors",
-      "score": 46,
+      "score": 48,
       "max_score": 100,
       "grade": "C",
       "market_cap": 69281292288,
       "technical_score": 18,
-      "growth_score": 12,
+      "growth_score": 14,
       "quality_score": 13,
       "context_score": 3,
       "moonshot_score": 40,
@@ -41430,7 +42456,121 @@
       "current_price": 81.69,
       "rotation_score": 34.1,
       "rotation_signal": "WEAK",
-      "rotation_convergence": 0
+      "rotation_convergence": 0,
+      "criteria": [
+        {
+          "name": "Trend Alignment",
+          "category": "Momentum",
+          "passed": false,
+          "value": "$81.69 > $81.95 > $78.44",
+          "threshold": "Price > SMA50 > SMA200",
+          "points": 0
+        },
+        {
+          "name": "Breakout Pattern",
+          "category": "Breakout",
+          "passed": false,
+          "value": "+20.5% from Base",
+          "threshold": "Flat Base + Near High",
+          "points": 0
+        },
+        {
+          "name": "Consolidation",
+          "category": "Breakout",
+          "passed": true,
+          "value": "Depth 40%",
+          "threshold": "Depth < 40%",
+          "points": 10
+        },
+        {
+          "name": "Volume Dry-up",
+          "category": "Breakout",
+          "passed": true,
+          "value": "1.0x avg",
+          "threshold": "Vol < 1.2x Avg",
+          "points": 8
+        },
+        {
+          "name": "52W Proximity",
+          "category": "Timing",
+          "passed": false,
+          "value": "79.5%",
+          "threshold": "> 90% of 52W High",
+          "points": 0
+        },
+        {
+          "name": "Volatility Compression",
+          "category": "Timing",
+          "passed": false,
+          "value": "89% of 50d ATR",
+          "threshold": "10d ATR < 75% of 50d ATR",
+          "points": 0
+        },
+        {
+          "name": "Revenue Score",
+          "category": "Growth",
+          "passed": false,
+          "value": "YoY: 36.8%, Beats: 75%",
+          "threshold": "Magnitude+Consistency+Accel+Beats",
+          "points": 14
+        },
+        {
+          "name": "Earnings Acceleration",
+          "category": "Growth",
+          "passed": false,
+          "value": "Decelerating/Negative",
+          "threshold": "QoQ growth accelerating",
+          "points": 0
+        },
+        {
+          "name": "ROE Quality",
+          "category": "Quality",
+          "passed": true,
+          "value": "18.0%",
+          "threshold": "> 15%",
+          "points": 5
+        },
+        {
+          "name": "Operating Margin",
+          "category": "Quality",
+          "passed": true,
+          "value": "17.7%",
+          "threshold": "> 10%",
+          "points": 5
+        },
+        {
+          "name": "Valuation Sanity",
+          "category": "Quality",
+          "passed": false,
+          "value": "N/A",
+          "threshold": "PEG < 2.0",
+          "points": 0
+        },
+        {
+          "name": "FCF Quality",
+          "category": "Quality",
+          "passed": true,
+          "value": "Positive",
+          "threshold": "FCF > 0",
+          "points": 3
+        },
+        {
+          "name": "Industry Strength",
+          "category": "Context",
+          "passed": false,
+          "value": "Technology (XLK: -3.3% vs SPY)",
+          "threshold": "Sector outperforming SPY (3mo)",
+          "points": 0
+        },
+        {
+          "name": "Relative Strength",
+          "category": "Context",
+          "passed": true,
+          "value": "+5.1% vs SPY (6mo)",
+          "threshold": ">0% outperformance vs SPY",
+          "points": 3
+        }
+      ]
     },
     "MTZ": {
       "ticker": "MTZ",
@@ -42037,12 +43177,12 @@
       "name": "Astera Labs, Inc.",
       "sector": "Technology",
       "industry": "Semiconductors",
-      "score": 44,
+      "score": 48,
       "max_score": 100,
       "grade": "C",
       "market_cap": 20226588672,
       "technical_score": 13,
-      "growth_score": 18,
+      "growth_score": 22,
       "quality_score": 13,
       "context_score": 0,
       "moonshot_score": 10,
@@ -42055,7 +43195,121 @@
       "current_price": 118.83,
       "rotation_score": 29.8,
       "rotation_signal": "WEAK",
-      "rotation_convergence": 0
+      "rotation_convergence": 0,
+      "criteria": [
+        {
+          "name": "Trend Alignment",
+          "category": "Momentum",
+          "passed": false,
+          "value": "$118.83 > $157.13 > $151.82",
+          "threshold": "Price > SMA50 > SMA200",
+          "points": 0
+        },
+        {
+          "name": "Breakout Pattern",
+          "category": "Breakout",
+          "passed": false,
+          "value": "+54.8% from Base",
+          "threshold": "Flat Base + Near High",
+          "points": 0
+        },
+        {
+          "name": "Consolidation",
+          "category": "Breakout",
+          "passed": false,
+          "value": "Depth 55%",
+          "threshold": "Depth < 40%",
+          "points": 0
+        },
+        {
+          "name": "Volume Dry-up",
+          "category": "Breakout",
+          "passed": true,
+          "value": "0.8x avg",
+          "threshold": "Vol < 1.2x Avg",
+          "points": 8
+        },
+        {
+          "name": "52W Proximity",
+          "category": "Timing",
+          "passed": false,
+          "value": "45.2%",
+          "threshold": "> 90% of 52W High",
+          "points": 0
+        },
+        {
+          "name": "Volatility Compression",
+          "category": "Timing",
+          "passed": true,
+          "value": "63% of 50d ATR",
+          "threshold": "10d ATR < 75% of 50d ATR",
+          "points": 5
+        },
+        {
+          "name": "Revenue Score",
+          "category": "Growth",
+          "passed": true,
+          "value": "YoY: 103.9%, Beats: 100%",
+          "threshold": "Magnitude+Consistency+Accel+Beats",
+          "points": 18
+        },
+        {
+          "name": "Earnings Acceleration",
+          "category": "Growth",
+          "passed": true,
+          "value": "Positive, flat",
+          "threshold": "QoQ growth accelerating",
+          "points": 4
+        },
+        {
+          "name": "ROE Quality",
+          "category": "Quality",
+          "passed": true,
+          "value": "18.8%",
+          "threshold": "> 15%",
+          "points": 5
+        },
+        {
+          "name": "Operating Margin",
+          "category": "Quality",
+          "passed": true,
+          "value": "24.7%",
+          "threshold": "> 10%",
+          "points": 5
+        },
+        {
+          "name": "Valuation Sanity",
+          "category": "Quality",
+          "passed": false,
+          "value": "N/A",
+          "threshold": "PEG < 2.0",
+          "points": 0
+        },
+        {
+          "name": "FCF Quality",
+          "category": "Quality",
+          "passed": true,
+          "value": "Positive",
+          "threshold": "FCF > 0",
+          "points": 3
+        },
+        {
+          "name": "Industry Strength",
+          "category": "Context",
+          "passed": false,
+          "value": "Technology (XLK: -3.3% vs SPY)",
+          "threshold": "Sector outperforming SPY (3mo)",
+          "points": 0
+        },
+        {
+          "name": "Relative Strength",
+          "category": "Context",
+          "passed": false,
+          "value": "-40.6% vs SPY (6mo)",
+          "threshold": ">0% outperformance vs SPY",
+          "points": 0
+        }
+      ]
     },
     "AMT": {
       "ticker": "AMT",
@@ -43012,12 +44266,12 @@
       "name": "Seagate Technology Holdings PLC",
       "sector": "Technology",
       "industry": "Computer Hardware",
-      "score": 43,
+      "score": 47,
       "max_score": 100,
       "grade": "C",
       "market_cap": 88938921984,
       "technical_score": 16,
-      "growth_score": 14,
+      "growth_score": 18,
       "quality_score": 8,
       "context_score": 5,
       "moonshot_score": 30,
@@ -43030,7 +44284,121 @@
       "current_price": 407.84,
       "rotation_score": 52.6,
       "rotation_signal": "NEUTRAL",
-      "rotation_convergence": 0
+      "rotation_convergence": 0,
+      "criteria": [
+        {
+          "name": "Trend Alignment",
+          "category": "Momentum",
+          "passed": true,
+          "value": "$407.84 > $356.72 > $230.81",
+          "threshold": "Price > SMA50 > SMA200",
+          "points": 8
+        },
+        {
+          "name": "Breakout Pattern",
+          "category": "Breakout",
+          "passed": false,
+          "value": "+11.3% from Base",
+          "threshold": "Flat Base + Near High",
+          "points": 0
+        },
+        {
+          "name": "Consolidation",
+          "category": "Breakout",
+          "passed": false,
+          "value": "Depth 67%",
+          "threshold": "Depth < 40%",
+          "points": 0
+        },
+        {
+          "name": "Volume Dry-up",
+          "category": "Breakout",
+          "passed": true,
+          "value": "0.7x avg",
+          "threshold": "Vol < 1.2x Avg",
+          "points": 8
+        },
+        {
+          "name": "52W Proximity",
+          "category": "Timing",
+          "passed": false,
+          "value": "88.7%",
+          "threshold": "> 90% of 52W High",
+          "points": 0
+        },
+        {
+          "name": "Volatility Compression",
+          "category": "Timing",
+          "passed": false,
+          "value": "94% of 50d ATR",
+          "threshold": "10d ATR < 75% of 50d ATR",
+          "points": 0
+        },
+        {
+          "name": "Revenue Score",
+          "category": "Growth",
+          "passed": false,
+          "value": "YoY: 21.5%, Beats: 100%",
+          "threshold": "Magnitude+Consistency+Accel+Beats",
+          "points": 14
+        },
+        {
+          "name": "Earnings Acceleration",
+          "category": "Growth",
+          "passed": true,
+          "value": "Positive, flat",
+          "threshold": "QoQ growth accelerating",
+          "points": 4
+        },
+        {
+          "name": "ROE Quality",
+          "category": "Quality",
+          "passed": false,
+          "value": "N/A",
+          "threshold": "> 15%",
+          "points": 0
+        },
+        {
+          "name": "Operating Margin",
+          "category": "Quality",
+          "passed": true,
+          "value": "29.9%",
+          "threshold": "> 10%",
+          "points": 5
+        },
+        {
+          "name": "Valuation Sanity",
+          "category": "Quality",
+          "passed": false,
+          "value": "N/A",
+          "threshold": "PEG < 2.0",
+          "points": 0
+        },
+        {
+          "name": "FCF Quality",
+          "category": "Quality",
+          "passed": true,
+          "value": "Positive",
+          "threshold": "FCF > 0",
+          "points": 3
+        },
+        {
+          "name": "Industry Strength",
+          "category": "Context",
+          "passed": false,
+          "value": "Technology (XLK: -3.3% vs SPY)",
+          "threshold": "Sector outperforming SPY (3mo)",
+          "points": 0
+        },
+        {
+          "name": "Relative Strength",
+          "category": "Context",
+          "passed": true,
+          "value": "+150.7% vs SPY (6mo)",
+          "threshold": ">0% outperformance vs SPY",
+          "points": 5
+        }
+      ]
     },
     "TROW": {
       "ticker": "TROW",
@@ -43112,12 +44480,12 @@
       "name": "Arista Networks, Inc.",
       "sector": "Technology",
       "industry": "Computer Hardware",
-      "score": 42,
+      "score": 46,
       "max_score": 100,
       "grade": "C",
       "market_cap": 168114569216,
       "technical_score": 18,
-      "growth_score": 11,
+      "growth_score": 15,
       "quality_score": 13,
       "context_score": 0,
       "moonshot_score": 0,
@@ -43130,19 +44498,133 @@
       "current_price": 133.5,
       "rotation_score": 44.2,
       "rotation_signal": "NEUTRAL",
-      "rotation_convergence": 4
+      "rotation_convergence": 4,
+      "criteria": [
+        {
+          "name": "Trend Alignment",
+          "category": "Momentum",
+          "passed": false,
+          "value": "$133.50 > $133.75 > $127.10",
+          "threshold": "Price > SMA50 > SMA200",
+          "points": 0
+        },
+        {
+          "name": "Breakout Pattern",
+          "category": "Breakout",
+          "passed": false,
+          "value": "+19.1% from Base",
+          "threshold": "Flat Base + Near High",
+          "points": 0
+        },
+        {
+          "name": "Consolidation",
+          "category": "Breakout",
+          "passed": true,
+          "value": "Depth 31%",
+          "threshold": "Depth < 40%",
+          "points": 10
+        },
+        {
+          "name": "Volume Dry-up",
+          "category": "Breakout",
+          "passed": true,
+          "value": "0.9x avg",
+          "threshold": "Vol < 1.2x Avg",
+          "points": 8
+        },
+        {
+          "name": "52W Proximity",
+          "category": "Timing",
+          "passed": false,
+          "value": "80.9%",
+          "threshold": "> 90% of 52W High",
+          "points": 0
+        },
+        {
+          "name": "Volatility Compression",
+          "category": "Timing",
+          "passed": false,
+          "value": "112% of 50d ATR",
+          "threshold": "10d ATR < 75% of 50d ATR",
+          "points": 0
+        },
+        {
+          "name": "Revenue Score",
+          "category": "Growth",
+          "passed": true,
+          "value": "YoY: 28.9%, Beats: 100%",
+          "threshold": "Magnitude+Consistency+Accel+Beats",
+          "points": 15
+        },
+        {
+          "name": "Earnings Acceleration",
+          "category": "Growth",
+          "passed": false,
+          "value": "Decelerating/Negative",
+          "threshold": "QoQ growth accelerating",
+          "points": 0
+        },
+        {
+          "name": "ROE Quality",
+          "category": "Quality",
+          "passed": true,
+          "value": "31.4%",
+          "threshold": "> 15%",
+          "points": 5
+        },
+        {
+          "name": "Operating Margin",
+          "category": "Quality",
+          "passed": true,
+          "value": "41.5%",
+          "threshold": "> 10%",
+          "points": 5
+        },
+        {
+          "name": "Valuation Sanity",
+          "category": "Quality",
+          "passed": false,
+          "value": "N/A",
+          "threshold": "PEG < 2.0",
+          "points": 0
+        },
+        {
+          "name": "FCF Quality",
+          "category": "Quality",
+          "passed": true,
+          "value": "Positive",
+          "threshold": "FCF > 0",
+          "points": 3
+        },
+        {
+          "name": "Industry Strength",
+          "category": "Context",
+          "passed": false,
+          "value": "Technology (XLK: -3.3% vs SPY)",
+          "threshold": "Sector outperforming SPY (3mo)",
+          "points": 0
+        },
+        {
+          "name": "Relative Strength",
+          "category": "Context",
+          "passed": false,
+          "value": "-6.7% vs SPY (6mo)",
+          "threshold": ">0% outperformance vs SPY",
+          "points": 0
+        }
+      ]
     },
     "ASML": {
       "ticker": "ASML",
       "name": "ASML Holding N.V. - New York Re",
       "sector": "Technology",
       "industry": "Semiconductor Equipment & Mate",
-      "score": 42,
+      "score": 44,
       "max_score": 100,
       "grade": "C",
       "market_cap": 569575014400,
       "technical_score": 21,
-      "growth_score": 8,
+      "growth_score": 10,
       "quality_score": 13,
       "context_score": 0,
       "moonshot_score": 30,
@@ -43155,7 +44637,129 @@
       "current_price": 1450.56,
       "rotation_score": 40.1,
       "rotation_signal": "NEUTRAL",
-      "rotation_convergence": 0
+      "rotation_convergence": 0,
+      "criteria": [
+        {
+          "name": "Trend Alignment",
+          "category": "Momentum",
+          "passed": true,
+          "value": "$1450.56 > $1306.68 > $977.65",
+          "threshold": "Price > SMA50 > SMA200",
+          "points": 8
+        },
+        {
+          "name": "Breakout Pattern",
+          "category": "Breakout",
+          "passed": false,
+          "value": "+2.7% from Base",
+          "threshold": "Flat Base + Near High",
+          "points": 0
+        },
+        {
+          "name": "Consolidation",
+          "category": "Breakout",
+          "passed": false,
+          "value": "Depth 52%",
+          "threshold": "Depth < 40%",
+          "points": 0
+        },
+        {
+          "name": "Volume Dry-up",
+          "category": "Breakout",
+          "passed": true,
+          "value": "0.8x avg",
+          "threshold": "Vol < 1.2x Avg",
+          "points": 8
+        },
+        {
+          "name": "52W Proximity",
+          "category": "Timing",
+          "passed": true,
+          "value": "93.8%",
+          "threshold": "> 90% of 52W High",
+          "points": 5
+        },
+        {
+          "name": "Volatility Compression",
+          "category": "Timing",
+          "passed": false,
+          "value": "112% of 50d ATR",
+          "threshold": "10d ATR < 75% of 50d ATR",
+          "points": 0
+        },
+        {
+          "name": "Revenue Score",
+          "category": "Growth",
+          "passed": false,
+          "value": "YoY: 4.9%, Beats: 75%",
+          "threshold": "Magnitude+Consistency+Accel+Beats",
+          "points": 10
+        },
+        {
+          "name": "Earnings Acceleration",
+          "category": "Growth",
+          "passed": false,
+          "value": "Decelerating/Negative",
+          "threshold": "QoQ growth accelerating",
+          "points": 0
+        },
+        {
+          "name": "ROE Quality",
+          "category": "Quality",
+          "passed": true,
+          "value": "50.5%",
+          "threshold": "> 15%",
+          "points": 5
+        },
+        {
+          "name": "Operating Margin",
+          "category": "Quality",
+          "passed": true,
+          "value": "35.3%",
+          "threshold": "> 10%",
+          "points": 5
+        },
+        {
+          "name": "Valuation Sanity",
+          "category": "Quality",
+          "passed": false,
+          "value": "N/A",
+          "threshold": "PEG < 2.0",
+          "points": 0
+        },
+        {
+          "name": "FCF Quality",
+          "category": "Quality",
+          "passed": true,
+          "value": "Positive",
+          "threshold": "FCF > 0",
+          "points": 3
+        },
+        {
+          "name": "Industry Strength",
+          "category": "Context",
+          "passed": false,
+          "value": "Technology (XLK: -3.3% vs SPY)",
+          "threshold": "Sector outperforming SPY (3mo)",
+          "points": 0
+        },
+        {
+          "name": "Relative Strength",
+          "category": "Context",
+          "passed": true,
+          "value": "+85.8% vs SPY (6mo)",
+          "threshold": ">0% outperformance vs SPY",
+          "points": 5
+        },
+        {
+          "name": "Size Factor",
+          "category": "Context",
+          "passed": false,
+          "value": "$570B",
+          "threshold": "Large Cap Penalty",
+          "points": -5
+        }
+      ]
     },
     "CACI": {
       "ticker": "CACI",
@@ -43762,12 +45366,12 @@
       "name": "Alphabet Inc.",
       "sector": "Communication Services",
       "industry": "Internet Content & Information",
-      "score": 41,
+      "score": 45,
       "max_score": 100,
       "grade": "C",
       "market_cap": 3771360870400,
       "technical_score": 18,
-      "growth_score": 10,
+      "growth_score": 14,
       "quality_score": 13,
       "context_score": 0,
       "moonshot_score": 30,
@@ -43780,7 +45384,129 @@
       "current_price": 311.76,
       "rotation_score": 37.7,
       "rotation_signal": "WEAK",
-      "rotation_convergence": 0
+      "rotation_convergence": 0,
+      "criteria": [
+        {
+          "name": "Trend Alignment",
+          "category": "Momentum",
+          "passed": false,
+          "value": "$311.76 > $319.99 > $249.41",
+          "threshold": "Price > SMA50 > SMA200",
+          "points": 0
+        },
+        {
+          "name": "Breakout Pattern",
+          "category": "Breakout",
+          "passed": false,
+          "value": "+10.7% from Base",
+          "threshold": "Flat Base + Near High",
+          "points": 0
+        },
+        {
+          "name": "Consolidation",
+          "category": "Breakout",
+          "passed": true,
+          "value": "Depth 42%",
+          "threshold": "Depth < 40%",
+          "points": 10
+        },
+        {
+          "name": "Volume Dry-up",
+          "category": "Breakout",
+          "passed": true,
+          "value": "1.0x avg",
+          "threshold": "Vol < 1.2x Avg",
+          "points": 8
+        },
+        {
+          "name": "52W Proximity",
+          "category": "Timing",
+          "passed": false,
+          "value": "89.3%",
+          "threshold": "> 90% of 52W High",
+          "points": 0
+        },
+        {
+          "name": "Volatility Compression",
+          "category": "Timing",
+          "passed": false,
+          "value": "92% of 50d ATR",
+          "threshold": "10d ATR < 75% of 50d ATR",
+          "points": 0
+        },
+        {
+          "name": "Revenue Score",
+          "category": "Growth",
+          "passed": false,
+          "value": "YoY: 18.0%, Beats: 100%",
+          "threshold": "Magnitude+Consistency+Accel+Beats",
+          "points": 14
+        },
+        {
+          "name": "Earnings Acceleration",
+          "category": "Growth",
+          "passed": false,
+          "value": "Decelerating/Negative",
+          "threshold": "QoQ growth accelerating",
+          "points": 0
+        },
+        {
+          "name": "ROE Quality",
+          "category": "Quality",
+          "passed": true,
+          "value": "35.7%",
+          "threshold": "> 15%",
+          "points": 5
+        },
+        {
+          "name": "Operating Margin",
+          "category": "Quality",
+          "passed": true,
+          "value": "31.6%",
+          "threshold": "> 10%",
+          "points": 5
+        },
+        {
+          "name": "Valuation Sanity",
+          "category": "Quality",
+          "passed": false,
+          "value": "N/A",
+          "threshold": "PEG < 2.0",
+          "points": 0
+        },
+        {
+          "name": "FCF Quality",
+          "category": "Quality",
+          "passed": true,
+          "value": "Positive",
+          "threshold": "FCF > 0",
+          "points": 3
+        },
+        {
+          "name": "Industry Strength",
+          "category": "Context",
+          "passed": true,
+          "value": "Communication Services (XLC: +2.2% vs SPY)",
+          "threshold": "Sector outperforming SPY (3mo)",
+          "points": 5
+        },
+        {
+          "name": "Relative Strength",
+          "category": "Context",
+          "passed": true,
+          "value": "+44.6% vs SPY (6mo)",
+          "threshold": ">0% outperformance vs SPY",
+          "points": 5
+        },
+        {
+          "name": "Size Factor",
+          "category": "Context",
+          "passed": false,
+          "value": "$3.8T",
+          "threshold": "Large Cap Penalty",
+          "points": -10
+        }
+      ]
     },
     "ILMN": {
       "ticker": "ILMN",
@@ -45787,12 +47513,12 @@
       "name": "Constellation Energy Corporatio",
       "sector": "Utilities",
       "industry": "Utilities - Independent Power ",
-      "score": 38,
+      "score": 41,
       "max_score": 100,
-      "grade": "D",
+      "grade": "C",
       "market_cap": 119413374976,
       "technical_score": 18,
-      "growth_score": 7,
+      "growth_score": 10,
       "quality_score": 8,
       "context_score": 5,
       "moonshot_score": 0,
@@ -45805,7 +47531,121 @@
       "current_price": 329.88,
       "rotation_score": 40.1,
       "rotation_signal": "NEUTRAL",
-      "rotation_convergence": 0
+      "rotation_convergence": 0,
+      "criteria": [
+        {
+          "name": "Trend Alignment",
+          "category": "Momentum",
+          "passed": false,
+          "value": "$329.88 > $314.23 > $327.98",
+          "threshold": "Price > SMA50 > SMA200",
+          "points": 0
+        },
+        {
+          "name": "Breakout Pattern",
+          "category": "Breakout",
+          "passed": false,
+          "value": "+20.0% from Base",
+          "threshold": "Flat Base + Near High",
+          "points": 0
+        },
+        {
+          "name": "Consolidation",
+          "category": "Breakout",
+          "passed": true,
+          "value": "Depth 41%",
+          "threshold": "Depth < 40%",
+          "points": 10
+        },
+        {
+          "name": "Volume Dry-up",
+          "category": "Breakout",
+          "passed": true,
+          "value": "1.1x avg",
+          "threshold": "Vol < 1.2x Avg",
+          "points": 8
+        },
+        {
+          "name": "52W Proximity",
+          "category": "Timing",
+          "passed": false,
+          "value": "80.0%",
+          "threshold": "> 90% of 52W High",
+          "points": 0
+        },
+        {
+          "name": "Volatility Compression",
+          "category": "Timing",
+          "passed": false,
+          "value": "114% of 50d ATR",
+          "threshold": "10d ATR < 75% of 50d ATR",
+          "points": 0
+        },
+        {
+          "name": "Revenue Score",
+          "category": "Growth",
+          "passed": false,
+          "value": "YoY: 12.9%, Beats: 50%",
+          "threshold": "Magnitude+Consistency+Accel+Beats",
+          "points": 10
+        },
+        {
+          "name": "Earnings Acceleration",
+          "category": "Growth",
+          "passed": false,
+          "value": "Decelerating/Negative",
+          "threshold": "QoQ growth accelerating",
+          "points": 0
+        },
+        {
+          "name": "ROE Quality",
+          "category": "Quality",
+          "passed": true,
+          "value": "16.4%",
+          "threshold": "> 15%",
+          "points": 5
+        },
+        {
+          "name": "Operating Margin",
+          "category": "Quality",
+          "passed": false,
+          "value": "9.6%",
+          "threshold": "> 10%",
+          "points": 0
+        },
+        {
+          "name": "Valuation Sanity",
+          "category": "Quality",
+          "passed": false,
+          "value": "N/A",
+          "threshold": "PEG < 2.0",
+          "points": 0
+        },
+        {
+          "name": "FCF Quality",
+          "category": "Quality",
+          "passed": true,
+          "value": "Positive",
+          "threshold": "FCF > 0",
+          "points": 3
+        },
+        {
+          "name": "Industry Strength",
+          "category": "Context",
+          "passed": true,
+          "value": "Utilities (XLU: +5.6% vs SPY)",
+          "threshold": "Sector outperforming SPY (3mo)",
+          "points": 5
+        },
+        {
+          "name": "Relative Strength",
+          "category": "Context",
+          "passed": false,
+          "value": "-0.4% vs SPY (6mo)",
+          "threshold": ">0% outperformance vs SPY",
+          "points": 0
+        }
+      ]
     },
     "CPB": {
       "ticker": "CPB",
@@ -45937,12 +47777,12 @@
       "name": "Heico Corporation",
       "sector": "Industrials",
       "industry": "Aerospace & Defense",
-      "score": 38,
+      "score": 42,
       "max_score": 100,
-      "grade": "D",
+      "grade": "C",
       "market_cap": 44535762944,
       "technical_score": 10,
-      "growth_score": 10,
+      "growth_score": 14,
       "quality_score": 13,
       "context_score": 5,
       "moonshot_score": 0,
@@ -45955,7 +47795,121 @@
       "current_price": 319.46,
       "rotation_score": 28.2,
       "rotation_signal": "WEAK",
-      "rotation_convergence": 0
+      "rotation_convergence": 0,
+      "criteria": [
+        {
+          "name": "Trend Alignment",
+          "category": "Momentum",
+          "passed": false,
+          "value": "$319.46 > $335.54 > $317.88",
+          "threshold": "Price > SMA50 > SMA200",
+          "points": 0
+        },
+        {
+          "name": "Breakout Pattern",
+          "category": "Breakout",
+          "passed": false,
+          "value": "+11.7% from Base",
+          "threshold": "Flat Base + Near High",
+          "points": 0
+        },
+        {
+          "name": "Consolidation",
+          "category": "Breakout",
+          "passed": true,
+          "value": "Depth 17%",
+          "threshold": "Depth < 40%",
+          "points": 10
+        },
+        {
+          "name": "Volume Dry-up",
+          "category": "Breakout",
+          "passed": false,
+          "value": "2.4x avg",
+          "threshold": "Vol < 1.2x Avg",
+          "points": 0
+        },
+        {
+          "name": "52W Proximity",
+          "category": "Timing",
+          "passed": false,
+          "value": "88.3%",
+          "threshold": "> 90% of 52W High",
+          "points": 0
+        },
+        {
+          "name": "Volatility Compression",
+          "category": "Timing",
+          "passed": false,
+          "value": "129% of 50d ATR",
+          "threshold": "10d ATR < 75% of 50d ATR",
+          "points": 0
+        },
+        {
+          "name": "Revenue Score",
+          "category": "Growth",
+          "passed": false,
+          "value": "YoY: 19.3%, Beats: 100%",
+          "threshold": "Magnitude+Consistency+Accel+Beats",
+          "points": 14
+        },
+        {
+          "name": "Earnings Acceleration",
+          "category": "Growth",
+          "passed": false,
+          "value": "Decelerating/Negative",
+          "threshold": "QoQ growth accelerating",
+          "points": 0
+        },
+        {
+          "name": "ROE Quality",
+          "category": "Quality",
+          "passed": true,
+          "value": "16.6%",
+          "threshold": "> 15%",
+          "points": 5
+        },
+        {
+          "name": "Operating Margin",
+          "category": "Quality",
+          "passed": true,
+          "value": "22.1%",
+          "threshold": "> 10%",
+          "points": 5
+        },
+        {
+          "name": "Valuation Sanity",
+          "category": "Quality",
+          "passed": false,
+          "value": "N/A",
+          "threshold": "PEG < 2.0",
+          "points": 0
+        },
+        {
+          "name": "FCF Quality",
+          "category": "Quality",
+          "passed": true,
+          "value": "Positive",
+          "threshold": "FCF > 0",
+          "points": 3
+        },
+        {
+          "name": "Industry Strength",
+          "category": "Context",
+          "passed": true,
+          "value": "Industrials (XLI: +15.1% vs SPY)",
+          "threshold": "Sector outperforming SPY (3mo)",
+          "points": 5
+        },
+        {
+          "name": "Relative Strength",
+          "category": "Context",
+          "passed": false,
+          "value": "-3.7% vs SPY (6mo)",
+          "threshold": ">0% outperformance vs SPY",
+          "points": 0
+        }
+      ]
     },
     "HEI-A": {
       "ticker": "HEI-A",
@@ -47605,7 +49559,121 @@
       "current_price": null,
       "rotation_score": 26.3,
       "rotation_signal": "WEAK",
-      "rotation_convergence": 0
+      "rotation_convergence": 0,
+      "criteria": [
+        {
+          "name": "Trend Alignment",
+          "category": "Momentum",
+          "passed": true,
+          "value": "$74.86 > $72.30 (rising)",
+          "threshold": "Price > SMA50 > SMA200",
+          "points": 8
+        },
+        {
+          "name": "Breakout Pattern",
+          "category": "Breakout",
+          "passed": false,
+          "value": "+4.6% from Base",
+          "threshold": "Flat Base + Near High",
+          "points": 0
+        },
+        {
+          "name": "Consolidation",
+          "category": "Breakout",
+          "passed": true,
+          "value": "Depth 23%",
+          "threshold": "Depth < 40%",
+          "points": 10
+        },
+        {
+          "name": "Volume Dry-up",
+          "category": "Breakout",
+          "passed": true,
+          "value": "0.8x avg",
+          "threshold": "Vol < 1.2x Avg",
+          "points": 8
+        },
+        {
+          "name": "52W Proximity",
+          "category": "Timing",
+          "passed": true,
+          "value": "95.4%",
+          "threshold": "> 90% of 52W High",
+          "points": 5
+        },
+        {
+          "name": "Volatility Compression",
+          "category": "Timing",
+          "passed": false,
+          "value": "103% of 50d ATR",
+          "threshold": "10d ATR < 75% of 50d ATR",
+          "points": 0
+        },
+        {
+          "name": "Revenue Score",
+          "category": "Growth",
+          "passed": false,
+          "value": "N/A",
+          "threshold": "Magnitude+Consistency+Accel+Beats",
+          "points": 0
+        },
+        {
+          "name": "Earnings Acceleration",
+          "category": "Growth",
+          "passed": false,
+          "value": "N/A",
+          "threshold": "QoQ growth accelerating",
+          "points": 0
+        },
+        {
+          "name": "ROE Quality",
+          "category": "Quality",
+          "passed": false,
+          "value": "N/A",
+          "threshold": "> 15%",
+          "points": 0
+        },
+        {
+          "name": "Operating Margin",
+          "category": "Quality",
+          "passed": false,
+          "value": "N/A",
+          "threshold": "> 10%",
+          "points": 0
+        },
+        {
+          "name": "Valuation Sanity",
+          "category": "Quality",
+          "passed": false,
+          "value": "N/A",
+          "threshold": "PEG < 2.0",
+          "points": 0
+        },
+        {
+          "name": "FCF Quality",
+          "category": "Quality",
+          "passed": false,
+          "value": "Negative/NA",
+          "threshold": "FCF > 0",
+          "points": 0
+        },
+        {
+          "name": "Industry Strength",
+          "category": "Context",
+          "passed": false,
+          "value": "Unknown",
+          "threshold": "Sector outperforming SPY (3mo)",
+          "points": 0
+        },
+        {
+          "name": "Relative Strength",
+          "category": "Context",
+          "passed": true,
+          "value": "+14.6% vs SPY (6mo)",
+          "threshold": ">0% outperformance vs SPY",
+          "points": 5
+        }
+      ]
     },
     "STE": {
       "ticker": "STE",
@@ -49112,12 +51180,12 @@
       "name": "Broadcom Inc.",
       "sector": "Technology",
       "industry": "Semiconductors",
-      "score": 33,
+      "score": 36,
       "max_score": 100,
       "grade": "D",
       "market_cap": 1515073961984,
       "technical_score": 18,
-      "growth_score": 11,
+      "growth_score": 14,
       "quality_score": 13,
       "context_score": -9,
       "moonshot_score": 30,
@@ -49130,7 +51198,129 @@
       "current_price": 319.55,
       "rotation_score": 31.4,
       "rotation_signal": "WEAK",
-      "rotation_convergence": 0
+      "rotation_convergence": 0,
+      "criteria": [
+        {
+          "name": "Trend Alignment",
+          "category": "Momentum",
+          "passed": false,
+          "value": "$319.55 > $335.58 > $317.66",
+          "threshold": "Price > SMA50 > SMA200",
+          "points": 0
+        },
+        {
+          "name": "Breakout Pattern",
+          "category": "Breakout",
+          "passed": false,
+          "value": "+22.8% from Base",
+          "threshold": "Flat Base + Near High",
+          "points": 0
+        },
+        {
+          "name": "Consolidation",
+          "category": "Breakout",
+          "passed": true,
+          "value": "Depth 31%",
+          "threshold": "Depth < 40%",
+          "points": 10
+        },
+        {
+          "name": "Volume Dry-up",
+          "category": "Breakout",
+          "passed": true,
+          "value": "0.8x avg",
+          "threshold": "Vol < 1.2x Avg",
+          "points": 8
+        },
+        {
+          "name": "52W Proximity",
+          "category": "Timing",
+          "passed": false,
+          "value": "77.2%",
+          "threshold": "> 90% of 52W High",
+          "points": 0
+        },
+        {
+          "name": "Volatility Compression",
+          "category": "Timing",
+          "passed": false,
+          "value": "95% of 50d ATR",
+          "threshold": "10d ATR < 75% of 50d ATR",
+          "points": 0
+        },
+        {
+          "name": "Revenue Score",
+          "category": "Growth",
+          "passed": false,
+          "value": "YoY: 28.2%, Beats: 100%",
+          "threshold": "Magnitude+Consistency+Accel+Beats",
+          "points": 14
+        },
+        {
+          "name": "Earnings Acceleration",
+          "category": "Growth",
+          "passed": false,
+          "value": "Decelerating/Negative",
+          "threshold": "QoQ growth accelerating",
+          "points": 0
+        },
+        {
+          "name": "ROE Quality",
+          "category": "Quality",
+          "passed": true,
+          "value": "31.0%",
+          "threshold": "> 15%",
+          "points": 5
+        },
+        {
+          "name": "Operating Margin",
+          "category": "Quality",
+          "passed": true,
+          "value": "31.8%",
+          "threshold": "> 10%",
+          "points": 5
+        },
+        {
+          "name": "Valuation Sanity",
+          "category": "Quality",
+          "passed": false,
+          "value": "N/A",
+          "threshold": "PEG < 2.0",
+          "points": 0
+        },
+        {
+          "name": "FCF Quality",
+          "category": "Quality",
+          "passed": true,
+          "value": "Positive",
+          "threshold": "FCF > 0",
+          "points": 3
+        },
+        {
+          "name": "Industry Strength",
+          "category": "Context",
+          "passed": false,
+          "value": "Technology (XLK: -3.3% vs SPY)",
+          "threshold": "Sector outperforming SPY (3mo)",
+          "points": 0
+        },
+        {
+          "name": "Relative Strength",
+          "category": "Context",
+          "passed": true,
+          "value": "+2.2% vs SPY (6mo)",
+          "threshold": ">0% outperformance vs SPY",
+          "points": 1
+        },
+        {
+          "name": "Size Factor",
+          "category": "Context",
+          "passed": false,
+          "value": "$1.5T",
+          "threshold": "Large Cap Penalty",
+          "points": -10
+        }
+      ]
     },
     "AXP": {
       "ticker": "AXP",
@@ -52237,14 +54427,14 @@
       "name": "CCJ",
       "sector": "Unknown",
       "industry": "Unknown",
-      "score": 28,
+      "score": 41,
       "max_score": 100,
-      "grade": "D",
+      "grade": "C",
       "market_cap": 0,
       "technical_score": 16,
       "growth_score": 7,
-      "quality_score": 0,
-      "context_score": 5,
+      "quality_score": 8,
+      "context_score": 10,
       "moonshot_score": 30,
       "forward_pe": null,
       "trailing_pe": null,
@@ -52255,7 +54445,121 @@
       "current_price": null,
       "rotation_score": 40.5,
       "rotation_signal": "NEUTRAL",
-      "rotation_convergence": 0
+      "rotation_convergence": 0,
+      "criteria": [
+        {
+          "name": "Trend Alignment",
+          "category": "Momentum",
+          "passed": true,
+          "value": "$118.40 > $110.66 (rising)",
+          "threshold": "Price > SMA50 > SMA200",
+          "points": 8
+        },
+        {
+          "name": "Breakout Pattern",
+          "category": "Breakout",
+          "passed": false,
+          "value": "+12.5% from Base",
+          "threshold": "Flat Base + Near High",
+          "points": 0
+        },
+        {
+          "name": "Consolidation",
+          "category": "Breakout",
+          "passed": false,
+          "value": "Depth 46%",
+          "threshold": "Depth < 40%",
+          "points": 0
+        },
+        {
+          "name": "Volume Dry-up",
+          "category": "Breakout",
+          "passed": true,
+          "value": "0.7x avg",
+          "threshold": "Vol < 1.2x Avg",
+          "points": 8
+        },
+        {
+          "name": "52W Proximity",
+          "category": "Timing",
+          "passed": false,
+          "value": "87.5%",
+          "threshold": "> 90% of 52W High",
+          "points": 0
+        },
+        {
+          "name": "Volatility Compression",
+          "category": "Timing",
+          "passed": false,
+          "value": "103% of 50d ATR",
+          "threshold": "10d ATR < 75% of 50d ATR",
+          "points": 0
+        },
+        {
+          "name": "Revenue Score",
+          "category": "Growth",
+          "passed": false,
+          "value": "YoY: 1.5%, Beats: 50%",
+          "threshold": "Magnitude+Consistency+Accel+Beats",
+          "points": 7
+        },
+        {
+          "name": "Earnings Acceleration",
+          "category": "Growth",
+          "passed": false,
+          "value": "Decelerating/Negative",
+          "threshold": "QoQ growth accelerating",
+          "points": 0
+        },
+        {
+          "name": "ROE Quality",
+          "category": "Quality",
+          "passed": false,
+          "value": "8.9%",
+          "threshold": "> 15%",
+          "points": 0
+        },
+        {
+          "name": "Operating Margin",
+          "category": "Quality",
+          "passed": true,
+          "value": "13.6%",
+          "threshold": "> 10%",
+          "points": 5
+        },
+        {
+          "name": "Valuation Sanity",
+          "category": "Quality",
+          "passed": false,
+          "value": "N/A",
+          "threshold": "PEG < 2.0",
+          "points": 0
+        },
+        {
+          "name": "FCF Quality",
+          "category": "Quality",
+          "passed": true,
+          "value": "Positive",
+          "threshold": "FCF > 0",
+          "points": 3
+        },
+        {
+          "name": "Industry Strength",
+          "category": "Context",
+          "passed": true,
+          "value": "Energy (XLE: +25.1% vs SPY)",
+          "threshold": "Sector outperforming SPY (3mo)",
+          "points": 5
+        },
+        {
+          "name": "Relative Strength",
+          "category": "Context",
+          "passed": true,
+          "value": "+51.5% vs SPY (6mo)",
+          "threshold": ">0% outperformance vs SPY",
+          "points": 5
+        }
+      ]
     },
     "COF": {
       "ticker": "COF",
@@ -54430,7 +56734,121 @@
       "current_price": null,
       "rotation_score": 20.2,
       "rotation_signal": "WEAK",
-      "rotation_convergence": 0
+      "rotation_convergence": 0,
+      "criteria": [
+        {
+          "name": "Trend Alignment",
+          "category": "Momentum",
+          "passed": false,
+          "value": "$52.27 > $53.06 (rising)",
+          "threshold": "Price > SMA50 > SMA200",
+          "points": 0
+        },
+        {
+          "name": "Breakout Pattern",
+          "category": "Breakout",
+          "passed": false,
+          "value": "+5.8% from Base",
+          "threshold": "Flat Base + Near High",
+          "points": 0
+        },
+        {
+          "name": "Consolidation",
+          "category": "Breakout",
+          "passed": true,
+          "value": "Depth 8%",
+          "threshold": "Depth < 40%",
+          "points": 10
+        },
+        {
+          "name": "Volume Dry-up",
+          "category": "Breakout",
+          "passed": true,
+          "value": "0.9x avg",
+          "threshold": "Vol < 1.2x Avg",
+          "points": 8
+        },
+        {
+          "name": "52W Proximity",
+          "category": "Timing",
+          "passed": true,
+          "value": "93.3%",
+          "threshold": "> 90% of 52W High",
+          "points": 5
+        },
+        {
+          "name": "Volatility Compression",
+          "category": "Timing",
+          "passed": false,
+          "value": "106% of 50d ATR",
+          "threshold": "10d ATR < 75% of 50d ATR",
+          "points": 0
+        },
+        {
+          "name": "Revenue Score",
+          "category": "Growth",
+          "passed": false,
+          "value": "N/A",
+          "threshold": "Magnitude+Consistency+Accel+Beats",
+          "points": 0
+        },
+        {
+          "name": "Earnings Acceleration",
+          "category": "Growth",
+          "passed": false,
+          "value": "N/A",
+          "threshold": "QoQ growth accelerating",
+          "points": 0
+        },
+        {
+          "name": "ROE Quality",
+          "category": "Quality",
+          "passed": false,
+          "value": "N/A",
+          "threshold": "> 15%",
+          "points": 0
+        },
+        {
+          "name": "Operating Margin",
+          "category": "Quality",
+          "passed": false,
+          "value": "N/A",
+          "threshold": "> 10%",
+          "points": 0
+        },
+        {
+          "name": "Valuation Sanity",
+          "category": "Quality",
+          "passed": false,
+          "value": "N/A",
+          "threshold": "PEG < 2.0",
+          "points": 0
+        },
+        {
+          "name": "FCF Quality",
+          "category": "Quality",
+          "passed": false,
+          "value": "Negative/NA",
+          "threshold": "FCF > 0",
+          "points": 0
+        },
+        {
+          "name": "Industry Strength",
+          "category": "Context",
+          "passed": false,
+          "value": "Unknown",
+          "threshold": "Sector outperforming SPY (3mo)",
+          "points": 0
+        },
+        {
+          "name": "Relative Strength",
+          "category": "Context",
+          "passed": false,
+          "value": "-9.4% vs SPY (6mo)",
+          "threshold": ">0% outperformance vs SPY",
+          "points": 0
+        }
+      ]
     },
     "INTU": {
       "ticker": "INTU",
