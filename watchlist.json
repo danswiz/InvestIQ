@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-02-28 18:23 EST",
+  "last_updated": "2026-02-28 20:57 EST",
   "baskets": {
     "Trading Account": [
       {
@@ -806,9 +806,9 @@
         "earnings_growth": 8.3,
         "peg_ratio": null,
         "market_cap": 276215955456,
-        "score": 81,
+        "score": 73,
         "grade": "A",
-        "technical_score": 31,
+        "technical_score": 23,
         "growth_score": 32,
         "quality_score": 8,
         "context_score": 10,
@@ -2101,9 +2101,9 @@
       "earnings_growth": 8.3,
       "peg_ratio": null,
       "market_cap": 276215955456,
-      "score": 81,
+      "score": 73,
       "grade": "A",
-      "technical_score": 31,
+      "technical_score": 23,
       "growth_score": 32,
       "quality_score": 8,
       "context_score": 10,
