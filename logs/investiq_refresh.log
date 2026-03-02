@@ -12,3 +12,6 @@
 2026-03-01 05:08:14,516 [INFO] 
 --- FAILURE BREAKDOWN ---
 2026-03-01 05:08:14,516 [INFO]      INVALID_DATA:    2 (100.0%)
+2026-03-02 05:00:05,543 [INFO] 🚀 Cache Refresh Started: 2026-03-02 05:00
+2026-03-02 05:00:05,546 [INFO] 📊 Refreshing 1013 tickers with ThreadPool (max 2 workers)...
+2026-03-02 05:00:05,547 [INFO] ⏭️  Skipping 0 already updated tickers.

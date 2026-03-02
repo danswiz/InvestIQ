@@ -54,9 +54,9 @@ def debug():
 @app.route('/')
 def index():
     data = {"last_scan": "Awaiting scan", "stocks": []}
-    if os.path.exists('top_stocks.json'):
+    if os.path.exists('data/top_stocks.json'):
         try:
-            with open('top_stocks.json', 'r') as f:
+            with open('data/top_stocks.json', 'r') as f:
                 data = json.load(f)
         except:
             pass
@@ -82,7 +82,7 @@ def rate_ticker(ticker):
 def all_stocks():
     """Serve all_stocks.json for detail view"""
     try:
-        file_path = os.path.join(os.getcwd(), 'all_stocks.json')
+        file_path = os.path.join(os.getcwd(), 'data', 'all_stocks.json')
         with open(file_path, 'r') as f:
             data = json.load(f)
         return jsonify(data)
@@ -135,7 +135,7 @@ def watchlist():
         import yfinance as yf
         from datetime import datetime
 
-        with open('watchlist.json', 'r') as f:
+        with open('data/watchlist.json', 'r') as f:
             data = json.load(f)
 
         # Bulk fetch live prices
@@ -181,7 +181,7 @@ def watchlist_live():
     try:
         import yfinance as yf
         from datetime import datetime
-        with open('watchlist.json', 'r') as f:
+        with open('data/watchlist.json', 'r') as f:
             data = json.load(f)
 
         tickers = [s['ticker'] for s in data.get('all', [])]
@@ -215,7 +215,7 @@ def watchlist_live():
 def rotation_scan():
     """Serve rotation scan data from all_stocks.json"""
     try:
-        with open('all_stocks.json', 'r') as f:
+        with open('data/all_stocks.json', 'r') as f:
             data = json.load(f)
 
         last_scan = data.get('last_scan', 'Unknown')

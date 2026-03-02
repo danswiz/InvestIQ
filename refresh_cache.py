@@ -30,7 +30,7 @@ MAX_WORKERS = 2              # Reduced from 5
 MAX_RETRIES = 3              # Retry attempts
 INITIAL_BACKOFF = 30         # Starting backoff in seconds
 
-DB_PATH = os.path.join(os.getcwd(), 'market_data.db')
+DB_PATH = os.path.join(os.path.dirname(__file__), 'data', 'market_data.db')
 
 def load_tickers():
     """Load all ticker sources"""
