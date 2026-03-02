@@ -51,7 +51,7 @@ POSITION_SIZES = {
 def load_stock_db():
     """Load all stock data from all_stocks.json"""
     try:
-        with open('all_stocks.json', 'r') as f:
+        with open('data/all_stocks.json', 'r') as f:
             data = json.load(f)
             stocks = data.get('stocks', {})
             if isinstance(stocks, dict):
@@ -179,7 +179,7 @@ def generate_watchlist():
         watchlist_data['baskets'][basket_name] = basket_stocks
 
     # Write
-    with open('watchlist.json', 'w') as f:
+    with open('data/watchlist.json', 'w') as f:
         json.dump(watchlist_data, f, indent=2)
 
     logger.info(f"✓ Watchlist generated: watchlist.json")

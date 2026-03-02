@@ -4,7 +4,7 @@ import yfinance as yf
 from datetime import datetime, timedelta
 import os
 
-DB_PATH = os.path.join(os.getcwd(), 'market_data.db')
+DB_PATH = os.path.join(os.path.dirname(__file__), 'data', 'market_data.db')
 
 class MarketDB:
     def __init__(self):

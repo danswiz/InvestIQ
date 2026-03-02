@@ -61,7 +61,7 @@ def run_scan(limit=None, skip_rotation=False):
     prev_rotation = {}
     if skip_rotation:
         try:
-            with open('all_stocks.json') as f:
+            with open('data/all_stocks.json') as f:
                 prev = json.load(f)
             for t, s in prev.get('stocks', {}).items():
                 prev_rotation[t] = {
@@ -126,7 +126,7 @@ def run_scan(limit=None, skip_rotation=False):
         'stocks': filtered[:100]
     }
     
-    with open('top_stocks.json', 'w') as f:
+    with open('data/top_stocks.json', 'w') as f:
         json.dump(top_output, f, indent=2, cls=NumpyEncoder)
     
     # all_stocks.json — all stocks, dict keyed by ticker
@@ -153,7 +153,7 @@ def run_scan(limit=None, skip_rotation=False):
     del results
     gc.collect()
     
-    with open('all_stocks.json', 'w') as f:
+    with open('data/all_stocks.json', 'w') as f:
         json.dump(all_output, f, indent=2, cls=NumpyEncoder)
     
     logger.info(f"✅ Saved {len(filtered)} top stocks to top_stocks.json")
@@ -167,7 +167,7 @@ def run_scan(limit=None, skip_rotation=False):
     # Git commit
     if not limit:
         try:
-            subprocess.run(['git', 'add', 'top_stocks.json', 'all_stocks.json'], check=True)
+            subprocess.run(['git', 'add', 'data/top_stocks.json', 'data/all_stocks.json'], check=True)
             subprocess.run(['git', 'commit', '-m', f'scan: {len(filtered)} top stocks, {total_count} total'], check=True)
             subprocess.run(['git', 'push'], check=True)
             logger.info("Git push complete")

@@ -12,7 +12,7 @@ EMAIL_CONFIG_PATH = os.getenv("EMAIL_CONFIG_PATH", os.path.expanduser("~/.opencl
 
 # Directory Structure
 WORKSPACE_DIR = os.path.dirname(os.path.abspath(__file__))
-DB_PATH = os.path.join(WORKSPACE_DIR, 'market_data.db')
+DB_PATH = os.path.join(WORKSPACE_DIR, 'data', 'market_data.db')
 LOG_DIR = os.path.join(WORKSPACE_DIR, 'logs')
 
 # Ensure log directory exists
