@@ -805,10 +805,15 @@
                             const scores = allStocks[ticker] || {};
                             const stock = {
                                 ticker: ticker,
+                                basket: name,
                                 position_size: pct,
                                 name: scores.name || ticker,
                                 score: scores.score || 0,
                                 grade: scores.grade || 'N/A',
+                                technical_score: scores.technical_score || 0,
+                                growth_score: scores.growth_score || 0,
+                                quality_score: scores.quality_score || 0,
+                                context_score: scores.context_score || 0,
                                 rotation_score: scores.rotation_score || 0,
                                 moonshot_score: scores.moonshot_score || 0,
                                 forward_pe: scores.forward_pe || null,
@@ -1006,7 +1011,8 @@
             
             for (const basket of allBaskets) {
                 const stocks = dataSource.baskets[basket];
-                if (!stocks || stocks.length === 0) continue;
+                if (!stocks) continue;
+                if (stocks.length === 0 && !editMode) continue;  // Show empty baskets in edit mode
                 
                 const icon = basketIcons[basket] || '📋';
                 const avgChange = stocks.reduce((s, st) => s + (st.daily_change || 0), 0) / stocks.length;
@@ -1120,6 +1126,13 @@
             if (editMode) {
                 // Enter edit mode - take snapshot of current data
                 editModeData = JSON.parse(JSON.stringify(watchlistData));
+                // Build basket_metadata from existing stocks
+                editModeData.basket_metadata = {};
+                for (const [name, stocks] of Object.entries(editModeData.baskets)) {
+                    if (stocks.length > 0 && stocks[0].basket_metadata) {
+                        editModeData.basket_metadata[name] = stocks[0].basket_metadata;
+                    }
+                }
                 document.getElementById('edit-portfolio-btn').textContent = '❌ Cancel Edit';
                 document.getElementById('edit-portfolio-btn').classList.add('edit-mode-active');
                 
@@ -1175,11 +1188,16 @@
                     if (weightMatch) weight = weightMatch[1].trim();
                 }
                 
-                // Check stored metadata (safely)
-                const originalBasket = watchlistData?.baskets?.[basketName];
-                if (originalBasket && originalBasket.length > 0 && originalBasket[0]?.basket_metadata) {
-                    icon = originalBasket[0].basket_metadata.icon || icon;
-                    weight = originalBasket[0].basket_metadata.weight || weight;
+                // Check stored metadata (safely) — from basket_metadata or first stock
+                if (editModeData.basket_metadata?.[basketName]) {
+                    icon = editModeData.basket_metadata[basketName].icon || icon;
+                    weight = editModeData.basket_metadata[basketName].weight || weight;
+                } else {
+                    const originalBasket = watchlistData?.baskets?.[basketName];
+                    if (originalBasket && originalBasket.length > 0 && originalBasket[0]?.basket_metadata) {
+                        icon = originalBasket[0].basket_metadata.icon || icon;
+                        weight = originalBasket[0].basket_metadata.weight || weight;
+                    }
                 }
                 
                 // Build tickers object from editModeData
