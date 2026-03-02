@@ -84,78 +84,110 @@ class RotationCatcher:
             return None
         return (prices.iloc[-1] - prices.iloc[-weeks]) / prices.iloc[-weeks]
     
-    def score(self, ticker):
-        """
-        Score a stock on 6 rotation signals.
+    def _compute_result(self, ticker, hist_weekly, hist_daily, info):
+        """Core scoring logic — shared by score() and score_from_db()."""
+        if hist_weekly.empty or len(hist_weekly) < 30:
+            return self._empty_result(ticker, "Insufficient data")
         
-        Returns dict with composite_score (0-100), signal classification,
-        convergence_bonus, and per-signal breakdown.
-        """
+        spy_weekly = self._get_spy_data()
+        qqq_weekly = self._get_qqq_data()
+        
+        sector = info.get('sector', '')
+        sector_etf_ticker = SECTOR_ETFS.get(sector)
+        sector_etf_data = self._get_sector_etf_data(sector_etf_ticker) if sector_etf_ticker else None
+        
+        signals = {
+            'rs_divergence': self._signal_rs_divergence(hist_weekly, spy_weekly, qqq_weekly),
+            'earnings_revisions': self._signal_earnings_revisions(info),
+            'valuation_gap': self._signal_valuation_gap(info),
+            'stage_breakout': self._signal_stage_breakout(hist_weekly, hist_daily),
+            'volume_accumulation': self._signal_volume_accumulation(hist_weekly, hist_daily),
+            'sector_momentum': self._signal_sector_momentum(sector_etf_data, spy_weekly, sector, sector_etf_ticker),
+        }
+        
+        composite = sum(
+            signals[key]['score'] * WEIGHTS[key]
+            for key in WEIGHTS
+        )
+        
+        high_count = sum(1 for sig in signals.values() if sig['score'] >= 60)
+        if high_count >= 5:
+            convergence_bonus = 10
+        elif high_count >= 4:
+            convergence_bonus = 7
+        elif high_count >= 3:
+            convergence_bonus = 4
+        else:
+            convergence_bonus = 0
+        
+        composite = min(100, round(composite + convergence_bonus, 1))
+        
+        if composite >= 80:
+            signal = "STRONG ROTATION BUY"
+        elif composite >= 60:
+            signal = "ROTATION WATCH"
+        elif composite >= 40:
+            signal = "NEUTRAL"
+        elif composite >= 20:
+            signal = "WEAK"
+        else:
+            signal = "NO ROTATION"
+        
+        return {
+            'ticker': ticker,
+            'composite_score': composite,
+            'signal': signal,
+            'convergence_bonus': convergence_bonus,
+            'signals': signals,
+        }
+
+    def score(self, ticker):
+        """Score a stock using yfinance (live). For single-stock or CLI use."""
         try:
             stock = yf.Ticker(ticker)
             info = stock.info
             hist_weekly = stock.history(period="1y", interval="1wk")
             hist_daily = stock.history(period="3mo", interval="1d")
-            
-            if hist_weekly.empty or len(hist_weekly) < 30:
-                return self._empty_result(ticker, "Insufficient data")
-            
-            spy_weekly = self._get_spy_data()
-            qqq_weekly = self._get_qqq_data()
-            
-            # Auto-detect sector ETF
-            sector = info.get('sector', '')
-            sector_etf_ticker = SECTOR_ETFS.get(sector)
-            sector_etf_data = self._get_sector_etf_data(sector_etf_ticker) if sector_etf_ticker else None
-            
-            # Score all 6 signals
-            signals = {
-                'rs_divergence': self._signal_rs_divergence(hist_weekly, spy_weekly, qqq_weekly),
-                'earnings_revisions': self._signal_earnings_revisions(info),
-                'valuation_gap': self._signal_valuation_gap(info),
-                'stage_breakout': self._signal_stage_breakout(hist_weekly, hist_daily),
-                'volume_accumulation': self._signal_volume_accumulation(hist_weekly, hist_daily),
-                'sector_momentum': self._signal_sector_momentum(sector_etf_data, spy_weekly, sector, sector_etf_ticker),
-            }
-            
-            # Weighted composite
-            composite = sum(
-                signals[key]['score'] * WEIGHTS[key]
-                for key in WEIGHTS
+            return self._compute_result(ticker, hist_weekly, hist_daily, info)
+        except Exception as e:
+            return self._empty_result(ticker, str(e))
+
+    def score_from_db(self, ticker, conn, info=None):
+        """Score a stock using DB prices (fast bulk mode). No yfinance API calls for price data."""
+        try:
+            import json as _json
+            # Load daily prices from DB
+            daily = pd.read_sql_query(
+                f"SELECT date, open, high, low, close, volume FROM prices WHERE symbol = ? ORDER BY date",
+                conn, params=(ticker,)
             )
+            if len(daily) < 130:
+                return self._empty_result(ticker, "Insufficient DB data")
             
-            # Convergence bonus: multiple strong signals firing together
-            high_count = sum(1 for sig in signals.values() if sig['score'] >= 60)
-            if high_count >= 5:
-                convergence_bonus = 10
-            elif high_count >= 4:
-                convergence_bonus = 7
-            elif high_count >= 3:
-                convergence_bonus = 4
-            else:
-                convergence_bonus = 0
+            daily['date'] = pd.to_datetime(daily['date']).dt.tz_localize('America/New_York')
+            daily.set_index('date', inplace=True)
+            daily.columns = ['Open', 'High', 'Low', 'Close', 'Volume']
             
-            composite = min(100, round(composite + convergence_bonus, 1))
+            # Resample daily to weekly
+            hist_weekly = daily.resample('W').agg({
+                'Open': 'first', 'High': 'max', 'Low': 'min', 'Close': 'last', 'Volume': 'sum'
+            }).dropna()
             
-            # Classification
-            if composite >= 80:
-                signal = "STRONG ROTATION BUY"
-            elif composite >= 60:
-                signal = "ROTATION WATCH"
-            elif composite >= 40:
-                signal = "NEUTRAL"
-            elif composite >= 20:
-                signal = "WEAK"
-            else:
-                signal = "NO ROTATION"
+            # Last 3 months for daily
+            hist_daily = daily.iloc[-63:]  # ~3 months of trading days
             
-            return {
-                'ticker': ticker,
-                'composite_score': composite,
-                'signal': signal,
-                'convergence_bonus': convergence_bonus,
-                'signals': signals,
-            }
+            # Load fundamentals from DB if not provided
+            if info is None:
+                try:
+                    fund_df = pd.read_sql_query(
+                        "SELECT data FROM fundamentals WHERE symbol = ? LIMIT 1",
+                        conn, params=(ticker,)
+                    )
+                    info = _json.loads(fund_df.iloc[0]['data']) if not fund_df.empty else {}
+                except:
+                    info = {}
+            
+            return self._compute_result(ticker, hist_weekly, hist_daily, info)
             
         except Exception as e:
             return self._empty_result(ticker, str(e))

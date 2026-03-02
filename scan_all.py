@@ -92,7 +92,7 @@ def run_scan(limit=None, skip_rotation=False):
                 data['rotation_convergence'] = prev.get('rotation_convergence', 0)
             else:
                 try:
-                    rot = rc.score(ticker)
+                    rot = rc.score_from_db(ticker, conn)
                     data['rotation_score'] = rot['composite_score']
                     data['rotation_signal'] = rot['signal']
                     data['rotation_convergence'] = rot['convergence_bonus']
