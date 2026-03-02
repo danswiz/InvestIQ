@@ -4,7 +4,8 @@ InvestIQ scan_all.py — Single-source-of-truth scan orchestrator.
 Replaces update_web_scan.py. Scoring lives in rater.py + rotation_catcher.py.
 
 Usage:
-    python3 scan_all.py              # Full scan
+    python3 scan_all.py              # Full scan (quality + rotation)
+    python3 scan_all.py --skip-rotation  # Quality only (fast, ~2 min)
     python3 scan_all.py --limit 5    # Test with first 5 tickers
 """
 import argparse
@@ -39,7 +40,7 @@ class NumpyEncoder(json.JSONEncoder):
         return super().default(obj)
 
 
-def run_scan(limit=None):
+def run_scan(limit=None, skip_rotation=False):
     logger.info("🚀 Starting InvestIQ scan_all.py (unified scoring pipeline)...")
     
     conn = sqlite3.connect(config.DB_PATH)
@@ -54,8 +55,25 @@ def run_scan(limit=None):
     logger.info(f"Found {len(tickers)} tickers to scan")
     
     rater = BreakoutRater()
-    rc = RotationCatcher()
-    logger.info("Initialized BreakoutRater + RotationCatcher")
+    rc = None if skip_rotation else RotationCatcher()
+    
+    # If skipping rotation, load previous scores to preserve them
+    prev_rotation = {}
+    if skip_rotation:
+        try:
+            with open('all_stocks.json') as f:
+                prev = json.load(f)
+            for t, s in prev.get('stocks', {}).items():
+                prev_rotation[t] = {
+                    'rotation_score': s.get('rotation_score', 0),
+                    'rotation_signal': s.get('rotation_signal', 'NO DATA'),
+                    'rotation_convergence': s.get('rotation_convergence', 0),
+                }
+            logger.info(f"Loaded {len(prev_rotation)} previous rotation scores (skip-rotation mode)")
+        except:
+            logger.warning("No previous all_stocks.json found, rotation scores will be 0")
+    
+    logger.info(f"Initialized BreakoutRater" + ("" if skip_rotation else " + RotationCatcher"))
     
     results = []
     errors = 0
@@ -67,16 +85,22 @@ def run_scan(limit=None):
                 continue
             
             # Add rotation score
-            try:
-                rot = rc.score(ticker)
-                data['rotation_score'] = rot['composite_score']
-                data['rotation_signal'] = rot['signal']
-                data['rotation_convergence'] = rot['convergence_bonus']
-            except Exception as e:
-                logger.warning(f"Rotation failed for {ticker}: {e}")
-                data['rotation_score'] = 0
-                data['rotation_signal'] = 'NO DATA'
-                data['rotation_convergence'] = 0
+            if skip_rotation:
+                prev = prev_rotation.get(ticker, {})
+                data['rotation_score'] = prev.get('rotation_score', 0)
+                data['rotation_signal'] = prev.get('rotation_signal', 'NO DATA')
+                data['rotation_convergence'] = prev.get('rotation_convergence', 0)
+            else:
+                try:
+                    rot = rc.score(ticker)
+                    data['rotation_score'] = rot['composite_score']
+                    data['rotation_signal'] = rot['signal']
+                    data['rotation_convergence'] = rot['convergence_bonus']
+                except Exception as e:
+                    logger.warning(f"Rotation failed for {ticker}: {e}")
+                    data['rotation_score'] = 0
+                    data['rotation_signal'] = 'NO DATA'
+                    data['rotation_convergence'] = 0
             
             results.append(data)
         except Exception as e:
@@ -156,5 +180,6 @@ def run_scan(limit=None):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='InvestIQ full stock scan')
     parser.add_argument('--limit', type=int, default=None, help='Limit number of tickers (for testing)')
+    parser.add_argument('--skip-rotation', action='store_true', help='Skip rotation scoring (fast mode, preserves previous scores)')
     args = parser.parse_args()
-    run_scan(limit=args.limit)
+    run_scan(limit=args.limit, skip_rotation=args.skip_rotation)
