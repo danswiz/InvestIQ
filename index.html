@@ -642,7 +642,7 @@
 
     <script>
         // Stock data from server
-        const stocksData = {{ stocks | tojson }};
+        const stocksData = ({{ stocks | tojson }}).map(s => ({ ...s, score: s.score ?? s.total ?? 0 }));
         let currentSort = { column: 'score', direction: 'desc' };
         let currentFilter = null;
 
@@ -702,7 +702,7 @@
                                 <div class="score-bar-bg">
                                     <div class="score-bar-fill" style="width: ${stock.score}%; background: ${scoreColor};"></div>
                                 </div>
-                                <span class="score-text">${stock.score}/100</span>
+                                <span class="score-text">${stock.score ?? stock.total ?? 0}/100</span>
                             </div>
                             <div class="score-breakdown">
                                 T:${stock.technical_score || 0} G:${stock.growth_score || 0} Q:${stock.quality_score || 0} C:${stock.context_score || 0}

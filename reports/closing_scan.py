@@ -86,7 +86,7 @@ class ScanEngine:
             return {
                 "ticker": ticker,
                 "name": info.get('shortName', ticker),
-                "total": score,
+                "score": score,
                 "grade": grade,
                 "sector": info.get('sector', 'N/A')
             }
@@ -110,7 +110,7 @@ def run_closing_protocol():
         res = engine.rate(t)
         if res: final_list.append(res)
     
-    final_list.sort(key=lambda x: x['total'], reverse=True)
+    final_list.sort(key=lambda x: x['score'], reverse=True)
     
     output = {
         "last_scan": datetime.now().strftime("%A, %B %d, %Y @ %I:%M %p PST"),
