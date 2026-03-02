@@ -782,16 +782,56 @@
             
             if (!watchlistData) {
                 try {
-                    // Try API first (local Flask), fall back to static JSON (GitHub Pages)
-                    let response;
-                    response = await fetch('/api/watchlist');
-                    if (!response.ok) throw new Error('Watchlist not available');
-                    watchlistData = await response.json();
-                    document.getElementById('watchlist-updated').textContent = watchlistData.last_updated;
+                    // Load portfolio structure from Supabase
+                    const portfolioRes = await fetch('/api/portfolio');
+                    if (!portfolioRes.ok) throw new Error('Portfolio not available');
+                    const portfolio = await portfolioRes.json();
+                    
+                    // Load stock scores from all_stocks.json
+                    let allStocks = {};
+                    try {
+                        const allRes = await fetch('/api/all_stocks');
+                        if (allRes.ok) {
+                            const allData = await allRes.json();
+                            allStocks = allData.stocks || {};
+                        }
+                    } catch(e) {}
+                    
+                    // Build watchlistData by merging portfolio + scores
+                    watchlistData = { baskets: {}, all: [] };
+                    for (const [name, basket] of Object.entries(portfolio.baskets || {})) {
+                        watchlistData.baskets[name] = [];
+                        for (const [ticker, pct] of Object.entries(basket.tickers || {})) {
+                            const scores = allStocks[ticker] || {};
+                            const stock = {
+                                ticker: ticker,
+                                position_size: pct,
+                                name: scores.name || ticker,
+                                score: scores.score || 0,
+                                grade: scores.grade || 'N/A',
+                                rotation_score: scores.rotation_score || 0,
+                                moonshot_score: scores.moonshot_score || 0,
+                                forward_pe: scores.forward_pe || null,
+                                trailing_pe: scores.trailing_pe || null,
+                                revenue_growth: scores.revenue_growth || null,
+                                earnings_growth: scores.earnings_growth || null,
+                                peg_ratio: scores.peg_ratio || null,
+                                price: scores.current_price || null,
+                                daily_change: null,
+                                sector: scores.sector || '',
+                                industry: scores.industry || '',
+                                basket_metadata: { icon: basket.icon, weight: basket.weight }
+                            };
+                            watchlistData.baskets[name].push(stock);
+                            watchlistData.all.push(stock);
+                        }
+                    }
+                    
+                    document.getElementById('watchlist-updated').textContent = new Date().toLocaleString();
                     renderWatchlist();
                 } catch (err) {
                     document.getElementById('watchlist-tbody').innerHTML = 
-                        '<tr><td colspan="11" style="text-align: center; padding: 40px; color: #dc2626;">Error loading watchlist: ' + err.message + '</td></tr>';
+                        '<tr><td colspan="11" style="text-align: center; padding: 40px; color: #dc2626;">Error loading portfolio: ' + err.message + '</td></tr>';
                     return;
                 }
             } else {
@@ -800,7 +840,6 @@
             
             // Fetch live prices and overlay
             fetchLivePrices();
-            // Auto-refresh every 60 seconds while on watchlist tab
             if (liveRefreshTimer) clearInterval(liveRefreshTimer);
             liveRefreshTimer = setInterval(fetchLivePrices, 60000);
         }
@@ -1136,9 +1175,9 @@
                     if (weightMatch) weight = weightMatch[1].trim();
                 }
                 
-                // Also check if there's stored metadata
-                const originalBasket = watchlistData.baskets[basketName];
-                if (originalBasket && originalBasket.length > 0 && originalBasket[0].basket_metadata) {
+                // Check stored metadata (safely)
+                const originalBasket = watchlistData?.baskets?.[basketName];
+                if (originalBasket && originalBasket.length > 0 && originalBasket[0]?.basket_metadata) {
                     icon = originalBasket[0].basket_metadata.icon || icon;
                     weight = originalBasket[0].basket_metadata.weight || weight;
                 }
@@ -1175,25 +1214,10 @@
                 
                 if (!response.ok) throw new Error('Save failed');
                 
-                // Success - reload portfolio data and re-render
-                // Fetch fresh data from Supabase via /api/portfolio
-                const freshPortfolio = await (await fetch('/api/portfolio')).json();
-                
-                // Rebuild watchlistData from portfolio data
-                if (freshPortfolio.baskets) {
-                    watchlistData = { baskets: {}, all: [] };
-                    for (const [name, basket] of Object.entries(freshPortfolio.baskets)) {
-                        watchlistData.baskets[name] = [];
-                        for (const [ticker, pct] of Object.entries(basket.tickers || {})) {
-                            const stock = { ticker, position_size: pct, basket_metadata: { icon: basket.icon, weight: basket.weight } };
-                            watchlistData.baskets[name].push(stock);
-                            watchlistData.all.push(stock);
-                        }
-                    }
-                }
-                
+                // Success - force full reload from Supabase
                 cancelEditMode();
-                renderWatchlist();
+                watchlistData = null;  // Clear cache to force reload
+                await showWatchlist();
                 
                 alert('✅ Portfolio saved!');
             } catch (err) {
