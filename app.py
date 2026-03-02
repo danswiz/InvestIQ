@@ -325,5 +325,89 @@ def save_portfolio():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.route('/api/watchlist_entries', methods=['GET'])
+def get_watchlist_entries():
+    """Return watchlist entries"""
+    try:
+        with open('data/watchlist_entries.json') as f:
+            return jsonify(json.load(f))
+    except FileNotFoundError:
+        return jsonify({"entries": []})
+
+@app.route('/api/watchlist_entries', methods=['POST'])
+def save_watchlist_entries():
+    """Save watchlist entries"""
+    from flask import request
+    data = request.get_json()
+    with open('data/watchlist_entries.json', 'w') as f:
+        json.dump(data, f, indent=2)
+    return jsonify({"status": "ok"})
+
+@app.route('/api/stock_price/<ticker>')
+def get_stock_price(ticker):
+    """Get current price for a ticker (used when adding to watchlist)"""
+    import yfinance as yf
+    try:
+        stock = yf.Ticker(ticker.upper())
+        info = stock.info
+        price = info.get('regularMarketPrice') or info.get('currentPrice') or info.get('previousClose')
+        
+        # Fetch snapshot from all_stocks.json
+        snapshot = {}
+        try:
+            with open('data/all_stocks.json') as f:
+                all_data = json.load(f)
+            stock_data = all_data.get('stocks', {}).get(ticker.upper(), {})
+            if stock_data:
+                snapshot = {
+                    "name": stock_data.get('name', ticker.upper()),
+                    "sector": stock_data.get('sector', ''),
+                    "industry": stock_data.get('industry', ''),
+                    "score": stock_data.get('score', 0),
+                    "grade": stock_data.get('grade', 'N/A'),
+                    "rotation_score": stock_data.get('rotation_score', 0),
+                    "rotation_signal": stock_data.get('rotation_signal', 'N/A'),
+                    "moonshot_score": stock_data.get('moonshot_score', 0),
+                    "forward_pe": stock_data.get('forward_pe'),
+                    "recommendation": stock_data.get('recommendation', ''),
+                    "target_mean": stock_data.get('target_mean')
+                }
+        except:
+            pass
+        
+        return jsonify({
+            "ticker": ticker.upper(),
+            "price": round(price, 2) if price else None,
+            "name": info.get('longName') or info.get('shortName') or ticker.upper(),
+            "snapshot": snapshot
+        })
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/watchlist_entries/live')
+def watchlist_entries_live():
+    """Bulk fetch current prices for all watchlist tickers"""
+    import yfinance as yf
+    try:
+        with open('data/watchlist_entries.json') as f:
+            data = json.load(f)
+        tickers = list(set(e['ticker'] for e in data.get('entries', [])))
+        if not tickers:
+            return jsonify({"prices": {}})
+        
+        tickers_obj = yf.Tickers(' '.join(tickers))
+        prices = {}
+        for t in tickers:
+            try:
+                info = tickers_obj.tickers[t].info
+                curr = info.get('regularMarketPrice') or info.get('currentPrice')
+                if curr:
+                    prices[t] = round(curr, 2)
+            except:
+                pass
+        return jsonify({"prices": prices})
+    except:
+        return jsonify({"prices": {}})
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=18791, debug=True)
