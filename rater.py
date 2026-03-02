@@ -656,13 +656,10 @@ class BreakoutRater:
             )
             info = json.loads(fund_df.iloc[0]['data']) if not fund_df.empty else {}
             
-            # Get yfinance Ticker for earnings data (lightweight - no price fetch)
-            try:
-                stock_yf = yf.Ticker(ticker)
-            except:
-                stock_yf = None
-            
-            result = self._score_from_data(ticker, hist, info, db_conn=conn, stock_yf=stock_yf)
+            # In bulk/DB mode, skip yfinance Ticker to avoid rate limiting
+            # Revenue data comes from DB quarterly_revenue table
+            # Earnings acceleration will use DB data only (no yfinance fallback)
+            result = self._score_from_data(ticker, hist, info, db_conn=conn, stock_yf=None)
             
             if "error" in result:
                 return None
