@@ -49,14 +49,14 @@ if __name__ == "__main__":
     
     if len(tickers) > 500:
         print(f"✅ Found {len(tickers)} tickers")
-        with open('russell1000_tickers.txt', 'w') as f:
+        with open('data/russell1000_tickers.txt', 'w') as f:
             for t in sorted(set(tickers)):
                 f.write(t + '\n')
         print(f"Saved to russell1000_tickers.txt")
     else:
         print(f"⚠️  Only found {len(tickers)} tickers, may be incomplete")
         if tickers:
-            with open('russell1000_tickers.txt', 'w') as f:
+            with open('data/russell1000_tickers.txt', 'w') as f:
                 for t in sorted(set(tickers)):
                     f.write(t + '\n')
             print(f"Saved partial list to russell1000_tickers.txt")

@@ -123,7 +123,7 @@ def main():
     print(text_report)
     
     # Save HTML for email_sender.py
-    with open("latest_sector_drivers.html", "w") as f:
+    with open("reports/latest_sector_drivers.html", "w") as f:
         f.write(html_report)
 
 if __name__ == "__main__":

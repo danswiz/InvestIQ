@@ -38,8 +38,8 @@ def load_tickers():
     
     # Priority sources
     sources = [
-        'russell1000_tickers.txt',  # Russell 1000
-        'vug_tickers.txt',          # VUG holdings
+        'data/russell1000_tickers.txt',  # Russell 1000
+        'data/vug_tickers.txt',          # VUG holdings
         'all_holdings.txt',         # User holdings
         'holdings.txt'              # Core holdings
     ]
