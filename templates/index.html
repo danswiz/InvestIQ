@@ -580,9 +580,7 @@
             
             if (!watchlistData) {
                 try {
-                    // Try API first (local Flask), fall back to static JSON (GitHub Pages)
-                    let response;
-                    response = await fetch('/api/watchlist');
+                    let response = await fetch('/api/watchlist');
                     if (!response.ok) throw new Error('Watchlist not available');
                     watchlistData = await response.json();
                     document.getElementById('watchlist-updated').textContent = watchlistData.last_updated;
@@ -596,9 +594,8 @@
                 renderWatchlist();
             }
             
-            // Fetch live prices and overlay
+            // Fetch live prices in background (don't block render)
             fetchLivePrices();
-            // Auto-refresh every 60 seconds while on watchlist tab
             if (liveRefreshTimer) clearInterval(liveRefreshTimer);
             liveRefreshTimer = setInterval(fetchLivePrices, 60000);
         }

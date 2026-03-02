@@ -177,7 +177,7 @@ def watchlist():
 
 @app.route('/api/watchlist/live')
 def watchlist_live():
-    """Fetch live prices for all watchlist holdings (lightweight refresh)"""
+    """Fetch live prices for all watchlist holdings (bulk download, fast)"""
     try:
         import yfinance as yf
         from datetime import datetime
@@ -188,14 +188,21 @@ def watchlist_live():
         if not tickers:
             return jsonify({"error": "No tickers"}), 404
 
+        # Bulk download — single HTTP request for all tickers (2 days for prev close)
+        df = yf.download(tickers, period="2d", group_by="ticker", progress=False, threads=True)
+        
         live = {}
-        tickers_obj = yf.Tickers(' '.join(tickers))
         for ticker in tickers:
             try:
-                info = tickers_obj.tickers[ticker].info
-                curr = info.get('regularMarketPrice') or info.get('currentPrice')
-                prev = info.get('previousClose')
-                if curr and prev and prev > 0:
+                if len(tickers) == 1:
+                    t_data = df
+                else:
+                    t_data = df[ticker]
+                if t_data.empty or len(t_data) < 2:
+                    continue
+                curr = float(t_data['Close'].iloc[-1])
+                prev = float(t_data['Close'].iloc[-2])
+                if prev > 0:
                     live[ticker] = {
                         "price": round(curr, 2),
                         "previous_close": round(prev, 2),
