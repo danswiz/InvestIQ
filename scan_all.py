@@ -126,7 +126,9 @@ def run_scan(limit=None, skip_rotation=False):
         'stocks': filtered[:100]
     }
     
-    with open('data/top_stocks.json', 'w') as f:
+    # In test mode (--limit), write to /tmp to avoid overwriting production data
+    top_path = '/tmp/top_stocks_test.json' if limit else 'data/top_stocks.json'
+    with open(top_path, 'w') as f:
         json.dump(top_output, f, indent=2, cls=NumpyEncoder)
     
     # all_stocks.json — all stocks, dict keyed by ticker
@@ -153,7 +155,8 @@ def run_scan(limit=None, skip_rotation=False):
     del results
     gc.collect()
     
-    with open('data/all_stocks.json', 'w') as f:
+    all_path = '/tmp/all_stocks_test.json' if limit else 'data/all_stocks.json'
+    with open(all_path, 'w') as f:
         json.dump(all_output, f, indent=2, cls=NumpyEncoder)
     
     logger.info(f"✅ Saved {len(filtered)} top stocks to top_stocks.json")
