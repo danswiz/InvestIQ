@@ -220,26 +220,29 @@ def watchlist_live():
         if not tickers:
             return jsonify({"error": "No tickers"}), 404
 
-        # Use Yahoo Finance spark endpoint — single HTTP call for all tickers
-        symbols = ','.join(tickers)
-        spark_url = f'https://query1.finance.yahoo.com/v8/finance/spark?symbols={symbols}&range=2d&interval=1d'
-        req = urllib.request.Request(spark_url, headers={
-            'User-Agent': 'Mozilla/5.0'
-        })
-        resp = urllib.request.urlopen(req, timeout=8)
-        result = json.loads(resp.read())
-        
+        # Use Yahoo Finance spark endpoint — batch in groups of 15
         live = {}
-        for sym, info in result.items():
-            closes = info.get('close', [])
-            prev = info.get('chartPreviousClose') or info.get('previousClose')
-            curr = closes[-1] if closes else None
-            if curr and prev and prev > 0:
-                live[sym] = {
-                    "price": round(curr, 2),
-                    "previous_close": round(prev, 2),
-                    "daily_change": round((curr - prev) / prev * 100, 2)
-                }
+        batch_size = 15
+        for i in range(0, len(tickers), batch_size):
+            batch = tickers[i:i+batch_size]
+            symbols = ','.join(batch)
+            spark_url = f'https://query1.finance.yahoo.com/v8/finance/spark?symbols={symbols}&range=2d&interval=1d'
+            try:
+                req = urllib.request.Request(spark_url, headers={'User-Agent': 'Mozilla/5.0'})
+                resp = urllib.request.urlopen(req, timeout=8)
+                result = json.loads(resp.read())
+                for sym, info in result.items():
+                    closes = info.get('close', [])
+                    prev = info.get('chartPreviousClose') or info.get('previousClose')
+                    curr = closes[-1] if closes else None
+                    if curr and prev and prev > 0:
+                        live[sym] = {
+                            "price": round(curr, 2),
+                            "previous_close": round(prev, 2),
+                            "daily_change": round((curr - prev) / prev * 100, 2)
+                        }
+            except:
+                pass  # Skip failed batches, return what we got
 
         return jsonify({
             "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S EST"),
