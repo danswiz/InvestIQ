@@ -6,8 +6,8 @@ from market_data import MarketDB
 def scan_value_growth():
     # Load VUG Universe
     tickers = []
-    if os.path.exists('vug_tickers.txt'):
-        with open('vug_tickers.txt', 'r') as f:
+    if os.path.exists('data/vug_tickers.txt'):
+        with open('data/vug_tickers.txt', 'r') as f:
             tickers = [line.strip().upper() for line in f if line.strip()]
     
     tickers = list(set(tickers))

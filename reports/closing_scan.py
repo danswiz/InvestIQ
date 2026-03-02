@@ -95,8 +95,8 @@ class ScanEngine:
 def run_closing_protocol():
     logger.info("--- 6:00 PM PST CLOSING RUN ---")
     tickers = []
-    if os.path.exists('vug_tickers.txt'):
-        with open('vug_tickers.txt', 'r') as f:
+    if os.path.exists('data/vug_tickers.txt'):
+        with open('data/vug_tickers.txt', 'r') as f:
             tickers = [line.strip().upper() for line in f if line.strip()]
     
     # Add core portfolio tickers from config

@@ -21,8 +21,8 @@ def scan_all():
     tickers.update(config.CORE_ETFS)
     
     # Load VUG Universe
-    if os.path.exists('vug_tickers.txt'):
-        with open('vug_tickers.txt', 'r') as f:
+    if os.path.exists('data/vug_tickers.txt'):
+        with open('data/vug_tickers.txt', 'r') as f:
             for line in f:
                 t = line.strip().upper()
                 if t: tickers.add(t)
