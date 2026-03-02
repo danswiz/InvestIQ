@@ -549,6 +549,8 @@ class BreakoutRater:
             "moonshot_score": ms_pts,
             "criteria": criteria_list,
             "market_cap": market_cap,
+            "revenue_growth": rev_components.get('yoy_growth'),
+            "earnings_growth": round(float(info.get('earningsGrowth', 0) or 0) * 100, 1) if info.get('earningsGrowth') else None,
             "forward_pe": info.get('forwardPE'),
             "trailing_pe": info.get('trailingPE'),
             "peg_ratio": info.get('pegRatio'),
