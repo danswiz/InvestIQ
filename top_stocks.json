@@ -1,7 +1,7 @@
 {
   "version": "5.0",
   "max_score": 100,
-  "last_scan": "2026-03-02 10:59 PST",
+  "last_scan": "2026-03-02 11:00 PST",
   "total_stocks": 268,
   "stocks": [
     {
@@ -118,7 +118,7 @@
           "name": "Industry Strength",
           "category": "Context",
           "passed": true,
-          "value": "Industrials (XLI: +15.7% vs SPY)",
+          "value": "Industrials (XLI: +15.8% vs SPY)",
           "threshold": "Sector outperforming SPY (3mo)",
           "points": 5
         },
@@ -139,8 +139,8 @@
       "target_mean": 361.1111,
       "analyst_count": 18,
       "current_price": 342.260009765625,
-      "rotation_score": 35.1,
-      "rotation_signal": "WEAK",
+      "rotation_score": 48.3,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -278,8 +278,8 @@
       "target_mean": 202.8,
       "analyst_count": 20,
       "current_price": 203.85000610351562,
-      "rotation_score": 31.6,
-      "rotation_signal": "WEAK",
+      "rotation_score": 45.1,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -417,8 +417,8 @@
       "target_mean": 257.0,
       "analyst_count": 21,
       "current_price": 239.38999938964844,
-      "rotation_score": 44.3,
-      "rotation_signal": "NEUTRAL",
+      "rotation_score": 62.0,
+      "rotation_signal": "ROTATION WATCH",
       "rotation_convergence": 0
     },
     {
@@ -535,7 +535,7 @@
           "name": "Industry Strength",
           "category": "Context",
           "passed": true,
-          "value": "Energy (XLE: +26.3% vs SPY)",
+          "value": "Energy (XLE: +26.4% vs SPY)",
           "threshold": "Sector outperforming SPY (3mo)",
           "points": 5
         },
@@ -556,8 +556,8 @@
       "target_mean": 65.22222,
       "analyst_count": 27,
       "current_price": 61.41999816894531,
-      "rotation_score": 31.1,
-      "rotation_signal": "WEAK",
+      "rotation_score": 54.8,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -695,8 +695,8 @@
       "target_mean": 45.35833,
       "analyst_count": 6,
       "current_price": 41.880001068115234,
-      "rotation_score": 26.1,
-      "rotation_signal": "WEAK",
+      "rotation_score": 44.5,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -813,7 +813,7 @@
           "name": "Industry Strength",
           "category": "Context",
           "passed": true,
-          "value": "Industrials (XLI: +15.7% vs SPY)",
+          "value": "Industrials (XLI: +15.8% vs SPY)",
           "threshold": "Sector outperforming SPY (3mo)",
           "points": 5
         },
@@ -834,8 +834,8 @@
       "target_mean": 394.5275,
       "analyst_count": 20,
       "current_price": 357.04998779296875,
-      "rotation_score": 28.9,
-      "rotation_signal": "WEAK",
+      "rotation_score": 44.3,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -952,7 +952,7 @@
           "name": "Industry Strength",
           "category": "Context",
           "passed": true,
-          "value": "Industrials (XLI: +15.7% vs SPY)",
+          "value": "Industrials (XLI: +15.8% vs SPY)",
           "threshold": "Sector outperforming SPY (3mo)",
           "points": 5
         },
@@ -973,9 +973,9 @@
       "target_mean": 127.38769,
       "analyst_count": 13,
       "current_price": 118.36000061035156,
-      "rotation_score": 40.8,
-      "rotation_signal": "NEUTRAL",
-      "rotation_convergence": 0
+      "rotation_score": 67.7,
+      "rotation_signal": "ROTATION WATCH",
+      "rotation_convergence": 4
     },
     {
       "ticker": "SNA",
@@ -1091,7 +1091,7 @@
           "name": "Industry Strength",
           "category": "Context",
           "passed": true,
-          "value": "Industrials (XLI: +15.7% vs SPY)",
+          "value": "Industrials (XLI: +15.8% vs SPY)",
           "threshold": "Sector outperforming SPY (3mo)",
           "points": 5
         },
@@ -1112,7 +1112,7 @@
       "target_mean": 376.4375,
       "analyst_count": 8,
       "current_price": 385.2200012207031,
-      "rotation_score": 21.7,
+      "rotation_score": 36.5,
       "rotation_signal": "WEAK",
       "rotation_convergence": 0
     },
@@ -1251,8 +1251,8 @@
       "target_mean": 90.15,
       "analyst_count": 20,
       "current_price": 86.16000366210938,
-      "rotation_score": 31.8,
-      "rotation_signal": "WEAK",
+      "rotation_score": 46.2,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -1390,8 +1390,8 @@
       "target_mean": 248.68967,
       "analyst_count": 29,
       "current_price": 232.0800018310547,
-      "rotation_score": 25.4,
-      "rotation_signal": "WEAK",
+      "rotation_score": 45.4,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -1508,7 +1508,7 @@
           "name": "Industry Strength",
           "category": "Context",
           "passed": true,
-          "value": "Consumer Defensive (XLP: +12.7% vs SPY)",
+          "value": "Consumer Defensive (XLP: +12.8% vs SPY)",
           "threshold": "Sector outperforming SPY (3mo)",
           "points": 5
         },
@@ -1529,7 +1529,7 @@
       "target_mean": 103.57895,
       "analyst_count": 19,
       "current_price": 104.86000061035156,
-      "rotation_score": 25.9,
+      "rotation_score": 39.4,
       "rotation_signal": "WEAK",
       "rotation_convergence": 0
     },
@@ -1668,8 +1668,8 @@
       "target_mean": 217.375,
       "analyst_count": 16,
       "current_price": 211.91000366210938,
-      "rotation_score": 33.5,
-      "rotation_signal": "WEAK",
+      "rotation_score": 47.6,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -1786,7 +1786,7 @@
           "name": "Industry Strength",
           "category": "Context",
           "passed": true,
-          "value": "Basic Materials (XLB: +18.2% vs SPY)",
+          "value": "Basic Materials (XLB: +18.3% vs SPY)",
           "threshold": "Sector outperforming SPY (3mo)",
           "points": 5
         },
@@ -1794,7 +1794,7 @@
           "name": "Relative Strength",
           "category": "Context",
           "passed": true,
-          "value": "+2.2% vs SPY (6mo)",
+          "value": "+2.1% vs SPY (6mo)",
           "threshold": ">0% outperformance vs SPY",
           "points": 1
         }
@@ -1807,9 +1807,9 @@
       "target_mean": 321.85715,
       "analyst_count": 21,
       "current_price": 308.3500061035156,
-      "rotation_score": 32.4,
-      "rotation_signal": "WEAK",
-      "rotation_convergence": 0
+      "rotation_score": 51.6,
+      "rotation_signal": "NEUTRAL",
+      "rotation_convergence": 4
     },
     {
       "ticker": "EGP",
@@ -1946,8 +1946,8 @@
       "target_mean": 205.57895,
       "analyst_count": 19,
       "current_price": 196.30999755859375,
-      "rotation_score": 31.6,
-      "rotation_signal": "WEAK",
+      "rotation_score": 43.1,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -2064,7 +2064,7 @@
           "name": "Industry Strength",
           "category": "Context",
           "passed": true,
-          "value": "Industrials (XLI: +15.7% vs SPY)",
+          "value": "Industrials (XLI: +15.8% vs SPY)",
           "threshold": "Sector outperforming SPY (3mo)",
           "points": 5
         },
@@ -2085,8 +2085,8 @@
       "target_mean": 96.0,
       "analyst_count": 9,
       "current_price": 93.91999816894531,
-      "rotation_score": 31.1,
-      "rotation_signal": "WEAK",
+      "rotation_score": 43.6,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -2203,7 +2203,7 @@
           "name": "Industry Strength",
           "category": "Context",
           "passed": true,
-          "value": "Industrials (XLI: +15.7% vs SPY)",
+          "value": "Industrials (XLI: +15.8% vs SPY)",
           "threshold": "Sector outperforming SPY (3mo)",
           "points": 5
         },
@@ -2224,8 +2224,8 @@
       "target_mean": 233.0,
       "analyst_count": 9,
       "current_price": 202.41000366210938,
-      "rotation_score": 37.2,
-      "rotation_signal": "WEAK",
+      "rotation_score": 52.7,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -2363,8 +2363,8 @@
       "target_mean": 49.0625,
       "analyst_count": 16,
       "current_price": 48.27000045776367,
-      "rotation_score": 30.7,
-      "rotation_signal": "WEAK",
+      "rotation_score": 43.9,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -2489,7 +2489,7 @@
           "name": "Relative Strength",
           "category": "Context",
           "passed": true,
-          "value": "+5.4% vs SPY (6mo)",
+          "value": "+5.3% vs SPY (6mo)",
           "threshold": ">0% outperformance vs SPY",
           "points": 3
         }
@@ -2502,8 +2502,8 @@
       "target_mean": 82.30556,
       "analyst_count": 18,
       "current_price": 80.4800033569336,
-      "rotation_score": 28.5,
-      "rotation_signal": "WEAK",
+      "rotation_score": 40.0,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -2620,7 +2620,7 @@
           "name": "Industry Strength",
           "category": "Context",
           "passed": true,
-          "value": "Industrials (XLI: +15.7% vs SPY)",
+          "value": "Industrials (XLI: +15.8% vs SPY)",
           "threshold": "Sector outperforming SPY (3mo)",
           "points": 5
         },
@@ -2641,8 +2641,8 @@
       "target_mean": 309.16666,
       "analyst_count": 6,
       "current_price": 282.5799865722656,
-      "rotation_score": 26.3,
-      "rotation_signal": "WEAK",
+      "rotation_score": 41.7,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -2759,7 +2759,7 @@
           "name": "Industry Strength",
           "category": "Context",
           "passed": false,
-          "value": "Financial Services (XLF: -4.0% vs SPY)",
+          "value": "Financial Services (XLF: -4.1% vs SPY)",
           "threshold": "Sector outperforming SPY (3mo)",
           "points": 0
         },
@@ -2780,8 +2780,8 @@
       "target_mean": 282.07693,
       "analyst_count": 13,
       "current_price": 299.7200012207031,
-      "rotation_score": 37.7,
-      "rotation_signal": "WEAK",
+      "rotation_score": 46.5,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -2919,8 +2919,8 @@
       "target_mean": 403.7857,
       "analyst_count": 14,
       "current_price": 372.1400146484375,
-      "rotation_score": 32.9,
-      "rotation_signal": "WEAK",
+      "rotation_score": 51.2,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -3058,8 +3058,8 @@
       "target_mean": 144.66667,
       "analyst_count": 6,
       "current_price": 141.1199951171875,
-      "rotation_score": 33.8,
-      "rotation_signal": "WEAK",
+      "rotation_score": 47.6,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -3197,8 +3197,8 @@
       "target_mean": 74.92308,
       "analyst_count": 13,
       "current_price": 76.20999908447266,
-      "rotation_score": 32.9,
-      "rotation_signal": "WEAK",
+      "rotation_score": 54.6,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -3336,7 +3336,7 @@
       "target_mean": 869.96155,
       "analyst_count": 26,
       "current_price": 781.6699829101562,
-      "rotation_score": 22.3,
+      "rotation_score": 37.6,
       "rotation_signal": "WEAK",
       "rotation_convergence": 0
     },
@@ -3454,7 +3454,7 @@
           "name": "Industry Strength",
           "category": "Context",
           "passed": true,
-          "value": "Basic Materials (XLB: +18.2% vs SPY)",
+          "value": "Basic Materials (XLB: +18.3% vs SPY)",
           "threshold": "Sector outperforming SPY (3mo)",
           "points": 5
         },
@@ -3475,7 +3475,7 @@
       "target_mean": 387.42856,
       "analyst_count": 21,
       "current_price": 362.5899963378906,
-      "rotation_score": 20.8,
+      "rotation_score": 36.5,
       "rotation_signal": "WEAK",
       "rotation_convergence": 0
     },
@@ -3593,7 +3593,7 @@
           "name": "Industry Strength",
           "category": "Context",
           "passed": true,
-          "value": "Industrials (XLI: +15.7% vs SPY)",
+          "value": "Industrials (XLI: +15.8% vs SPY)",
           "threshold": "Sector outperforming SPY (3mo)",
           "points": 5
         },
@@ -3614,8 +3614,8 @@
       "target_mean": 252.72,
       "analyst_count": 25,
       "current_price": 240.83999633789062,
-      "rotation_score": 27.4,
-      "rotation_signal": "WEAK",
+      "rotation_score": 43.1,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -3753,8 +3753,8 @@
       "target_mean": 226.75,
       "analyst_count": 20,
       "current_price": 207.1199951171875,
-      "rotation_score": 26.2,
-      "rotation_signal": "WEAK",
+      "rotation_score": 43.6,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -3892,8 +3892,8 @@
       "target_mean": 133.92105,
       "analyst_count": 19,
       "current_price": 133.82000732421875,
-      "rotation_score": 34.6,
-      "rotation_signal": "WEAK",
+      "rotation_score": 48.5,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -4031,8 +4031,8 @@
       "target_mean": 106.96455,
       "analyst_count": 22,
       "current_price": 107.11000061035156,
-      "rotation_score": 34.7,
-      "rotation_signal": "WEAK",
+      "rotation_score": 50.7,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -4170,8 +4170,8 @@
       "target_mean": 51.38462,
       "analyst_count": 13,
       "current_price": 51.15999984741211,
-      "rotation_score": 31.9,
-      "rotation_signal": "WEAK",
+      "rotation_score": 51.4,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -4288,7 +4288,7 @@
           "name": "Industry Strength",
           "category": "Context",
           "passed": true,
-          "value": "Energy (XLE: +26.3% vs SPY)",
+          "value": "Energy (XLE: +26.4% vs SPY)",
           "threshold": "Sector outperforming SPY (3mo)",
           "points": 5
         },
@@ -4309,9 +4309,9 @@
       "target_mean": 51.88,
       "analyst_count": 25,
       "current_price": 53.08000183105469,
-      "rotation_score": 32.2,
-      "rotation_signal": "WEAK",
-      "rotation_convergence": 0
+      "rotation_score": 55.8,
+      "rotation_signal": "NEUTRAL",
+      "rotation_convergence": 4
     },
     {
       "ticker": "QSR",
@@ -4448,8 +4448,8 @@
       "target_mean": 78.48276,
       "analyst_count": 29,
       "current_price": 71.70999908447266,
-      "rotation_score": 23.1,
-      "rotation_signal": "WEAK",
+      "rotation_score": 40.2,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -4587,8 +4587,8 @@
       "target_mean": 101.25,
       "analyst_count": 16,
       "current_price": 96.2699966430664,
-      "rotation_score": 34.9,
-      "rotation_signal": "WEAK",
+      "rotation_score": 53.5,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -4705,7 +4705,7 @@
           "name": "Industry Strength",
           "category": "Context",
           "passed": false,
-          "value": "Financial Services (XLF: -4.0% vs SPY)",
+          "value": "Financial Services (XLF: -4.1% vs SPY)",
           "threshold": "Sector outperforming SPY (3mo)",
           "points": 0
         },
@@ -4726,8 +4726,8 @@
       "target_mean": 302.7619,
       "analyst_count": 21,
       "current_price": 308.6400146484375,
-      "rotation_score": 30.5,
-      "rotation_signal": "WEAK",
+      "rotation_score": 44.9,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -4865,8 +4865,8 @@
       "target_mean": 72.27273,
       "analyst_count": 11,
       "current_price": 74.6500015258789,
-      "rotation_score": 30.2,
-      "rotation_signal": "WEAK",
+      "rotation_score": 45.1,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -5004,8 +5004,8 @@
       "target_mean": 115.53846,
       "analyst_count": 13,
       "current_price": 113.27999877929688,
-      "rotation_score": 38.6,
-      "rotation_signal": "WEAK",
+      "rotation_score": 51.8,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 4
     },
     {
@@ -5122,7 +5122,7 @@
           "name": "Industry Strength",
           "category": "Context",
           "passed": true,
-          "value": "Industrials (XLI: +15.7% vs SPY)",
+          "value": "Industrials (XLI: +15.8% vs SPY)",
           "threshold": "Sector outperforming SPY (3mo)",
           "points": 5
         },
@@ -5143,8 +5143,8 @@
       "target_mean": 65.0,
       "analyst_count": 3,
       "current_price": 64.83999633789062,
-      "rotation_score": 26.3,
-      "rotation_signal": "WEAK",
+      "rotation_score": 46.1,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -5282,9 +5282,9 @@
       "target_mean": 22.13333,
       "analyst_count": 15,
       "current_price": 19.0,
-      "rotation_score": 34.7,
-      "rotation_signal": "WEAK",
-      "rotation_convergence": 0
+      "rotation_score": 63.7,
+      "rotation_signal": "ROTATION WATCH",
+      "rotation_convergence": 4
     },
     {
       "ticker": "STAG",
@@ -5421,8 +5421,8 @@
       "target_mean": 41.45455,
       "analyst_count": 11,
       "current_price": 39.220001220703125,
-      "rotation_score": 16.7,
-      "rotation_signal": "NO ROTATION",
+      "rotation_score": 28.0,
+      "rotation_signal": "WEAK",
       "rotation_convergence": 0
     },
     {
@@ -5560,8 +5560,8 @@
       "target_mean": 569.5,
       "analyst_count": 12,
       "current_price": 503.8999938964844,
-      "rotation_score": 29.6,
-      "rotation_signal": "WEAK",
+      "rotation_score": 43.8,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -5699,8 +5699,8 @@
       "target_mean": 180.9,
       "analyst_count": 10,
       "current_price": 186.7899932861328,
-      "rotation_score": 38.4,
-      "rotation_signal": "WEAK",
+      "rotation_score": 51.6,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -5838,7 +5838,7 @@
       "target_mean": 96.46429,
       "analyst_count": 28,
       "current_price": 86.47000122070312,
-      "rotation_score": 25.5,
+      "rotation_score": 39.1,
       "rotation_signal": "WEAK",
       "rotation_convergence": 0
     },
@@ -5956,7 +5956,7 @@
           "name": "Industry Strength",
           "category": "Context",
           "passed": true,
-          "value": "Industrials (XLI: +15.7% vs SPY)",
+          "value": "Industrials (XLI: +15.8% vs SPY)",
           "threshold": "Sector outperforming SPY (3mo)",
           "points": 5
         },
@@ -5977,9 +5977,9 @@
       "target_mean": 31.83333,
       "analyst_count": 12,
       "current_price": 27.56999969482422,
-      "rotation_score": 36.6,
-      "rotation_signal": "WEAK",
-      "rotation_convergence": 0
+      "rotation_score": 65.4,
+      "rotation_signal": "ROTATION WATCH",
+      "rotation_convergence": 4
     },
     {
       "ticker": "HOLX",
@@ -6116,8 +6116,8 @@
       "target_mean": 76.6,
       "analyst_count": 10,
       "current_price": 75.36000061035156,
-      "rotation_score": 18.2,
-      "rotation_signal": "NO ROTATION",
+      "rotation_score": 35.1,
+      "rotation_signal": "WEAK",
       "rotation_convergence": 0
     },
     {
@@ -6255,8 +6255,8 @@
       "target_mean": 80.3,
       "analyst_count": 20,
       "current_price": 79.0,
-      "rotation_score": 32.4,
-      "rotation_signal": "WEAK",
+      "rotation_score": 45.6,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -6373,7 +6373,7 @@
           "name": "Industry Strength",
           "category": "Context",
           "passed": false,
-          "value": "Financial Services (XLF: -4.0% vs SPY)",
+          "value": "Financial Services (XLF: -4.1% vs SPY)",
           "threshold": "Sector outperforming SPY (3mo)",
           "points": 0
         },
@@ -6394,8 +6394,8 @@
       "target_mean": 239.95238,
       "analyst_count": 21,
       "current_price": 214.52000427246094,
-      "rotation_score": 24.8,
-      "rotation_signal": "WEAK",
+      "rotation_score": 42.1,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -6533,8 +6533,8 @@
       "target_mean": 211.9,
       "analyst_count": 10,
       "current_price": 196.35000610351562,
-      "rotation_score": 16.8,
-      "rotation_signal": "NO ROTATION",
+      "rotation_score": 33.5,
+      "rotation_signal": "WEAK",
       "rotation_convergence": 0
     },
     {
@@ -6672,8 +6672,8 @@
       "target_mean": 222.34483,
       "analyst_count": 29,
       "current_price": 213.85000610351562,
-      "rotation_score": 16.4,
-      "rotation_signal": "NO ROTATION",
+      "rotation_score": 28.5,
+      "rotation_signal": "WEAK",
       "rotation_convergence": 0
     },
     {
@@ -6811,8 +6811,8 @@
       "target_mean": 151.5,
       "analyst_count": 13,
       "current_price": 148.24000549316406,
-      "rotation_score": 33.3,
-      "rotation_signal": "WEAK",
+      "rotation_score": 55.2,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -6929,7 +6929,7 @@
           "name": "Industry Strength",
           "category": "Context",
           "passed": false,
-          "value": "Financial Services (XLF: -4.0% vs SPY)",
+          "value": "Financial Services (XLF: -4.1% vs SPY)",
           "threshold": "Sector outperforming SPY (3mo)",
           "points": 0
         },
@@ -6950,8 +6950,8 @@
       "target_mean": 79.4,
       "analyst_count": 5,
       "current_price": 70.11000061035156,
-      "rotation_score": 28.9,
-      "rotation_signal": "WEAK",
+      "rotation_score": 47.9,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -7068,7 +7068,7 @@
           "name": "Industry Strength",
           "category": "Context",
           "passed": false,
-          "value": "Financial Services (XLF: -4.0% vs SPY)",
+          "value": "Financial Services (XLF: -4.1% vs SPY)",
           "threshold": "Sector outperforming SPY (3mo)",
           "points": 0
         },
@@ -7089,8 +7089,8 @@
       "target_mean": 172.1,
       "analyst_count": 10,
       "current_price": 145.25999450683594,
-      "rotation_score": 18.6,
-      "rotation_signal": "NO ROTATION",
+      "rotation_score": 34.7,
+      "rotation_signal": "WEAK",
       "rotation_convergence": 0
     },
     {
@@ -7228,8 +7228,8 @@
       "target_mean": 307.64706,
       "analyst_count": 17,
       "current_price": 289.1199951171875,
-      "rotation_score": 29.1,
-      "rotation_signal": "WEAK",
+      "rotation_score": 50.0,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -7367,8 +7367,8 @@
       "target_mean": 48.07692,
       "analyst_count": 13,
       "current_price": 47.29999923706055,
-      "rotation_score": 34.2,
-      "rotation_signal": "WEAK",
+      "rotation_score": 50.3,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -7485,7 +7485,7 @@
           "name": "Industry Strength",
           "category": "Context",
           "passed": false,
-          "value": "Financial Services (XLF: -4.0% vs SPY)",
+          "value": "Financial Services (XLF: -4.1% vs SPY)",
           "threshold": "Sector outperforming SPY (3mo)",
           "points": 0
         },
@@ -7506,8 +7506,8 @@
       "target_mean": 42.5,
       "analyst_count": 2,
       "current_price": 42.869998931884766,
-      "rotation_score": 27.4,
-      "rotation_signal": "WEAK",
+      "rotation_score": 42.0,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -7624,7 +7624,7 @@
           "name": "Industry Strength",
           "category": "Context",
           "passed": false,
-          "value": "Financial Services (XLF: -4.0% vs SPY)",
+          "value": "Financial Services (XLF: -4.1% vs SPY)",
           "threshold": "Sector outperforming SPY (3mo)",
           "points": 0
         },
@@ -7645,7 +7645,7 @@
       "target_mean": 199.75,
       "analyst_count": 8,
       "current_price": 180.6300048828125,
-      "rotation_score": 20.2,
+      "rotation_score": 34.1,
       "rotation_signal": "WEAK",
       "rotation_convergence": 0
     },
@@ -7784,8 +7784,8 @@
       "target_mean": 88.94118,
       "analyst_count": 17,
       "current_price": 83.36000061035156,
-      "rotation_score": 28.8,
-      "rotation_signal": "WEAK",
+      "rotation_score": 48.3,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -7902,7 +7902,7 @@
           "name": "Industry Strength",
           "category": "Context",
           "passed": false,
-          "value": "Financial Services (XLF: -4.0% vs SPY)",
+          "value": "Financial Services (XLF: -4.1% vs SPY)",
           "threshold": "Sector outperforming SPY (3mo)",
           "points": 0
         },
@@ -7923,8 +7923,8 @@
       "target_mean": 109.31579,
       "analyst_count": 19,
       "current_price": 100.1500015258789,
-      "rotation_score": 26.7,
-      "rotation_signal": "WEAK",
+      "rotation_score": 42.0,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -8062,8 +8062,8 @@
       "target_mean": 78.84615,
       "analyst_count": 13,
       "current_price": 78.06999969482422,
-      "rotation_score": 34.6,
-      "rotation_signal": "WEAK",
+      "rotation_score": 51.2,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -8201,7 +8201,7 @@
       "target_mean": 69.73529,
       "analyst_count": 17,
       "current_price": 67.16000366210938,
-      "rotation_score": 25.4,
+      "rotation_score": 35.2,
       "rotation_signal": "WEAK",
       "rotation_convergence": 0
     },
@@ -8340,8 +8340,8 @@
       "target_mean": 86.86364,
       "analyst_count": 11,
       "current_price": 83.66000366210938,
-      "rotation_score": 29.2,
-      "rotation_signal": "WEAK",
+      "rotation_score": 43.2,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -8479,8 +8479,8 @@
       "target_mean": 19.4,
       "analyst_count": 10,
       "current_price": 18.450000762939453,
-      "rotation_score": 35.5,
-      "rotation_signal": "WEAK",
+      "rotation_score": 44.0,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -8618,8 +8618,8 @@
       "target_mean": 146.22221,
       "analyst_count": 9,
       "current_price": 143.97000122070312,
-      "rotation_score": 30.5,
-      "rotation_signal": "WEAK",
+      "rotation_score": 45.4,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -8736,7 +8736,7 @@
           "name": "Industry Strength",
           "category": "Context",
           "passed": true,
-          "value": "Basic Materials (XLB: +18.2% vs SPY)",
+          "value": "Basic Materials (XLB: +18.3% vs SPY)",
           "threshold": "Sector outperforming SPY (3mo)",
           "points": 5
         },
@@ -8757,7 +8757,7 @@
       "target_mean": 702.625,
       "analyst_count": 24,
       "current_price": 676.5700073242188,
-      "rotation_score": 26.3,
+      "rotation_score": 39.9,
       "rotation_signal": "WEAK",
       "rotation_convergence": 0
     },
@@ -8875,7 +8875,7 @@
           "name": "Industry Strength",
           "category": "Context",
           "passed": true,
-          "value": "Consumer Defensive (XLP: +12.7% vs SPY)",
+          "value": "Consumer Defensive (XLP: +12.8% vs SPY)",
           "threshold": "Sector outperforming SPY (3mo)",
           "points": 5
         },
@@ -8896,7 +8896,7 @@
       "target_mean": 64.41667,
       "analyst_count": 12,
       "current_price": 69.04000091552734,
-      "rotation_score": 40.2,
+      "rotation_score": 58.0,
       "rotation_signal": "NEUTRAL",
       "rotation_convergence": 4
     },
@@ -9035,7 +9035,7 @@
       "target_mean": 88.26471,
       "analyst_count": 17,
       "current_price": 86.06999969482422,
-      "rotation_score": 24.6,
+      "rotation_score": 39.9,
       "rotation_signal": "WEAK",
       "rotation_convergence": 0
     },
@@ -9174,8 +9174,8 @@
       "target_mean": 97.83333,
       "analyst_count": 6,
       "current_price": 84.18000030517578,
-      "rotation_score": 25.5,
-      "rotation_signal": "WEAK",
+      "rotation_score": 40.2,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -9313,8 +9313,8 @@
       "target_mean": 121.73529,
       "analyst_count": 17,
       "current_price": 116.95999908447266,
-      "rotation_score": 33.3,
-      "rotation_signal": "WEAK",
+      "rotation_score": 48.6,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -9431,7 +9431,7 @@
           "name": "Industry Strength",
           "category": "Context",
           "passed": false,
-          "value": "Financial Services (XLF: -4.0% vs SPY)",
+          "value": "Financial Services (XLF: -4.1% vs SPY)",
           "threshold": "Sector outperforming SPY (3mo)",
           "points": 0
         },
@@ -9452,7 +9452,7 @@
       "target_mean": 123.63636,
       "analyst_count": 11,
       "current_price": 105.72000122070312,
-      "rotation_score": 21.9,
+      "rotation_score": 39.2,
       "rotation_signal": "WEAK",
       "rotation_convergence": 0
     },
@@ -9591,9 +9591,9 @@
       "target_mean": 151.7143,
       "analyst_count": 7,
       "current_price": 156.3000030517578,
-      "rotation_score": 40.2,
-      "rotation_signal": "NEUTRAL",
-      "rotation_convergence": 4
+      "rotation_score": 64.0,
+      "rotation_signal": "ROTATION WATCH",
+      "rotation_convergence": 7
     },
     {
       "ticker": "JHG",
@@ -9709,7 +9709,7 @@
           "name": "Industry Strength",
           "category": "Context",
           "passed": false,
-          "value": "Financial Services (XLF: -4.0% vs SPY)",
+          "value": "Financial Services (XLF: -4.1% vs SPY)",
           "threshold": "Sector outperforming SPY (3mo)",
           "points": 0
         },
@@ -9730,8 +9730,8 @@
       "target_mean": 50.14286,
       "analyst_count": 7,
       "current_price": 52.099998474121094,
-      "rotation_score": 46.5,
-      "rotation_signal": "NEUTRAL",
+      "rotation_score": 67.2,
+      "rotation_signal": "ROTATION WATCH",
       "rotation_convergence": 4
     },
     {
@@ -9848,7 +9848,7 @@
           "name": "Industry Strength",
           "category": "Context",
           "passed": false,
-          "value": "Financial Services (XLF: -4.0% vs SPY)",
+          "value": "Financial Services (XLF: -4.1% vs SPY)",
           "threshold": "Sector outperforming SPY (3mo)",
           "points": 0
         },
@@ -9869,7 +9869,7 @@
       "target_mean": null,
       "analyst_count": 0,
       "current_price": 110.0199966430664,
-      "rotation_score": 22.3,
+      "rotation_score": 32.8,
       "rotation_signal": "WEAK",
       "rotation_convergence": 0
     },
@@ -10008,7 +10008,7 @@
       "target_mean": 139.8,
       "analyst_count": 5,
       "current_price": 137.74000549316406,
-      "rotation_score": 21.1,
+      "rotation_score": 35.1,
       "rotation_signal": "WEAK",
       "rotation_convergence": 0
     },
@@ -10147,8 +10147,8 @@
       "target_mean": 45.03125,
       "analyst_count": 16,
       "current_price": 45.31999969482422,
-      "rotation_score": 29.8,
-      "rotation_signal": "WEAK",
+      "rotation_score": 40.4,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -10286,7 +10286,7 @@
       "target_mean": 47.05,
       "analyst_count": 10,
       "current_price": 49.13999938964844,
-      "rotation_score": 40.2,
+      "rotation_score": 52.5,
       "rotation_signal": "NEUTRAL",
       "rotation_convergence": 4
     },
@@ -10425,8 +10425,8 @@
       "target_mean": 424.895,
       "analyst_count": 28,
       "current_price": 387.4599914550781,
-      "rotation_score": 23.4,
-      "rotation_signal": "WEAK",
+      "rotation_score": 40.2,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -10543,7 +10543,7 @@
           "name": "Industry Strength",
           "category": "Context",
           "passed": true,
-          "value": "Industrials (XLI: +15.7% vs SPY)",
+          "value": "Industrials (XLI: +15.8% vs SPY)",
           "threshold": "Sector outperforming SPY (3mo)",
           "points": 5
         },
@@ -10564,8 +10564,8 @@
       "target_mean": 479.73096,
       "analyst_count": 21,
       "current_price": 462.32000732421875,
-      "rotation_score": 28.5,
-      "rotation_signal": "WEAK",
+      "rotation_score": 42.0,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -10703,7 +10703,7 @@
       "target_mean": 623.5,
       "analyst_count": 2,
       "current_price": 766.989990234375,
-      "rotation_score": 41.7,
+      "rotation_score": 53.6,
       "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
@@ -10842,8 +10842,8 @@
       "target_mean": 171.75,
       "analyst_count": 24,
       "current_price": 168.16000366210938,
-      "rotation_score": 26.3,
-      "rotation_signal": "WEAK",
+      "rotation_score": 40.5,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -10981,8 +10981,8 @@
       "target_mean": 136.23529,
       "analyst_count": 17,
       "current_price": 130.85000610351562,
-      "rotation_score": 38.4,
-      "rotation_signal": "WEAK",
+      "rotation_score": 52.5,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 4
     },
     {
@@ -11120,8 +11120,8 @@
       "target_mean": 49.9375,
       "analyst_count": 16,
       "current_price": 49.470001220703125,
-      "rotation_score": 34.4,
-      "rotation_signal": "WEAK",
+      "rotation_score": 49.8,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -11259,8 +11259,8 @@
       "target_mean": 53.84783,
       "analyst_count": 23,
       "current_price": 48.90999984741211,
-      "rotation_score": 29.8,
-      "rotation_signal": "WEAK",
+      "rotation_score": 45.2,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -11398,8 +11398,8 @@
       "target_mean": 222.625,
       "analyst_count": 16,
       "current_price": 190.02000427246094,
-      "rotation_score": 33.6,
-      "rotation_signal": "WEAK",
+      "rotation_score": 50.5,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -11516,7 +11516,7 @@
           "name": "Industry Strength",
           "category": "Context",
           "passed": true,
-          "value": "Basic Materials (XLB: +18.2% vs SPY)",
+          "value": "Basic Materials (XLB: +18.3% vs SPY)",
           "threshold": "Sector outperforming SPY (3mo)",
           "points": 5
         },
@@ -11537,9 +11537,9 @@
       "target_mean": 512.4308,
       "analyst_count": 26,
       "current_price": 508.0799865722656,
-      "rotation_score": 31.4,
-      "rotation_signal": "WEAK",
-      "rotation_convergence": 0
+      "rotation_score": 49.9,
+      "rotation_signal": "NEUTRAL",
+      "rotation_convergence": 4
     },
     {
       "ticker": "MDU",
@@ -11676,8 +11676,8 @@
       "target_mean": 22.0,
       "analyst_count": 6,
       "current_price": 20.68000030517578,
-      "rotation_score": 30.0,
-      "rotation_signal": "WEAK",
+      "rotation_score": 46.8,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -11794,7 +11794,7 @@
           "name": "Industry Strength",
           "category": "Context",
           "passed": true,
-          "value": "Industrials (XLI: +15.7% vs SPY)",
+          "value": "Industrials (XLI: +15.8% vs SPY)",
           "threshold": "Sector outperforming SPY (3mo)",
           "points": 5
         },
@@ -11815,7 +11815,7 @@
       "target_mean": 309.21054,
       "analyst_count": 19,
       "current_price": 314.739990234375,
-      "rotation_score": 22.3,
+      "rotation_score": 31.6,
       "rotation_signal": "WEAK",
       "rotation_convergence": 0
     },
@@ -11954,8 +11954,8 @@
       "target_mean": 28.42577,
       "analyst_count": 26,
       "current_price": 27.649999618530273,
-      "rotation_score": 27.4,
-      "rotation_signal": "WEAK",
+      "rotation_score": 49.1,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -12093,7 +12093,7 @@
       "target_mean": 306.66666,
       "analyst_count": 18,
       "current_price": 307.05999755859375,
-      "rotation_score": 28.7,
+      "rotation_score": 39.0,
       "rotation_signal": "WEAK",
       "rotation_convergence": 0
     },
@@ -12232,7 +12232,7 @@
       "target_mean": 29.41304,
       "analyst_count": 23,
       "current_price": 28.010000228881836,
-      "rotation_score": 20.8,
+      "rotation_score": 37.2,
       "rotation_signal": "WEAK",
       "rotation_convergence": 0
     },
@@ -12371,7 +12371,7 @@
       "target_mean": 171.77779,
       "analyst_count": 18,
       "current_price": 161.66000366210938,
-      "rotation_score": 20.2,
+      "rotation_score": 35.8,
       "rotation_signal": "WEAK",
       "rotation_convergence": 0
     },
@@ -12510,7 +12510,7 @@
       "target_mean": 341.28125,
       "analyst_count": 32,
       "current_price": 341.05999755859375,
-      "rotation_score": 26.3,
+      "rotation_score": 35.0,
       "rotation_signal": "WEAK",
       "rotation_convergence": 0
     },
@@ -12649,8 +12649,8 @@
       "target_mean": 93.05455,
       "analyst_count": 22,
       "current_price": 93.7699966430664,
-      "rotation_score": 30.7,
-      "rotation_signal": "WEAK",
+      "rotation_score": 48.1,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -12767,7 +12767,7 @@
           "name": "Industry Strength",
           "category": "Context",
           "passed": true,
-          "value": "Energy (XLE: +26.3% vs SPY)",
+          "value": "Energy (XLE: +26.4% vs SPY)",
           "threshold": "Sector outperforming SPY (3mo)",
           "points": 5
         },
@@ -12788,8 +12788,8 @@
       "target_mean": 98.33333,
       "analyst_count": 3,
       "current_price": 91.02999877929688,
-      "rotation_score": 28.0,
-      "rotation_signal": "WEAK",
+      "rotation_score": 51.4,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -12906,7 +12906,7 @@
           "name": "Industry Strength",
           "category": "Context",
           "passed": true,
-          "value": "Consumer Defensive (XLP: +12.7% vs SPY)",
+          "value": "Consumer Defensive (XLP: +12.8% vs SPY)",
           "threshold": "Sector outperforming SPY (3mo)",
           "points": 5
         },
@@ -12927,8 +12927,8 @@
       "target_mean": 168.0,
       "analyst_count": 22,
       "current_price": 167.1999969482422,
-      "rotation_score": 28.0,
-      "rotation_signal": "WEAK",
+      "rotation_score": 40.7,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -13045,7 +13045,7 @@
           "name": "Industry Strength",
           "category": "Context",
           "passed": true,
-          "value": "Consumer Defensive (XLP: +12.7% vs SPY)",
+          "value": "Consumer Defensive (XLP: +12.8% vs SPY)",
           "threshold": "Sector outperforming SPY (3mo)",
           "points": 5
         },
@@ -13066,8 +13066,8 @@
       "target_mean": 29.35714,
       "analyst_count": 7,
       "current_price": 24.8799991607666,
-      "rotation_score": 29.2,
-      "rotation_signal": "WEAK",
+      "rotation_score": 48.6,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -13184,7 +13184,7 @@
           "name": "Industry Strength",
           "category": "Context",
           "passed": true,
-          "value": "Consumer Defensive (XLP: +12.7% vs SPY)",
+          "value": "Consumer Defensive (XLP: +12.8% vs SPY)",
           "threshold": "Sector outperforming SPY (3mo)",
           "points": 5
         },
@@ -13205,8 +13205,8 @@
       "target_mean": 60.72727,
       "analyst_count": 11,
       "current_price": 69.04000091552734,
-      "rotation_score": 33.8,
-      "rotation_signal": "WEAK",
+      "rotation_score": 56.3,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -13344,8 +13344,8 @@
       "target_mean": 88.17391,
       "analyst_count": 23,
       "current_price": 61.72999954223633,
-      "rotation_score": 19.0,
-      "rotation_signal": "NO ROTATION",
+      "rotation_score": 43.1,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -13462,7 +13462,7 @@
           "name": "Industry Strength",
           "category": "Context",
           "passed": true,
-          "value": "Basic Materials (XLB: +18.2% vs SPY)",
+          "value": "Basic Materials (XLB: +18.3% vs SPY)",
           "threshold": "Sector outperforming SPY (3mo)",
           "points": 5
         },
@@ -13483,9 +13483,9 @@
       "target_mean": 82.7619,
       "analyst_count": 21,
       "current_price": 80.12000274658203,
-      "rotation_score": 33.6,
-      "rotation_signal": "WEAK",
-      "rotation_convergence": 0
+      "rotation_score": 57.5,
+      "rotation_signal": "NEUTRAL",
+      "rotation_convergence": 4
     },
     {
       "ticker": "ECG",
@@ -13601,7 +13601,7 @@
           "name": "Industry Strength",
           "category": "Context",
           "passed": true,
-          "value": "Industrials (XLI: +15.7% vs SPY)",
+          "value": "Industrials (XLI: +15.8% vs SPY)",
           "threshold": "Sector outperforming SPY (3mo)",
           "points": 5
         },
@@ -13622,8 +13622,8 @@
       "target_mean": 125.8,
       "analyst_count": 5,
       "current_price": 120.87000274658203,
-      "rotation_score": 39.9,
-      "rotation_signal": "WEAK",
+      "rotation_score": 58.2,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -13761,8 +13761,8 @@
       "target_mean": 57.66667,
       "analyst_count": 9,
       "current_price": 59.40999984741211,
-      "rotation_score": 30.0,
-      "rotation_signal": "WEAK",
+      "rotation_score": 43.2,
+      "rotation_signal": "NEUTRAL",
       "rotation_convergence": 0
     },
     {
@@ -13900,7 +13900,7 @@
       "target_mean": null,
       "analyst_count": 0,
       "current_price": 39.349998474121094,
-      "rotation_score": 11.1,
+      "rotation_score": 19.0,
       "rotation_signal": "NO ROTATION",
       "rotation_convergence": 0
     }
