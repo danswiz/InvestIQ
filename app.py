@@ -5,6 +5,8 @@ import traceback
 import sys
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
 
 app = Flask(__name__)
 
@@ -159,7 +161,6 @@ def get_news(ticker):
                 time_str = "Recently"
                 if pub_date:
                     try:
-                        from datetime import datetime
                         dt = datetime.fromisoformat(pub_date.replace('Z', '+00:00'))
                         time_str = dt.strftime('%b %d, %H:%M')
                     except:
@@ -181,7 +182,6 @@ def watchlist():
     """Serve watchlist with scores from DB + live prices from Yahoo"""
     try:
         import yfinance as yf
-        from datetime import datetime
 
         with open('data/watchlist.json', 'r') as f:
             data = json.load(f)
@@ -216,7 +216,7 @@ def watchlist():
             except:
                 pass
 
-        data['last_updated'] = datetime.now().strftime("%Y-%m-%d %H:%M EST")
+        data['last_updated'] = datetime.now(ZoneInfo("America/New_York")).strftime("%Y-%m-%d %H:%M EST")
         return jsonify(data)
     except FileNotFoundError:
         return jsonify({"error": "Watchlist not generated yet"}), 404
@@ -227,7 +227,6 @@ def watchlist():
 def watchlist_live():
     """Fetch live prices for all portfolio holdings using lightweight Yahoo API"""
     try:
-        from datetime import datetime
         
         # Get tickers from Supabase (source of truth), fall back to JSON
         tickers = []
@@ -256,7 +255,7 @@ def watchlist_live():
         live = fetch_live_prices_bulk(tickers)
 
         return jsonify({
-            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S EST"),
+            "timestamp": datetime.now(ZoneInfo("America/New_York")).strftime("%Y-%m-%d %H:%M:%S EST"),
             "prices": live
         })
     except Exception as e:
@@ -602,7 +601,6 @@ def delete_watchlist_item(item_id):
 def watchlists_live():
     """Bulk fetch current prices for all watchlist tickers"""
     try:
-        from datetime import datetime
         url = f'{SUPABASE_URL}/rest/v1/watchlist_items?select=ticker'
         req = urllib.request.Request(url, headers={
             'apikey': SUPABASE_KEY,
@@ -616,7 +614,7 @@ def watchlists_live():
 
         live = fetch_live_prices_bulk(tickers)
 
-        return jsonify({"prices": live, "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S EST")})
+        return jsonify({"prices": live, "timestamp": datetime.now(ZoneInfo("America/New_York")).strftime("%Y-%m-%d %H:%M:%S EST")})
     except Exception as e:
         return jsonify({"prices": {}, "error": str(e)})
 
