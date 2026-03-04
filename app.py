@@ -624,6 +624,19 @@ def delete_watchlist_item(item_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.route('/api/sell_signals')
+def sell_signals():
+    """Serve latest sell signal data from sell_signals.json"""
+    try:
+        with open('data/sell_signals.json') as f:
+            data = json.load(f)
+        return jsonify(data)
+    except FileNotFoundError:
+        return jsonify({"date": None, "signals": []})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 @app.route('/api/watchlists/live')
 def watchlists_live():
     """Bulk fetch current prices for all watchlist tickers"""
