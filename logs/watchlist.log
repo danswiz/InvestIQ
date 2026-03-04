@@ -552,3 +552,31 @@
 2026-03-02 16:45:26,490 [INFO] ✓ Watchlist generated: watchlist.json
 2026-03-02 16:45:26,490 [INFO]   Total holdings: 47
 2026-03-02 16:45:26,490 [INFO]   Baskets: 7
+2026-03-03 17:31:11,545 [WARNING] Supabase load failed (SUPABASE_KEY not set), falling back to portfolio.json
+2026-03-03 17:31:11,545 [INFO] Starting watchlist generation...
+2026-03-03 17:31:11,550 [INFO] Loaded 1015 stocks from database
+2026-03-03 17:31:11,550 [INFO] Fetching live prices for 46 tickers...
+2026-03-03 17:31:22,778 [INFO] Got live prices for 46 tickers, 46 names
+2026-03-03 17:31:22,779 [INFO] Processing basket: Trading Account (3 holdings)
+2026-03-03 17:31:22,779 [INFO] Processing basket: IRA Core ETFs (7 holdings)
+2026-03-03 17:31:22,779 [INFO] Processing basket: Grid-to-Chip (12 holdings)
+2026-03-03 17:31:22,780 [INFO] Processing basket: Defense & Aerospace (10 holdings)
+2026-03-03 17:31:22,780 [INFO] Processing basket: AI Semis (10 holdings)
+2026-03-03 17:31:22,780 [INFO] Processing basket: Biotech (4 holdings)
+2026-03-03 17:31:22,785 [INFO] ✓ Watchlist generated: watchlist.json
+2026-03-03 17:31:22,785 [INFO]   Total holdings: 46
+2026-03-03 17:31:22,786 [INFO]   Baskets: 6
+2026-03-03 17:36:29,833 [WARNING] Supabase load failed (SUPABASE_KEY not set), falling back to portfolio.json
+2026-03-03 17:36:29,833 [INFO] Starting watchlist generation...
+2026-03-03 17:36:29,838 [INFO] Loaded 1015 stocks from database
+2026-03-03 17:36:29,838 [INFO] Fetching live prices for 46 tickers...
+2026-03-03 17:36:39,471 [INFO] Got live prices for 46 tickers, 46 names
+2026-03-03 17:36:39,471 [INFO] Processing basket: Trading Account (3 holdings)
+2026-03-03 17:36:39,471 [INFO] Processing basket: IRA Core ETFs (7 holdings)
+2026-03-03 17:36:39,472 [INFO] Processing basket: Grid-to-Chip (12 holdings)
+2026-03-03 17:36:39,472 [INFO] Processing basket: Defense & Aerospace (10 holdings)
+2026-03-03 17:36:39,472 [INFO] Processing basket: AI Semis (10 holdings)
+2026-03-03 17:36:39,472 [INFO] Processing basket: Biotech (4 holdings)
+2026-03-03 17:36:39,477 [INFO] ✓ Watchlist generated: watchlist.json
+2026-03-03 17:36:39,478 [INFO]   Total holdings: 46
+2026-03-03 17:36:39,478 [INFO]   Baskets: 6

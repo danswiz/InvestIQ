@@ -722,5 +722,192 @@ def get_stock_price(ticker):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.route('/api/market_internals')
+def market_internals():
+    """Market health dashboard: index MAs, VIX, sector performance, breadth"""
+    try:
+        results = {}
+
+        # --- Index ETFs: SPY, QQQ, IWM with 50d/200d MA ---
+        indices = ['SPY', 'QQQ', 'IWM']
+        index_data = {}
+        for sym in indices:
+            try:
+                url = f'https://query1.finance.yahoo.com/v8/finance/chart/{sym}?range=1y&interval=1d'
+                req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+                resp = urllib.request.urlopen(req, timeout=10)
+                chart = json.loads(resp.read())
+                result = chart.get('chart', {}).get('result', [{}])[0]
+                closes = result.get('indicators', {}).get('quote', [{}])[0].get('close', [])
+                # Filter out None values for MA calculation
+                valid_closes = [c for c in closes if c is not None]
+                if valid_closes:
+                    current = valid_closes[-1]
+                    ma50 = sum(valid_closes[-50:]) / min(len(valid_closes), 50) if len(valid_closes) >= 50 else None
+                    ma200 = sum(valid_closes[-200:]) / min(len(valid_closes), 200) if len(valid_closes) >= 200 else None
+                    prev = valid_closes[-2] if len(valid_closes) >= 2 else current
+                    index_data[sym] = {
+                        'price': round(current, 2),
+                        'change_pct': round((current - prev) / prev * 100, 2) if prev else 0,
+                        'ma50': round(ma50, 2) if ma50 else None,
+                        'ma200': round(ma200, 2) if ma200 else None,
+                        'above_50': current > ma50 if ma50 else None,
+                        'above_200': current > ma200 if ma200 else None,
+                    }
+            except Exception:
+                pass
+        results['indices'] = index_data
+
+        # --- VIX ---
+        try:
+            url = 'https://query1.finance.yahoo.com/v8/finance/spark?symbols=%5EVIX&range=1d&interval=1m'
+            req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+            resp = urllib.request.urlopen(req, timeout=8)
+            vix_data = json.loads(resp.read())
+            vix_closes = vix_data.get('^VIX', {}).get('close', [])
+            vix_current = vix_closes[-1] if vix_closes else None
+            results['vix'] = round(vix_current, 2) if vix_current else None
+        except Exception:
+            results['vix'] = None
+
+        # --- Sector ETFs: today's % change ---
+        sector_etfs = ['XLK', 'XLF', 'XLE', 'XLI', 'XLV', 'XLB', 'XLRE', 'XLY', 'XLP', 'XLU', 'XLC']
+        sector_names = {
+            'XLK': 'Technology', 'XLF': 'Financials', 'XLE': 'Energy',
+            'XLI': 'Industrials', 'XLV': 'Healthcare', 'XLB': 'Materials',
+            'XLRE': 'Real Estate', 'XLY': 'Cons. Disc.', 'XLP': 'Cons. Staples',
+            'XLU': 'Utilities', 'XLC': 'Comm. Services'
+        }
+        sector_prices = fetch_live_prices_bulk(sector_etfs)
+        sectors = []
+        for etf in sector_etfs:
+            p = sector_prices.get(etf)
+            if p:
+                sectors.append({
+                    'ticker': etf,
+                    'name': sector_names.get(etf, etf),
+                    'price': p['price'],
+                    'change': p['daily_change']
+                })
+        sectors.sort(key=lambda x: x['change'], reverse=True)
+        results['sectors'] = sectors
+
+        # --- Breadth: how many of top 20 stocks are up today ---
+        breadth_tickers = ['AAPL', 'MSFT', 'NVDA', 'AMZN', 'GOOGL', 'META', 'JPM', 'BAC',
+                           'XOM', 'CVX', 'HD', 'PG', 'JNJ', 'UNH', 'V', 'MA', 'AVGO', 'ORCL', 'CSCO', 'TXN']
+        breadth_prices = fetch_live_prices_bulk(breadth_tickers)
+        up_count = sum(1 for t, p in breadth_prices.items() if p.get('daily_change', 0) > 0)
+        results['breadth'] = {
+            'up': up_count,
+            'total': len(breadth_tickers),
+            'pct': round(up_count / len(breadth_tickers) * 100, 1)
+        }
+
+        results['timestamp'] = datetime.now(ZoneInfo("America/New_York")).strftime("%Y-%m-%d %H:%M:%S EST")
+        return jsonify(results)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@app.route('/api/catalyst_calendar')
+def catalyst_calendar():
+    """Earnings dates for portfolio tickers + FOMC schedule"""
+    try:
+        import yfinance as yf
+
+        # Fetch portfolio tickers from Supabase
+        tickers = []
+        baskets_map = {}
+        try:
+            sb_headers = {'apikey': SUPABASE_KEY, 'Authorization': f'Bearer {SUPABASE_KEY}'}
+            req = urllib.request.Request(
+                f'{SUPABASE_URL}/rest/v1/baskets?select=name,holdings(ticker)',
+                headers=sb_headers
+            )
+            baskets_raw = json.loads(urllib.request.urlopen(req).read())
+            for b in baskets_raw:
+                for h in b.get('holdings', []):
+                    t = h['ticker']
+                    tickers.append(t)
+                    baskets_map[t] = b['name']
+        except Exception:
+            pass
+
+        tickers = list(set(tickers))
+        events = []
+        today = datetime.now(ZoneInfo("America/New_York")).date()
+
+        def fetch_earnings(ticker):
+            try:
+                stock = yf.Ticker(ticker)
+                cal = stock.calendar
+                if cal is not None and not (hasattr(cal, 'empty') and cal.empty):
+                    # calendar can be a dict or DataFrame
+                    if isinstance(cal, dict):
+                        ed = cal.get('Earnings Date')
+                        if isinstance(ed, list) and ed:
+                            ed = ed[0]
+                    else:
+                        # DataFrame
+                        if 'Earnings Date' in cal.columns:
+                            ed = cal['Earnings Date'].iloc[0]
+                        elif 'Earnings Date' in cal.index:
+                            ed = cal.loc['Earnings Date'].iloc[0] if hasattr(cal.loc['Earnings Date'], 'iloc') else cal.loc['Earnings Date']
+                        else:
+                            return None
+                    if ed is not None:
+                        from datetime import date
+                        if hasattr(ed, 'date'):
+                            ed_date = ed.date()
+                        elif isinstance(ed, str):
+                            ed_date = datetime.strptime(ed[:10], '%Y-%m-%d').date()
+                        elif isinstance(ed, date):
+                            ed_date = ed
+                        else:
+                            return None
+                        days_until = (ed_date - today).days
+                        return {
+                            'ticker': ticker,
+                            'basket': baskets_map.get(ticker, ''),
+                            'earnings_date': ed_date.isoformat(),
+                            'days_until': days_until
+                        }
+            except Exception:
+                pass
+            return None
+
+        with ThreadPoolExecutor(max_workers=8) as executor:
+            futures = {executor.submit(fetch_earnings, t): t for t in tickers}
+            for f in as_completed(futures):
+                result = f.result()
+                if result:
+                    events.append(result)
+
+        events.sort(key=lambda x: x['earnings_date'])
+
+        # FOMC dates 2026
+        fomc_dates = [
+            {'date': '2026-03-18', 'label': 'FOMC Mar 18-19'},
+            {'date': '2026-05-06', 'label': 'FOMC May 6-7'},
+            {'date': '2026-06-17', 'label': 'FOMC Jun 17-18'},
+            {'date': '2026-07-29', 'label': 'FOMC Jul 29-30'},
+            {'date': '2026-09-16', 'label': 'FOMC Sep 16-17'},
+            {'date': '2026-11-04', 'label': 'FOMC Nov 4-5'},
+            {'date': '2026-12-16', 'label': 'FOMC Dec 16-17'},
+        ]
+        for f in fomc_dates:
+            from datetime import date
+            fd = datetime.strptime(f['date'], '%Y-%m-%d').date()
+            f['days_until'] = (fd - today).days
+
+        return jsonify({
+            'earnings': events,
+            'fomc': fomc_dates,
+            'timestamp': datetime.now(ZoneInfo("America/New_York")).strftime("%Y-%m-%d %H:%M:%S EST")
+        })
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=18791, debug=True)
