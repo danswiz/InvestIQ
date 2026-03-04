@@ -983,7 +983,7 @@
                     <td class="text-center font-bold text-amber-400">${stock.moonshot_score || 0}%</td>
                     <td class="text-center" style="color: ${getRotationColor(stock.rotation_score || 0)}; font-weight: ${getRotationWeight(stock.rotation_score || 0)};">${(stock.rotation_score || 0).toFixed(1)}</td>
                     <td><span class="grade-badge grade-${stock.grade}">${stock.grade}</span></td>
-                    <td>${getPortfolioSignalBadge(stock.rotation_score)}</td>
+                    <td>${getPortfolioSignalBadge(stock)}</td>
                 </tr>
             `;
         }
@@ -997,11 +997,29 @@
             'Biotech': '🧬'
         };
         
-        function getPortfolioSignalBadge(rotation_score) {
-            const rot = rotation_score || 0;
-            if (rot >= 60) return '<span style="background:rgba(16,185,129,0.15);color:#10b981;border:1px solid #10b981;padding:2px 8px;border-radius:4px;font-size:0.75rem;font-weight:700;">🟢 HOLD</span>';
-            if (rot >= 35) return '<span style="background:rgba(234,179,8,0.15);color:#eab308;border:1px solid #eab308;padding:2px 8px;border-radius:4px;font-size:0.75rem;font-weight:700;">🟡 WATCH</span>';
-            return '<span style="background:rgba(239,68,68,0.15);color:#ef4444;border:1px solid #ef4444;padding:2px 8px;border-radius:4px;font-size:0.75rem;font-weight:700;">🔴 EXIT</span>';
+        function isEtf(stock) {
+            // ETFs have no meaningful fundamental data
+            return !stock.trailing_pe && !stock.revenue_growth && !stock.peg_ratio;
+        }
+
+        function getPortfolioSignalBadge(stock) {
+            const badge = (color, bg, label, tip) =>
+                `<span title="${tip}" style="background:${bg};color:${color};border:1px solid ${color};padding:2px 8px;border-radius:4px;font-size:0.75rem;font-weight:700;cursor:help;">${label}</span>`;
+
+            if (isEtf(stock)) {
+                // ETF: signal based on technical score only (max 53)
+                const tech = stock.technical_score || 0;
+                const pct = tech / 53 * 100;
+                if (pct >= 65) return badge('#10b981', 'rgba(16,185,129,0.15)', '🟢 HOLD', `Technical: ${tech}/53`);
+                if (pct >= 40) return badge('#eab308', 'rgba(234,179,8,0.15)', '🟡 WATCH', `Technical: ${tech}/53 — momentum weakening`);
+                return badge('#ef4444', 'rgba(239,68,68,0.15)', '🔴 EXIT', `Technical: ${tech}/53 — trend breakdown`);
+            } else {
+                // Stock: signal based on rotation score
+                const rot = stock.rotation_score || 0;
+                if (rot >= 60) return badge('#10b981', 'rgba(16,185,129,0.15)', '🟢 HOLD', `Rotation: ${rot.toFixed(1)} — thesis intact`);
+                if (rot >= 35) return badge('#eab308', 'rgba(234,179,8,0.15)', '🟡 WATCH', `Rotation: ${rot.toFixed(1)} — weakening`);
+                return badge('#ef4444', 'rgba(239,68,68,0.15)', '🔴 EXIT', `Rotation: ${rot.toFixed(1)} — thesis broken`);
+            }
         }
 
         function getRotationColor(score) {
