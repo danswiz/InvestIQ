@@ -879,6 +879,20 @@
             <h2 class="text-2xl font-bold mb-2" style="margin-left: 0;">📡 Market Pulse</h2>
             <span id="pulse-updated" style="font-size: 0.8rem; color: var(--text-dim);">Loading market data...</span>
 
+            <!-- O'Neil IBD Market Stage Banner -->
+            <div id="market-stage-banner" style="margin-top: 16px; padding: 20px 24px; border-radius: 12px; border: 2px solid; display: none;">
+                <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+                    <div>
+                        <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7; margin-bottom: 4px;">O'Neil Market Stage</div>
+                        <div id="stage-label" style="font-size: 1.4rem; font-weight: 800;"></div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div id="stage-action" style="font-size: 0.9rem; max-width: 320px;"></div>
+                        <div id="stage-detail" style="font-size: 0.75rem; opacity: 0.6; margin-top: 4px;"></div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Index Cards -->
             <div id="pulse-indices" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 20px;"></div>
 
@@ -1849,6 +1863,29 @@
 
         function renderMarketPulse(data) {
             document.getElementById('pulse-updated').textContent = 'Updated: ' + (data.timestamp || '');
+
+            // O'Neil Market Stage Banner
+            const ms = data.market_stage;
+            if (ms) {
+                const banner = document.getElementById('market-stage-banner');
+                const colors = {
+                    green:  { bg: 'rgba(16,185,129,0.1)',  border: '#10b981', text: '#10b981', emoji: '🟢' },
+                    yellow: { bg: 'rgba(234,179,8,0.1)',   border: '#eab308', text: '#eab308', emoji: '🟡' },
+                    orange: { bg: 'rgba(249,115,22,0.1)',  border: '#f97316', text: '#f97316', emoji: '🟠' },
+                    red:    { bg: 'rgba(239,68,68,0.1)',   border: '#ef4444', text: '#ef4444', emoji: '🔴' }
+                };
+                const c = colors[ms.color] || colors.red;
+                banner.style.background = c.bg;
+                banner.style.borderColor = c.border;
+                banner.style.display = 'block';
+                document.getElementById('stage-label').innerHTML = `${c.emoji} ${ms.stage}`;
+                document.getElementById('stage-label').style.color = c.text;
+                document.getElementById('stage-action').textContent = ms.action;
+                document.getElementById('stage-action').style.color = c.text;
+                document.getElementById('stage-detail').textContent =
+                    `${ms.distribution_days} distribution days + ${ms.stalling_days} stalling days = ${ms.total_distribution} total (${ms.window})` +
+                    (ms.follow_through_day ? ' · Follow-through day ✓' : '');
+            }
 
             // Index cards
             const indicesEl = document.getElementById('pulse-indices');
