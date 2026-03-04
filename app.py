@@ -655,6 +655,19 @@ def delete_watchlist_item(item_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.route('/api/insider_signals')
+def insider_signals():
+    """Serve latest insider transaction signal data"""
+    try:
+        with open('data/insider_signals.json') as f:
+            data = json.load(f)
+        return jsonify(data)
+    except FileNotFoundError:
+        return jsonify({"error": "No insider data yet. Run scripts/insider_scan.py first."}), 404
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 @app.route('/api/sell_signals')
 def sell_signals():
     """Serve latest sell signal data from sell_signals.json"""
