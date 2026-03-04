@@ -254,6 +254,8 @@
             <div class="nav-item" onclick="showWatchlist(); toggleMenu();">Portfolio</div>
             <div class="nav-item" onclick="showRotation(); toggleMenu();">Rotation Scan</div>
             <div class="nav-item" onclick="showWatchlistEntries(); toggleMenu();">Watchlist</div>
+            <div class="nav-item" onclick="showMarketPulse(); toggleMenu();">Market Pulse</div>
+            <div class="nav-item" onclick="showCalendar(); toggleMenu();">Calendar</div>
             <div class="nav-item" onclick="showAlert('Chat with AI coming soon!'); toggleMenu();">💬 Chat with AI</div>
         </nav>
         <div style="margin-top: auto; font-size: 0.7rem; color: var(--text-dim)">v4.2 High Potential (100pt)</div>
@@ -640,6 +642,68 @@
                 </div>
             </div>
         </div>
+        <!-- MARKET PULSE VIEW -->
+        <div id="market-pulse-view" style="display: none;">
+            <div style="display: flex; gap: 8px; margin-bottom: 16px; align-items: center;">
+                <button onclick="showDashboard()" class="text-sm text-slate-400 hover:text-white flex items-center">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    Back to Dashboard
+                </button>
+            </div>
+            <h2 class="text-2xl font-bold mb-2" style="margin-left: 0;">📡 Market Pulse</h2>
+            <span id="pulse-updated" style="font-size: 0.8rem; color: var(--text-dim);">Loading market data...</span>
+
+            <!-- Index Cards -->
+            <div id="pulse-indices" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 20px;"></div>
+
+            <!-- VIX + Breadth Row -->
+            <div id="pulse-gauges" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px;"></div>
+
+            <!-- Sector Heatmap -->
+            <div class="card" style="margin-top: 16px;">
+                <h3 style="font-weight: 700; margin-bottom: 12px;">Sector Performance</h3>
+                <div id="pulse-sectors" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px;"></div>
+            </div>
+        </div>
+
+        <!-- CATALYST CALENDAR VIEW -->
+        <div id="calendar-view" style="display: none;">
+            <div style="display: flex; gap: 8px; margin-bottom: 16px; align-items: center;">
+                <button onclick="showDashboard()" class="text-sm text-slate-400 hover:text-white flex items-center">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    Back to Dashboard
+                </button>
+            </div>
+            <h2 class="text-2xl font-bold mb-2">📅 Catalyst Calendar</h2>
+            <span id="cal-updated" style="font-size: 0.8rem; color: var(--text-dim);">Loading calendar...</span>
+
+            <!-- FOMC Dates -->
+            <div class="card" style="margin-top: 20px;">
+                <h3 style="font-weight: 700; margin-bottom: 12px;">🏛️ FOMC Meeting Schedule 2026</h3>
+                <div id="cal-fomc" style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
+            </div>
+
+            <!-- Earnings Table -->
+            <div class="card" style="margin-top: 16px;">
+                <h3 style="font-weight: 700; margin-bottom: 12px;">📊 Upcoming Earnings (Portfolio)</h3>
+                <div style="overflow-x: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Ticker</th>
+                                <th>Basket</th>
+                                <th>Earnings Date</th>
+                                <th>Days Until</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cal-earnings-tbody">
+                            <tr><td colspan="4" style="text-align:center; padding:30px; color:var(--text-dim);">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
     </main>
 
     <script>
@@ -789,6 +853,8 @@
             document.getElementById('watchlist-view').style.display = 'none';
             document.getElementById('rotation-view').style.display = 'none';
             document.getElementById('watchlist-entries-view').style.display = 'none';
+            document.getElementById('market-pulse-view').style.display = 'none';
+            document.getElementById('calendar-view').style.display = 'none';
             if (liveRefreshTimer) { clearInterval(liveRefreshTimer); liveRefreshTimer = null; }
             
             if (window.tvCheckInterval) {
@@ -818,6 +884,8 @@
             document.getElementById('watchlist-view').style.display = 'block';
             document.getElementById('rotation-view').style.display = 'none';
             document.getElementById('watchlist-entries-view').style.display = 'none';
+            document.getElementById('market-pulse-view').style.display = 'none';
+            document.getElementById('calendar-view').style.display = 'none';
             
             if (!watchlistData) {
                 try {
@@ -1517,12 +1585,168 @@
             }
         }
 
+        // ===== MARKET PULSE =====
+        async function showMarketPulse() {
+            if (location.hash !== '#pulse') history.pushState(null, '', '#pulse');
+            document.getElementById('dashboard-view').style.display = 'none';
+            document.getElementById('detail-view').style.display = 'none';
+            document.getElementById('watchlist-view').style.display = 'none';
+            document.getElementById('rotation-view').style.display = 'none';
+            document.getElementById('watchlist-entries-view').style.display = 'none';
+            document.getElementById('market-pulse-view').style.display = 'block';
+            document.getElementById('calendar-view').style.display = 'none';
+            if (liveRefreshTimer) { clearInterval(liveRefreshTimer); liveRefreshTimer = null; }
+
+            try {
+                const res = await fetch('/api/market_internals');
+                const data = await res.json();
+                if (data.error) throw new Error(data.error);
+                renderMarketPulse(data);
+            } catch(e) {
+                document.getElementById('pulse-updated').textContent = 'Error loading: ' + e.message;
+            }
+        }
+
+        function renderMarketPulse(data) {
+            document.getElementById('pulse-updated').textContent = 'Updated: ' + (data.timestamp || '');
+
+            // Index cards
+            const indicesEl = document.getElementById('pulse-indices');
+            let indicesHTML = '';
+            for (const [sym, d] of Object.entries(data.indices || {})) {
+                const chgColor = d.change_pct >= 0 ? '#10b981' : '#ef4444';
+                const chgIcon = d.change_pct >= 0 ? '▲' : '▼';
+                const ma50Badge = d.above_50 === true ? '<span style="color:#10b981;">Above 50d</span>' : d.above_50 === false ? '<span style="color:#ef4444;">Below 50d</span>' : '';
+                const ma200Badge = d.above_200 === true ? '<span style="color:#10b981;">Above 200d</span>' : d.above_200 === false ? '<span style="color:#ef4444;">Below 200d</span>' : '';
+                indicesHTML += `
+                    <div class="card" style="padding:16px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                            <span style="font-weight:700; font-size:1.1rem;">${sym}</span>
+                            <span style="color:${chgColor}; font-weight:600;">${chgIcon} ${d.change_pct}%</span>
+                        </div>
+                        <div style="font-size:1.4rem; font-weight:800; margin-bottom:8px;">$${d.price}</div>
+                        <div style="font-size:0.75rem; color:var(--text-dim); display:flex; flex-direction:column; gap:4px;">
+                            <div>50d MA: $${d.ma50 || '—'} ${ma50Badge}</div>
+                            <div>200d MA: $${d.ma200 || '—'} ${ma200Badge}</div>
+                        </div>
+                    </div>`;
+            }
+            indicesEl.innerHTML = indicesHTML;
+
+            // VIX + Breadth gauges
+            const gaugesEl = document.getElementById('pulse-gauges');
+            const vix = data.vix;
+            let vixColor = '#10b981', vixLabel = 'LOW FEAR';
+            if (vix >= 30) { vixColor = '#ef4444'; vixLabel = 'HIGH FEAR'; }
+            else if (vix >= 20) { vixColor = '#eab308'; vixLabel = 'ELEVATED'; }
+
+            const breadth = data.breadth || {};
+            let breadthColor = '#10b981', breadthLabel = 'STRONG';
+            if (breadth.pct < 40) { breadthColor = '#ef4444'; breadthLabel = 'WEAK'; }
+            else if (breadth.pct < 60) { breadthColor = '#eab308'; breadthLabel = 'MIXED'; }
+
+            gaugesEl.innerHTML = `
+                <div class="card" style="padding:16px; text-align:center;">
+                    <div style="font-size:0.8rem; color:var(--text-dim); text-transform:uppercase; margin-bottom:8px;">VIX (Fear Index)</div>
+                    <div style="font-size:2.2rem; font-weight:800; color:${vixColor};">${vix || '—'}</div>
+                    <div style="font-size:0.85rem; font-weight:600; color:${vixColor}; margin-top:4px;">${vixLabel}</div>
+                </div>
+                <div class="card" style="padding:16px; text-align:center;">
+                    <div style="font-size:0.8rem; color:var(--text-dim); text-transform:uppercase; margin-bottom:8px;">Market Breadth (Top 20)</div>
+                    <div style="font-size:2.2rem; font-weight:800; color:${breadthColor};">${breadth.up || 0}/${breadth.total || 20}</div>
+                    <div style="font-size:0.85rem; font-weight:600; color:${breadthColor}; margin-top:4px;">${breadthLabel} (${breadth.pct || 0}% up)</div>
+                </div>`;
+
+            // Sector heatmap
+            const sectorsEl = document.getElementById('pulse-sectors');
+            let secHTML = '';
+            for (const s of (data.sectors || [])) {
+                const color = s.change >= 0 ? '#10b981' : '#ef4444';
+                const bg = s.change >= 0 ? 'rgba(16,185,129,0.12)' : 'rgba(239,68,68,0.12)';
+                secHTML += `
+                    <div style="background:${bg}; border:1px solid ${color}30; border-radius:8px; padding:12px; text-align:center;">
+                        <div style="font-size:0.75rem; color:var(--text-dim);">${s.name}</div>
+                        <div style="font-weight:700; margin:4px 0;">${s.ticker}</div>
+                        <div style="color:${color}; font-weight:700; font-size:1.1rem;">${s.change >= 0 ? '+' : ''}${s.change}%</div>
+                    </div>`;
+            }
+            sectorsEl.innerHTML = secHTML;
+        }
+
+        // ===== CATALYST CALENDAR =====
+        async function showCalendar() {
+            if (location.hash !== '#calendar') history.pushState(null, '', '#calendar');
+            document.getElementById('dashboard-view').style.display = 'none';
+            document.getElementById('detail-view').style.display = 'none';
+            document.getElementById('watchlist-view').style.display = 'none';
+            document.getElementById('rotation-view').style.display = 'none';
+            document.getElementById('watchlist-entries-view').style.display = 'none';
+            document.getElementById('market-pulse-view').style.display = 'none';
+            document.getElementById('calendar-view').style.display = 'block';
+            if (liveRefreshTimer) { clearInterval(liveRefreshTimer); liveRefreshTimer = null; }
+
+            try {
+                const res = await fetch('/api/catalyst_calendar');
+                const data = await res.json();
+                if (data.error) throw new Error(data.error);
+                renderCalendar(data);
+            } catch(e) {
+                document.getElementById('cal-updated').textContent = 'Error loading: ' + e.message;
+            }
+        }
+
+        function renderCalendar(data) {
+            document.getElementById('cal-updated').textContent = 'Updated: ' + (data.timestamp || '');
+
+            // FOMC dates
+            const fomcEl = document.getElementById('cal-fomc');
+            let fomcHTML = '';
+            for (const f of (data.fomc || [])) {
+                let color = '#10b981', bg = 'rgba(16,185,129,0.1)';
+                if (f.days_until < 0) { color = 'var(--text-dim)'; bg = 'rgba(100,100,100,0.1)'; }
+                else if (f.days_until < 14) { color = '#ef4444'; bg = 'rgba(239,68,68,0.12)'; }
+                else if (f.days_until < 30) { color = '#eab308'; bg = 'rgba(234,179,8,0.12)'; }
+                const label = f.days_until < 0 ? 'Passed' : f.days_until === 0 ? 'TODAY' : f.days_until + 'd';
+                fomcHTML += `
+                    <div style="background:${bg}; border:1px solid ${color}40; border-radius:8px; padding:10px 16px; text-align:center; min-width:140px;">
+                        <div style="font-size:0.8rem; font-weight:700; color:${color};">${f.label}</div>
+                        <div style="font-size:0.75rem; color:var(--text-dim); margin-top:2px;">${label}</div>
+                    </div>`;
+            }
+            fomcEl.innerHTML = fomcHTML;
+
+            // Earnings table
+            const tbody = document.getElementById('cal-earnings-tbody');
+            const earnings = data.earnings || [];
+            if (earnings.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:30px; color:var(--text-dim);">No upcoming earnings found for portfolio tickers.</td></tr>';
+                return;
+            }
+            let rows = '';
+            for (const e of earnings) {
+                let dayColor = '#10b981';
+                if (e.days_until < 0) dayColor = 'var(--text-dim)';
+                else if (e.days_until < 7) dayColor = '#ef4444';
+                else if (e.days_until < 14) dayColor = '#eab308';
+                const dayLabel = e.days_until < 0 ? 'Passed' : e.days_until === 0 ? 'TODAY' : e.days_until + 'd';
+                rows += `<tr>
+                    <td><span style="font-weight:700; cursor:pointer; color:var(--accent);" onclick="viewStock('${e.ticker}')">${e.ticker}</span></td>
+                    <td style="color:var(--text-dim);">${e.basket || '—'}</td>
+                    <td>${e.earnings_date}</td>
+                    <td><span style="color:${dayColor}; font-weight:700;">${dayLabel}</span></td>
+                </tr>`;
+            }
+            tbody.innerHTML = rows;
+        }
+
         // Hash-based routing — preserves page on refresh and enables back button
         function handleRoute() {
             const hash = location.hash.replace('#', '') || 'dashboard';
             if (hash === 'portfolio') showWatchlist();
             else if (hash === 'rotation') showRotation();
             else if (hash === 'watchlist') showWatchlistEntries();
+            else if (hash === 'pulse') showMarketPulse();
+            else if (hash === 'calendar') showCalendar();
             else if (hash.startsWith('stock/')) viewStock(hash.split('/')[1]);
             else showDashboard();
         }
@@ -1578,6 +1802,8 @@
             document.getElementById('rotation-view').style.display = 'none';
             document.getElementById('watchlist-view').style.display = 'none';
             document.getElementById('watchlist-entries-view').style.display = 'none';
+            document.getElementById('market-pulse-view').style.display = 'none';
+            document.getElementById('calendar-view').style.display = 'none';
             
             document.getElementById('criteria-list').innerHTML = 'Loading intelligence...';
             document.getElementById('news-list').innerHTML = '';
@@ -1694,6 +1920,8 @@
             document.getElementById('watchlist-view').style.display = 'none';
             document.getElementById('rotation-view').style.display = 'block';
             document.getElementById('watchlist-entries-view').style.display = 'none';
+            document.getElementById('market-pulse-view').style.display = 'none';
+            document.getElementById('calendar-view').style.display = 'none';
             if (liveRefreshTimer) { clearInterval(liveRefreshTimer); liveRefreshTimer = null; }
 
             if (!rotationData) {
@@ -1839,6 +2067,8 @@
             document.getElementById('watchlist-view').style.display = 'none';
             document.getElementById('rotation-view').style.display = 'none';
             document.getElementById('watchlist-entries-view').style.display = 'block';
+            document.getElementById('market-pulse-view').style.display = 'none';
+            document.getElementById('calendar-view').style.display = 'none';
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
 
             if (!wlData) {
