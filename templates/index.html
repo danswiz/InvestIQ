@@ -364,6 +364,22 @@
                             <div class="text-xl lg:text-2xl font-bold" id="rotation-score">0</div>
                             <div class="text-xs mt-1" id="rotation-signal" style="color: var(--text-dim);">—</div>
                         </div>
+                        <div id="insider-score-card" class="card p-4 lg:p-6 cursor-pointer" onclick="toggleInsiderDetails()" style="border:1px solid #333;">
+                            <div class="text-xs uppercase font-bold tracking-wider mb-2" id="insider-card-label" style="color:#666;">Insider</div>
+                            <div class="text-xl lg:text-2xl font-bold" id="insider-score-value">⚪ 0</div>
+                            <div class="text-xs mt-1" id="insider-signal-label" style="color: var(--text-dim);">Click for details</div>
+                        </div>
+                    </div>
+
+                    <!-- Insider Details Popup -->
+                    <div id="insider-details-panel" style="display:none; margin-bottom:16px;">
+                        <div class="card" style="border:1px solid #333; padding:16px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                                <h3 style="font-weight:700; font-size:0.9rem;">🔍 Insider Activity (90 days)</h3>
+                                <span onclick="toggleInsiderDetails()" style="cursor:pointer; color:#666; font-size:1.2rem;">✕</span>
+                            </div>
+                            <div id="insider-details-content" style="font-size:0.85rem; color:#ccc;">Loading...</div>
+                        </div>
                     </div>
                 </div>
 
@@ -2177,6 +2193,38 @@
                 const rotEl = document.getElementById('rotation-score');
                 rotEl.style.color = rotScore >= 80 ? '#10b981' : rotScore >= 60 ? '#eab308' : rotScore >= 40 ? '#94a3b8' : '#64748b';
 
+                // Insider score card
+                const insScore = data.ins_score || 0;
+                const insSignal = data.insider_signal || 'neutral';
+                const insCard = document.getElementById('insider-score-card');
+                const insLabel = document.getElementById('insider-card-label');
+                const insValue = document.getElementById('insider-score-value');
+                const insSignalLabel = document.getElementById('insider-signal-label');
+                
+                let insColor, insEmoji, insText;
+                if (insSignal === 'dumping' || insScore <= -3) {
+                    insColor = '#ef4444'; insEmoji = '🔴'; insText = 'Dumping';
+                    insCard.style.background = 'linear-gradient(135deg, #1e293b, rgba(239,68,68,0.15))';
+                    insCard.style.borderColor = '#ef444466';
+                } else if (insSignal === 'accumulating' || insScore >= 3) {
+                    insColor = '#10b981'; insEmoji = '🟢'; insText = 'Buying';
+                    insCard.style.background = 'linear-gradient(135deg, #1e293b, rgba(16,185,129,0.15))';
+                    insCard.style.borderColor = '#10b98166';
+                } else {
+                    insColor = '#94a3b8'; insEmoji = '⚪'; insText = 'Neutral';
+                    insCard.style.background = '';
+                    insCard.style.borderColor = '#333';
+                }
+                insLabel.style.color = insColor;
+                insValue.innerHTML = `${insEmoji} ${insScore >= 0 ? '+' : ''}${insScore}`;
+                insValue.style.color = insColor;
+                insSignalLabel.textContent = `${insText} · Click for details`;
+                insSignalLabel.style.color = insColor + '99';
+
+                // Store ticker for detail fetch
+                window.currentInsiderTicker = ticker.toUpperCase();
+                document.getElementById('insider-details-panel').style.display = 'none';
+
                 // Analyst data from cache
                 document.getElementById('rec-key').innerText = data.recommendation ? data.recommendation.toUpperCase() : 'N/A';
                 document.getElementById('target-price').innerText = data.target_mean ? `$${data.target_mean.toFixed(2)}` : 'N/A';
@@ -2911,6 +2959,101 @@
         }
 
         // ===== RISK DASHBOARD =====
+        // ═══ Insider Details Toggle & Fetch ═══
+        async function toggleInsiderDetails() {
+            const panel = document.getElementById('insider-details-panel');
+            if (panel.style.display === 'block') {
+                panel.style.display = 'none';
+                return;
+            }
+            panel.style.display = 'block';
+            const content = document.getElementById('insider-details-content');
+            content.innerHTML = 'Loading insider transactions...';
+
+            const ticker = window.currentInsiderTicker;
+            if (!ticker) { content.innerHTML = 'No ticker selected.'; return; }
+
+            try {
+                // Try universe data first, then portfolio data
+                let insiderData = null;
+                try {
+                    const res1 = await fetch('/api/insider_signals');
+                    const d1 = await res1.json();
+                    if (d1.signals && d1.signals[ticker]) insiderData = d1.signals[ticker];
+                } catch(e) {}
+
+                if (!insiderData) {
+                    content.innerHTML = `<p style="color:#666;">No insider data available for ${ticker}. Run the insider scan to populate.</p>`;
+                    return;
+                }
+
+                const score = insiderData.ins_score || 0;
+                const buys = insiderData.buys || 0;
+                const sells = insiderData.sells || 0;
+                const buyVal = insiderData.total_buy_value || 0;
+                const sellVal = insiderData.total_sell_value || 0;
+                const reasons = insiderData.reasons || [];
+                const details = insiderData.details || [];
+
+                let sigColor, sigEmoji, sigText;
+                if (score <= -3) { sigColor = '#ef4444'; sigEmoji = '🔴'; sigText = 'INSIDERS DUMPING'; }
+                else if (score >= 3) { sigColor = '#10b981'; sigEmoji = '🟢'; sigText = 'INSIDERS ACCUMULATING'; }
+                else { sigColor = '#94a3b8'; sigEmoji = '⚪'; sigText = 'NEUTRAL'; }
+
+                let html = `
+                    <div style="display:flex; gap:16px; margin-bottom:16px; flex-wrap:wrap;">
+                        <div style="background:${sigColor}15; border:1px solid ${sigColor}33; border-radius:8px; padding:12px 16px; flex:1; min-width:120px; text-align:center;">
+                            <div style="font-size:1.5rem; font-weight:800; color:${sigColor};">${sigEmoji} INS ${score >= 0 ? '+' : ''}${score}</div>
+                            <div style="font-size:0.7rem; color:${sigColor}; margin-top:4px;">${sigText}</div>
+                        </div>
+                        <div style="background:#1e293b; border-radius:8px; padding:12px 16px; flex:1; min-width:100px; text-align:center;">
+                            <div style="font-size:0.7rem; color:#666; text-transform:uppercase;">Buys</div>
+                            <div style="font-size:1.2rem; font-weight:700; color:#10b981;">${buys}</div>
+                            <div style="font-size:0.7rem; color:#666;">${buyVal >= 1e6 ? '$' + (buyVal/1e6).toFixed(1) + 'M' : '$' + buyVal.toLocaleString()}</div>
+                        </div>
+                        <div style="background:#1e293b; border-radius:8px; padding:12px 16px; flex:1; min-width:100px; text-align:center;">
+                            <div style="font-size:0.7rem; color:#666; text-transform:uppercase;">Sells</div>
+                            <div style="font-size:1.2rem; font-weight:700; color:#ef4444;">${sells}</div>
+                            <div style="font-size:0.7rem; color:#666;">${sellVal >= 1e6 ? '$' + (sellVal/1e6).toFixed(1) + 'M' : '$' + sellVal.toLocaleString()}</div>
+                        </div>
+                    </div>`;
+
+                if (reasons.length > 0) {
+                    html += '<div style="margin-bottom:12px;">';
+                    html += '<div style="font-size:0.75rem; color:#666; text-transform:uppercase; margin-bottom:6px;">Key Signals</div>';
+                    for (const r of reasons) {
+                        const isNeg = r.toLowerCase().includes('sell') || r.toLowerCase().includes('dump') || r.toLowerCase().includes('zero buy');
+                        const rColor = isNeg ? '#ef4444' : r.toLowerCase().includes('buy') ? '#10b981' : '#94a3b8';
+                        html += `<div style="padding:4px 0; font-size:0.8rem; color:${rColor};">• ${r}</div>`;
+                    }
+                    html += '</div>';
+                }
+
+                if (details.length > 0) {
+                    html += '<div style="font-size:0.75rem; color:#666; text-transform:uppercase; margin-bottom:6px; margin-top:12px;">Top Transactions</div>';
+                    html += '<table style="width:100%; font-size:0.8rem; border-collapse:collapse;">';
+                    html += '<tr style="color:#666; border-bottom:1px solid #222;"><th style="text-align:left; padding:4px;">Date</th><th style="text-align:left;">Insider</th><th>Type</th><th style="text-align:right;">Value</th></tr>';
+                    for (const d of details.slice(0, 8)) {
+                        const tColor = d.type === 'BUY' ? '#10b981' : '#ef4444';
+                        const val = d.value >= 1e6 ? '$' + (d.value/1e6).toFixed(1) + 'M' : '$' + (d.value || 0).toLocaleString();
+                        html += `<tr style="border-bottom:1px solid #1a1a1a;">
+                            <td style="padding:4px; color:#888;">${d.date || '—'}</td>
+                            <td style="padding:4px;">${(d.owner || '').substring(0, 20)}${d.title ? ' <span style=\"color:#555;\">(' + d.title.substring(0,15) + ')</span>' : ''}</td>
+                            <td style="padding:4px; color:${tColor}; font-weight:700; text-align:center;">${d.type}</td>
+                            <td style="padding:4px; text-align:right; color:${tColor};">${val}</td>
+                        </tr>`;
+                    }
+                    html += '</table>';
+                }
+
+                html += '<div style="font-size:0.65rem; color:#444; margin-top:12px;">Source: SEC EDGAR Form 4 · 90-day lookback · ⚠️ Some sales are pre-planned 10b5-1</div>';
+
+                content.innerHTML = html;
+            } catch(e) {
+                content.innerHTML = `<p style="color:#ef4444;">Error loading insider data: ${e.message}</p>`;
+            }
+        }
+
         async function showRiskDashboard() {
             if (location.hash !== '#risk') history.pushState(null, '', '#risk');
             hideAllViews();
