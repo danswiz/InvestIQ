@@ -40,3 +40,5 @@ Thumbs.db
 # Logs
 logs/*.log
 *.log
+data/market_data.db
+alpha_report_*.html
