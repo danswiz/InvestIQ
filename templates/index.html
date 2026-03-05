@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root { --bg: #0f172a; --surface: #1e293b; --accent: #38bdf8; --text: #f8fafc; --text-dim: #94a3b8; }
-        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; display: flex; min-height: 100vh; position: relative; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; display: flex; flex-direction: column; min-height: 100vh; position: relative; }
         
         aside { 
             width: 260px; 
@@ -27,7 +27,7 @@
         }
         aside.open { left: 0; box-shadow: 10px 0 30px rgba(0,0,0,0.5); }
         
-        main { flex: 1; overflow-y: auto; padding: 20px; width: 100%; transition: 0.3s ease; padding-bottom: 100px; }
+        main { flex: 1; overflow-y: auto; padding: 20px; width: 100%; max-width: 1400px; margin: 0 auto; transition: 0.3s ease; padding-bottom: 100px; }
         
         .menu-toggle {
             position: fixed;
@@ -122,7 +122,7 @@
         }
 
         @media (max-width: 768px) {
-            main { padding: 70px 15px 20px 15px; }
+            main { padding: 15px; }
             .card { padding: 16px; }
             h2 { font-size: 1.25rem; }
         }
@@ -148,8 +148,166 @@
 
         #detail-view { display: none; }
 
+        /* ═══ Top Navigation Bar ═══ */
+        .top-nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: #0a0f1d;
+            border-bottom: 1px solid #2d3748;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 0;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        .top-nav::-webkit-scrollbar { display: none; }
+        .top-nav-brand {
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--accent);
+            letter-spacing: -0.5px;
+            padding: 12px 16px 12px 0;
+            border-right: 1px solid #2d3748;
+            margin-right: 8px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .top-nav-item {
+            padding: 12px 14px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-dim);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: color 0.2s, border-color 0.2s;
+            border-bottom: 2px solid transparent;
+            flex-shrink: 0;
+        }
+        .top-nav-item:hover { color: white; }
+        .top-nav-item.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+        /* ═══ Hero Section ═══ */
+        .hero-section { margin-bottom: 28px; }
+        .hero-market-banner {
+            padding: 14px 20px;
+            border-radius: 10px;
+            border: 1px solid;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .hero-market-banner .stage-name { font-weight: 800; font-size: 1.1rem; }
+        .hero-market-banner .stage-action { font-size: 0.8rem; opacity: 0.85; }
+        .hero-summary-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+        .hero-card {
+            background: var(--surface);
+            border: 1px solid #2d3748;
+            border-radius: 12px;
+            padding: 18px 20px;
+            text-align: center;
+        }
+        .hero-card-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); margin-bottom: 8px; font-weight: 600; }
+        .hero-card-value { font-size: 1.6rem; font-weight: 800; line-height: 1.2; }
+        .hero-card-sub { font-size: 0.75rem; color: var(--text-dim); margin-top: 4px; }
+
+        /* ═══ Top 5 Stock Cards ═══ */
+        .top5-cards {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            margin-bottom: 16px;
+            scrollbar-width: thin;
+        }
+        .top5-card {
+            flex: 0 0 180px;
+            background: var(--surface);
+            border: 1px solid #2d3748;
+            border-radius: 12px;
+            padding: 16px;
+            cursor: pointer;
+            transition: border-color 0.2s, transform 0.15s;
+        }
+        .top5-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+        .top5-card .t5-ticker { font-weight: 800; font-size: 1rem; color: var(--accent); }
+        .top5-card .t5-name { font-size: 0.7rem; color: var(--text-dim); margin: 4px 0 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .top5-card .t5-score { font-size: 1.8rem; font-weight: 800; line-height: 1; }
+        .top5-card .t5-grade { display: inline-block; margin-top: 8px; }
+
+        /* ═══ Unified Badge System ═══ */
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.72rem;
+            line-height: 1.4;
+            text-align: center;
+        }
+        .badge-green { background: #059669; color: white; }
+        .badge-yellow { background: #d97706; color: white; }
+        .badge-red { background: #dc2626; color: white; }
+        .badge-blue { background: #0284c7; color: white; }
+        .badge-purple { background: #7c3aed; color: white; }
+        .badge-gray { background: #475569; color: #cbd5e1; }
+
+        /* ═══ Mobile Responsive Cards ═══ */
+        @media (max-width: 768px) {
+            .hero-summary-cards { grid-template-columns: 1fr; gap: 10px; }
+            .top5-cards { gap: 10px; }
+            .top5-card { flex: 0 0 150px; padding: 12px; }
+            .top-nav-brand { font-size: 0.95rem; padding: 10px 12px 10px 0; }
+            .top-nav-item { padding: 10px 10px; font-size: 0.75rem; }
+
+            /* Convert table rows to card layout on mobile */
+            #stocks-table thead { display: none; }
+            #stocks-table tbody tr {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 6px;
+                padding: 14px;
+                margin-bottom: 8px;
+                border: 1px solid #2d3748;
+                border-radius: 10px;
+                background: var(--surface);
+            }
+            #stocks-table tbody td {
+                border: none;
+                padding: 2px 0;
+                font-size: 0.85rem;
+            }
+            #stocks-table tbody td:first-child {
+                grid-column: 1 / -1;
+                font-size: 1.1rem;
+            }
+            #stocks-table tbody td:nth-child(2) {
+                grid-column: 1 / -1;
+                color: var(--text-dim);
+                font-size: 0.78rem;
+            }
+            #stocks-table tbody td:nth-child(3) { display: none; }
+        }
+
+        /* ═══ Sparkline ═══ */
+        .sparkline-canvas {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 6px;
+        }
+
         @media print {
-            aside, .menu-toggle, .overlay, button, .nav-item { display: none !important; }
+            aside, .menu-toggle, .overlay, .top-nav, button, .nav-item { display: none !important; }
             main { padding: 10px !important; }
             .card { break-inside: avoid; border: 1px solid #ccc !important; }
             body { background: white !important; color: black !important; }
@@ -252,11 +410,24 @@
     </style>
 </head>
 <body>
-    <!-- hamburger moved inside main for correct stacking -->
+    <!-- Top Navigation Bar -->
+    <nav class="top-nav" id="top-nav">
+        <div class="top-nav-brand">InvestIQ</div>
+        <div class="top-nav-item active" data-tab="dashboard" onclick="navTo('dashboard')">Dashboard</div>
+        <div class="top-nav-item" data-tab="portfolio" onclick="navTo('portfolio')">Portfolio</div>
+        <div class="top-nav-item" data-tab="rotation" onclick="navTo('rotation')">Rotation</div>
+        <div class="top-nav-item" data-tab="watchlist" onclick="navTo('watchlist')">Watchlist</div>
+        <div class="top-nav-item" data-tab="screener" onclick="navTo('screener')">Screener</div>
+        <div class="top-nav-item" data-tab="alerts" onclick="navTo('alerts')">Alerts</div>
+        <div class="top-nav-item" data-tab="pulse" onclick="navTo('pulse')">Pulse</div>
+        <div class="top-nav-item" data-tab="calendar" onclick="navTo('calendar')">Calendar</div>
+        <div class="top-nav-item" data-tab="journal" onclick="navTo('journal')">Journal</div>
+        <div class="top-nav-item" data-tab="risk" onclick="navTo('risk')">Risk</div>
+    </nav>
 
-    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
-
-    <aside id="sidebar">
+    <!-- Keep sidebar for backwards compat but hidden by default -->
+    <div class="overlay" id="overlay" onclick="toggleMenu()" style="display:none;"></div>
+    <aside id="sidebar" style="display:none;">
         <div style="font-weight: 800; font-size: 1.5rem; margin-bottom: 40px; color: var(--accent); letter-spacing: -1px;">InvestIQ</div>
         <nav>
             <div class="nav-item active" onclick="showDashboard(); toggleMenu();">Breakout Hunter</div>
@@ -269,27 +440,62 @@
             <div class="nav-item" onclick="showRiskDashboard(); toggleMenu();">Risk Dashboard</div>
             <div class="nav-item" onclick="showScreener(); toggleMenu();">Screener</div>
             <div class="nav-item" onclick="showAlerts(); toggleMenu();">Alerts</div>
-            <div class="nav-item" onclick="showAlert('Chat with AI coming soon!'); toggleMenu();">💬 Chat with AI</div>
         </nav>
         <div style="margin-top: auto; font-size: 0.7rem; color: var(--text-dim)">v4.2 High Potential (100pt)</div>
     </aside>
 
     <main>
-        <div class="menu-toggle" onclick="toggleMenu()">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-        </div>
         <!-- Ticker Datalist for Autocomplete -->
         <datalist id="ticker-list"></datalist>
 
         <!-- DASHBOARD VIEW -->
         <div id="dashboard-view">
-            <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; margin-left: 50px;">
+            <!-- Hero Section -->
+            <div class="hero-section" id="hero-section">
+                <div class="hero-market-banner" id="hero-market-banner" style="display:none;">
+                    <div>
+                        <div style="font-size:0.6rem; text-transform:uppercase; letter-spacing:1px; opacity:0.6; margin-bottom:2px;">O'Neil Market Stage</div>
+                        <div class="stage-name" id="hero-stage-name">Loading...</div>
+                    </div>
+                    <div class="stage-action" id="hero-stage-action"></div>
+                </div>
+                <div class="hero-summary-cards">
+                    <div class="hero-card" id="hero-card-stage">
+                        <div class="hero-card-label">Market Stage</div>
+                        <div class="hero-card-value" id="hero-stage-value" style="color: var(--text-dim);">--</div>
+                        <div class="hero-card-sub" id="hero-stage-sub">Loading...</div>
+                    </div>
+                    <div class="hero-card" id="hero-card-top">
+                        <div class="hero-card-label">Top Pick Today</div>
+                        <div class="hero-card-value" id="hero-top-ticker" style="color: var(--accent);">--</div>
+                        <div class="hero-card-sub" id="hero-top-sub">Highest rotation score</div>
+                    </div>
+                    <div class="hero-card" id="hero-card-health">
+                        <div class="hero-card-label">Portfolio Health</div>
+                        <div class="hero-card-value" id="hero-health-value" style="color: #10b981;">--</div>
+                        <div class="hero-card-sub" id="hero-health-sub">HOLD signal %</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top 5 Rotation Stocks Cards -->
+            <div id="top5-section" style="margin-bottom: 20px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <h3 style="font-weight:700; font-size:0.9rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.5px;">Top 5 Rotation Picks</h3>
+                </div>
+                <div class="top5-cards" id="top5-cards">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- Header + Quick Ticker -->
+            <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px;">
                 <div class="flex gap-4 items-center flex-wrap">
-                    <h2 class="text-2xl font-bold">Top Market Opportunities</h2>
+                    <h2 class="text-xl font-bold">All Opportunities</h2>
                     <div class="flex-1"></div>
                     <div class="flex gap-2">
-                        <input type="text" id="quick-ticker" list="ticker-list" placeholder="Enter Ticker (e.g. TSLA)" class="bg-slate-800 border border-slate-700 rounded px-3 py-1 text-sm outline-none focus:border-sky-500">
-                        <button onclick="viewStock(document.getElementById('quick-ticker').value)" class="bg-sky-600 hover:bg-sky-500 px-4 py-1 rounded text-sm font-bold transition">Rate Now</button>
+                        <input type="text" id="quick-ticker" list="ticker-list" placeholder="Ticker (e.g. TSLA)" class="bg-slate-800 border border-slate-700 rounded px-3 py-1 text-sm outline-none focus:border-sky-500">
+                        <button onclick="viewStock(document.getElementById('quick-ticker').value)" class="bg-sky-600 hover:bg-sky-500 px-4 py-1 rounded text-sm font-bold transition">Rate</button>
                     </div>
                 </div>
                 <span style="font-size: 0.8rem; color: var(--text-dim);">Last Scan: <strong id="scan-time" style="color: var(--accent);">{{ last_scan }}</strong> • <span id="stock-count"></span> stocks</span>
@@ -308,7 +514,6 @@
                             <th onclick="sortTable('name')">Company</th>
                             <th onclick="sortTable('sector')">Industry</th>
                             <th onclick="sortTable('score')">Score</th>
-                            <th onclick="sortTable('moonshot_score')">Moonshot</th>
                             <th onclick="sortTable('rotation_score')">Rotation</th>
                             <th onclick="sortTable('grade')">Grade</th>
                             <th>Action</th>
@@ -1176,6 +1381,156 @@
             createIndustryFilters();
             populateTickerDatalist();
             document.getElementById('stock-count').textContent = stocksData.length;
+            renderTop5Cards();
+            loadHeroData();
+        }
+
+        // ═══ Top Navigation ═══
+        function navTo(tab) {
+            const map = {
+                dashboard: () => showDashboard(),
+                portfolio: () => showWatchlist(),
+                rotation: () => showRotation(),
+                watchlist: () => showWatchlistEntries(),
+                screener: () => showScreener(),
+                alerts: () => showAlerts(),
+                pulse: () => showMarketPulse(),
+                calendar: () => showCalendar(),
+                journal: () => showJournal(),
+                risk: () => showRiskDashboard()
+            };
+            if (map[tab]) map[tab]();
+        }
+
+        function updateActiveNav(tabName) {
+            document.querySelectorAll('.top-nav-item').forEach(el => {
+                el.classList.toggle('active', el.dataset.tab === tabName);
+            });
+        }
+
+        // ═══ Hero Section ═══
+        async function loadHeroData() {
+            // Top pick from stocksData
+            const sorted = [...stocksData].sort((a, b) => (b.rotation_score || 0) - (a.rotation_score || 0));
+            if (sorted.length > 0) {
+                document.getElementById('hero-top-ticker').textContent = sorted[0].ticker;
+                document.getElementById('hero-top-sub').textContent = `${sorted[0].name} · Rot ${(sorted[0].rotation_score || 0).toFixed(1)}`;
+            }
+
+            // Portfolio health (% with HOLD signal) — try loading
+            try {
+                const res = await fetch('/api/portfolio');
+                if (res.ok) {
+                    const portfolio = await res.json();
+                    let holdCount = 0, totalCount = 0;
+                    for (const basket of Object.values(portfolio.baskets || {})) {
+                        for (const t of (basket.tickers || [])) {
+                            totalCount++;
+                            const stockData = stocksData.find(s => s.ticker === t.ticker);
+                            const rotSig = stockData?.rotation_signal || '';
+                            if (rotSig.toLowerCase().includes('hold') || rotSig.toLowerCase().includes('buy') || rotSig.toLowerCase().includes('accumulate')) holdCount++;
+                        }
+                    }
+                    const healthPct = totalCount > 0 ? Math.round(holdCount / totalCount * 100) : 0;
+                    document.getElementById('hero-health-value').textContent = healthPct + '%';
+                    document.getElementById('hero-health-value').style.color = healthPct >= 70 ? '#10b981' : healthPct >= 40 ? '#eab308' : '#ef4444';
+                    document.getElementById('hero-health-sub').textContent = `${holdCount}/${totalCount} positive signals`;
+                }
+            } catch(e) {
+                document.getElementById('hero-health-value').textContent = 'N/A';
+            }
+
+            // Market stage from market_internals
+            try {
+                const res = await fetch('/api/market_internals');
+                if (res.ok) {
+                    const data = await res.json();
+                    const stage = data.market_stage;
+                    if (stage) {
+                        const colorMap = { green: '#10b981', yellow: '#eab308', orange: '#f97316', red: '#ef4444' };
+                        const c = colorMap[stage.color] || '#94a3b8';
+
+                        // Hero card
+                        const stageShort = stage.stage.replace('MARKET IN ', '').replace('RALLY ', '');
+                        document.getElementById('hero-stage-value').textContent = stageShort;
+                        document.getElementById('hero-stage-value').style.color = c;
+                        document.getElementById('hero-stage-sub').textContent = `${stage.distribution_days} dist days`;
+
+                        // Market banner
+                        const banner = document.getElementById('hero-market-banner');
+                        banner.style.display = 'flex';
+                        banner.style.borderColor = c + '66';
+                        banner.style.background = c + '10';
+                        document.getElementById('hero-stage-name').textContent = stage.stage;
+                        document.getElementById('hero-stage-name').style.color = c;
+                        document.getElementById('hero-stage-action').textContent = stage.action;
+                    }
+                }
+            } catch(e) {}
+        }
+
+        // ═══ Top 5 Cards ═══
+        function renderTop5Cards() {
+            const sorted = [...stocksData].sort((a, b) => (b.rotation_score || 0) - (a.rotation_score || 0));
+            const top5 = sorted.slice(0, 5);
+            const container = document.getElementById('top5-cards');
+            container.innerHTML = top5.map(s => {
+                const rotScore = (s.rotation_score || 0).toFixed(1);
+                const scoreColor = s.rotation_score >= 80 ? '#10b981' : s.rotation_score >= 60 ? '#eab308' : '#94a3b8';
+                const gradeBadge = {'A':'badge-green','B':'badge-blue','C':'badge-yellow','D':'badge-purple','F':'badge-red'}[s.grade] || 'badge-gray';
+                return `
+                    <div class="top5-card" onclick="viewStock('${s.ticker}')">
+                        <div class="t5-ticker">${s.ticker}</div>
+                        <div class="t5-name">${s.name}</div>
+                        <div class="t5-score" style="color: ${scoreColor};">${rotScore}</div>
+                        <div class="t5-grade"><span class="badge ${gradeBadge}">${s.grade}</span></div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ═══ Sparkline Renderer ═══
+        function drawSparkline(canvas, prices) {
+            if (!prices || prices.length < 2) return;
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width, h = canvas.height;
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = w * dpr;
+            canvas.height = h * dpr;
+            canvas.style.width = w / dpr + 'px';
+            canvas.style.height = h / dpr + 'px';
+            ctx.scale(dpr, dpr);
+            const actualW = w / dpr, actualH = h / dpr;
+
+            const min = Math.min(...prices);
+            const max = Math.max(...prices);
+            const range = max - min || 1;
+            const isUp = prices[prices.length - 1] >= prices[0];
+
+            ctx.beginPath();
+            ctx.strokeStyle = isUp ? '#10b981' : '#ef4444';
+            ctx.lineWidth = 1.2;
+            prices.forEach((p, i) => {
+                const x = (i / (prices.length - 1)) * actualW;
+                const y = actualH - ((p - min) / range) * (actualH - 4) - 2;
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            });
+            ctx.stroke();
+        }
+
+        async function loadSparklines() {
+            try {
+                const data = await loadAllStocks();
+                if (!data || !data.stocks) return;
+                document.querySelectorAll('.sparkline-canvas').forEach(canvas => {
+                    const ticker = canvas.dataset.ticker;
+                    const stock = data.stocks[ticker];
+                    if (stock && stock.price_history) {
+                        drawSparkline(canvas, stock.price_history.slice(-20));
+                    }
+                });
+            } catch(e) {}
         }
 
         function populateTickerDatalist() {
@@ -1228,14 +1583,17 @@
             tbody.innerHTML = filtered.map(stock => {
                 const scoreColor = stock.score >= 80 ? '#38bdf8' : stock.score >= 70 ? '#10b981' : stock.score >= 55 ? '#f59e0b' : '#94a3b8';
                 const rotationScore = stock.rotation_score || 0;
-                const rotationColor = rotationScore >= 80 ? '#10b981' : rotationScore >= 60 ? '#eab308' : rotationScore >= 40 ? '#94a3b8' : '#64748b';
-                const rotationWeight = rotationScore >= 80 ? '700' : rotationScore >= 60 ? '600' : '400';
+                const rotBadge = rotationScore >= 80 ? 'badge-green' : rotationScore >= 60 ? 'badge-yellow' : rotationScore >= 40 ? 'badge-gray' : 'badge-gray';
+                const gradeBadge = {'A':'badge-green','B':'badge-blue','C':'badge-yellow','D':'badge-purple','F':'badge-red'}[stock.grade] || 'badge-gray';
                 return `
-                    <tr data-sector="${stock.sector}">
-                        <td class="font-bold text-sky-400">${stock.ticker}</td>
+                    <tr data-sector="${stock.sector}" onclick="viewStock('${stock.ticker}')" style="cursor:pointer;">
+                        <td>
+                            <canvas class="sparkline-canvas" data-ticker="${stock.ticker}" width="80" height="32"></canvas>
+                            <span class="font-bold text-sky-400">${stock.ticker}</span>
+                        </td>
                         <td class="text-sm">${stock.name}</td>
                         <td class="text-sm">
-                            <span class="cursor-pointer hover:text-sky-400 transition" onclick="filterBySector('${stock.sector}')">
+                            <span class="cursor-pointer hover:text-sky-400 transition" onclick="event.stopPropagation(); filterBySector('${stock.sector}')">
                                 ${stock.sector}
                             </span>
                         </td>
@@ -1244,16 +1602,12 @@
                                 <div class="score-bar-bg">
                                     <div class="score-bar-fill" style="width: ${stock.score}%; background: ${scoreColor};"></div>
                                 </div>
-                                <span class="score-text">${stock.score ?? stock.total ?? 0}/100</span>
-                            </div>
-                            <div class="score-breakdown">
-                                T:${stock.technical_score || 0} G:${stock.growth_score || 0} Q:${stock.quality_score || 0} C:${stock.context_score || 0}
+                                <span class="score-text">${stock.score ?? stock.total ?? 0}</span>
                             </div>
                         </td>
-                        <td class="text-center font-bold text-amber-400">${stock.moonshot_score || 0}%</td>
-                        <td class="text-center" style="color: ${rotationColor}; font-weight: ${rotationWeight};">${rotationScore.toFixed(1)}</td>
-                        <td><span class="grade-badge grade-${stock.grade}">${stock.grade}</span></td>
-                        <td><button onclick="viewStock('${stock.ticker}')" class="text-xs bg-slate-700 px-3 py-1 rounded hover:bg-slate-600 transition">Analyze</button></td>
+                        <td><span class="badge ${rotBadge}">${rotationScore.toFixed(1)}</span></td>
+                        <td><span class="badge ${gradeBadge}">${stock.grade}</span></td>
+                        <td><button onclick="event.stopPropagation(); viewStock('${stock.ticker}')" class="text-xs bg-slate-700 px-3 py-1 rounded hover:bg-slate-600 transition">Analyze</button></td>
                     </tr>
                 `;
             }).join('');
@@ -1334,12 +1688,13 @@
             if (location.hash !== '#dashboard' && location.hash !== '') history.pushState(null, '', '#dashboard');
             hideAllViews();
             document.getElementById('dashboard-view').style.display = 'block';
-            
+            updateActiveNav('dashboard');
+
             if (window.tvCheckInterval) {
                 clearInterval(window.tvCheckInterval);
                 window.tvCheckInterval = null;
             }
-            
+
             const chartContainer = document.getElementById('tv-chart');
             if (chartContainer) {
                 chartContainer.innerHTML = '';
@@ -1359,6 +1714,7 @@
             if (location.hash !== '#portfolio') history.pushState(null, '', '#portfolio');
             hideAllViews();
             document.getElementById('watchlist-view').style.display = 'block';
+            updateActiveNav('portfolio');
             
             if (!watchlistData) {
                 try {
@@ -2072,6 +2428,7 @@
             if (location.hash !== '#pulse') history.pushState(null, '', '#pulse');
             hideAllViews();
             document.getElementById('market-pulse-view').style.display = 'block';
+            updateActiveNav('pulse');
 
             try {
                 const res = await fetch('/api/market_internals');
@@ -2177,6 +2534,7 @@
             if (location.hash !== '#calendar') history.pushState(null, '', '#calendar');
             hideAllViews();
             document.getElementById('calendar-view').style.display = 'block';
+            updateActiveNav('calendar');
 
             try {
                 const res = await fetch('/api/catalyst_calendar');
@@ -2307,8 +2665,8 @@
             // Route to correct page based on URL hash
             handleRoute();
             
-            // Preload all stocks data in background
-            loadAllStocks().catch(err => console.log('Background preload failed:', err));
+            // Preload all stocks data in background, then draw sparklines
+            loadAllStocks().then(() => loadSparklines()).catch(err => console.log('Background preload failed:', err));
             
             document.getElementById('quick-ticker').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') viewStock(this.value);
@@ -2508,6 +2866,7 @@
             if (location.hash !== '#rotation') history.pushState(null, '', '#rotation');
             hideAllViews();
             document.getElementById('rotation-view').style.display = 'block';
+            updateActiveNav('rotation');
 
             if (!rotationData) {
                 try {
@@ -2656,6 +3015,7 @@
             if (location.hash !== '#watchlist') history.pushState(null, '', '#watchlist');
             hideAllViews();
             document.getElementById('watchlist-entries-view').style.display = 'block';
+            updateActiveNav('watchlist');
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
 
             if (!wlData) {
@@ -3069,6 +3429,7 @@
             if (location.hash !== '#journal') history.pushState(null, '', '#journal');
             hideAllViews();
             document.getElementById('journal-view').style.display = 'block';
+            updateActiveNav('journal');
 
             try {
                 const res = await fetch('/api/trade_journal');
@@ -3259,6 +3620,7 @@
             if (location.hash !== '#risk') history.pushState(null, '', '#risk');
             hideAllViews();
             document.getElementById('risk-view').style.display = 'block';
+            updateActiveNav('risk');
 
             try {
                 const res = await fetch('/api/portfolio_risk');
@@ -3357,6 +3719,7 @@
             if (location.hash !== '#screener') history.pushState(null, '', '#screener');
             hideAllViews();
             document.getElementById('screener-view').style.display = 'block';
+            updateActiveNav('screener');
 
             // Populate sector dropdown from cached data
             try {
@@ -3559,6 +3922,7 @@
             if (location.hash !== '#alerts') history.pushState(null, '', '#alerts');
             hideAllViews();
             document.getElementById('alerts-view').style.display = 'block';
+            updateActiveNav('alerts');
 
             try {
                 const res = await fetch('/api/alerts');
