@@ -158,11 +158,17 @@ def rate_ticker(ticker):
 
 @app.route('/api/all_stocks')
 def all_stocks():
-    """Serve all_stocks.json for detail view"""
+    """Serve all_stocks.json for detail view, with insider scores injected"""
     try:
         file_path = os.path.join(os.getcwd(), 'data', 'all_stocks.json')
         with open(file_path, 'r') as f:
             data = json.load(f)
+        # Inject insider scores into each stock
+        ins_lookup = load_insider_scores()
+        for ticker, stock in data.get('stocks', {}).items():
+            ins = ins_lookup.get(ticker, {})
+            stock['ins_score'] = ins.get('ins_score', stock.get('ins_score', 0))
+            stock['insider_signal'] = ins.get('insider_signal', stock.get('insider_signal', 'neutral'))
         return jsonify(data)
     except FileNotFoundError:
         return jsonify({"error": "Stock data not found"}), 500
