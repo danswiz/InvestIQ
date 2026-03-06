@@ -344,33 +344,10 @@
             .dash-fear-grid { grid-template-columns: 1fr !important; }
             .dash-sector-grid { grid-template-columns: repeat(2, 1fr) !important; }
 
-            /* Convert table rows to card layout on mobile */
-            #stocks-table thead { display: none; }
-            #stocks-table tbody tr {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 6px;
-                padding: 14px;
-                margin-bottom: 8px;
-                border: 1px solid #2d3748;
-                border-radius: 10px;
-                background: var(--surface);
-            }
-            #stocks-table tbody td {
-                border: none;
-                padding: 2px 0;
-                font-size: 0.85rem;
-            }
-            #stocks-table tbody td:first-child {
-                grid-column: 1 / -1;
-                font-size: 1.1rem;
-            }
-            #stocks-table tbody td:nth-child(2) {
-                grid-column: 1 / -1;
-                color: var(--text-dim);
-                font-size: 0.78rem;
-            }
-            #stocks-table tbody td:nth-child(3) { display: none; }
+            /* Keep table as scrollable table on mobile */
+            .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            #stocks-table { font-size: 0.75rem; }
+            #stocks-table th, #stocks-table td { padding: 6px 8px; white-space: nowrap; }
         }
 
         /* ═══ Sparkline ═══ */
