@@ -191,6 +191,77 @@
 
         /* ═══ Hero Section ═══ */
         .hero-section { margin-bottom: 28px; }
+        /* ═══ Premium Dashboard ═══ */
+        .dash-section-label {
+            font-weight: 700;
+            font-size: 0.65rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+        .dash-glass {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px;
+            transition: border-color 0.25s, box-shadow 0.25s;
+        }
+        .dash-glass:hover {
+            border-color: rgba(56,189,248,0.25);
+            box-shadow: 0 0 20px rgba(56,189,248,0.06);
+        }
+        .dash-stage-banner {
+            border-radius: 12px;
+            padding: 20px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .dash-stage-banner .stage-name { font-weight: 800; font-size: 1.3rem; }
+        .dash-stage-banner .stage-detail { font-size: 0.78rem; opacity: 0.7; margin-top: 4px; }
+        .dash-stage-banner .stage-action { font-size: 0.85rem; text-align: right; max-width: 340px; font-weight: 500; }
+        .dash-stage-banner .stage-ftd { display: inline-block; background: rgba(16,185,129,0.2); color: #10b981; padding: 2px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; margin-top: 6px; }
+        .dash-index-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }
+        .dash-fear-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 24px; }
+        .dash-sector-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px; margin-bottom: 24px; }
+        .dash-price { font-size: 1.8rem; font-weight: 800; line-height: 1.2; }
+        .dash-change { font-size: 1rem; font-weight: 700; margin-top: 4px; }
+        .dash-ma-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            margin-right: 4px;
+            margin-top: 6px;
+        }
+        .dash-ma-above { background: rgba(16,185,129,0.15); color: #10b981; }
+        .dash-ma-below { background: rgba(239,68,68,0.15); color: #ef4444; }
+        .dash-breadth-bar { width: 100%; height: 8px; background: #334155; border-radius: 4px; overflow: hidden; margin-top: 8px; }
+        .dash-breadth-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
+        .dash-page-gradient {
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 200px;
+            background: linear-gradient(180deg, rgba(15,23,42,0.8) 0%, transparent 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @media (max-width: 768px) {
+            .dash-index-grid { grid-template-columns: repeat(2, 1fr); }
+            .dash-fear-grid { grid-template-columns: 1fr; }
+            .dash-sector-grid { grid-template-columns: repeat(2, 1fr); }
+            .dash-stage-banner { padding: 16px 18px; }
+            .dash-stage-banner .stage-name { font-size: 1rem; }
+            .dash-price { font-size: 1.4rem; }
+        }
+
         .hero-market-banner {
             padding: 14px 20px;
             border-radius: 10px;
@@ -269,10 +340,9 @@
             .top5-card { flex: 0 0 150px; padding: 12px; }
             .top-nav-brand { font-size: 0.95rem; padding: 10px 12px 10px 0; }
             .top-nav-item { padding: 10px 10px; font-size: 0.75rem; }
-            #dash-indices { grid-template-columns: repeat(2, 1fr) !important; }
-            #dash-indicators { grid-template-columns: 1fr !important; }
-            #dash-baskets { grid-template-columns: 1fr !important; }
-            #dash-sectors { grid-template-columns: repeat(2, 1fr) !important; }
+            .dash-index-grid { grid-template-columns: repeat(2, 1fr) !important; }
+            .dash-fear-grid { grid-template-columns: 1fr !important; }
+            .dash-sector-grid { grid-template-columns: repeat(2, 1fr) !important; }
 
             /* Convert table rows to card layout on mobile */
             #stocks-table thead { display: none; }
@@ -424,7 +494,6 @@
         <div class="top-nav-item" data-tab="watchlist" onclick="navTo('watchlist')">Watchlist</div>
         <div class="top-nav-item" data-tab="screener" onclick="navTo('screener')">Screener</div>
         <div class="top-nav-item" data-tab="alerts" onclick="navTo('alerts')">Alerts</div>
-        <div class="top-nav-item" data-tab="pulse" onclick="navTo('pulse')">Pulse</div>
         <div class="top-nav-item" data-tab="calendar" onclick="navTo('calendar')">Calendar</div>
     </nav>
 
@@ -437,7 +506,6 @@
             <div class="nav-item" onclick="showWatchlist(); toggleMenu();">Portfolio</div>
             <div class="nav-item" onclick="showRotation(); toggleMenu();">Rotation Scan</div>
             <div class="nav-item" onclick="showWatchlistEntries(); toggleMenu();">Watchlist</div>
-            <div class="nav-item" onclick="showMarketPulse(); toggleMenu();">Market Pulse</div>
             <div class="nav-item" onclick="showCalendar(); toggleMenu();">Calendar</div>
             <div class="nav-item" onclick="showJournal(); toggleMenu();">Trade Journal</div>
             <div class="nav-item" onclick="showRiskDashboard(); toggleMenu();">Risk Dashboard</div>
@@ -452,51 +520,41 @@
         <datalist id="ticker-list"></datalist>
 
         <!-- DASHBOARD VIEW (Market Command Center) -->
-        <div id="dashboard-view">
-            <!-- O'Neil Market Stage Banner -->
-            <div class="hero-market-banner" id="hero-market-banner" style="display:none; margin-bottom:20px;">
+        <div id="dashboard-view" style="position:relative;">
+            <div class="dash-page-gradient"></div>
+
+            <!-- Row 1: O'Neil Market Stage Banner -->
+            <div class="dash-stage-banner dash-glass" id="dash-stage-banner" style="display:none;">
                 <div>
-                    <div style="font-size:0.6rem; text-transform:uppercase; letter-spacing:1px; opacity:0.6; margin-bottom:2px;">O'Neil Market Stage</div>
-                    <div class="stage-name" id="hero-stage-name">Loading...</div>
+                    <div style="font-size:0.6rem; text-transform:uppercase; letter-spacing:2px; opacity:0.5; margin-bottom:4px;">O'Neil Market Stage</div>
+                    <div class="stage-name" id="dash-stage-name">Loading...</div>
+                    <div class="stage-detail" id="dash-stage-detail"></div>
+                    <span class="stage-ftd" id="dash-stage-ftd" style="display:none;"></span>
                 </div>
-                <div class="stage-action" id="hero-stage-action"></div>
+                <div class="stage-action" id="dash-stage-action"></div>
             </div>
 
-            <!-- Row 1: Market Indices -->
-            <div style="margin-bottom:20px;">
-                <h3 style="font-weight:700; font-size:0.8rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">Market Indices</h3>
-                <div id="dash-indices" style="display:grid; grid-template-columns: repeat(4, 1fr); gap:12px;">
-                    <div class="card" style="padding:16px; text-align:center;"><div style="color:var(--text-dim); font-size:0.75rem;">Loading...</div></div>
-                    <div class="card" style="padding:16px; text-align:center;"><div style="color:var(--text-dim); font-size:0.75rem;">Loading...</div></div>
-                    <div class="card" style="padding:16px; text-align:center;"><div style="color:var(--text-dim); font-size:0.75rem;">Loading...</div></div>
-                    <div class="card" style="padding:16px; text-align:center;"><div style="color:var(--text-dim); font-size:0.75rem;">Loading...</div></div>
-                </div>
+            <!-- Row 2: Major Indices -->
+            <div class="dash-section-label">Major Indices</div>
+            <div class="dash-index-grid" id="dash-indices">
+                <div class="dash-glass" style="padding:20px; text-align:center;"><div style="color:#64748b; font-size:0.75rem;">Loading...</div></div>
+                <div class="dash-glass" style="padding:20px; text-align:center;"><div style="color:#64748b; font-size:0.75rem;">Loading...</div></div>
+                <div class="dash-glass" style="padding:20px; text-align:center;"><div style="color:#64748b; font-size:0.75rem;">Loading...</div></div>
+                <div class="dash-glass" style="padding:20px; text-align:center;"><div style="color:#64748b; font-size:0.75rem;">Loading...</div></div>
             </div>
 
-            <!-- Row 2: Market Indicators -->
-            <div style="margin-bottom:20px;">
-                <h3 style="font-weight:700; font-size:0.8rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">Market Indicators</h3>
-                <div id="dash-indicators" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:12px;">
-                    <div class="card" style="padding:16px; text-align:center;"><div style="color:var(--text-dim); font-size:0.75rem;">Loading VIX...</div></div>
-                    <div class="card" style="padding:16px; text-align:center;"><div style="color:var(--text-dim); font-size:0.75rem;">Loading 10Y...</div></div>
-                    <div class="card" style="padding:16px; text-align:center;"><div style="color:var(--text-dim); font-size:0.75rem;">Loading...</div></div>
-                </div>
+            <!-- Row 3: Fear & Breadth -->
+            <div class="dash-section-label">Fear & Breadth</div>
+            <div class="dash-fear-grid" id="dash-fear">
+                <div class="dash-glass" style="padding:20px; text-align:center;"><div style="color:#64748b; font-size:0.75rem;">Loading VIX...</div></div>
+                <div class="dash-glass" style="padding:20px; text-align:center;"><div style="color:#64748b; font-size:0.75rem;">Loading breadth...</div></div>
+                <div class="dash-glass" style="padding:20px; text-align:center;"><div style="color:#64748b; font-size:0.75rem;">Loading 10Y...</div></div>
             </div>
 
-            <!-- Row 3: Portfolio Performance Summary -->
-            <div style="margin-bottom:20px;">
-                <h3 style="font-weight:700; font-size:0.8rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">Portfolio Baskets</h3>
-                <div id="dash-baskets" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap:12px;">
-                    <div class="card" style="padding:16px; text-align:center;"><div style="color:var(--text-dim); font-size:0.75rem;">Loading portfolio...</div></div>
-                </div>
-            </div>
-
-            <!-- Row 4: Live Sector Performance -->
-            <div style="margin-bottom:20px;">
-                <h3 style="font-weight:700; font-size:0.8rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">Sector Performance</h3>
-                <div id="dash-sectors" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap:10px;">
-                    <div class="card" style="padding:14px; text-align:center;"><div style="color:var(--text-dim); font-size:0.75rem;">Loading sectors...</div></div>
-                </div>
+            <!-- Row 4: Sector Heatmap -->
+            <div class="dash-section-label">Sector Heatmap</div>
+            <div class="dash-sector-grid" id="dash-sectors">
+                <div class="dash-glass" style="padding:16px; text-align:center;"><div style="color:#64748b; font-size:0.75rem;">Loading sectors...</div></div>
             </div>
         </div>
 
@@ -1153,43 +1211,7 @@
                 </div>
             </div>
         </div>
-        <!-- MARKET PULSE VIEW -->
-        <div id="market-pulse-view" style="display: none;">
-            <div style="display: flex; gap: 8px; margin-bottom: 16px; align-items: center;">
-                <button onclick="showDashboard()" class="text-sm text-slate-400 hover:text-white flex items-center">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                    Back to Dashboard
-                </button>
-            </div>
-            <h2 class="text-2xl font-bold mb-2" style="margin-left: 0;">📡 Market Pulse</h2>
-            <span id="pulse-updated" style="font-size: 0.8rem; color: var(--text-dim);">Loading market data...</span>
-
-            <!-- O'Neil IBD Market Stage Banner -->
-            <div id="market-stage-banner" style="margin-top: 16px; padding: 20px 24px; border-radius: 12px; border: 2px solid; display: none;">
-                <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
-                    <div>
-                        <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7; margin-bottom: 4px;">O'Neil Market Stage</div>
-                        <div id="stage-label" style="font-size: 1.4rem; font-weight: 800;"></div>
-                    </div>
-                    <div style="text-align: right;">
-                        <div id="stage-action" style="font-size: 0.9rem; max-width: 320px;"></div>
-                        <div id="stage-detail" style="font-size: 0.75rem; opacity: 0.6; margin-top: 4px;"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Index Cards -->
-            <div id="pulse-indices" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 20px;"></div>
-
-            <!-- VIX + Breadth Row -->
-            <div id="pulse-gauges" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px;"></div>
-
-            <!-- Sector Heatmap -->
-            <div class="card" style="margin-top: 16px;">
-                <h3 style="font-weight: 700; margin-bottom: 12px;">Sector Performance</h3>
-                <div id="pulse-sectors" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px;"></div>
-            </div>
-        </div>
+        <!-- Market Pulse merged into Dashboard -->
 
         <!-- CATALYST CALENDAR VIEW -->
         <div id="calendar-view" style="display: none;">
@@ -1435,7 +1457,6 @@
                 watchlist: () => showWatchlistEntries(),
                 screener: () => showScreener(),
                 alerts: () => showAlerts(),
-                pulse: () => showMarketPulse(),
                 calendar: () => showCalendar(),
                 journal: () => showJournal(),
                 risk: () => showRiskDashboard()
@@ -1497,14 +1518,17 @@
                         document.getElementById('hero-stage-value').style.color = c;
                         document.getElementById('hero-stage-sub').textContent = `${stage.distribution_days} dist days`;
 
-                        // Market banner
+                        // Market banner (removed from dashboard, no-op if missing)
                         const banner = document.getElementById('hero-market-banner');
-                        banner.style.display = 'flex';
-                        banner.style.borderColor = c + '66';
-                        banner.style.background = c + '10';
-                        document.getElementById('hero-stage-name').textContent = stage.stage;
-                        document.getElementById('hero-stage-name').style.color = c;
-                        document.getElementById('hero-stage-action').textContent = stage.action;
+                        if (banner) {
+                            banner.style.display = 'flex';
+                            banner.style.borderColor = c + '66';
+                            banner.style.background = c + '10';
+                            const sn = document.getElementById('hero-stage-name');
+                            if (sn) { sn.textContent = stage.stage; sn.style.color = c; }
+                            const sa = document.getElementById('hero-stage-action');
+                            if (sa) sa.textContent = stage.action;
+                        }
                     }
                 }
             } catch(e) {}
@@ -1718,7 +1742,7 @@
         function showAlert(msg) { alert(msg); }
         
         function hideAllViews() {
-            ['dashboard-view','hunter-view','detail-view','watchlist-view','rotation-view','watchlist-entries-view','market-pulse-view','calendar-view','journal-view','risk-view','screener-view','report-view','alerts-view'].forEach(id => {
+            ['dashboard-view','hunter-view','detail-view','watchlist-view','rotation-view','watchlist-entries-view','calendar-view','journal-view','risk-view','screener-view','report-view','alerts-view'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.style.display = 'none';
             });
@@ -1748,208 +1772,140 @@
         }
 
         async function loadDashboardData() {
-            // Load market stage banner
-            loadDashboardMarketStage();
-            // Load indices, indicators, sectors
-            loadDashboardSummary();
-            // Load portfolio baskets
-            loadDashboardBaskets();
-        }
+            // Fetch both APIs in parallel
+            const [summaryRes, internalsRes] = await Promise.allSettled([
+                fetch('/api/dashboard_summary').then(r => r.ok ? r.json() : null),
+                fetch('/api/market_internals').then(r => r.ok ? r.json() : null)
+            ]);
+            const summary = summaryRes.status === 'fulfilled' ? summaryRes.value : null;
+            const internals = internalsRes.status === 'fulfilled' ? internalsRes.value : null;
 
-        async function loadDashboardMarketStage() {
-            try {
-                const res = await fetch('/api/market_internals');
-                if (!res.ok) return;
-                const data = await res.json();
-                const stage = data.market_stage;
-                if (stage) {
-                    const colorMap = { green: '#10b981', yellow: '#eab308', orange: '#f97316', red: '#ef4444' };
-                    const c = colorMap[stage.color] || '#94a3b8';
-                    const banner = document.getElementById('hero-market-banner');
-                    banner.style.display = 'flex';
-                    banner.style.borderColor = c + '66';
-                    banner.style.background = c + '10';
-                    document.getElementById('hero-stage-name').textContent = stage.stage;
-                    document.getElementById('hero-stage-name').style.color = c;
-                    document.getElementById('hero-stage-action').textContent = stage.action;
+            // Row 1: O'Neil Market Stage
+            if (internals && internals.market_stage) {
+                const ms = internals.market_stage;
+                const colorMap = {
+                    green:  { bg: 'rgba(16,185,129,0.12)', border: '#10b981', text: '#10b981' },
+                    yellow: { bg: 'rgba(234,179,8,0.12)',  border: '#eab308', text: '#eab308' },
+                    orange: { bg: 'rgba(249,115,22,0.12)', border: '#f97316', text: '#f97316' },
+                    red:    { bg: 'rgba(239,68,68,0.12)',  border: '#ef4444', text: '#ef4444' }
+                };
+                const c = colorMap[ms.color] || colorMap.red;
+                const banner = document.getElementById('dash-stage-banner');
+                banner.style.display = 'flex';
+                banner.style.background = c.bg;
+                banner.style.borderColor = c.border;
+                document.getElementById('dash-stage-name').textContent = ms.stage;
+                document.getElementById('dash-stage-name').style.color = c.text;
+                document.getElementById('dash-stage-detail').textContent =
+                    `${ms.distribution_days} dist + ${ms.stalling_days} stalling = ${ms.total_distribution} total (last ${ms.window})`;
+                document.getElementById('dash-stage-action').textContent = ms.action;
+                document.getElementById('dash-stage-action').style.color = c.text;
+                if (ms.follow_through_day) {
+                    const ftd = document.getElementById('dash-stage-ftd');
+                    ftd.style.display = 'inline-block';
+                    ftd.textContent = 'Follow-Through Day Detected';
                 }
-            } catch(e) {}
-        }
+            }
 
-        async function loadDashboardSummary() {
-            try {
-                const res = await fetch('/api/dashboard_summary');
-                if (!res.ok) return;
-                const data = await res.json();
-
-                // Render indices (SPY, QQQ, IWM + DJI placeholder)
-                const indicesHtml = Object.entries(data.indices).map(([ticker, d]) => {
-                    const color = d.change_pct > 0 ? '#10b981' : d.change_pct < 0 ? '#ef4444' : 'var(--text-dim)';
+            // Row 2: Major Indices (SPY, QQQ, IWM, DIA)
+            if (summary && summary.indices) {
+                const indexNames = { SPY: 'S&P 500', QQQ: 'NASDAQ 100', IWM: 'Russell 2000', DIA: 'Dow Jones' };
+                const indicesHtml = Object.entries(summary.indices).map(([ticker, d]) => {
+                    if (!d || !d.price) return '';
+                    const color = d.change_pct > 0 ? '#10b981' : d.change_pct < 0 ? '#ef4444' : '#94a3b8';
+                    const arrow = d.change_pct > 0 ? '&#9650;' : d.change_pct < 0 ? '&#9660;' : '';
                     const prefix = d.change_pct > 0 ? '+' : '';
-                    return `<div class="card" style="padding:16px; text-align:center; border-left:3px solid ${color};">
-                        <div style="font-size:0.7rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">${ticker}</div>
-                        <div style="font-size:1.4rem; font-weight:800;">\$${d.price.toFixed(2)}</div>
-                        <div style="font-size:0.9rem; font-weight:700; color:${color}; margin-top:4px;">${prefix}${d.change_pct.toFixed(2)}%</div>
+                    const ma50Badge = d.above_50 === true
+                        ? '<span class="dash-ma-badge dash-ma-above">Above 50d</span>'
+                        : d.above_50 === false
+                        ? '<span class="dash-ma-badge dash-ma-below">Below 50d</span>' : '';
+                    const ma200Badge = d.above_200 === true
+                        ? '<span class="dash-ma-badge dash-ma-above">Above 200d</span>'
+                        : d.above_200 === false
+                        ? '<span class="dash-ma-badge dash-ma-below">Below 200d</span>' : '';
+                    return `<div class="dash-glass" style="padding:20px; text-align:center;">
+                        <div style="font-size:0.65rem; color:#64748b; text-transform:uppercase; letter-spacing:2px; margin-bottom:4px;">${indexNames[ticker] || ticker}</div>
+                        <div style="font-size:0.75rem; color:#94a3b8; font-weight:600; margin-bottom:6px;">${ticker}</div>
+                        <div class="dash-price">\$${d.price.toFixed(2)}</div>
+                        <div class="dash-change" style="color:${color};">${arrow} ${prefix}${d.change_pct.toFixed(2)}%</div>
+                        <div style="margin-top:8px;">${ma50Badge}${ma200Badge}</div>
                     </div>`;
                 }).join('');
-                document.getElementById('dash-indices').innerHTML = indicesHtml || '<div class="card" style="padding:16px; text-align:center; grid-column:1/-1;"><div style="color:var(--text-dim);">Market data unavailable</div></div>';
+                document.getElementById('dash-indices').innerHTML = indicesHtml || '<div class="dash-glass" style="padding:20px; text-align:center; grid-column:1/-1;"><div style="color:#64748b;">Market data unavailable</div></div>';
+            }
 
-                // Render indicators (VIX, 10Y)
-                let indicatorsHtml = '';
-                const vix = data.indicators['^VIX'];
-                if (vix) {
-                    const vixColor = vix.price < 16 ? '#10b981' : vix.price < 25 ? '#eab308' : '#ef4444';
-                    const vixLabel = vix.price < 16 ? 'LOW FEAR' : vix.price < 25 ? 'MODERATE' : 'HIGH FEAR';
-                    indicatorsHtml += `<div class="card" style="padding:16px; text-align:center; border-left:3px solid ${vixColor};">
-                        <div style="font-size:0.7rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">VIX (Fear Index)</div>
-                        <div style="font-size:1.4rem; font-weight:800; color:${vixColor};">${vix.price.toFixed(2)}</div>
-                        <div style="font-size:0.75rem; font-weight:600; color:${vixColor}; margin-top:4px;">${vixLabel}</div>
+            // Row 3: Fear & Breadth
+            if (summary || internals) {
+                let fearHtml = '';
+
+                // VIX
+                const vix = summary?.indicators?.['^VIX'];
+                if (vix && vix.price) {
+                    let vixColor, vixLabel;
+                    if (vix.price >= 30) { vixColor = '#ef4444'; vixLabel = 'PANIC'; }
+                    else if (vix.price >= 25) { vixColor = '#ef4444'; vixLabel = 'FEAR'; }
+                    else if (vix.price >= 16) { vixColor = '#eab308'; vixLabel = 'MODERATE'; }
+                    else { vixColor = '#10b981'; vixLabel = 'CALM'; }
+                    fearHtml += `<div class="dash-glass" style="padding:20px; text-align:center;">
+                        <div style="font-size:0.65rem; color:#64748b; text-transform:uppercase; letter-spacing:2px; margin-bottom:8px;">VIX &middot; Fear Index</div>
+                        <div class="dash-price" style="color:${vixColor};">${vix.price.toFixed(2)}</div>
+                        <div style="font-size:0.85rem; font-weight:700; color:${vixColor}; margin-top:6px;">${vixLabel}</div>
                     </div>`;
                 }
-                const tnx = data.indicators['^TNX'];
-                if (tnx) {
-                    indicatorsHtml += `<div class="card" style="padding:16px; text-align:center; border-left:3px solid #38bdf8;">
-                        <div style="font-size:0.7rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">10Y Treasury Yield</div>
-                        <div style="font-size:1.4rem; font-weight:800;">${tnx.price.toFixed(2)}%</div>
-                        <div style="font-size:0.75rem; color:var(--text-dim); margin-top:4px;">${tnx.change_pct > 0 ? '+' : ''}${tnx.change_pct.toFixed(2)}% today</div>
+
+                // Breadth
+                const breadth = internals?.breadth;
+                if (breadth) {
+                    const bPct = breadth.pct || 0;
+                    const bColor = bPct >= 60 ? '#10b981' : bPct >= 40 ? '#eab308' : '#ef4444';
+                    fearHtml += `<div class="dash-glass" style="padding:20px; text-align:center;">
+                        <div style="font-size:0.65rem; color:#64748b; text-transform:uppercase; letter-spacing:2px; margin-bottom:8px;">Market Breadth &middot; Top 20</div>
+                        <div class="dash-price" style="color:${bColor};">${breadth.up}/${breadth.total}</div>
+                        <div class="dash-breadth-bar"><div class="dash-breadth-fill" style="width:${bPct}%; background:${bColor};"></div></div>
+                        <div style="font-size:0.75rem; color:#94a3b8; margin-top:6px;">${bPct}% stocks positive today</div>
+                    </div>`;
+                } else {
+                    fearHtml += `<div class="dash-glass" style="padding:20px; text-align:center;"><div style="color:#64748b;">Breadth unavailable</div></div>`;
+                }
+
+                // 10Y Treasury
+                const tnx = summary?.indicators?.['^TNX'];
+                if (tnx && tnx.price) {
+                    const tnxColor = tnx.change_pct > 0 ? '#ef4444' : tnx.change_pct < 0 ? '#10b981' : '#94a3b8';
+                    const tnxPrefix = tnx.change_pct > 0 ? '+' : '';
+                    fearHtml += `<div class="dash-glass" style="padding:20px; text-align:center;">
+                        <div style="font-size:0.65rem; color:#64748b; text-transform:uppercase; letter-spacing:2px; margin-bottom:8px;">10Y Treasury Yield</div>
+                        <div class="dash-price">${tnx.price.toFixed(2)}%</div>
+                        <div class="dash-change" style="color:${tnxColor};">${tnxPrefix}${tnx.change_pct.toFixed(2)}% today</div>
                     </div>`;
                 }
-                // Market stage summary card
-                indicatorsHtml += `<div class="card" style="padding:16px; text-align:center; border-left:3px solid var(--accent);">
-                    <div style="font-size:0.7rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">Top Pick</div>
-                    <div style="font-size:1.4rem; font-weight:800; color:var(--accent);" id="dash-top-pick">--</div>
-                    <div style="font-size:0.75rem; color:var(--text-dim); margin-top:4px;" id="dash-top-pick-sub">Highest rotation</div>
-                </div>`;
-                document.getElementById('dash-indicators').innerHTML = indicatorsHtml;
 
-                // Fill top pick
-                const sorted = [...stocksData].sort((a, b) => (b.rotation_score || 0) - (a.rotation_score || 0));
-                if (sorted.length > 0) {
-                    const el = document.getElementById('dash-top-pick');
-                    if (el) el.textContent = sorted[0].ticker;
-                    const sub = document.getElementById('dash-top-pick-sub');
-                    if (sub) sub.textContent = `${sorted[0].name} · Rot ${(sorted[0].rotation_score || 0).toFixed(1)}`;
-                }
+                document.getElementById('dash-fear').innerHTML = fearHtml;
+            }
 
-                // Render sectors (sorted by performance)
-                const sectorEntries = Object.entries(data.sectors).sort((a, b) => b[1].change_pct - a[1].change_pct);
+            // Row 4: Sector Heatmap
+            if (summary && summary.sectors) {
+                const sectorEntries = Object.entries(summary.sectors).sort((a, b) => b[1].change_pct - a[1].change_pct);
                 const sectorsHtml = sectorEntries.map(([name, d]) => {
-                    const color = d.change_pct > 0 ? '#10b981' : d.change_pct < 0 ? '#ef4444' : 'var(--text-dim)';
-                    const bgGrad = d.change_pct > 0
-                        ? `linear-gradient(135deg, rgba(16,185,129,0.08) 0%, rgba(16,185,129,0.02) 100%)`
-                        : d.change_pct < 0
-                        ? `linear-gradient(135deg, rgba(239,68,68,0.08) 0%, rgba(239,68,68,0.02) 100%)`
-                        : 'var(--surface)';
-                    const prefix = d.change_pct > 0 ? '+' : '';
-                    return `<div class="card" style="padding:14px; background:${bgGrad}; border-left:3px solid ${color}; cursor:pointer; transition:transform 0.15s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
-                        <div style="display:flex; justify-content:space-between; align-items:center;">
-                            <div>
-                                <div style="font-size:0.75rem; font-weight:700;">${name}</div>
-                                <div style="font-size:0.65rem; color:var(--text-dim);">${d.ticker}</div>
-                            </div>
-                            <div style="text-align:right;">
-                                <div style="font-size:1rem; font-weight:800; color:${color};">${prefix}${d.change_pct.toFixed(2)}%</div>
-                                <div style="font-size:0.7rem; color:var(--text-dim);">\$${d.price.toFixed(2)}</div>
-                            </div>
-                        </div>
+                    const chg = d.change_pct || 0;
+                    const color = chg > 0 ? '#10b981' : chg < 0 ? '#ef4444' : '#94a3b8';
+                    // Gradient intensity proportional to change (0% = neutral, 3% = max)
+                    const intensity = Math.min(Math.abs(chg) / 3, 1);
+                    const r = chg < 0 ? Math.round(239 * intensity) : 0;
+                    const g = chg > 0 ? Math.round(185 * intensity) : 0;
+                    const b = chg > 0 ? Math.round(129 * intensity * 0.3) : 0;
+                    const bgColor = chg === 0
+                        ? 'rgba(30,41,59,0.6)'
+                        : `rgba(${chg > 0 ? `16,${100 + Math.round(85*intensity)},${60 + Math.round(69*intensity)}` : `${180 + Math.round(59*intensity)},68,68`},${0.06 + intensity * 0.18})`;
+                    const prefix = chg > 0 ? '+' : '';
+                    return `<div class="dash-glass" style="padding:16px; text-align:center; background:${bgColor}; cursor:pointer;">
+                        <div style="font-size:0.7rem; font-weight:700; margin-bottom:2px;">${name}</div>
+                        <div style="font-size:0.6rem; color:#64748b; margin-bottom:8px;">${d.ticker}</div>
+                        <div style="font-size:1.2rem; font-weight:800; color:${color};">${prefix}${chg.toFixed(2)}%</div>
+                        <div style="font-size:0.7rem; color:#94a3b8; margin-top:4px;">\$${d.price.toFixed(2)}</div>
                     </div>`;
                 }).join('');
                 document.getElementById('dash-sectors').innerHTML = sectorsHtml;
-
-            } catch(e) {
-                console.log('Dashboard summary load failed:', e);
-            }
-        }
-
-        async function loadDashboardBaskets() {
-            try {
-                const res = await fetch('/api/portfolio');
-                if (!res.ok) return;
-                const portfolio = await res.json();
-
-                let allStocks = {};
-                try {
-                    const allRes = await fetch('/api/all_stocks');
-                    if (allRes.ok) {
-                        const allData = await allRes.json();
-                        allStocks = allData.stocks || {};
-                    }
-                } catch(e) {}
-
-                // Get live prices for basket tickers
-                const allTickers = [];
-                for (const basket of Object.values(portfolio.baskets || {})) {
-                    for (const ticker of Object.keys(basket.tickers || {})) {
-                        allTickers.push(ticker);
-                    }
-                }
-
-                let livePrices = {};
-                try {
-                    const liveRes = await fetch('/api/watchlist/live');
-                    if (liveRes.ok) {
-                        const liveData = await liveRes.json();
-                        livePrices = liveData.prices || {};
-                    }
-                } catch(e) {}
-
-                const basketOrder = ['Trading Account', 'IRA Core ETFs', 'Grid-to-Chip', 'Defense & Aerospace', 'AI Semis', 'Biotech'];
-                const allBaskets = [...basketOrder];
-                for (const b in (portfolio.baskets || {})) {
-                    if (!allBaskets.includes(b)) allBaskets.push(b);
-                }
-
-                let totalWeightedChange = 0, totalWeight = 0;
-                let basketsHtml = '';
-
-                for (const name of allBaskets) {
-                    const basket = (portfolio.baskets || {})[name];
-                    if (!basket) continue;
-                    const tickers = basket.tickers || {};
-                    const tickerList = Object.keys(tickers);
-                    const icon = basket.icon || basketIcons[name] || '📋';
-
-                    let basketChange = 0, basketWeight = 0;
-                    for (const [ticker, pct] of Object.entries(tickers)) {
-                        const lp = livePrices[ticker];
-                        if (lp && lp.daily_change !== undefined) {
-                            basketChange += lp.daily_change * (pct || 1);
-                            basketWeight += (pct || 1);
-                        }
-                    }
-                    const avgChange = basketWeight > 0 ? basketChange / basketWeight : 0;
-                    totalWeightedChange += basketChange;
-                    totalWeight += basketWeight;
-                    const changeColor = avgChange > 0 ? '#10b981' : avgChange < 0 ? '#ef4444' : 'var(--text-dim)';
-                    const prefix = avgChange > 0 ? '+' : '';
-
-                    basketsHtml += `<div class="card" style="padding:16px; cursor:pointer; border-left:3px solid ${changeColor}; transition:transform 0.15s;" onclick="navTo('portfolio')" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                            <span style="font-size:1.2rem;">${icon}</span>
-                            <span style="font-size:0.7rem; color:var(--text-dim);">${tickerList.length} holdings</span>
-                        </div>
-                        <div style="font-weight:700; font-size:0.85rem; margin-bottom:4px;">${name}</div>
-                        <div style="font-size:1.1rem; font-weight:800; color:${changeColor};">${prefix}${avgChange.toFixed(2)}%</div>
-                    </div>`;
-                }
-
-                // Add total portfolio card
-                const totalAvg = totalWeight > 0 ? totalWeightedChange / totalWeight : 0;
-                const totalColor = totalAvg > 0 ? '#10b981' : totalAvg < 0 ? '#ef4444' : 'var(--text-dim)';
-                const totalPrefix = totalAvg > 0 ? '+' : '';
-                basketsHtml = `<div class="card" style="padding:16px; border-left:3px solid ${totalColor}; background:linear-gradient(135deg, rgba(56,189,248,0.06) 0%, transparent 100%);">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                        <span style="font-size:1.2rem;">💼</span>
-                        <span style="font-size:0.7rem; color:var(--text-dim);">Total</span>
-                    </div>
-                    <div style="font-weight:700; font-size:0.85rem; margin-bottom:4px;">Entire Portfolio</div>
-                    <div style="font-size:1.1rem; font-weight:800; color:${totalColor};">${totalPrefix}${totalAvg.toFixed(2)}%</div>
-                </div>` + basketsHtml;
-
-                document.getElementById('dash-baskets').innerHTML = basketsHtml;
-
-            } catch(e) {
-                console.log('Dashboard baskets load failed:', e);
             }
         }
 
@@ -2700,111 +2656,7 @@
             }
         }
 
-        // ===== MARKET PULSE =====
-        async function showMarketPulse() {
-            if (location.hash !== '#pulse') history.pushState(null, '', '#pulse');
-            hideAllViews();
-            document.getElementById('market-pulse-view').style.display = 'block';
-            updateActiveNav('pulse');
-
-            try {
-                const res = await fetch('/api/market_internals');
-                const data = await res.json();
-                if (data.error) throw new Error(data.error);
-                renderMarketPulse(data);
-            } catch(e) {
-                document.getElementById('pulse-updated').textContent = 'Error loading: ' + e.message;
-            }
-        }
-
-        function renderMarketPulse(data) {
-            document.getElementById('pulse-updated').textContent = 'Updated: ' + (data.timestamp || '');
-
-            // O'Neil Market Stage Banner
-            const ms = data.market_stage;
-            if (ms) {
-                const banner = document.getElementById('market-stage-banner');
-                const colors = {
-                    green:  { bg: 'rgba(16,185,129,0.1)',  border: '#10b981', text: '#10b981', emoji: '🟢' },
-                    yellow: { bg: 'rgba(234,179,8,0.1)',   border: '#eab308', text: '#eab308', emoji: '🟡' },
-                    orange: { bg: 'rgba(249,115,22,0.1)',  border: '#f97316', text: '#f97316', emoji: '🟠' },
-                    red:    { bg: 'rgba(239,68,68,0.1)',   border: '#ef4444', text: '#ef4444', emoji: '🔴' }
-                };
-                const c = colors[ms.color] || colors.red;
-                banner.style.background = c.bg;
-                banner.style.borderColor = c.border;
-                banner.style.display = 'block';
-                document.getElementById('stage-label').innerHTML = `${c.emoji} ${ms.stage}`;
-                document.getElementById('stage-label').style.color = c.text;
-                document.getElementById('stage-action').textContent = ms.action;
-                document.getElementById('stage-action').style.color = c.text;
-                document.getElementById('stage-detail').textContent =
-                    `${ms.distribution_days} distribution days + ${ms.stalling_days} stalling days = ${ms.total_distribution} total (${ms.window})` +
-                    (ms.follow_through_day ? ' · Follow-through day ✓' : '');
-            }
-
-            // Index cards
-            const indicesEl = document.getElementById('pulse-indices');
-            let indicesHTML = '';
-            for (const [sym, d] of Object.entries(data.indices || {})) {
-                const chgColor = d.change_pct >= 0 ? '#10b981' : '#ef4444';
-                const chgIcon = d.change_pct >= 0 ? '▲' : '▼';
-                const ma50Badge = d.above_50 === true ? '<span style="color:#10b981;">Above 50d</span>' : d.above_50 === false ? '<span style="color:#ef4444;">Below 50d</span>' : '';
-                const ma200Badge = d.above_200 === true ? '<span style="color:#10b981;">Above 200d</span>' : d.above_200 === false ? '<span style="color:#ef4444;">Below 200d</span>' : '';
-                indicesHTML += `
-                    <div class="card" style="padding:16px;">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                            <span style="font-weight:700; font-size:1.1rem;">${sym}</span>
-                            <span style="color:${chgColor}; font-weight:600;">${chgIcon} ${d.change_pct}%</span>
-                        </div>
-                        <div style="font-size:1.4rem; font-weight:800; margin-bottom:8px;">$${d.price}</div>
-                        <div style="font-size:0.75rem; color:var(--text-dim); display:flex; flex-direction:column; gap:4px;">
-                            <div>50d MA: $${d.ma50 || '—'} ${ma50Badge}</div>
-                            <div>200d MA: $${d.ma200 || '—'} ${ma200Badge}</div>
-                        </div>
-                    </div>`;
-            }
-            indicesEl.innerHTML = indicesHTML;
-
-            // VIX + Breadth gauges
-            const gaugesEl = document.getElementById('pulse-gauges');
-            const vix = data.vix;
-            let vixColor = '#10b981', vixLabel = 'LOW FEAR';
-            if (vix >= 30) { vixColor = '#ef4444'; vixLabel = 'HIGH FEAR'; }
-            else if (vix >= 20) { vixColor = '#eab308'; vixLabel = 'ELEVATED'; }
-
-            const breadth = data.breadth || {};
-            let breadthColor = '#10b981', breadthLabel = 'STRONG';
-            if (breadth.pct < 40) { breadthColor = '#ef4444'; breadthLabel = 'WEAK'; }
-            else if (breadth.pct < 60) { breadthColor = '#eab308'; breadthLabel = 'MIXED'; }
-
-            gaugesEl.innerHTML = `
-                <div class="card" style="padding:16px; text-align:center;">
-                    <div style="font-size:0.8rem; color:var(--text-dim); text-transform:uppercase; margin-bottom:8px;">VIX (Fear Index)</div>
-                    <div style="font-size:2.2rem; font-weight:800; color:${vixColor};">${vix || '—'}</div>
-                    <div style="font-size:0.85rem; font-weight:600; color:${vixColor}; margin-top:4px;">${vixLabel}</div>
-                </div>
-                <div class="card" style="padding:16px; text-align:center;">
-                    <div style="font-size:0.8rem; color:var(--text-dim); text-transform:uppercase; margin-bottom:8px;">Market Breadth (Top 20)</div>
-                    <div style="font-size:2.2rem; font-weight:800; color:${breadthColor};">${breadth.up || 0}/${breadth.total || 20}</div>
-                    <div style="font-size:0.85rem; font-weight:600; color:${breadthColor}; margin-top:4px;">${breadthLabel} (${breadth.pct || 0}% up)</div>
-                </div>`;
-
-            // Sector heatmap
-            const sectorsEl = document.getElementById('pulse-sectors');
-            let secHTML = '';
-            for (const s of (data.sectors || [])) {
-                const color = s.change >= 0 ? '#10b981' : '#ef4444';
-                const bg = s.change >= 0 ? 'rgba(16,185,129,0.12)' : 'rgba(239,68,68,0.12)';
-                secHTML += `
-                    <div style="background:${bg}; border:1px solid ${color}30; border-radius:8px; padding:12px; text-align:center;">
-                        <div style="font-size:0.75rem; color:var(--text-dim);">${s.name}</div>
-                        <div style="font-weight:700; margin:4px 0;">${s.ticker}</div>
-                        <div style="color:${color}; font-weight:700; font-size:1.1rem;">${s.change >= 0 ? '+' : ''}${s.change}%</div>
-                    </div>`;
-            }
-            sectorsEl.innerHTML = secHTML;
-        }
+        // showMarketPulse removed — merged into Dashboard
 
         // ===== CATALYST CALENDAR =====
         async function showCalendar() {
@@ -2924,7 +2776,7 @@
             else if (hash === 'portfolio') showWatchlist();
             else if (hash === 'rotation') showRotation();
             else if (hash === 'watchlist') showWatchlistEntries();
-            else if (hash === 'pulse') showMarketPulse();
+            else if (hash === 'pulse') showDashboard();
             else if (hash === 'calendar') showCalendar();
             else if (hash === 'journal') showJournal();
             else if (hash === 'risk') showRiskDashboard();
