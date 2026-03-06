@@ -1601,10 +1601,7 @@
                 return `
                     <tr data-sector="${stock.sector}" onclick="viewStock('${stock.ticker}')" style="cursor:pointer;">
                         <td class="text-sm" style="color: var(--text-dim);">${idx + 1}</td>
-                        <td>
-                            <canvas class="sparkline-canvas" data-ticker="${stock.ticker}" width="80" height="32"></canvas>
-                            <span class="font-bold text-sky-400">${stock.ticker}</span>
-                        </td>
+                        <td style="text-align:left; font-weight:700; color:#38bdf8;">${stock.ticker}</td>
                         <td class="text-sm">${stock.name}</td>
                         <td class="text-sm">
                             <span class="cursor-pointer hover:text-sky-400 transition" onclick="event.stopPropagation(); filterBySector('${stock.sector}')">
