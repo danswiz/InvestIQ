@@ -1541,8 +1541,8 @@ def stock_report(ticker):
 ## ===== DASHBOARD SUMMARY =====
 @app.route('/api/dashboard_summary')
 def dashboard_summary():
-    """Returns market indices, VIX, sectors for dashboard command center"""
-    indices = ['SPY', 'QQQ', 'IWM']
+    """Returns market indices (with MAs), VIX, TNX, sectors for dashboard command center"""
+    indices = ['SPY', 'QQQ', 'IWM', 'DIA']
     sectors = {
         'Technology': 'XLK', 'Financials': 'XLF', 'Energy': 'XLE',
         'Healthcare': 'XLV', 'Industrials': 'XLI', 'Materials': 'XLB',
@@ -1551,12 +1551,11 @@ def dashboard_summary():
     }
     indicators = {'^VIX': '%5EVIX', '^TNX': '%5ETNX'}
 
-    all_tickers = indices + list(sectors.values())
+    # --- Sector ETFs via spark (fast) ---
+    sector_tickers = list(sectors.values())
     results = {}
-
-    # Batch fetch indices + sector ETFs using spark endpoint
-    for i in range(0, len(all_tickers), 15):
-        batch = all_tickers[i:i+15]
+    for i in range(0, len(sector_tickers), 15):
+        batch = sector_tickers[i:i+15]
         symbols = ','.join(batch)
         try:
             url = f'https://query1.finance.yahoo.com/v8/finance/spark?symbols={symbols}&range=1d&interval=1m'
@@ -1576,7 +1575,35 @@ def dashboard_summary():
         except Exception:
             pass
 
-    # Fetch indicators (^VIX, ^TNX) individually via chart endpoint (need URL encoding)
+    # --- Indices via chart endpoint (gives 1y data for MA calculation) ---
+    index_data = {}
+    for sym in indices:
+        try:
+            url = f'https://query1.finance.yahoo.com/v8/finance/chart/{sym}?range=1y&interval=1d'
+            req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+            resp = urllib.request.urlopen(req, timeout=10)
+            chart = json.loads(resp.read())
+            result = chart.get('chart', {}).get('result', [{}])[0]
+            closes = result.get('indicators', {}).get('quote', [{}])[0].get('close', [])
+            valid_closes = [c for c in closes if c is not None]
+            if valid_closes:
+                current = valid_closes[-1]
+                ma50 = sum(valid_closes[-50:]) / min(len(valid_closes), 50) if len(valid_closes) >= 50 else None
+                ma200 = sum(valid_closes[-200:]) / min(len(valid_closes), 200) if len(valid_closes) >= 200 else None
+                prev = valid_closes[-2] if len(valid_closes) >= 2 else current
+                index_data[sym] = {
+                    'price': round(current, 2),
+                    'change_pct': round((current - prev) / prev * 100, 2) if prev else 0,
+                    'prev_close': round(prev, 2),
+                    'ma50': round(ma50, 2) if ma50 else None,
+                    'ma200': round(ma200, 2) if ma200 else None,
+                    'above_50': current > ma50 if ma50 else None,
+                    'above_200': current > ma200 if ma200 else None,
+                }
+        except Exception:
+            pass
+
+    # --- Indicators (^VIX, ^TNX) via chart endpoint ---
     for display_name, encoded in indicators.items():
         try:
             url = f'https://query1.finance.yahoo.com/v8/finance/chart/{encoded}?range=1d&interval=1m'
@@ -1596,7 +1623,7 @@ def dashboard_summary():
             results[display_name] = {'price': 0, 'change_pct': 0, 'prev_close': 0}
 
     return jsonify({
-        'indices': {t: results.get(t, {'price': 0, 'change_pct': 0, 'prev_close': 0}) for t in indices},
+        'indices': {t: index_data.get(t, {'price': 0, 'change_pct': 0, 'prev_close': 0}) for t in indices},
         'sectors': {name: {'ticker': etf, **results.get(etf, {'price': 0, 'change_pct': 0, 'prev_close': 0})} for name, etf in sectors.items()},
         'indicators': {t: results.get(t, {'price': 0, 'change_pct': 0, 'prev_close': 0}) for t in indicators}
     })
