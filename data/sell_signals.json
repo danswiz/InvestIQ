@@ -1,98 +1,103 @@
 {
-  "date": "2026-03-04",
+  "date": "2026-03-05",
   "signals": [
     {
       "ticker": "GTES",
-      "tier": "HOLD",
-      "reasons": [],
-      "current_price": 26.24,
+      "tier": "WATCH",
+      "reasons": [
+        "Rotation dropped 15.0 pts (entry: 65.4 \u2192 now: 50.4)",
+        "Down -7.8% from entry (approaching stop)"
+      ],
+      "current_price": 25.44,
       "entry_price": 27.6,
-      "pct_from_entry": -4.93,
-      "rotation_score": 51.7,
+      "pct_from_entry": -7.83,
+      "rotation_score": 50.4,
       "entry_rotation": 65.4,
-      "ma50": 24.4,
+      "ma50": 24.48,
       "dist_count": 0,
-      "date": "2026-03-04"
+      "date": "2026-03-05"
     },
     {
       "ticker": "NVT",
-      "tier": "WATCH",
+      "tier": "SELL",
       "reasons": [
-        "Down -5.3% from entry (approaching stop)"
+        "Hard stop: -8.1% from entry"
       ],
-      "current_price": 113.83,
+      "current_price": 110.55,
       "entry_price": 120.23,
-      "pct_from_entry": -5.32,
-      "rotation_score": 56.7,
+      "pct_from_entry": -8.05,
+      "rotation_score": 55.4,
       "entry_rotation": 67.7,
-      "ma50": 111.19,
+      "ma50": 111.37,
       "dist_count": 0,
-      "date": "2026-03-04"
+      "date": "2026-03-05"
     },
     {
       "ticker": "JHG",
       "tier": "HOLD",
       "reasons": [],
-      "current_price": 51.4,
+      "current_price": 51.49,
       "entry_price": 52.09,
-      "pct_from_entry": -1.32,
-      "rotation_score": 56.4,
+      "pct_from_entry": -1.15,
+      "rotation_score": 55.2,
       "entry_rotation": 65,
-      "ma50": 48.58,
+      "ma50": 48.69,
       "dist_count": 0,
-      "date": "2026-03-04"
+      "date": "2026-03-05"
     },
     {
       "ticker": "PCG",
-      "tier": "HOLD",
-      "reasons": [],
-      "current_price": 18.88,
+      "tier": "WATCH",
+      "reasons": [
+        "Down -5.0% from entry (approaching stop)"
+      ],
+      "current_price": 18.13,
       "entry_price": 19.09,
-      "pct_from_entry": -1.1,
+      "pct_from_entry": -5.03,
       "rotation_score": 59.1,
       "entry_rotation": 63.7,
-      "ma50": 16.52,
+      "ma50": 16.57,
       "dist_count": 0,
-      "date": "2026-03-04"
+      "date": "2026-03-05"
     },
     {
       "ticker": "THC",
       "tier": "HOLD",
       "reasons": [],
-      "current_price": 244.8,
+      "current_price": 241.4,
       "entry_price": 235.21,
-      "pct_from_entry": 4.08,
-      "rotation_score": 60.0,
+      "pct_from_entry": 2.63,
+      "rotation_score": 58.1,
       "entry_rotation": 62,
-      "ma50": 207.93,
+      "ma50": 208.83,
       "dist_count": 0,
-      "date": "2026-03-04"
+      "date": "2026-03-05"
     },
     {
       "ticker": "MPC",
       "tier": "HOLD",
       "reasons": [],
-      "current_price": 220.77,
+      "current_price": 217.36,
       "entry_price": 211.98,
-      "pct_from_entry": 4.15,
+      "pct_from_entry": 2.54,
       "rotation_score": 66.2,
       "entry_rotation": 62.7,
-      "ma50": 184.19,
+      "ma50": 185.17,
       "dist_count": 0,
-      "date": "2026-03-04"
+      "date": "2026-03-05"
     },
     {
       "ticker": "NRG",
       "tier": "HOLD",
       "reasons": [],
-      "current_price": 163.54,
+      "current_price": 160.46,
       "entry_price": 162.06,
-      "pct_from_entry": 0.91,
+      "pct_from_entry": -0.99,
       "rotation_score": 62.9,
       "entry_rotation": 61.5,
-      "ma50": 159.68,
+      "ma50": 159.77,
       "dist_count": 0,
-      "date": "2026-03-04"
+      "date": "2026-03-05"
     }
   ]
 }

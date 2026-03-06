@@ -269,6 +269,10 @@
             .top5-card { flex: 0 0 150px; padding: 12px; }
             .top-nav-brand { font-size: 0.95rem; padding: 10px 12px 10px 0; }
             .top-nav-item { padding: 10px 10px; font-size: 0.75rem; }
+            #dash-indices { grid-template-columns: repeat(2, 1fr) !important; }
+            #dash-indicators { grid-template-columns: 1fr !important; }
+            #dash-baskets { grid-template-columns: 1fr !important; }
+            #dash-sectors { grid-template-columns: repeat(2, 1fr) !important; }
 
             /* Convert table rows to card layout on mobile */
             #stocks-table thead { display: none; }
@@ -414,6 +418,7 @@
     <nav class="top-nav" id="top-nav">
         <div class="top-nav-brand">InvestIQ</div>
         <div class="top-nav-item active" data-tab="dashboard" onclick="navTo('dashboard')">Dashboard</div>
+        <div class="top-nav-item" data-tab="hunter" onclick="navTo('hunter')">Hunter</div>
         <div class="top-nav-item" data-tab="portfolio" onclick="navTo('portfolio')">Portfolio</div>
         <div class="top-nav-item" data-tab="rotation" onclick="navTo('rotation')">Rotation</div>
         <div class="top-nav-item" data-tab="watchlist" onclick="navTo('watchlist')">Watchlist</div>
@@ -421,8 +426,6 @@
         <div class="top-nav-item" data-tab="alerts" onclick="navTo('alerts')">Alerts</div>
         <div class="top-nav-item" data-tab="pulse" onclick="navTo('pulse')">Pulse</div>
         <div class="top-nav-item" data-tab="calendar" onclick="navTo('calendar')">Calendar</div>
-        <div class="top-nav-item" data-tab="journal" onclick="navTo('journal')">Journal</div>
-        <div class="top-nav-item" data-tab="risk" onclick="navTo('risk')">Risk</div>
     </nav>
 
     <!-- Keep sidebar for backwards compat but hidden by default -->
@@ -448,17 +451,59 @@
         <!-- Ticker Datalist for Autocomplete -->
         <datalist id="ticker-list"></datalist>
 
-        <!-- DASHBOARD VIEW -->
+        <!-- DASHBOARD VIEW (Market Command Center) -->
         <div id="dashboard-view">
-            <!-- Hero Section -->
-            <div class="hero-section" id="hero-section">
-                <div class="hero-market-banner" id="hero-market-banner" style="display:none;">
-                    <div>
-                        <div style="font-size:0.6rem; text-transform:uppercase; letter-spacing:1px; opacity:0.6; margin-bottom:2px;">O'Neil Market Stage</div>
-                        <div class="stage-name" id="hero-stage-name">Loading...</div>
-                    </div>
-                    <div class="stage-action" id="hero-stage-action"></div>
+            <!-- O'Neil Market Stage Banner -->
+            <div class="hero-market-banner" id="hero-market-banner" style="display:none; margin-bottom:20px;">
+                <div>
+                    <div style="font-size:0.6rem; text-transform:uppercase; letter-spacing:1px; opacity:0.6; margin-bottom:2px;">O'Neil Market Stage</div>
+                    <div class="stage-name" id="hero-stage-name">Loading...</div>
                 </div>
+                <div class="stage-action" id="hero-stage-action"></div>
+            </div>
+
+            <!-- Row 1: Market Indices -->
+            <div style="margin-bottom:20px;">
+                <h3 style="font-weight:700; font-size:0.8rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">Market Indices</h3>
+                <div id="dash-indices" style="display:grid; grid-template-columns: repeat(4, 1fr); gap:12px;">
+                    <div class="card" style="padding:16px; text-align:center;"><div style="color:var(--text-dim); font-size:0.75rem;">Loading...</div></div>
+                    <div class="card" style="padding:16px; text-align:center;"><div style="color:var(--text-dim); font-size:0.75rem;">Loading...</div></div>
+                    <div class="card" style="padding:16px; text-align:center;"><div style="color:var(--text-dim); font-size:0.75rem;">Loading...</div></div>
+                    <div class="card" style="padding:16px; text-align:center;"><div style="color:var(--text-dim); font-size:0.75rem;">Loading...</div></div>
+                </div>
+            </div>
+
+            <!-- Row 2: Market Indicators -->
+            <div style="margin-bottom:20px;">
+                <h3 style="font-weight:700; font-size:0.8rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">Market Indicators</h3>
+                <div id="dash-indicators" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:12px;">
+                    <div class="card" style="padding:16px; text-align:center;"><div style="color:var(--text-dim); font-size:0.75rem;">Loading VIX...</div></div>
+                    <div class="card" style="padding:16px; text-align:center;"><div style="color:var(--text-dim); font-size:0.75rem;">Loading 10Y...</div></div>
+                    <div class="card" style="padding:16px; text-align:center;"><div style="color:var(--text-dim); font-size:0.75rem;">Loading...</div></div>
+                </div>
+            </div>
+
+            <!-- Row 3: Portfolio Performance Summary -->
+            <div style="margin-bottom:20px;">
+                <h3 style="font-weight:700; font-size:0.8rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">Portfolio Baskets</h3>
+                <div id="dash-baskets" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap:12px;">
+                    <div class="card" style="padding:16px; text-align:center;"><div style="color:var(--text-dim); font-size:0.75rem;">Loading portfolio...</div></div>
+                </div>
+            </div>
+
+            <!-- Row 4: Live Sector Performance -->
+            <div style="margin-bottom:20px;">
+                <h3 style="font-weight:700; font-size:0.8rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">Sector Performance</h3>
+                <div id="dash-sectors" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap:10px;">
+                    <div class="card" style="padding:14px; text-align:center;"><div style="color:var(--text-dim); font-size:0.75rem;">Loading sectors...</div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- HUNTER VIEW (Breakout Stock Table) -->
+        <div id="hunter-view" style="display:none;">
+            <!-- Hero Summary Cards -->
+            <div class="hero-section" id="hero-section">
                 <div class="hero-summary-cards">
                     <div class="hero-card" id="hero-card-stage">
                         <div class="hero-card-label">Market Stage</div>
@@ -529,7 +574,7 @@
         <!-- DETAIL VIEW -->
         <div id="detail-view">
             <div style="display: flex; gap: 8px; margin-bottom: 16px; align-items: center;">
-                <button onclick="showDashboard()" class="text-sm text-slate-400 hover:text-white flex items-center">
+                <button onclick="history.back()" class="text-sm text-slate-400 hover:text-white flex items-center">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                     Back
                 </button>
@@ -1377,18 +1422,14 @@
         let currentFilter = null;
 
         function init() {
-            renderTable();
-            createIndustryFilters();
             populateTickerDatalist();
-            document.getElementById('stock-count').textContent = stocksData.length;
-            renderTop5Cards();
-            loadHeroData();
         }
 
         // ═══ Top Navigation ═══
         function navTo(tab) {
             const map = {
                 dashboard: () => showDashboard(),
+                hunter: () => showHunter(),
                 portfolio: () => showWatchlist(),
                 rotation: () => showRotation(),
                 watchlist: () => showWatchlistEntries(),
@@ -1677,12 +1718,14 @@
         function showAlert(msg) { alert(msg); }
         
         function hideAllViews() {
-            ['dashboard-view','detail-view','watchlist-view','rotation-view','watchlist-entries-view','market-pulse-view','calendar-view','journal-view','risk-view','screener-view','report-view','alerts-view'].forEach(id => {
+            ['dashboard-view','hunter-view','detail-view','watchlist-view','rotation-view','watchlist-entries-view','market-pulse-view','calendar-view','journal-view','risk-view','screener-view','report-view','alerts-view'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.style.display = 'none';
             });
             if (liveRefreshTimer) { clearInterval(liveRefreshTimer); liveRefreshTimer = null; }
         }
+
+        let dashboardLoaded = false;
 
         function showDashboard() {
             if (location.hash !== '#dashboard' && location.hash !== '') history.pushState(null, '', '#dashboard');
@@ -1694,12 +1737,246 @@
                 clearInterval(window.tvCheckInterval);
                 window.tvCheckInterval = null;
             }
-
             const chartContainer = document.getElementById('tv-chart');
-            if (chartContainer) {
-                chartContainer.innerHTML = '';
-            }
+            if (chartContainer) chartContainer.innerHTML = '';
             window.tvWidget = null;
+
+            if (!dashboardLoaded) {
+                dashboardLoaded = true;
+                loadDashboardData();
+            }
+        }
+
+        async function loadDashboardData() {
+            // Load market stage banner
+            loadDashboardMarketStage();
+            // Load indices, indicators, sectors
+            loadDashboardSummary();
+            // Load portfolio baskets
+            loadDashboardBaskets();
+        }
+
+        async function loadDashboardMarketStage() {
+            try {
+                const res = await fetch('/api/market_internals');
+                if (!res.ok) return;
+                const data = await res.json();
+                const stage = data.market_stage;
+                if (stage) {
+                    const colorMap = { green: '#10b981', yellow: '#eab308', orange: '#f97316', red: '#ef4444' };
+                    const c = colorMap[stage.color] || '#94a3b8';
+                    const banner = document.getElementById('hero-market-banner');
+                    banner.style.display = 'flex';
+                    banner.style.borderColor = c + '66';
+                    banner.style.background = c + '10';
+                    document.getElementById('hero-stage-name').textContent = stage.stage;
+                    document.getElementById('hero-stage-name').style.color = c;
+                    document.getElementById('hero-stage-action').textContent = stage.action;
+                }
+            } catch(e) {}
+        }
+
+        async function loadDashboardSummary() {
+            try {
+                const res = await fetch('/api/dashboard_summary');
+                if (!res.ok) return;
+                const data = await res.json();
+
+                // Render indices (SPY, QQQ, IWM + DJI placeholder)
+                const indicesHtml = Object.entries(data.indices).map(([ticker, d]) => {
+                    const color = d.change_pct > 0 ? '#10b981' : d.change_pct < 0 ? '#ef4444' : 'var(--text-dim)';
+                    const prefix = d.change_pct > 0 ? '+' : '';
+                    return `<div class="card" style="padding:16px; text-align:center; border-left:3px solid ${color};">
+                        <div style="font-size:0.7rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">${ticker}</div>
+                        <div style="font-size:1.4rem; font-weight:800;">\$${d.price.toFixed(2)}</div>
+                        <div style="font-size:0.9rem; font-weight:700; color:${color}; margin-top:4px;">${prefix}${d.change_pct.toFixed(2)}%</div>
+                    </div>`;
+                }).join('');
+                document.getElementById('dash-indices').innerHTML = indicesHtml || '<div class="card" style="padding:16px; text-align:center; grid-column:1/-1;"><div style="color:var(--text-dim);">Market data unavailable</div></div>';
+
+                // Render indicators (VIX, 10Y)
+                let indicatorsHtml = '';
+                const vix = data.indicators['^VIX'];
+                if (vix) {
+                    const vixColor = vix.price < 16 ? '#10b981' : vix.price < 25 ? '#eab308' : '#ef4444';
+                    const vixLabel = vix.price < 16 ? 'LOW FEAR' : vix.price < 25 ? 'MODERATE' : 'HIGH FEAR';
+                    indicatorsHtml += `<div class="card" style="padding:16px; text-align:center; border-left:3px solid ${vixColor};">
+                        <div style="font-size:0.7rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">VIX (Fear Index)</div>
+                        <div style="font-size:1.4rem; font-weight:800; color:${vixColor};">${vix.price.toFixed(2)}</div>
+                        <div style="font-size:0.75rem; font-weight:600; color:${vixColor}; margin-top:4px;">${vixLabel}</div>
+                    </div>`;
+                }
+                const tnx = data.indicators['^TNX'];
+                if (tnx) {
+                    indicatorsHtml += `<div class="card" style="padding:16px; text-align:center; border-left:3px solid #38bdf8;">
+                        <div style="font-size:0.7rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">10Y Treasury Yield</div>
+                        <div style="font-size:1.4rem; font-weight:800;">${tnx.price.toFixed(2)}%</div>
+                        <div style="font-size:0.75rem; color:var(--text-dim); margin-top:4px;">${tnx.change_pct > 0 ? '+' : ''}${tnx.change_pct.toFixed(2)}% today</div>
+                    </div>`;
+                }
+                // Market stage summary card
+                indicatorsHtml += `<div class="card" style="padding:16px; text-align:center; border-left:3px solid var(--accent);">
+                    <div style="font-size:0.7rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">Top Pick</div>
+                    <div style="font-size:1.4rem; font-weight:800; color:var(--accent);" id="dash-top-pick">--</div>
+                    <div style="font-size:0.75rem; color:var(--text-dim); margin-top:4px;" id="dash-top-pick-sub">Highest rotation</div>
+                </div>`;
+                document.getElementById('dash-indicators').innerHTML = indicatorsHtml;
+
+                // Fill top pick
+                const sorted = [...stocksData].sort((a, b) => (b.rotation_score || 0) - (a.rotation_score || 0));
+                if (sorted.length > 0) {
+                    const el = document.getElementById('dash-top-pick');
+                    if (el) el.textContent = sorted[0].ticker;
+                    const sub = document.getElementById('dash-top-pick-sub');
+                    if (sub) sub.textContent = `${sorted[0].name} · Rot ${(sorted[0].rotation_score || 0).toFixed(1)}`;
+                }
+
+                // Render sectors (sorted by performance)
+                const sectorEntries = Object.entries(data.sectors).sort((a, b) => b[1].change_pct - a[1].change_pct);
+                const sectorsHtml = sectorEntries.map(([name, d]) => {
+                    const color = d.change_pct > 0 ? '#10b981' : d.change_pct < 0 ? '#ef4444' : 'var(--text-dim)';
+                    const bgGrad = d.change_pct > 0
+                        ? `linear-gradient(135deg, rgba(16,185,129,0.08) 0%, rgba(16,185,129,0.02) 100%)`
+                        : d.change_pct < 0
+                        ? `linear-gradient(135deg, rgba(239,68,68,0.08) 0%, rgba(239,68,68,0.02) 100%)`
+                        : 'var(--surface)';
+                    const prefix = d.change_pct > 0 ? '+' : '';
+                    return `<div class="card" style="padding:14px; background:${bgGrad}; border-left:3px solid ${color}; cursor:pointer; transition:transform 0.15s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <div>
+                                <div style="font-size:0.75rem; font-weight:700;">${name}</div>
+                                <div style="font-size:0.65rem; color:var(--text-dim);">${d.ticker}</div>
+                            </div>
+                            <div style="text-align:right;">
+                                <div style="font-size:1rem; font-weight:800; color:${color};">${prefix}${d.change_pct.toFixed(2)}%</div>
+                                <div style="font-size:0.7rem; color:var(--text-dim);">\$${d.price.toFixed(2)}</div>
+                            </div>
+                        </div>
+                    </div>`;
+                }).join('');
+                document.getElementById('dash-sectors').innerHTML = sectorsHtml;
+
+            } catch(e) {
+                console.log('Dashboard summary load failed:', e);
+            }
+        }
+
+        async function loadDashboardBaskets() {
+            try {
+                const res = await fetch('/api/portfolio');
+                if (!res.ok) return;
+                const portfolio = await res.json();
+
+                let allStocks = {};
+                try {
+                    const allRes = await fetch('/api/all_stocks');
+                    if (allRes.ok) {
+                        const allData = await allRes.json();
+                        allStocks = allData.stocks || {};
+                    }
+                } catch(e) {}
+
+                // Get live prices for basket tickers
+                const allTickers = [];
+                for (const basket of Object.values(portfolio.baskets || {})) {
+                    for (const ticker of Object.keys(basket.tickers || {})) {
+                        allTickers.push(ticker);
+                    }
+                }
+
+                let livePrices = {};
+                try {
+                    const liveRes = await fetch('/api/watchlist/live');
+                    if (liveRes.ok) {
+                        const liveData = await liveRes.json();
+                        livePrices = liveData.prices || {};
+                    }
+                } catch(e) {}
+
+                const basketOrder = ['Trading Account', 'IRA Core ETFs', 'Grid-to-Chip', 'Defense & Aerospace', 'AI Semis', 'Biotech'];
+                const allBaskets = [...basketOrder];
+                for (const b in (portfolio.baskets || {})) {
+                    if (!allBaskets.includes(b)) allBaskets.push(b);
+                }
+
+                let totalWeightedChange = 0, totalWeight = 0;
+                let basketsHtml = '';
+
+                for (const name of allBaskets) {
+                    const basket = (portfolio.baskets || {})[name];
+                    if (!basket) continue;
+                    const tickers = basket.tickers || {};
+                    const tickerList = Object.keys(tickers);
+                    const icon = basket.icon || basketIcons[name] || '📋';
+
+                    let basketChange = 0, basketWeight = 0;
+                    for (const [ticker, pct] of Object.entries(tickers)) {
+                        const lp = livePrices[ticker];
+                        if (lp && lp.daily_change !== undefined) {
+                            basketChange += lp.daily_change * (pct || 1);
+                            basketWeight += (pct || 1);
+                        }
+                    }
+                    const avgChange = basketWeight > 0 ? basketChange / basketWeight : 0;
+                    totalWeightedChange += basketChange;
+                    totalWeight += basketWeight;
+                    const changeColor = avgChange > 0 ? '#10b981' : avgChange < 0 ? '#ef4444' : 'var(--text-dim)';
+                    const prefix = avgChange > 0 ? '+' : '';
+
+                    basketsHtml += `<div class="card" style="padding:16px; cursor:pointer; border-left:3px solid ${changeColor}; transition:transform 0.15s;" onclick="navTo('portfolio')" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                            <span style="font-size:1.2rem;">${icon}</span>
+                            <span style="font-size:0.7rem; color:var(--text-dim);">${tickerList.length} holdings</span>
+                        </div>
+                        <div style="font-weight:700; font-size:0.85rem; margin-bottom:4px;">${name}</div>
+                        <div style="font-size:1.1rem; font-weight:800; color:${changeColor};">${prefix}${avgChange.toFixed(2)}%</div>
+                    </div>`;
+                }
+
+                // Add total portfolio card
+                const totalAvg = totalWeight > 0 ? totalWeightedChange / totalWeight : 0;
+                const totalColor = totalAvg > 0 ? '#10b981' : totalAvg < 0 ? '#ef4444' : 'var(--text-dim)';
+                const totalPrefix = totalAvg > 0 ? '+' : '';
+                basketsHtml = `<div class="card" style="padding:16px; border-left:3px solid ${totalColor}; background:linear-gradient(135deg, rgba(56,189,248,0.06) 0%, transparent 100%);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                        <span style="font-size:1.2rem;">💼</span>
+                        <span style="font-size:0.7rem; color:var(--text-dim);">Total</span>
+                    </div>
+                    <div style="font-weight:700; font-size:0.85rem; margin-bottom:4px;">Entire Portfolio</div>
+                    <div style="font-size:1.1rem; font-weight:800; color:${totalColor};">${totalPrefix}${totalAvg.toFixed(2)}%</div>
+                </div>` + basketsHtml;
+
+                document.getElementById('dash-baskets').innerHTML = basketsHtml;
+
+            } catch(e) {
+                console.log('Dashboard baskets load failed:', e);
+            }
+        }
+
+        let hunterLoaded = false;
+
+        function showHunter() {
+            if (location.hash !== '#hunter') history.pushState(null, '', '#hunter');
+            hideAllViews();
+            document.getElementById('hunter-view').style.display = 'block';
+            updateActiveNav('hunter');
+
+            if (window.tvCheckInterval) {
+                clearInterval(window.tvCheckInterval);
+                window.tvCheckInterval = null;
+            }
+            const chartContainer = document.getElementById('tv-chart');
+            if (chartContainer) chartContainer.innerHTML = '';
+            window.tvWidget = null;
+
+            if (!hunterLoaded) {
+                hunterLoaded = true;
+                renderTable();
+                createIndustryFilters();
+                document.getElementById('stock-count').textContent = stocksData.length;
+                renderTop5Cards();
+                loadHeroData();
+            }
         }
 
         // Watchlist functionality
@@ -2643,7 +2920,8 @@
         // Hash-based routing — preserves page on refresh and enables back button
         function handleRoute() {
             const hash = location.hash.replace('#', '') || 'dashboard';
-            if (hash === 'portfolio') showWatchlist();
+            if (hash === 'hunter') showHunter();
+            else if (hash === 'portfolio') showWatchlist();
             else if (hash === 'rotation') showRotation();
             else if (hash === 'watchlist') showWatchlistEntries();
             else if (hash === 'pulse') showMarketPulse();

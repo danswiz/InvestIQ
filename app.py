@@ -1538,5 +1538,69 @@ def stock_report(ticker):
         return jsonify({'error': str(e)}), 500
 
 
+## ===== DASHBOARD SUMMARY =====
+@app.route('/api/dashboard_summary')
+def dashboard_summary():
+    """Returns market indices, VIX, sectors for dashboard command center"""
+    indices = ['SPY', 'QQQ', 'IWM']
+    sectors = {
+        'Technology': 'XLK', 'Financials': 'XLF', 'Energy': 'XLE',
+        'Healthcare': 'XLV', 'Industrials': 'XLI', 'Materials': 'XLB',
+        'Real Estate': 'XLRE', 'Consumer Disc.': 'XLY', 'Consumer Staples': 'XLP',
+        'Utilities': 'XLU', 'Communication': 'XLC'
+    }
+    indicators = {'^VIX': '%5EVIX', '^TNX': '%5ETNX'}
+
+    all_tickers = indices + list(sectors.values())
+    results = {}
+
+    # Batch fetch indices + sector ETFs using spark endpoint
+    for i in range(0, len(all_tickers), 15):
+        batch = all_tickers[i:i+15]
+        symbols = ','.join(batch)
+        try:
+            url = f'https://query1.finance.yahoo.com/v8/finance/spark?symbols={symbols}&range=1d&interval=1m'
+            req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+            resp = urllib.request.urlopen(req, timeout=8)
+            data = json.loads(resp.read())
+            for sym, info in data.items():
+                closes = info.get('close', [])
+                curr = closes[-1] if closes else None
+                prev = info.get('chartPreviousClose')
+                if curr and prev and prev > 0:
+                    results[sym] = {
+                        'price': round(curr, 2),
+                        'change_pct': round((curr - prev) / prev * 100, 2),
+                        'prev_close': round(prev, 2)
+                    }
+        except Exception:
+            pass
+
+    # Fetch indicators (^VIX, ^TNX) individually via chart endpoint (need URL encoding)
+    for display_name, encoded in indicators.items():
+        try:
+            url = f'https://query1.finance.yahoo.com/v8/finance/chart/{encoded}?range=1d&interval=1m'
+            req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+            resp = urllib.request.urlopen(req, timeout=8)
+            data = json.loads(resp.read())['chart']['result'][0]
+            meta = data['meta']
+            price = meta.get('regularMarketPrice', 0)
+            prev = meta.get('chartPreviousClose', price)
+            change_pct = round((price - prev) / prev * 100, 2) if prev else 0
+            results[display_name] = {
+                'price': round(price, 2),
+                'change_pct': change_pct,
+                'prev_close': round(prev, 2)
+            }
+        except Exception:
+            results[display_name] = {'price': 0, 'change_pct': 0, 'prev_close': 0}
+
+    return jsonify({
+        'indices': {t: results.get(t, {'price': 0, 'change_pct': 0, 'prev_close': 0}) for t in indices},
+        'sectors': {name: {'ticker': etf, **results.get(etf, {'price': 0, 'change_pct': 0, 'prev_close': 0})} for name, etf in sectors.items()},
+        'indicators': {t: results.get(t, {'price': 0, 'change_pct': 0, 'prev_close': 0}) for t in indicators}
+    })
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=18791, debug=True)
