@@ -1178,37 +1178,8 @@
             <h2 class="text-2xl font-bold mb-2">📅 Catalyst Calendar</h2>
             <span id="cal-updated" style="font-size: 0.8rem; color: var(--text-dim);">Loading calendar...</span>
 
-            <!-- FOMC Dates -->
+            <!-- Earnings Table (FIRST) -->
             <div class="card" style="margin-top: 20px;">
-                <h3 style="font-weight: 700; margin-bottom: 12px;">🏛️ FOMC Meeting Schedule 2026</h3>
-                <div id="cal-fomc" style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
-            </div>
-
-            <!-- Insider Activity -->
-            <div class="card" style="margin-top: 16px;">
-                <h3 style="font-weight: 700; margin-bottom: 12px;">🕵️ Insider Transactions (Portfolio)</h3>
-                <div id="cal-cluster-buys" style="margin-bottom: 12px;"></div>
-                <div style="overflow-x: auto;">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Ticker</th>
-                                <th>Insider</th>
-                                <th>Title</th>
-                                <th>Type</th>
-                                <th>Date</th>
-                                <th>Shares</th>
-                            </tr>
-                        </thead>
-                        <tbody id="cal-insider-tbody">
-                            <tr><td colspan="6" style="text-align:center; padding:30px; color:var(--text-dim);">Loading insider data...</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Earnings Table -->
-            <div class="card" style="margin-top: 16px;">
                 <h3 style="font-weight: 700; margin-bottom: 12px;">📊 Upcoming Earnings (Portfolio)</h3>
                 <div style="overflow-x: auto;">
                     <table>
@@ -1225,6 +1196,24 @@
                         </tbody>
                     </table>
                 </div>
+                <div id="cal-earnings-expand" style="display:none; text-align:center; margin-top:12px;">
+                    <button onclick="toggleAllEarnings()" id="cal-earnings-toggle-btn" style="background:none; border:1px solid #374151; color:var(--accent); padding:8px 20px; border-radius:8px; cursor:pointer; font-size:0.85rem; font-weight:600; transition:0.2s;">
+                        Show all <span id="cal-earnings-remaining"></span> more ▼
+                    </button>
+                </div>
+            </div>
+
+            <!-- FOMC Dates -->
+            <div class="card" style="margin-top: 16px;">
+                <h3 style="font-weight: 700; margin-bottom: 12px;">🏛️ FOMC Meeting Schedule 2026</h3>
+                <div id="cal-fomc" style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
+            </div>
+
+            <!-- Insider Activity -->
+            <div class="card" style="margin-top: 16px;">
+                <h3 style="font-weight: 700; margin-bottom: 12px;">🕵️ Insider Transactions (Portfolio)</h3>
+                <div id="cal-cluster-buys" style="margin-bottom: 12px;"></div>
+                <div id="cal-insider-summary"></div>
             </div>
         </div>
 
@@ -2654,30 +2643,128 @@
                 clusterEl.innerHTML = '';
             }
 
-            // Insider table
-            const tbody = document.getElementById('cal-insider-tbody');
+            // Group transactions by ticker
+            const summaryEl = document.getElementById('cal-insider-summary');
             const txns = data.insider_data || [];
             if (txns.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:20px; color:var(--text-dim);">No recent insider transactions found.</td></tr>';
+                summaryEl.innerHTML = '<div style="text-align:center; padding:20px; color:var(--text-dim);">No recent insider transactions found.</div>';
                 return;
             }
 
-            tbody.innerHTML = txns.map(t => {
+            const byTicker = {};
+            for (const t of txns) {
+                if (!byTicker[t.ticker]) byTicker[t.ticker] = { buys: 0, sells: 0, buyVal: 0, sellVal: 0, txns: [] };
                 const isBuy = (t.transaction || '').toLowerCase().includes('buy') || (t.transaction || '').toLowerCase().includes('purchase');
-                const txnColor = isBuy ? '#10b981' : '#ef4444';
-                return `<tr>
-                    <td style="font-weight:700; color:var(--accent); cursor:pointer;" onclick="viewStock('${t.ticker}')">${t.ticker}</td>
-                    <td style="font-size:0.85rem;">${t.insider || '—'}</td>
-                    <td style="font-size:0.8rem; color:var(--text-dim);">${t.title || '—'}</td>
-                    <td style="color:${txnColor}; font-weight:600; font-size:0.85rem;">${t.transaction || '—'}</td>
-                    <td style="font-size:0.85rem;">${t.date || '—'}</td>
-                    <td style="font-size:0.85rem;">${t.shares || '—'}</td>
+                if (isBuy) { byTicker[t.ticker].buys++; } else { byTicker[t.ticker].sells++; }
+                byTicker[t.ticker].txns.push(t);
+            }
+
+            let html = '';
+            for (const [ticker, info] of Object.entries(byTicker)) {
+                const netSignal = info.buys > info.sells ? '🟢' : info.sells > info.buys ? '🔴' : '⚪';
+                const signalText = info.buys > info.sells ? 'Net Buying' : info.sells > info.buys ? 'Net Selling' : 'Mixed';
+                const signalColor = info.buys > info.sells ? '#10b981' : info.sells > info.buys ? '#ef4444' : '#94a3b8';
+                const totalTxns = info.buys + info.sells;
+                const tickerId = 'insider-detail-' + ticker.replace(/[^a-zA-Z0-9]/g, '');
+
+                html += `
+                <div style="border:1px solid #2d3748; border-radius:8px; margin-bottom:8px; overflow:hidden;">
+                    <div onclick="document.getElementById('${tickerId}').style.display = document.getElementById('${tickerId}').style.display === 'none' ? 'block' : 'none'" 
+                         style="padding:12px 16px; cursor:pointer; display:flex; justify-content:space-between; align-items:center; transition:background 0.2s;"
+                         onmouseover="this.style.background='#1e293b'" onmouseout="this.style.background='transparent'">
+                        <div style="display:flex; align-items:center; gap:12px;">
+                            <span style="font-weight:700; color:var(--accent); cursor:pointer;" onclick="event.stopPropagation(); viewStock('${ticker}')">${ticker}</span>
+                            <span style="color:${signalColor}; font-weight:600; font-size:0.85rem;">${netSignal} ${signalText}</span>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:12px;">
+                            <span style="font-size:0.8rem; color:var(--text-dim);">${info.buys} buy${info.buys !== 1 ? 's' : ''} · ${info.sells} sell${info.sells !== 1 ? 's' : ''}</span>
+                            <span style="color:var(--text-dim); font-size:0.75rem;">▼</span>
+                        </div>
+                    </div>
+                    <div id="${tickerId}" style="display:none; border-top:1px solid #2d3748;">
+                        <table style="width:100%; margin:0;">
+                            <thead><tr>
+                                <th style="font-size:0.7rem;">Insider</th>
+                                <th style="font-size:0.7rem;">Title</th>
+                                <th style="font-size:0.7rem;">Type</th>
+                                <th style="font-size:0.7rem;">Date</th>
+                                <th style="font-size:0.7rem;">Shares</th>
+                            </tr></thead>
+                            <tbody>${info.txns.map(t => {
+                                const isBuy = (t.transaction || '').toLowerCase().includes('buy') || (t.transaction || '').toLowerCase().includes('purchase');
+                                const txnColor = isBuy ? '#10b981' : '#ef4444';
+                                return `<tr>
+                                    <td style="font-size:0.8rem;">${t.insider || '—'}</td>
+                                    <td style="font-size:0.75rem; color:var(--text-dim);">${t.title || '—'}</td>
+                                    <td style="color:${txnColor}; font-weight:600; font-size:0.8rem;">${t.transaction || '—'}</td>
+                                    <td style="font-size:0.8rem;">${t.date || '—'}</td>
+                                    <td style="font-size:0.8rem;">${t.shares || '—'}</td>
+                                </tr>`;
+                            }).join('')}</tbody>
+                        </table>
+                    </div>
+                </div>`;
+            }
+            summaryEl.innerHTML = html;
+        }
+
+        let calEarningsExpanded = false;
+        let calEarningsData = [];
+
+        function toggleAllEarnings() {
+            calEarningsExpanded = !calEarningsExpanded;
+            renderEarningsRows();
+        }
+
+        function renderEarningsRows() {
+            const tbody = document.getElementById('cal-earnings-tbody');
+            const upcoming = calEarningsData.filter(e => e.days_until >= 0);
+            const passed = calEarningsData.filter(e => e.days_until < 0);
+            const VISIBLE_COUNT = 5;
+
+            if (upcoming.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:30px; color:var(--text-dim);">No upcoming earnings found for portfolio tickers.</td></tr>';
+                document.getElementById('cal-earnings-expand').style.display = 'none';
+                return;
+            }
+
+            const visible = calEarningsExpanded ? upcoming : upcoming.slice(0, VISIBLE_COUNT);
+            let rows = '';
+            for (const e of visible) {
+                let dayColor = '#10b981';
+                if (e.days_until < 7) dayColor = '#ef4444';
+                else if (e.days_until < 14) dayColor = '#eab308';
+                const dayLabel = e.days_until === 0 ? 'TODAY' : e.days_until + 'd';
+                rows += `<tr>
+                    <td><span style="font-weight:700; cursor:pointer; color:var(--accent);" onclick="viewStock('${e.ticker}')">${e.ticker}</span></td>
+                    <td style="color:var(--text-dim);">${e.basket || '—'}</td>
+                    <td>${e.earnings_date}</td>
+                    <td><span style="color:${dayColor}; font-weight:700;">${dayLabel}</span></td>
                 </tr>`;
-            }).join('');
+            }
+            tbody.innerHTML = rows;
+
+            // Show/hide expand button
+            const expandEl = document.getElementById('cal-earnings-expand');
+            if (upcoming.length > VISIBLE_COUNT) {
+                expandEl.style.display = 'block';
+                const remaining = upcoming.length - VISIBLE_COUNT;
+                document.getElementById('cal-earnings-remaining').textContent = remaining;
+                document.getElementById('cal-earnings-toggle-btn').innerHTML = calEarningsExpanded
+                    ? 'Show less ▲'
+                    : `Show all ${remaining} more ▼`;
+            } else {
+                expandEl.style.display = 'none';
+            }
         }
 
         function renderCalendar(data) {
             document.getElementById('cal-updated').textContent = 'Updated: ' + (data.timestamp || '');
+
+            // Earnings first — store data and render top 5
+            calEarningsData = data.earnings || [];
+            calEarningsExpanded = false;
+            renderEarningsRows();
 
             // FOMC dates
             const fomcEl = document.getElementById('cal-fomc');
@@ -2695,29 +2782,6 @@
                     </div>`;
             }
             fomcEl.innerHTML = fomcHTML;
-
-            // Earnings table
-            const tbody = document.getElementById('cal-earnings-tbody');
-            const earnings = data.earnings || [];
-            if (earnings.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; padding:30px; color:var(--text-dim);">No upcoming earnings found for portfolio tickers.</td></tr>';
-                return;
-            }
-            let rows = '';
-            for (const e of earnings) {
-                let dayColor = '#10b981';
-                if (e.days_until < 0) dayColor = 'var(--text-dim)';
-                else if (e.days_until < 7) dayColor = '#ef4444';
-                else if (e.days_until < 14) dayColor = '#eab308';
-                const dayLabel = e.days_until < 0 ? 'Passed' : e.days_until === 0 ? 'TODAY' : e.days_until + 'd';
-                rows += `<tr>
-                    <td><span style="font-weight:700; cursor:pointer; color:var(--accent);" onclick="viewStock('${e.ticker}')">${e.ticker}</span></td>
-                    <td style="color:var(--text-dim);">${e.basket || '—'}</td>
-                    <td>${e.earnings_date}</td>
-                    <td><span style="color:${dayColor}; font-weight:700;">${dayLabel}</span></td>
-                </tr>`;
-            }
-            tbody.innerHTML = rows;
         }
 
         // Hash-based routing — preserves page on refresh and enables back button
