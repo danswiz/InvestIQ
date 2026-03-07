@@ -1182,7 +1182,7 @@
             <div class="card" style="margin-top: 20px;">
                 <h3 style="font-weight: 700; margin-bottom: 12px;">📊 Upcoming Earnings (Portfolio)</h3>
                 <div style="overflow-x: auto;">
-                    <table>
+                    <table style="min-width: auto;">
                         <thead>
                             <tr>
                                 <th>Ticker</th>
@@ -2656,13 +2656,41 @@
             const isClusterSell = sellInsiders.size >= 3;
 
             const fv = (v) => v >= 1e6 ? '$' + (v/1e6).toFixed(1) + 'M' : v >= 1e3 ? '$' + (v/1e3).toFixed(0) + 'K' : '$' + (v || 0);
-            let html = '<table style="width:100%; margin:0; font-size:0.8rem;"><thead><tr>' +
-                '<th style="font-size:0.65rem; padding:4px 8px;">Date</th>' +
+            const isMobile = window.innerWidth <= 768;
+
+            if (isMobile) {
+                // Card layout for mobile
+                let html = '';
+                const shown = details.slice(0, 10);
+                for (const d of shown) {
+                    const significant = isSignificantSell(d) || (d.type === 'SELL' && isClusterSell);
+                    const cardBorder = significant ? 'border-left:3px solid #ef4444;' : 'border-left:3px solid #2d3748;';
+                    const tc = d.type === 'BUY' ? '#10b981' : '#ef4444';
+                    const flag = significant ? ' ⚠️' : '';
+                    const valStyle = significant ? 'color:#ef4444; font-weight:700;' : '';
+                    html += '<div style="padding:8px 12px; margin-bottom:6px; background:#1a1f2e; border-radius:6px; ' + cardBorder + '">' +
+                        '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">' +
+                        '<span style="font-weight:600; font-size:0.8rem;">' + (d.owner || '—') + '</span>' +
+                        '<span style="color:' + tc + '; font-weight:700; font-size:0.8rem;">' + (d.type || '') + flag + '</span>' +
+                        '</div>' +
+                        '<div style="font-size:0.7rem; color:var(--text-dim); margin-bottom:2px;">' + (d.title || '') + ' · ' + (d.date || '') + '</div>' +
+                        '<div style="font-size:0.8rem;' + valStyle + '">' + (d.shares || 0).toLocaleString() + ' shares · ' + fv(d.value || 0) + '</div>' +
+                        '</div>';
+                }
+                if (details.length > 10) {
+                    html += '<div style="text-align:center; padding:6px; color:var(--text-dim); font-size:0.75rem;">+ ' + (details.length - 10) + ' more transactions</div>';
+                }
+                return html;
+            }
+
+            // Table layout for desktop
+            let html = '<div style="overflow-x:auto;"><table style="width:100%; min-width:auto; margin:0; font-size:0.8rem;"><thead><tr>' +
+                '<th style="font-size:0.65rem; padding:4px 8px; white-space:nowrap;">Date</th>' +
                 '<th style="font-size:0.65rem; padding:4px 8px;">Insider</th>' +
                 '<th style="font-size:0.65rem; padding:4px 8px;">Title</th>' +
-                '<th style="font-size:0.65rem; padding:4px 8px;">Type</th>' +
-                '<th style="font-size:0.65rem; padding:4px 8px;">Shares</th>' +
-                '<th style="font-size:0.65rem; padding:4px 8px;">Value</th>' +
+                '<th style="font-size:0.65rem; padding:4px 8px; white-space:nowrap;">Type</th>' +
+                '<th style="font-size:0.65rem; padding:4px 8px; white-space:nowrap;">Shares</th>' +
+                '<th style="font-size:0.65rem; padding:4px 8px; white-space:nowrap;">Value</th>' +
                 '</tr></thead><tbody>';
             const shown = details.slice(0, 10);
             for (const d of shown) {
@@ -2673,18 +2701,18 @@
                 const valStyle = significant ? 'font-weight:700; color:#ef4444;' : '';
                 const flag = significant ? ' ⚠️' : '';
                 html += '<tr style="' + rowBg + '">' +
-                    '<td style="padding:4px 8px;">' + (d.date || '—') + '</td>' +
+                    '<td style="padding:4px 8px; white-space:nowrap;">' + (d.date || '—') + '</td>' +
                     '<td style="padding:4px 8px;' + nameStyle + '">' + (d.owner || '—') + '</td>' +
                     '<td style="padding:4px 8px; color:var(--text-dim); font-size:0.75rem;">' + (d.title || '—') + '</td>' +
-                    '<td style="padding:4px 8px; color:' + tc + '; font-weight:600;">' + (d.type || '—') + flag + '</td>' +
-                    '<td style="padding:4px 8px;">' + (d.shares || 0).toLocaleString() + '</td>' +
-                    '<td style="padding:4px 8px;' + valStyle + '">' + fv(d.value || 0) + '</td>' +
+                    '<td style="padding:4px 8px; color:' + tc + '; font-weight:600; white-space:nowrap;">' + (d.type || '—') + flag + '</td>' +
+                    '<td style="padding:4px 8px; white-space:nowrap;">' + (d.shares || 0).toLocaleString() + '</td>' +
+                    '<td style="padding:4px 8px; white-space:nowrap;' + valStyle + '">' + fv(d.value || 0) + '</td>' +
                     '</tr>';
             }
             if (details.length > 10) {
                 html += '<tr><td colspan="6" style="text-align:center; padding:8px; color:var(--text-dim); font-size:0.75rem;">+ ' + (details.length - 10) + ' more transactions</td></tr>';
             }
-            html += '</tbody></table>';
+            html += '</tbody></table></div>';
             return html;
         }
 
