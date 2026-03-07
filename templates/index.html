@@ -473,6 +473,7 @@
         <div class="top-nav-item" data-tab="watchlist" onclick="navTo('watchlist')">Watchlist</div>
         <div class="top-nav-item" data-tab="hunter" onclick="navTo('hunter')">Hunter</div>
         <div class="top-nav-item" data-tab="rotation" onclick="navTo('rotation')">Rotation</div>
+        <div class="top-nav-item" data-tab="ewros" onclick="navTo('ewros')">EWROS</div>
         <div class="top-nav-item" data-tab="calendar" onclick="navTo('calendar')">Calendar</div>
         <div class="top-nav-item" data-tab="screener" onclick="navTo('screener')">Screener</div>
         <div class="top-nav-item" data-tab="alerts" onclick="navTo('alerts')">Alerts</div>
@@ -489,6 +490,7 @@
             <div class="nav-item" onclick="showWatchlistEntries(); toggleMenu();">Watchlist</div>
             <div class="nav-item" onclick="navTo('hunter'); toggleMenu();">Hunter</div>
             <div class="nav-item" onclick="showRotation(); toggleMenu();">Rotation Scan</div>
+            <div class="nav-item" onclick="navTo('ewros'); toggleMenu();">EWROS Leaders</div>
             <div class="nav-item" onclick="showCalendar(); toggleMenu();">Calendar</div>
             <div class="nav-item" onclick="showScreener(); toggleMenu();">Screener</div>
             <div class="nav-item" onclick="showAlerts(); toggleMenu();">Alerts</div>
@@ -1168,6 +1170,36 @@
         </div>
         <!-- Market Pulse merged into Dashboard -->
 
+        <!-- EWROS LEADERS VIEW -->
+        <div id="ewros-view" style="display: none;">
+            <div style="display: flex; gap: 8px; margin-bottom: 16px; align-items: center;">
+                <button onclick="showDashboard()" class="text-sm text-slate-400 hover:text-white flex items-center">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    Back to Dashboard
+                </button>
+            </div>
+            <h2 class="text-2xl font-bold mb-2">📊 EWROS Leaders</h2>
+            <p style="font-size:0.8rem; color:var(--text-dim); margin-bottom:20px;">Exponential Weighted Relative Outperformance · Top stocks beating the market consistently</p>
+
+            <!-- Summary Cards -->
+            <div id="ewros-summary" style="display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:24px;"></div>
+
+            <!-- Top 20 Cards with full stats -->
+            <div id="ewros-leaders-cards" style="margin-bottom:24px;"></div>
+
+            <!-- Biggest Movers -->
+            <div id="ewros-movers" style="margin-bottom:24px;"></div>
+
+            <!-- Full Table -->
+            <div class="card" style="overflow-x:auto;">
+                <h3 style="font-weight:700; margin-bottom:12px; font-size:0.9rem;">All Scored Stocks</h3>
+                <table style="min-width:auto;">
+                    <thead id="ewros-thead"></thead>
+                    <tbody id="ewros-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+
         <!-- CATALYST CALENDAR VIEW -->
         <div id="calendar-view" style="display: none;">
             <div style="display: flex; gap: 8px; margin-bottom: 16px; align-items: center;">
@@ -1398,6 +1430,7 @@
                 hunter: () => showHunter(),
                 portfolio: () => showWatchlist(),
                 rotation: () => showRotation(),
+                ewros: () => showEwrosTab(),
                 watchlist: () => showWatchlistEntries(),
                 screener: () => showScreener(),
                 alerts: () => showAlerts(),
@@ -1685,7 +1718,7 @@
         function showAlert(msg) { alert(msg); }
         
         function hideAllViews() {
-            ['dashboard-view','hunter-view','detail-view','watchlist-view','rotation-view','watchlist-entries-view','calendar-view','journal-view','risk-view','screener-view','report-view','alerts-view'].forEach(id => {
+            ['dashboard-view','hunter-view','detail-view','watchlist-view','rotation-view','ewros-view','watchlist-entries-view','calendar-view','journal-view','risk-view','screener-view','report-view','alerts-view'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.style.display = 'none';
             });
@@ -2922,6 +2955,194 @@
             summaryEl.innerHTML = html;
         }
 
+        // ===== EWROS TAB =====
+        let ewrosSort = { column: 'ewros_score', direction: 'desc' };
+        let ewrosData = null;
+
+        async function showEwrosTab() {
+            if (location.hash !== '#ewros') history.pushState(null, '', '#ewros');
+            hideAllViews();
+            document.getElementById('ewros-view').style.display = 'block';
+            updateActiveNav('ewros');
+
+            if (!ewrosData) {
+                try {
+                    const data = await loadAllStocks();
+                    const stocks = data.stocks || data;
+                    ewrosData = Object.values(stocks).filter(s => s.ewros_score != null).sort((a,b) => (b.ewros_score||0) - (a.ewros_score||0));
+                } catch(e) {
+                    document.getElementById('ewros-tbody').innerHTML = '<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--text-dim);">Error loading data</td></tr>';
+                    return;
+                }
+            }
+            renderEwrosTab();
+        }
+
+        function renderEwrosTab() {
+            const all = ewrosData;
+            const top20 = all.slice(0, 20);
+            const leaders = all.filter(s => s.ewros_score >= 80).length;
+            const improving = all.filter(s => (s.ewros_trend||0) > 10).length;
+            const declining = all.filter(s => (s.ewros_trend||0) < -10).length;
+
+            // Summary
+            document.getElementById('ewros-summary').innerHTML = [
+                { label: 'Leaders (≥80)', value: leaders, color: '#10b981' },
+                { label: 'Improving (▲10+)', value: improving, color: '#38bdf8' },
+                { label: 'Declining (▼10+)', value: declining, color: '#ef4444' }
+            ].map(c => `<div class="card" style="text-align:center;padding:16px;">
+                <div style="font-size:2rem;font-weight:800;color:${c.color};">${c.value}</div>
+                <div style="font-size:0.7rem;color:var(--text-dim);margin-top:4px;">${c.label}</div>
+            </div>`).join('');
+
+            // Top 20 leader cards with full stats
+            document.getElementById('ewros-leaders-cards').innerHTML = `
+                <h3 style="font-weight:700; margin-bottom:14px; font-size:0.9rem;">🏆 Top 20 EWROS Leaders</h3>
+                <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px;">
+                    ${top20.map(s => {
+                        const st = s.ewros_stats || {};
+                        const score = s.ewros_score || 0;
+                        const trend = s.ewros_trend || 0;
+                        const prior = s.ewros_prior || (score - trend);
+                        const scoreColor = score >= 70 ? '#10b981' : score >= 40 ? '#eab308' : '#ef4444';
+                        const trendArrow = trend > 0 ? '▲' : trend < 0 ? '▼' : '=';
+                        const trendColor = trend > 0 ? '#10b981' : trend < 0 ? '#ef4444' : '#94a3b8';
+                        const winColor = (st.win_rate||0) >= 55 ? '#10b981' : (st.win_rate||0) >= 45 ? '#eab308' : '#ef4444';
+                        const sRetColor = (st.stock_return_3mo||0) > 0 ? '#10b981' : '#ef4444';
+                        const spyRetColor = (st.spy_return_3mo||0) > 0 ? '#10b981' : '#ef4444';
+                        const gradeColor = s.grade === 'A' ? '#10b981' : s.grade === 'B' ? '#38bdf8' : '#94a3b8';
+                        return `<div class="card" style="padding:16px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                                <div>
+                                    <a href="#" onclick="viewStock('${s.ticker}'); return false;" style="font-size:1.1rem; font-weight:800; color:var(--accent); text-decoration:none;">${s.ticker}</a>
+                                    <span style="font-size:0.75rem; color:var(--text-dim); margin-left:6px;">${s.name || ''}</span>
+                                </div>
+                                <span style="color:${gradeColor}; font-weight:700; font-size:0.8rem;">${s.grade || ''}</span>
+                            </div>
+                            <div style="display:flex; gap:10px; margin-bottom:12px;">
+                                <div style="flex:1; text-align:center; background:#161b2a; border-radius:8px; padding:10px;">
+                                    <div style="font-size:0.55rem; text-transform:uppercase; color:var(--text-dim); margin-bottom:4px;">EWROS</div>
+                                    <div style="font-size:1.5rem; font-weight:800; color:${scoreColor};">${score}</div>
+                                </div>
+                                <div style="flex:1; text-align:center; background:#161b2a; border-radius:8px; padding:10px;">
+                                    <div style="font-size:0.55rem; text-transform:uppercase; color:var(--text-dim); margin-bottom:4px;">1mo Ago</div>
+                                    <div style="font-size:1.5rem; font-weight:800; color:var(--text-dim);">${prior}</div>
+                                </div>
+                                <div style="flex:1; text-align:center; background:#161b2a; border-radius:8px; padding:10px;">
+                                    <div style="font-size:0.55rem; text-transform:uppercase; color:var(--text-dim); margin-bottom:4px;">Trend</div>
+                                    <div style="font-size:1.2rem; font-weight:800; color:${trendColor};">${trendArrow}${Math.abs(trend)}</div>
+                                </div>
+                            </div>
+                            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:0.8rem;">
+                                <div style="display:flex; justify-content:space-between;">
+                                    <span style="color:var(--text-dim);">3mo Return</span>
+                                    <span style="font-weight:700; color:${sRetColor};">${st.stock_return_3mo != null ? st.stock_return_3mo + '%' : '—'}</span>
+                                </div>
+                                <div style="display:flex; justify-content:space-between;">
+                                    <span style="color:var(--text-dim);">SPY 3mo</span>
+                                    <span style="font-weight:700; color:${spyRetColor};">${st.spy_return_3mo != null ? st.spy_return_3mo + '%' : '—'}</span>
+                                </div>
+                                <div style="display:flex; justify-content:space-between;">
+                                    <span style="color:var(--text-dim);">Beat SPY</span>
+                                    <span style="font-weight:700; color:${winColor};">${st.win_days||0}/${st.total_days||63} (${st.win_rate||0}%)</span>
+                                </div>
+                                <div style="display:flex; justify-content:space-between;">
+                                    <span style="color:var(--text-dim);">Avg Alpha</span>
+                                    <span style="font-weight:700; color:${(st.avg_alpha_bps||0) >= 0 ? '#10b981' : '#ef4444'};">${(st.avg_alpha_bps||0) > 0 ? '+' : ''}${st.avg_alpha_bps||0} bps</span>
+                                </div>
+                            </div>
+                            <div style="font-size:0.7rem; color:var(--text-dim); margin-top:8px;">${s.sector || ''} · ${s.industry || ''}</div>
+                        </div>`;
+                    }).join('')}
+                </div>`;
+
+            // Biggest movers (improving + declining)
+            const topImprovers = [...all].sort((a,b) => (b.ewros_trend||0) - (a.ewros_trend||0)).slice(0,5);
+            const topDecliners = [...all].sort((a,b) => (a.ewros_trend||0) - (b.ewros_trend||0)).slice(0,5);
+
+            document.getElementById('ewros-movers').innerHTML = `
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                    <div class="card" style="padding:16px;">
+                        <h3 style="font-size:0.85rem; font-weight:700; margin-bottom:10px;">🚀 Biggest Improvers</h3>
+                        ${topImprovers.map(s => {
+                            const t = s.ewros_trend || 0;
+                            return `<div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid #2d3748; font-size:0.85rem;">
+                                <a href="#" onclick="viewStock('${s.ticker}'); return false;" style="color:var(--accent); font-weight:700; text-decoration:none;">${s.ticker}</a>
+                                <span>${s.ewros_score}</span>
+                                <span style="color:#10b981; font-weight:700;">▲+${t}</span>
+                            </div>`;
+                        }).join('')}
+                    </div>
+                    <div class="card" style="padding:16px;">
+                        <h3 style="font-size:0.85rem; font-weight:700; margin-bottom:10px;">📉 Biggest Decliners</h3>
+                        ${topDecliners.map(s => {
+                            const t = s.ewros_trend || 0;
+                            return `<div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px solid #2d3748; font-size:0.85rem;">
+                                <a href="#" onclick="viewStock('${s.ticker}'); return false;" style="color:var(--accent); font-weight:700; text-decoration:none;">${s.ticker}</a>
+                                <span>${s.ewros_score}</span>
+                                <span style="color:#ef4444; font-weight:700;">▼${t}</span>
+                            </div>`;
+                        }).join('')}
+                    </div>
+                </div>`;
+
+            // Full sortable table
+            const cols = [
+                { key: 'ticker', label: 'Ticker' },
+                { key: 'ewros_score', label: 'EWROS' },
+                { key: 'ewros_trend', label: 'Trend' },
+                { key: 'score', label: 'Quality' },
+                { key: 'grade', label: 'Grade' },
+                { key: 'rotation_score', label: 'Rotation' },
+                { key: 'sector', label: 'Sector' },
+                { key: 'current_price', label: 'Price' }
+            ];
+
+            document.getElementById('ewros-thead').innerHTML = '<tr>' + cols.map(c => {
+                const arrow = ewrosSort.column === c.key ? (ewrosSort.direction === 'desc' ? ' ▼' : ' ▲') : '';
+                return `<th onclick="sortEwrosTable('${c.key}')" style="cursor:pointer;">${c.label}${arrow}</th>`;
+            }).join('') + '</tr>';
+
+            const sorted = [...all].sort((a, b) => {
+                const col = ewrosSort.column;
+                let va = a[col], vb = b[col];
+                if (typeof va === 'string') va = (va||'').toLowerCase();
+                if (typeof vb === 'string') vb = (vb||'').toLowerCase();
+                if (col === 'ticker') return ewrosSort.direction === 'asc' ? (va < vb ? -1 : 1) : (va > vb ? -1 : 1);
+                return ewrosSort.direction === 'desc' ? ((vb||0) - (va||0)) : ((va||0) - (vb||0));
+            });
+
+            document.getElementById('ewros-tbody').innerHTML = sorted.slice(0, 100).map(s => {
+                const sc = s.ewros_score || 0;
+                const t = s.ewros_trend || 0;
+                const scColor = sc >= 70 ? '#10b981' : sc >= 40 ? '#eab308' : '#ef4444';
+                const tColor = t > 0 ? '#10b981' : t < 0 ? '#ef4444' : '#94a3b8';
+                const tArrow = t > 0 ? '▲' : t < 0 ? '▼' : '';
+                const gradeColor = s.grade === 'A' ? '#10b981' : s.grade === 'B' ? '#38bdf8' : '#94a3b8';
+                const rotColor = (s.rotation_score||0) >= 60 ? '#10b981' : (s.rotation_score||0) >= 40 ? '#eab308' : '#94a3b8';
+                return `<tr>
+                    <td><a href="#" onclick="viewStock('${s.ticker}'); return false;" style="color:var(--accent); font-weight:700; text-decoration:none;">${s.ticker}</a></td>
+                    <td style="font-weight:700; color:${scColor}; cursor:pointer;" onclick="showEwrosPopup('${s.ticker}')">${sc}</td>
+                    <td style="font-weight:600; color:${tColor};">${tArrow}${t !== 0 ? Math.abs(t) : '—'}</td>
+                    <td>${s.score || '—'}</td>
+                    <td style="color:${gradeColor}; font-weight:700;">${s.grade || '—'}</td>
+                    <td style="color:${rotColor};">${s.rotation_score ? s.rotation_score.toFixed(1) : '—'}</td>
+                    <td style="font-size:0.75rem; color:var(--text-dim);">${s.sector || '—'}</td>
+                    <td>$${s.current_price ? s.current_price.toFixed(2) : '—'}</td>
+                </tr>`;
+            }).join('');
+        }
+
+        function sortEwrosTable(col) {
+            if (ewrosSort.column === col) {
+                ewrosSort.direction = ewrosSort.direction === 'desc' ? 'asc' : 'desc';
+            } else {
+                ewrosSort.column = col;
+                ewrosSort.direction = col === 'ticker' ? 'asc' : 'desc';
+            }
+            renderEwrosTab();
+        }
+
         let calEarningsExpanded = false;
         let calEarningsData = [];
 
@@ -3004,6 +3225,7 @@
             if (hash === 'hunter') showHunter();
             else if (hash === 'portfolio') showWatchlist();
             else if (hash === 'rotation') showRotation();
+            else if (hash === 'ewros') showEwrosTab();
             else if (hash === 'watchlist') showWatchlistEntries();
             else if (hash === 'pulse') showDashboard();
             else if (hash === 'calendar') showCalendar();
