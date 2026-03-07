@@ -1938,6 +1938,7 @@
                                 ins_score: scores.ins_score || 0,
                                 insider_signal: scores.insider_signal || 'neutral',
                                 ewros_score: scores.ewros_score || 0,
+                                ewros_trend: scores.ewros_trend || 0,
                                 basket_metadata: { icon: basket.icon, weight: basket.weight }
                             };
                             watchlistData.baskets[name].push(stock);
@@ -2060,7 +2061,7 @@
                     </td>
                     <td class="text-center font-bold text-amber-400">${stock.moonshot_score || 0}%</td>
                     <td class="text-center" style="color: ${getRotationColor(stock.rotation_score || 0)}; font-weight: ${getRotationWeight(stock.rotation_score || 0)};">${(stock.rotation_score || 0).toFixed(1)}</td>
-                    <td class="text-center" style="font-weight:600; color:${(stock.ewros_score||0) >= 70 ? '#10b981' : (stock.ewros_score||0) >= 40 ? '#eab308' : '#ef4444'};">${stock.ewros_score || '—'}</td>
+                    <td class="text-center">${renderEwros(stock.ewros_score, stock.ewros_trend)}</td>
                     <td><span class="grade-badge grade-${stock.grade}">${stock.grade}</span></td>
                     <td>${getPortfolioSignalBadge(stock)}</td>
                     <td>${renderInsiderBadge(stock.ins_score, stock.insider_signal, true)}</td>
@@ -2100,6 +2101,18 @@
                 if (rot >= 35) return badge('#eab308', 'rgba(234,179,8,0.15)', '🟡 WATCH', `Rotation: ${rot.toFixed(1)} — weakening`);
                 return badge('#ef4444', 'rgba(239,68,68,0.15)', '🔴 EXIT', `Rotation: ${rot.toFixed(1)} — thesis broken`);
             }
+        }
+
+        function renderEwros(score, trend) {
+            if (!score) return '—';
+            const color = score >= 70 ? '#10b981' : score >= 40 ? '#eab308' : '#ef4444';
+            let trendHtml = '';
+            if (trend != null && trend !== 0) {
+                const tArrow = trend > 0 ? '▲' : '▼';
+                const tColor = trend > 0 ? '#10b981' : '#ef4444';
+                trendHtml = '<span style="font-size:0.65rem; margin-left:3px; color:' + tColor + ';">' + tArrow + '</span>';
+            }
+            return '<span style="font-weight:600; color:' + color + ';">' + score + '</span>' + trendHtml;
         }
 
         function getRotationColor(score) {
