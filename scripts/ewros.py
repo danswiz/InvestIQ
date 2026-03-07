@@ -22,6 +22,7 @@ DATA_DIR = os.path.join(WORKSPACE, 'data')
 ALL_STOCKS_FILE = os.path.join(DATA_DIR, 'all_stocks.json')
 
 LOOKBACK_DAYS = 63  # ~3 months of trading days
+TREND_OFFSET = 21   # ~1 month back for trend comparison
 LAMBDA = 0.03       # decay factor, ~33 day half-life
 MAX_WORKERS = 10
 
@@ -53,23 +54,29 @@ def compute_daily_returns(closes):
     return returns
 
 
-def compute_ewros_raw(stock_returns, spy_returns):
+def compute_ewros_raw(stock_returns, spy_returns, end_offset=0):
     """
     Compute EWROS raw score.
-    Aligns the last N days of both return series,
-    computes daily alpha, applies exponential weighting.
+    end_offset: how many days back from the end to compute
+                (0 = current, 21 = one month ago)
     """
-    n = min(len(stock_returns), len(spy_returns), LOOKBACK_DAYS)
-    if n < 20:  # Need at least 20 days
+    if end_offset > 0:
+        s_rets = stock_returns[:-end_offset] if end_offset < len(stock_returns) else []
+        b_rets = spy_returns[:-end_offset] if end_offset < len(spy_returns) else []
+    else:
+        s_rets = stock_returns
+        b_rets = spy_returns
+
+    n = min(len(s_rets), len(b_rets), LOOKBACK_DAYS)
+    if n < 20:
         return None
 
-    # Take the last n days
-    s_ret = stock_returns[-n:]
-    b_ret = spy_returns[-n:]
+    s_ret = s_rets[-n:]
+    b_ret = b_rets[-n:]
 
     ewros = 0.0
     for i in range(n):
-        days_ago = n - 1 - i  # most recent = 0
+        days_ago = n - 1 - i
         alpha = s_ret[i] - b_ret[i]
         weight = math.exp(-LAMBDA * days_ago)
         ewros += alpha * weight
@@ -99,33 +106,37 @@ def main():
         sys.exit(1)
     print(f"   SPY: {len(spy_returns)} daily returns ✓")
 
-    # Fetch all stock data in parallel
+    # Fetch all stock data in parallel — compute current + prior EWROS
     raw_scores = {}
+    prior_scores = {}
     failed = 0
     completed = 0
 
     def process_ticker(ticker):
         closes = fetch_daily_closes(ticker)
         returns = compute_daily_returns(closes)
-        score = compute_ewros_raw(returns, spy_returns)
-        return ticker, score
+        current = compute_ewros_raw(returns, spy_returns, end_offset=0)
+        prior = compute_ewros_raw(returns, spy_returns, end_offset=TREND_OFFSET)
+        return ticker, current, prior
 
     print(f"   Fetching {len(tickers)} stocks ({MAX_WORKERS} threads)...")
     with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
         futures = {executor.submit(process_ticker, t): t for t in tickers}
         for f in as_completed(futures):
             completed += 1
-            ticker, score = f.result()
-            if score is not None:
-                raw_scores[ticker] = score
+            ticker, current, prior = f.result()
+            if current is not None:
+                raw_scores[ticker] = current
             else:
                 failed += 1
+            if prior is not None:
+                prior_scores[ticker] = prior
             if completed % 100 == 0:
                 print(f"   ... {completed}/{len(tickers)} done")
 
     print(f"\n✅ Scored {len(raw_scores)} stocks ({failed} failed)")
 
-    # Rank → percentile 1-99
+    # Rank current → percentile 1-99
     sorted_tickers = sorted(raw_scores.keys(), key=lambda t: raw_scores[t])
     total = len(sorted_tickers)
 
@@ -135,14 +146,29 @@ def main():
         pct = max(1, min(99, pct))
         percentiles[ticker] = pct
 
+    # Rank prior → percentile 1-99
+    prior_sorted = sorted(prior_scores.keys(), key=lambda t: prior_scores[t])
+    prior_total = len(prior_sorted)
+    prior_percentiles = {}
+    for rank, ticker in enumerate(prior_sorted):
+        pct = int(((rank + 1) / prior_total) * 99)
+        pct = max(1, min(99, pct))
+        prior_percentiles[ticker] = pct
+
     # Save back into all_stocks.json
     for ticker in stocks:
         if ticker in percentiles:
             stocks[ticker]['ewros_score'] = percentiles[ticker]
-            stocks[ticker]['ewros_raw'] = round(raw_scores[ticker] * 10000, 2)  # basis points
+            stocks[ticker]['ewros_raw'] = round(raw_scores[ticker] * 10000, 2)
+            prior_pct = prior_percentiles.get(ticker)
+            if prior_pct is not None:
+                stocks[ticker]['ewros_trend'] = percentiles[ticker] - prior_pct  # positive = improving
+            else:
+                stocks[ticker]['ewros_trend'] = None
         else:
             stocks[ticker]['ewros_score'] = None
             stocks[ticker]['ewros_raw'] = None
+            stocks[ticker]['ewros_trend'] = None
 
     with open(ALL_STOCKS_FILE, 'w') as f:
         json.dump(data, f, indent=2)
@@ -150,11 +176,15 @@ def main():
     # Print top/bottom
     print(f"\n🏆 TOP 10 EWROS:")
     for ticker in sorted_tickers[-10:][::-1]:
-        print(f"   {ticker:6s}  RS {percentiles[ticker]:2d}  raw={raw_scores[ticker]*10000:+.1f}bps")
+        trend = stocks[ticker].get('ewros_trend', 0) or 0
+        arrow = '▲' if trend > 0 else '▼' if trend < 0 else '='
+        print(f"   {ticker:6s}  RS {percentiles[ticker]:2d}  {arrow}{abs(trend):+d}  raw={raw_scores[ticker]*10000:+.1f}bps")
 
     print(f"\n📉 BOTTOM 10 EWROS:")
     for ticker in sorted_tickers[:10]:
-        print(f"   {ticker:6s}  RS {percentiles[ticker]:2d}  raw={raw_scores[ticker]*10000:+.1f}bps")
+        trend = stocks[ticker].get('ewros_trend', 0) or 0
+        arrow = '▲' if trend > 0 else '▼' if trend < 0 else '='
+        print(f"   {ticker:6s}  RS {percentiles[ticker]:2d}  {arrow}{abs(trend):+d}  raw={raw_scores[ticker]*10000:+.1f}bps")
 
     # Portfolio highlights
     print(f"\n💼 Portfolio EWROS:")
@@ -166,7 +196,9 @@ def main():
         for t in sorted(holdings):
             if t in percentiles:
                 indicator = '🟢' if percentiles[t] >= 70 else '🟡' if percentiles[t] >= 40 else '🔴'
-                print(f"   {indicator} {t:6s}  RS {percentiles[t]:2d}  raw={raw_scores[t]*10000:+.1f}bps")
+                trend = stocks[t].get('ewros_trend', 0) or 0
+                arrow = '▲' if trend > 0 else '▼' if trend < 0 else '='
+                print(f"   {indicator} {t:6s}  RS {percentiles[t]:2d}  {arrow}{trend:+d}")
 
     print(f"\n💾 Saved to {ALL_STOCKS_FILE}")
 
