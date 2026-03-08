@@ -1347,7 +1347,8 @@ def screener():
         ins_max = request.args.get('ins_max', type=float)
         grades = request.args.get('grades', '')
         sector = request.args.get('sector', '')
-        rs_min = request.args.get('rs_min', type=int)
+        ewros_min = request.args.get('ewros_min', type=int)
+        ewros_max = request.args.get('ewros_max', type=int)
         peg_max = request.args.get('peg_max', type=float)
 
         if rot_min is not None:
@@ -1363,8 +1364,10 @@ def screener():
             results = [s for s in results if s.get('grade', '').upper() in grade_set]
         if sector:
             results = [s for s in results if s.get('sector', '').lower() == sector.lower()]
-        if rs_min is not None:
-            results = [s for s in results if (s.get('ewros_score') or 0) >= rs_min]
+        if ewros_min is not None:
+            results = [s for s in results if (s.get('ewros_score') or 0) >= ewros_min]
+        if ewros_max is not None:
+            results = [s for s in results if (s.get('ewros_score') or 0) <= ewros_max]
         if peg_max is not None:
             results = [s for s in results if s.get('peg_ratio') is not None and s['peg_ratio'] <= peg_max]
 
