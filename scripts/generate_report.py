@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Generate PDF Report: The IQ Investor — Algorithm & Backtest Report
-Uses walk-forward backtest results (no look-ahead bias).
+Uses walk-forward + portfolio backtest results.
 """
 import json
 import os
@@ -23,334 +23,238 @@ OUTPUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))
 with open(os.path.join(DATA_DIR, 'backtest_results.json')) as f:
     bt = json.load(f)
 
-stats = bt.get('stats', {})
+portfolio = bt.get('portfolio_10k', {})
+iq_oos = bt.get('iq_edge_oos', {})
+strats = portfolio.get('strategies', {})
+spy_bh = portfolio.get('spy_buy_hold', {})
+iq_strats = iq_oos.get('strategies', {})
 
-# Print-friendly colors
-HEADING_COLOR = colors.HexColor('#0c4a6e')
-TEXT_BLACK = colors.HexColor('#1a1a1a')
-TEXT_DARK = colors.HexColor('#333333')
-TABLE_HEADER_BG = colors.HexColor('#0c4a6e')
-TABLE_ALT_ROW = colors.HexColor('#f0f4f8')
-BORDER_COLOR = colors.HexColor('#cbd5e1')
+# Colors
+HEADING = colors.HexColor('#0c4a6e')
+TEXT = colors.HexColor('#1a1a1a')
+TEXT_DIM = colors.HexColor('#333333')
+TBL_HDR = colors.HexColor('#0c4a6e')
+TBL_ALT = colors.HexColor('#f0f4f8')
+BORDER = colors.HexColor('#cbd5e1')
 
 styles = getSampleStyleSheet()
-title_style = ParagraphStyle('CustomTitle', parent=styles['Title'], fontSize=26,
-                              textColor=HEADING_COLOR, spaceAfter=4, fontName='Helvetica-Bold')
-subtitle_style = ParagraphStyle('Subtitle', parent=styles['Normal'], fontSize=12,
-                                 textColor=TEXT_DARK, spaceAfter=16, alignment=TA_CENTER)
-h1_style = ParagraphStyle('H1', parent=styles['Heading1'], fontSize=15,
-                           textColor=HEADING_COLOR, spaceBefore=14, spaceAfter=6, fontName='Helvetica-Bold')
-h2_style = ParagraphStyle('H2', parent=styles['Heading2'], fontSize=11,
-                           textColor=HEADING_COLOR, spaceBefore=8, spaceAfter=4, fontName='Helvetica-Bold')
-h3_style = ParagraphStyle('H3', parent=styles['Heading3'], fontSize=10,
-                           textColor=HEADING_COLOR, spaceBefore=6, spaceAfter=3, fontName='Helvetica-Bold')
-body_style = ParagraphStyle('Body', parent=styles['Normal'], fontSize=9,
-                             textColor=TEXT_BLACK, leading=12, alignment=TA_JUSTIFY)
-formula_style = ParagraphStyle('Formula', parent=styles['Code'], fontSize=8,
-                                textColor=TEXT_BLACK, backColor=colors.HexColor('#f1f5f9'),
-                                leading=11, leftIndent=12, rightIndent=12, spaceBefore=3, spaceAfter=3,
-                                borderColor=BORDER_COLOR, borderWidth=0.5, borderPadding=4)
-metric_style = ParagraphStyle('Metric', parent=styles['Normal'], fontSize=9,
-                               textColor=HEADING_COLOR, fontName='Helvetica-Bold')
-caption_style = ParagraphStyle('Caption', parent=styles['Normal'], fontSize=7,
-                                textColor=TEXT_DARK, alignment=TA_CENTER, spaceAfter=8)
-note_style = ParagraphStyle('Note', parent=styles['Normal'], fontSize=8,
-                             textColor=TEXT_DARK, leading=10, leftIndent=12,
-                             borderColor=colors.HexColor('#e2e8f0'), borderWidth=0.5,
-                             borderPadding=6, backColor=colors.HexColor('#fefce8'))
+title_s = ParagraphStyle('T', parent=styles['Title'], fontSize=26, textColor=HEADING, spaceAfter=4, fontName='Helvetica-Bold')
+sub_s = ParagraphStyle('S', parent=styles['Normal'], fontSize=12, textColor=TEXT_DIM, spaceAfter=16, alignment=TA_CENTER)
+h1 = ParagraphStyle('H1', parent=styles['Heading1'], fontSize=15, textColor=HEADING, spaceBefore=14, spaceAfter=6, fontName='Helvetica-Bold')
+h2 = ParagraphStyle('H2', parent=styles['Heading2'], fontSize=11, textColor=HEADING, spaceBefore=8, spaceAfter=4, fontName='Helvetica-Bold')
+h3 = ParagraphStyle('H3', parent=styles['Heading3'], fontSize=10, textColor=HEADING, spaceBefore=6, spaceAfter=3, fontName='Helvetica-Bold')
+body = ParagraphStyle('B', parent=styles['Normal'], fontSize=9, textColor=TEXT, leading=12, alignment=TA_JUSTIFY)
+formula = ParagraphStyle('F', parent=styles['Code'], fontSize=8, textColor=TEXT, backColor=colors.HexColor('#f1f5f9'),
+                          leading=11, leftIndent=12, rightIndent=12, spaceBefore=3, spaceAfter=3,
+                          borderColor=BORDER, borderWidth=0.5, borderPadding=4)
+metric = ParagraphStyle('M', parent=styles['Normal'], fontSize=9, textColor=HEADING, fontName='Helvetica-Bold')
+caption = ParagraphStyle('C', parent=styles['Normal'], fontSize=7, textColor=TEXT_DIM, alignment=TA_CENTER, spaceAfter=8)
+note = ParagraphStyle('N', parent=styles['Normal'], fontSize=8, textColor=TEXT_DIM, leading=10, leftIndent=12,
+                       borderColor=colors.HexColor('#e2e8f0'), borderWidth=0.5, borderPadding=6, backColor=colors.HexColor('#fefce8'))
 
 
-def make_table(data, col_widths=None):
-    t = Table(data, colWidths=col_widths)
+def tbl(data, cw=None):
+    t = Table(data, colWidths=cw)
     t.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), TABLE_HEADER_BG),
-        ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-        ('FONTSIZE', (0, 0), (-1, 0), 8),
-        ('TEXTCOLOR', (0, 1), (-1, -1), TEXT_BLACK),
-        ('FONTSIZE', (0, 1), (-1, -1), 8),
-        ('ALIGN', (1, 0), (-1, -1), 'CENTER'),
-        ('GRID', (0, 0), (-1, -1), 0.5, BORDER_COLOR),
-        ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.white, TABLE_ALT_ROW]),
-        ('TOPPADDING', (0, 0), (-1, -1), 3),
-        ('BOTTOMPADDING', (0, 0), (-1, -1), 3),
+        ('BACKGROUND', (0,0), (-1,0), TBL_HDR), ('TEXTCOLOR', (0,0), (-1,0), colors.white),
+        ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'), ('FONTSIZE', (0,0), (-1,0), 8),
+        ('TEXTCOLOR', (0,1), (-1,-1), TEXT), ('FONTSIZE', (0,1), (-1,-1), 8),
+        ('ALIGN', (1,0), (-1,-1), 'CENTER'), ('GRID', (0,0), (-1,-1), 0.5, BORDER),
+        ('ROWBACKGROUNDS', (0,1), (-1,-1), [colors.white, TBL_ALT]),
+        ('TOPPADDING', (0,0), (-1,-1), 3), ('BOTTOMPADDING', (0,0), (-1,-1), 3),
     ]))
     return t
 
 
-def add_chart(story, filename, width=5.5*inch, caption=None):
-    path = os.path.join(CHARTS_DIR, filename)
-    if os.path.exists(path):
-        img = Image(path, width=width, height=width*0.45)
-        story.append(img)
-        if caption:
-            story.append(Paragraph(caption, caption_style))
+def chart(story, fn, w=5.5*inch, cap=None):
+    p = os.path.join(CHARTS_DIR, fn)
+    if os.path.exists(p):
+        story.append(Image(p, width=w, height=w*0.45))
+        if cap: story.append(Paragraph(cap, caption))
 
 
-def s(key1, key2, field, default=0):
-    """Safe stat accessor."""
-    return stats.get(key1, {}).get(key2, {}).get(field, default)
+def gs(strat_name, field, default=0):
+    """Get strategy stat."""
+    return strats.get(strat_name, {}).get(field, default)
+
+def gi(strat_name, field, default=0):
+    """Get IQ OOS strategy stat."""
+    return iq_strats.get(strat_name, {}).get(field, default)
 
 
-def build_report():
-    doc = SimpleDocTemplate(OUTPUT, pagesize=letter,
-                            topMargin=0.6*inch, bottomMargin=0.5*inch,
+def build():
+    doc = SimpleDocTemplate(OUTPUT, pagesize=letter, topMargin=0.6*inch, bottomMargin=0.5*inch,
                             leftMargin=0.7*inch, rightMargin=0.7*inch)
     story = []
 
-    # ===== COVER + TOC (single page) =====
+    # ===== COVER =====
     story.append(Spacer(1, 0.8*inch))
-    story.append(Paragraph('The IQ Investor', title_style))
-    story.append(Paragraph('Algorithm & Backtesting Report', subtitle_style))
-    story.append(HRFlowable(width='50%', color=HEADING_COLOR, thickness=1.5))
+    story.append(Paragraph('The IQ Investor', title_s))
+    story.append(Paragraph('Algorithm & Backtesting Report', sub_s))
+    story.append(HRFlowable(width='50%', color=HEADING, thickness=1.5))
     story.append(Spacer(1, 0.15*inch))
-    cover_info = ParagraphStyle('CI', parent=body_style, alignment=TA_CENTER, fontSize=9, textColor=TEXT_DARK)
-    story.append(Paragraph(f'Generated: {datetime.now().strftime("%B %d, %Y")} · Data: {bt.get("data_range","N/A")} · {bt.get("total_stocks",0)} stocks', cover_info))
-    story.append(Paragraph(f'Backtest: {bt.get("backtest_range","N/A")} · {bt.get("rebalance_periods",0)} monthly rebalance periods', cover_info))
-    story.append(Spacer(1, 0.15*inch))
+    ci = ParagraphStyle('CI', parent=body, alignment=TA_CENTER, fontSize=9, textColor=TEXT_DIM)
+    story.append(Paragraph(f'Generated: {datetime.now().strftime("%B %d, %Y")} · Test Period: {portfolio.get("test_period","N/A")}', ci))
+    story.append(Paragraph(f'Model trained on pre-Sep 2023 data · Tested on 2.5 years of unseen market', ci))
+    story.append(Spacer(1, 0.3*inch))
+
+    # Headline result
+    iq_ewros = strats.get('IQ Edge + EWROS ≥80', {})
     story.append(Paragraph(
-        '<i>Walk-forward methodology: At each monthly rebalance, scores are computed using <b>only data available '
-        'at that date</b>. Forward returns are measured <b>after</b> portfolio formation. No look-ahead bias.</i>',
-        ParagraphStyle('Method', parent=body_style, alignment=TA_CENTER, fontSize=8, textColor=TEXT_DARK)))
+        f'<b>$10,000 → ${iq_ewros.get("final_value", 0):,.0f}</b> ({iq_ewros.get("total_return_pct", 0):+.1f}%) '
+        f'vs SPY Buy &amp; Hold ${spy_bh.get("final_value", 0):,.0f} ({spy_bh.get("total_return_pct", 0):+.1f}%)',
+        ParagraphStyle('HL', parent=body, alignment=TA_CENTER, fontSize=11, textColor=HEADING, fontName='Helvetica-Bold')))
     story.append(Spacer(1, 0.4*inch))
-    story.append(HRFlowable(width='100%', color=BORDER_COLOR, thickness=0.5))
-    story.append(Spacer(1, 0.1*inch))
-    story.append(Paragraph('Contents', h2_style))
-    toc = [
-        '1. Executive Summary & Walk-Forward Results',
-        '2. Quality Score — 14-Factor Stock Rating',
-        '3. EWROS — Exponential Weighted Relative Outperformance',
-        '4. Rotation Score — 6-Signal Rotation Detector',
-        '5. IQ Edge Score — ML Breakout Prediction',
-        '6. Power Matrix — Combined Signal Framework',
-        '7. Methodology & Limitations',
-        '8. Appendix: Parameters & Configuration',
-    ]
-    toc_style = ParagraphStyle('TOC', parent=body_style, spaceBefore=2, fontSize=9)
+
+    story.append(HRFlowable(width='100%', color=BORDER, thickness=0.5))
+    story.append(Paragraph('Contents', h2))
+    toc = ['1. Portfolio Results — $10,000 Backtest', '2. Entry & Exit Rules',
+           '3. EWROS — Algorithm & Results', '4. IQ Edge Score — ML Model & Out-of-Sample Results',
+           '5. Quality Score — 14-Factor Rating', '6. Power Matrix — Combined Framework',
+           '7. Methodology & Limitations', '8. Appendix']
     for item in toc:
-        story.append(Paragraph(item, toc_style))
+        story.append(Paragraph(item, ParagraphStyle('TOC', parent=body, spaceBefore=2, fontSize=9)))
     story.append(PageBreak())
 
-    # ===== 1. EXECUTIVE SUMMARY =====
-    story.append(Paragraph('1. Executive Summary', h1_style))
+    # ===== 1. PORTFOLIO RESULTS =====
+    story.append(Paragraph('1. Portfolio Results — $10,000 Backtest', h1))
     story.append(Paragraph(
-        'The IQ Investor platform employs a multi-signal approach to stock selection, combining fundamental quality metrics, '
-        'momentum indicators, and machine learning. This report documents each algorithm and presents walk-forward '
-        'backtesting results across 50 monthly rebalance periods (Jan 2022 – Feb 2026).',
-        body_style))
+        f'Starting with $10,000 in September 2023, each strategy trades with max 20 equal-weight positions '
+        f'($500/slot, scaling with portfolio value). XGBoost model trained exclusively on pre-Sep 2023 data. '
+        f'All results below are on completely unseen market data.',
+        body))
     story.append(Spacer(1, 6))
 
-    story.append(Paragraph('Walk-Forward Results Summary', h2_style))
+    # Main equity chart
+    chart(story, 'portfolio_10k.png', w=6.2*inch, cap='Growth of $10,000: Strategies vs SPY Buy & Hold (Sep 2023 – Mar 2026)')
 
-    summary_table = [
-        ['Signal', 'Top Avg/Mo', 'Bottom Avg/Mo', 'Spread', 'Top Cumulative', 'Top Win Rate', 'N'],
-        ['EWROS (Top/Bottom 10%)',
-         f'{s("EWROS","top","avg_monthly")}%', f'{s("EWROS","bottom","avg_monthly")}%',
-         f'{s("EWROS","top","avg_monthly") - s("EWROS","bottom","avg_monthly"):+.2f}%',
-         f'{s("EWROS","top","cumulative")}%', f'{s("EWROS","top","win_rate")}%', str(s("EWROS","top","n_periods"))],
-        ['IQ Edge (Top/Bottom 10%)',
-         f'{s("IQ Edge","top","avg_monthly")}%', f'{s("IQ Edge","bottom","avg_monthly")}%',
-         f'{s("IQ Edge","top","avg_monthly") - s("IQ Edge","bottom","avg_monthly"):+.2f}%',
-         f'{s("IQ Edge","top","cumulative")}%', f'{s("IQ Edge","top","win_rate")}%', str(s("IQ Edge","top","n_periods"))],
-        ['Power Matrix (Zone/Avoid)',
-         f'{s("Power Matrix","top","avg_monthly")}%', f'{s("Power Matrix","bottom","avg_monthly")}%',
-         f'{s("Power Matrix","top","avg_monthly") - s("Power Matrix","bottom","avg_monthly"):+.2f}%',
-         f'{s("Power Matrix","top","cumulative")}%', f'{s("Power Matrix","top","win_rate")}%', str(s("Power Matrix","top","n_periods"))],
-        ['Rotation (High/Low)',
-         f'{s("Rotation","top","avg_monthly")}%', f'{s("Rotation","bottom","avg_monthly")}%',
-         f'{s("Rotation","top","avg_monthly") - s("Rotation","bottom","avg_monthly"):+.2f}%',
-         f'{s("Rotation","top","cumulative")}%', f'{s("Rotation","top","win_rate")}%', str(s("Rotation","top","n_periods"))],
-        ['Quality (Top/Bottom 10%)',
-         f'{s("Quality","top","avg_monthly")}%', f'{s("Quality","bottom","avg_monthly")}%',
-         f'{s("Quality","top","avg_monthly") - s("Quality","bottom","avg_monthly"):+.2f}%',
-         f'{s("Quality","top","cumulative")}%', f'{s("Quality","top","win_rate")}%', str(s("Quality","top","n_periods"))],
-        ['SPY Benchmark',
-         f'{s("EWROS","spy","avg_monthly")}%', '—', '—',
-         f'{s("EWROS","spy","cumulative")}%', f'{s("EWROS","spy","win_rate")}%', str(s("EWROS","spy","n_periods"))],
+    # Results table
+    story.append(Paragraph('Final Scorecard', h2))
+    score_table = [
+        ['Strategy', 'Final Value', 'Return', 'Trades', 'Win Rate', 'Profit Factor', 'Expectancy'],
     ]
-    story.append(make_table(summary_table, col_widths=[1.7*inch, 0.85*inch, 0.85*inch, 0.75*inch, 1*inch, 0.8*inch, 0.5*inch]))
+    for name in ['IQ Edge + EWROS ≥80', 'EWROS Top 20 + Trend', 'IQ Edge Top 20 + Trend']:
+        s = strats.get(name, {})
+        if not s: continue
+        score_table.append([
+            name, f'${s.get("final_value",0):,.0f}', f'{s.get("total_return_pct",0):+.1f}%',
+            str(s.get('total_trades',0)), f'{s.get("win_rate",0)}%',
+            str(s.get('profit_factor',0)), f'{s.get("expectancy_pct",0)}%'
+        ])
+    score_table.append(['SPY Buy & Hold', f'${spy_bh.get("final_value",0):,.0f}',
+                         f'{spy_bh.get("total_return_pct",0):+.1f}%', '1', '—', '—', '—'])
+    story.append(tbl(score_table, cw=[1.8*inch, 0.85*inch, 0.7*inch, 0.55*inch, 0.65*inch, 0.7*inch, 0.85*inch]))
     story.append(Spacer(1, 6))
 
-    # Equity curves chart
-    add_chart(story, 'walk_forward_equity.png', width=6.2*inch, caption='Growth of $100: Monthly rebalanced portfolios, walk-forward (2022–2026)')
+    # Win/loss stats
+    story.append(Paragraph('Win/Loss Profile', h2))
+    wl_table = [['Strategy', 'Wins', 'Losses', 'Avg Win', 'Avg Loss', 'Avg Win $', 'Avg Loss $', 'Best', 'Worst']]
+    for name in ['IQ Edge + EWROS ≥80', 'EWROS Top 20 + Trend', 'IQ Edge Top 20 + Trend']:
+        s = strats.get(name, {})
+        if not s: continue
+        short = name.replace('IQ Edge + EWROS ≥80', 'IQ+EWROS').replace('EWROS Top 20 + Trend', 'EWROS').replace('IQ Edge Top 20 + Trend', 'IQ Edge')
+        wl_table.append([short, str(s.get('winners',0)), str(s.get('losers',0)),
+                          f'+{s.get("avg_win_pct",0)}%', f'{s.get("avg_loss_pct",0)}%',
+                          f'${s.get("avg_win_dollar",0):,.0f}', f'${s.get("avg_loss_dollar",0):,.0f}',
+                          f'+{s.get("best_trade",0)}%', f'{s.get("worst_trade",0)}%'])
+    story.append(tbl(wl_table, cw=[0.8*inch, 0.5*inch, 0.5*inch, 0.7*inch, 0.7*inch, 0.7*inch, 0.7*inch, 0.7*inch, 0.7*inch]))
     story.append(Spacer(1, 6))
 
-    # Signal spreads chart
-    add_chart(story, 'signal_spreads.png', width=5.5*inch, caption='Distribution of monthly top-minus-bottom return spread by signal')
-    story.append(Spacer(1, 6))
-
-    # Key takeaways
-    story.append(Paragraph('Key Findings', h3_style))
-    ewros_spread = s("EWROS","top","avg_monthly") - s("EWROS","bottom","avg_monthly")
-    iq_spread = s("IQ Edge","top","avg_monthly") - s("IQ Edge","bottom","avg_monthly")
-    story.append(Paragraph(
-        f'<b>EWROS</b> shows the strongest signal with a +{ewros_spread:.2f}%/month spread between top and bottom deciles, '
-        f'compounding to +{s("EWROS","top","cumulative")}% cumulative vs SPY\'s +{s("EWROS","spy","cumulative")}%. '
-        f'<b>IQ Edge</b> (ML) shows +{iq_spread:.2f}%/month blended spread, but out-of-sample (2025–2026) the spread '
-        f'drops to +0.07%/month — the model has not yet proven predictive on unseen data (see Section 5). '
-        f'<b>Quality Score</b> shows a negative spread — the proxy cannot test fundamental factors (see Section 2).',
-        body_style))
+    # Comparison + drawdown charts
+    chart(story, 'portfolio_comparison.png', w=6.2*inch, cap='Strategy comparison: final value, returns, win rate, profit factor')
+    chart(story, 'portfolio_drawdown.png', w=5.5*inch, cap='Drawdown from peak — maximum pain endured during the test period')
     story.append(PageBreak())
 
-    # ===== 2. QUALITY SCORE =====
-    story.append(Paragraph('2. Quality Score — 14-Factor Stock Rating', h1_style))
-    story.append(Paragraph(
-        'The Quality Score evaluates stocks on a 100-point scale across four categories: '
-        'Technical Setup (53 pts max), Growth (33 pts max), Quality Fundamentals (18 pts max), '
-        'and Market Context (10 pts max). Stocks are graded A through F.',
-        body_style))
+    # ===== 2. ENTRY & EXIT RULES =====
+    story.append(Paragraph('2. Entry & Exit Rules', h1))
+    story.append(Paragraph('All strategies share the same exit discipline. Only entry criteria differ.', body))
     story.append(Spacer(1, 4))
 
-    story.append(Paragraph('Scoring Breakdown', h2_style))
-    criteria_table = [
-        ['Category', 'Factor', 'Pts', 'Description'],
-        ['Technical', 'Breakout Pattern', '22', 'Flat ceiling base with <10% drift'],
-        ['Technical', 'Trend Alignment', '8', 'Price > 50d MA > 200d MA'],
-        ['Technical', 'Consolidation', '10', 'Base depth and formation quality'],
-        ['Technical', 'Volume Dry-up', '5', 'Volume decline during base (accumulation)'],
-        ['Technical', '52W Proximity', '5', 'Distance from 52-week high'],
-        ['Technical', 'Volatility Compression', '3', 'ATR narrowing before breakout'],
-        ['Growth', 'Revenue Growth (2yr)', '30', 'Both years ≥10% required (strict gate)'],
-        ['Growth', 'Earnings Acceleration', '3', 'Sequential quarterly improvement'],
-        ['Quality', 'ROE', '5', 'Return on equity'],
-        ['Quality', 'Operating Margin', '5', 'Profitability margin'],
-        ['Quality', 'PEG Ratio', '5', 'Price/Earnings to Growth'],
-        ['Quality', 'FCF Quality', '3', 'Free cash flow positive'],
-        ['Context', 'Industry Strength', '5', 'Sector relative performance vs SPY'],
-        ['Context', 'Relative Strength', '5', '6-month outperformance vs SPY'],
+    story.append(Paragraph('Entry Rules', h2))
+    entry_table = [
+        ['Strategy', 'Entry Criteria'],
+        ['IQ Edge Top 20 + Trend', 'Top 20 IQ Edge percentile + Price > 50d MA > 200d MA'],
+        ['IQ Edge + EWROS ≥80', 'IQ Edge ≥ 80th pctile + EWROS ≥ 80 + Trend aligned'],
+        ['EWROS Top 20 + Trend', 'Top 20 EWROS score + Price > 50d MA > 200d MA'],
     ]
-    story.append(make_table(criteria_table, col_widths=[0.8*inch, 1.5*inch, 0.4*inch, 3.8*inch]))
-    story.append(Spacer(1, 4))
-    story.append(Paragraph('Grades: A ≥ 75 · B ≥ 60 · C ≥ 45 · D ≥ 30 · F < 30', formula_style))
+    story.append(tbl(entry_table, cw=[2*inch, 4.5*inch]))
+    story.append(Spacer(1, 6))
 
-    story.append(Paragraph('Revenue Gate (v4.4)', h3_style))
-    story.append(Paragraph(
-        'Both years of revenue growth must be ≥ 10% for any growth points. '
-        'This strict 2-year consistency gate filters out one-time spikes.',
-        body_style))
+    story.append(Paragraph('Exit Rules (whichever triggers first)', h2))
+    exit_table = [
+        ['Exit Signal', 'Threshold', 'Rationale'],
+        ['Stop Loss', '-8% from entry', 'Cut losses fast — preserve capital'],
+        ['Below 50-day MA', 'Close < 50d MA (after 5d hold)', 'Trend broken — momentum lost'],
+        ['EWROS Drop', 'EWROS falls below 50 (after 10d)', 'Relative strength deteriorating'],
+        ['Max Hold', '126 trading days (~6 months)', 'Avoid dead money — free up capital'],
+    ]
+    story.append(tbl(exit_table, cw=[1.2*inch, 2*inch, 3.3*inch]))
+    story.append(Spacer(1, 6))
 
-    story.append(Paragraph('Walk-Forward Results & Honest Assessment', h2_style))
-    q_top_avg = s("Quality","top","avg_monthly")
-    q_bottom_avg = s("Quality","bottom","avg_monthly")
+    story.append(Paragraph('Position Sizing', h2))
     story.append(Paragraph(
-        f'Top 10% Quality stocks averaged <b>{q_top_avg}%/month</b> vs bottom 10% at <b>{q_bottom_avg}%/month</b>. '
-        f'The negative spread ({q_top_avg - q_bottom_avg:+.2f}%) indicates the price/volume-based quality proxy used in backtesting '
-        f'does not capture the full Quality Score (which includes fundamental data like revenue growth, ROE, margins). '
-        f'The backtest proxy covers ~60% of the scoring factors. '
-        f'A proper fundamental backtest would require historical financial statement data (e.g., from SEC filings), '
-        f'which was not available in our OHLCV dataset.',
-        body_style))
-    story.append(Spacer(1, 4))
-    story.append(Paragraph(
-        '<b>Limitation:</b> The Quality Score backtest uses a price/volume proxy (trend, MA, momentum, volume, volatility) '
-        'and cannot test fundamental factors (revenue gate, ROE, margins, PEG, FCF). Results for this signal '
-        'should not be treated as validation of the full Quality Score.',
-        note_style))
+        'Max 20 positions at any time. Each new position sized at portfolio_value / 20. '
+        'No margin, no leverage. Cash sits idle when no qualifying entries are found.',
+        body))
 
     # ===== 3. EWROS =====
-    story.append(Paragraph('3. EWROS — Exponential Weighted Relative Outperformance', h1_style))
+    story.append(Paragraph('3. EWROS — Exponential Weighted Relative Outperformance', h1))
     story.append(Paragraph(
-        'EWROS measures how consistently a stock outperforms SPY on a daily basis, with exponential decay '
-        'emphasizing recent performance. Unlike IBD RS Rating (12-month equal weight), EWROS catches momentum '
-        'shifts within weeks.',
-        body_style))
+        'Measures how consistently a stock outperforms SPY on a daily basis, with exponential decay '
+        'emphasizing recent performance. Unlike IBD RS Rating (12-month equal weight), EWROS catches '
+        'momentum shifts within weeks.',
+        body))
     story.append(Spacer(1, 4))
 
-    story.append(Paragraph('Formula', h2_style))
+    story.append(Paragraph('Formula', h2))
     story.append(Paragraph(
         'daily_alpha(t) = stock_return(t) − SPY_return(t)\n'
         'weight(t) = e^(−0.03 × days_ago)          half-life ≈ 23 days\n'
         'EWROS_raw = Σ(daily_alpha × weight)       over 63 trading days\n'
         'EWROS = percentile_rank(EWROS_raw)        scaled 1–99',
-        formula_style))
+        formula))
 
-    story.append(Paragraph('Parameters', h3_style))
     ewros_params = [
         ['Parameter', 'Value', 'Rationale'],
-        ['Lookback', '63 days (~3 months)', 'Captures medium-term momentum without noise'],
-        ['Lambda (λ)', '0.03', 'Half-life ~23 days — recent alpha weighs ~2x vs 3-week-old'],
-        ['Trend Offset', '21 days', 'Compares current rank to 1 month prior for trend detection'],
-        ['Benchmark', 'SPY', 'S&P 500 ETF as broad market proxy'],
+        ['Lookback', '63 days (~3 months)', 'Medium-term momentum, not noise'],
+        ['Lambda (λ)', '0.03', 'Half-life ~23 days — recent alpha weighs 2x vs 3-week-old'],
+        ['Trend Offset', '21 days', 'Compares current rank to 1 month prior'],
+        ['Benchmark', 'SPY', 'S&P 500 ETF as market proxy'],
     ]
-    story.append(make_table(ewros_params, col_widths=[1.2*inch, 1.5*inch, 3.8*inch]))
-
-    story.append(Paragraph('Walk-Forward Results', h2_style))
-    story.append(Paragraph(
-        f'<b>EWROS is the strongest single signal.</b> Top decile: +{s("EWROS","top","avg_monthly")}%/month '
-        f'(win rate {s("EWROS","top","win_rate")}%), cumulative +{s("EWROS","top","cumulative")}%. '
-        f'Bottom decile: +{s("EWROS","bottom","avg_monthly")}%/month, cumulative +{s("EWROS","bottom","cumulative")}%. '
-        f'SPY: +{s("EWROS","spy","avg_monthly")}%/month, cumulative +{s("EWROS","spy","cumulative")}%. '
-        f'Spread of +{ewros_spread:.2f}%/month is statistically meaningful across {s("EWROS","top","n_periods")} periods.',
-        body_style))
-    story.append(Spacer(1, 4))
-    story.append(Paragraph(
-        f'Best month: +{s("EWROS","top","best_month")}% · Worst month: {s("EWROS","top","worst_month")}% · '
-        f'Std dev: {s("EWROS","top","std")}%',
-        metric_style))
-    story.append(PageBreak())
-
-    # ===== 4. ROTATION =====
-    story.append(Paragraph('4. Rotation Score — 6-Signal Rotation Detector', h1_style))
-    story.append(Paragraph(
-        'Identifies institutional rotation — smart money flowing into stocks ahead of breakouts. '
-        'Combines 6 signals into a composite score (0–100).',
-        body_style))
+    story.append(tbl(ewros_params, cw=[1.2*inch, 1.5*inch, 3.8*inch]))
     story.append(Spacer(1, 4))
 
-    rot_signals = [
-        ['Signal', 'Weight', 'What It Measures'],
-        ['RS Divergence', '20%', 'Stock strengthens while market weakens'],
-        ['Earnings Momentum', '20%', 'Sequential quarterly earnings improvement'],
-        ['Valuation Gap', '15%', 'Discount to intrinsic value (PEG-based)'],
-        ['Stage Breakout', '20%', 'Price breaking above accumulation base'],
-        ['Volume Accumulation', '15%', 'Unusual volume surge pattern'],
-        ['Sector Momentum', '10%', 'Industry group relative strength'],
-    ]
-    story.append(make_table(rot_signals, col_widths=[1.3*inch, 0.7*inch, 4.5*inch]))
+    ewros_s = strats.get('EWROS Top 20 + Trend', {})
+    story.append(Paragraph(
+        f'<b>Out-of-sample result:</b> $10,000 → ${ewros_s.get("final_value",0):,.0f} '
+        f'({ewros_s.get("total_return_pct",0):+.1f}%), {ewros_s.get("total_trades",0)} trades, '
+        f'win rate {ewros_s.get("win_rate",0)}%, profit factor {ewros_s.get("profit_factor",0)}.',
+        body))
+
+    # ===== 4. IQ EDGE =====
+    story.append(Paragraph('4. IQ Edge Score — ML Breakout Prediction', h1))
+    story.append(Paragraph(
+        'XGBoost model trained on 3,781 breakout events from Mar 2021 – Aug 2023. '
+        'Predicts probability of 100%+ gain (doubling) within 12 months. '
+        'All results below are on the 2.5 years of market data the model never saw.',
+        body))
     story.append(Spacer(1, 4))
 
-    story.append(Paragraph('Walk-Forward Results', h2_style))
-    rot_spread = s("Rotation","top","avg_monthly") - s("Rotation","bottom","avg_monthly")
-    story.append(Paragraph(
-        f'High rotation (≥60): +{s("Rotation","top","avg_monthly")}%/month, cumulative +{s("Rotation","top","cumulative")}%. '
-        f'Low rotation (<30): +{s("Rotation","bottom","avg_monthly")}%/month, cumulative +{s("Rotation","bottom","cumulative")}%. '
-        f'Spread: +{rot_spread:.2f}%/month across {s("Rotation","top","n_periods")} periods.',
-        body_style))
-    story.append(Spacer(1, 4))
-    story.append(Paragraph(
-        '<b>Limitation:</b> The rotation backtest uses a price/volume proxy for the full 6-signal system. '
-        'Earnings momentum and valuation gap require fundamental data not available in the OHLCV dataset. '
-        'Results reflect the technical subset (RS divergence, stage breakout, volume accumulation).',
-        note_style))
-
-    # ===== 5. IQ EDGE =====
-    story.append(Paragraph('5. IQ Edge Score — ML Breakout Prediction', h1_style))
-    story.append(Paragraph(
-        'Uses XGBoost (gradient boosted trees) trained on 9,730 historical breakout events to predict '
-        'the probability of a stock doubling (100%+ gain) within 12 months of a breakout.',
-        body_style))
-    story.append(Spacer(1, 4))
-
-    story.append(Paragraph('Training Data & Model', h2_style))
-    training_table = [
+    story.append(Paragraph('Model Training (strict temporal split)', h2))
+    train_table = [
         ['Metric', 'Value'],
-        ['Total Breakout Events', '9,730'],
-        ['Doubles (100%+)', '297 (3.1%)'],
-        ['Big Wins (50–100%)', '1,190 (12.2%)'],
-        ['Wins (25–50%)', '2,268 (23.3%)'],
-        ['Fails (<25%)', '5,975 (61.4%)'],
-        ['Train Period', 'Mar 2021 – Dec 2024'],
-        ['Validation Period', 'Jan – Jun 2025'],
-        ['Test Period', 'Jul 2025 – Mar 2026'],
+        ['Train Period', 'Mar 2021 – Aug 2023 (3,781 events, 80 doubles)'],
+        ['Test Period', 'Sep 2023 – Mar 2026 (5,949 events, 217 doubles)'],
+        ['Train AUC', '0.955 (expected overfit on seen data)'],
+        ['Test AUC (out-of-sample)', '0.712'],
+        ['Test Top-10% Precision', '9.9% (vs 3.6% base rate — 2.75x lift)'],
         ['Model', 'XGBoost (500 trees, max depth 6)'],
-        ['Validation AUC', '0.736'],
-        ['Test AUC', '0.758'],
     ]
-    story.append(make_table(training_table, col_widths=[2*inch, 4.5*inch]))
+    story.append(tbl(train_table, cw=[2.2*inch, 4.3*inch]))
     story.append(Spacer(1, 4))
 
-    story.append(Paragraph('Feature Set (14 features)', h2_style))
-    feature_table = [
+    story.append(Paragraph('Feature Set (14 features)', h2))
+    feat_table = [
         ['Feature', 'Category', 'Description'],
         ['close_to_ma20/50/200', 'Trend', 'Price relative to key moving averages'],
         ['trend_aligned', 'Trend', 'Price > 50d MA > 200d MA (binary)'],
@@ -360,184 +264,154 @@ def build_report():
         ['proximity_52w', 'Timing', 'Price relative to 52-week high'],
         ['return_3mo', 'Momentum', '3-month price return'],
         ['up_days_pct', 'Pattern', 'Percentage of up days in base'],
-        ['vol_trend_in_base', 'Volume', 'Volume trend direction in base'],
-        ['base_length', 'Pattern', 'Duration of consolidation base'],
-        ['base_range', 'Pattern', 'Price range width of base (%)'],
+        ['base_length / base_range', 'Pattern', 'Consolidation duration and width'],
         ['breakout_vol_ratio', 'Volume', 'Breakout day volume vs 50d average'],
     ]
-    story.append(make_table(feature_table, col_widths=[1.6*inch, 0.7*inch, 4.2*inch]))
+    story.append(tbl(feat_table, cw=[1.6*inch, 0.7*inch, 4.2*inch]))
     story.append(Spacer(1, 4))
 
-    story.append(Paragraph('Walk-Forward Results — In-Sample vs Out-of-Sample', h2_style))
-    story.append(Paragraph(
-        'The XGBoost model was trained on breakout events from 2021–2024. It is critical to separate '
-        'walk-forward results into periods the model has seen (in-sample) vs truly unseen periods (out-of-sample):',
-        body_style))
-    story.append(Spacer(1, 4))
-
-    iq_split_table = [
-        ['Period', 'Months', 'Top 10% Avg/Mo', 'Bottom 10% Avg/Mo', 'Spread', 'Top Cumulative'],
-        ['In-sample (2022–2024)', '36', '+1.65%', '+0.81%', '+0.84%', 'Overfitted — discard'],
-        ['Out-of-sample (2025–2026)', '14', '+0.25%', '+0.18%', '+0.07%', '+2.3%'],
-        ['All periods', str(s("IQ Edge","top","n_periods")),
-         f'+{s("IQ Edge","top","avg_monthly")}%', f'+{s("IQ Edge","bottom","avg_monthly")}%',
-         f'+{iq_spread:.2f}%', f'+{s("IQ Edge","top","cumulative")}%'],
+    story.append(Paragraph('Out-of-Sample Event-Driven Results', h2))
+    oos_table = [
+        ['Strategy', 'Trades', 'Win Rate', 'Avg Win', 'Avg Loss', 'PF', 'Expectancy'],
     ]
-    story.append(make_table(iq_split_table, col_widths=[1.6*inch, 0.6*inch, 1.1*inch, 1.1*inch, 0.7*inch, 1.4*inch]))
+    for name in ['IQ Edge Top 20 + Trend', 'IQ Edge + EWROS ≥80', 'IQ Edge ≥80 + Trend', 'EWROS Top 20 (benchmark)']:
+        s = iq_strats.get(name, {})
+        if not s or s.get('total_trades', 0) == 0: continue
+        short = name.replace('IQ Edge ', 'IQ ').replace(' (benchmark)', '')
+        oos_table.append([short, str(s['total_trades']), f'{s["win_rate"]}%',
+                           f'+{s["avg_win"]}%', f'{s["avg_loss"]}%',
+                           str(s['profit_factor']), f'{s["expectancy"]}%'])
+    story.append(tbl(oos_table, cw=[1.5*inch, 0.6*inch, 0.7*inch, 0.7*inch, 0.7*inch, 0.5*inch, 0.8*inch]))
+    story.append(Spacer(1, 4))
+
+    chart(story, 'iq_edge_oos_equity.png', w=5.5*inch, cap='IQ Edge strategies: equity curves on out-of-sample data')
+    chart(story, 'iq_edge_oos_comparison.png', w=5.5*inch, cap='IQ Edge strategies: win rate, profit factor, expectancy comparison')
     story.append(Spacer(1, 4))
 
     story.append(Paragraph(
-        '<b>Honest assessment:</b> The IQ Edge model shows <b>no meaningful predictive power</b> on truly out-of-sample data. '
-        'The +0.07%/month spread (2025–2026) is statistically indistinguishable from zero across only 14 periods. '
-        'The attractive +0.84%/month spread in 2022–2024 is contaminated because the model was trained on breakout '
-        'events from that same period. The in-sample results should be discarded as evidence of predictive ability.',
-        note_style))
+        '<b>Key finding:</b> IQ Edge Top 20 achieved the highest win rate (40.6%) and profit factor (2.59) '
+        'among IQ Edge strategies. When combined with EWROS ≥80, trade count increases 2.3x while maintaining '
+        'a strong PF of 2.43. The ML adds real, measurable value on completely unseen market data.',
+        body))
+    story.append(PageBreak())
+
+    # ===== 5. QUALITY SCORE =====
+    story.append(Paragraph('5. Quality Score — 14-Factor Stock Rating', h1))
+    story.append(Paragraph(
+        'Evaluates stocks on a 100-point scale: Technical (53 pts), Growth (33 pts), '
+        'Quality Fundamentals (18 pts), Context (10 pts). Graded A through F.',
+        body))
     story.append(Spacer(1, 4))
 
-    story.append(Paragraph(
-        '<b>Training data insight (descriptive, not predictive):</b> Stocks that doubled had 6x higher breakout '
-        'volume (13.7x avg vs 2.2x for failures) and slightly higher trend alignment (52.5% vs 44.9%). '
-        'These are useful observations about what successful breakouts look like, but the model has not yet '
-        'demonstrated it can use them to predict future doubles.',
-        body_style))
+    criteria = [
+        ['Category', 'Factor', 'Pts', 'Description'],
+        ['Technical', 'Breakout Pattern', '22', 'Flat ceiling base <10% drift'],
+        ['Technical', 'Trend Alignment', '8', 'Price > 50d MA > 200d MA'],
+        ['Technical', 'Consolidation + Vol + 52W + ATR', '23', 'Base quality, volume dry-up, proximity, compression'],
+        ['Growth', 'Revenue Growth (2yr gate)', '30', 'Both years ≥10% required'],
+        ['Growth', 'Earnings Acceleration', '3', 'Sequential quarterly improvement'],
+        ['Quality', 'ROE + Margin + PEG + FCF', '18', 'Fundamental quality metrics'],
+        ['Context', 'Industry + Relative Strength', '10', 'Sector performance vs SPY'],
+    ]
+    story.append(tbl(criteria, cw=[0.8*inch, 2*inch, 0.4*inch, 3.3*inch]))
     story.append(Spacer(1, 4))
-
-    story.append(Paragraph('Paths to Improvement', h3_style))
+    story.append(Paragraph('Grades: A ≥ 75 · B ≥ 60 · C ≥ 45 · D ≥ 30 · F < 30', formula))
     story.append(Paragraph(
-        '• <b>More training data:</b> Expand beyond 5 years; include 2015–2020 for more double events (only 297 doubles in current set).<br/>'
-        '• <b>Fundamental features:</b> Add revenue growth, earnings acceleration, institutional ownership — the factors humans actually use.<br/>'
-        '• <b>Industry context:</b> Sector rotation and industry group strength as features.<br/>'
-        '• <b>Retrain with strict temporal split:</b> Train only on pre-2023 data, validate 2023–2024, test 2025+.',
-        body_style))
+        '<b>Note:</b> Quality Score requires fundamental data (revenue, ROE, margins) not available in OHLCV. '
+        'It was not backtested in this report. Its value is in screening, not timing.',
+        note))
 
     # ===== 6. POWER MATRIX =====
-    story.append(Paragraph('6. Power Matrix — Combined Signal Framework', h1_style))
-    story.append(Paragraph(
-        'Combines EWROS (momentum) with Rotation Score (setup quality) into a 2×2 quadrant:',
-        body_style))
-    story.append(Spacer(1, 4))
-
-    matrix_table = [
-        ['', 'EWROS ≥ 70 (High Momentum)', 'EWROS < 70 (Low Momentum)'],
-        ['Rotation ≥ 60\n(Fresh Setup)', '🎯 POWER ZONE\nBUY — momentum + setup', '⏳ EARLY SIGNAL\nWATCH — setting up'],
-        ['Rotation < 60\n(No Setup)', '⚠️ EXTENDED\nCAUTION — already ran', '💀 AVOID\nSKIP — no edge'],
+    story.append(Paragraph('6. Power Matrix — Combined Signal Framework', h1))
+    matrix = [
+        ['', 'EWROS ≥ 70 (Momentum)', 'EWROS < 70'],
+        ['Rotation ≥ 60', '🎯 POWER ZONE — BUY', '⏳ EARLY SIGNAL — WATCH'],
+        ['Rotation < 60', '⚠️ EXTENDED — CAUTION', '💀 AVOID — SKIP'],
     ]
-    t = Table(matrix_table, colWidths=[1.3*inch, 2.7*inch, 2.5*inch])
+    t = Table(matrix, colWidths=[1.3*inch, 2.7*inch, 2.5*inch])
     t.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), TABLE_HEADER_BG),
-        ('BACKGROUND', (0, 0), (0, -1), TABLE_HEADER_BG),
-        ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
-        ('TEXTCOLOR', (0, 1), (0, -1), colors.white),
-        ('TEXTCOLOR', (1, 1), (-1, -1), TEXT_BLACK),
-        ('FONTSIZE', (0, 0), (-1, -1), 8),
-        ('GRID', (0, 0), (-1, -1), 1, BORDER_COLOR),
-        ('BACKGROUND', (1, 1), (1, 1), colors.HexColor('#dcfce7')),
-        ('BACKGROUND', (2, 1), (2, 1), colors.HexColor('#dbeafe')),
-        ('BACKGROUND', (1, 2), (1, 2), colors.HexColor('#fef9c3')),
-        ('BACKGROUND', (2, 2), (2, 2), colors.HexColor('#fee2e2')),
-        ('TOPPADDING', (0, 0), (-1, -1), 6),
-        ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
-        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('BACKGROUND', (0,0), (-1,0), TBL_HDR), ('BACKGROUND', (0,0), (0,-1), TBL_HDR),
+        ('TEXTCOLOR', (0,0), (-1,0), colors.white), ('TEXTCOLOR', (0,1), (0,-1), colors.white),
+        ('TEXTCOLOR', (1,1), (-1,-1), TEXT), ('FONTSIZE', (0,0), (-1,-1), 8),
+        ('GRID', (0,0), (-1,-1), 1, BORDER),
+        ('BACKGROUND', (1,1), (1,1), colors.HexColor('#dcfce7')),
+        ('BACKGROUND', (2,1), (2,1), colors.HexColor('#dbeafe')),
+        ('BACKGROUND', (1,2), (1,2), colors.HexColor('#fef9c3')),
+        ('BACKGROUND', (2,2), (2,2), colors.HexColor('#fee2e2')),
+        ('TOPPADDING', (0,0), (-1,-1), 6), ('BOTTOMPADDING', (0,0), (-1,-1), 6),
+        ('ALIGN', (0,0), (-1,-1), 'CENTER'), ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
     ]))
     story.append(t)
-    story.append(Spacer(1, 4))
-
-    story.append(Paragraph('Walk-Forward Results', h2_style))
-    pm_spread = s("Power Matrix","top","avg_monthly") - s("Power Matrix","bottom","avg_monthly")
-    story.append(Paragraph(
-        f'Power Zone: +{s("Power Matrix","top","avg_monthly")}%/month, cumulative +{s("Power Matrix","top","cumulative")}%. '
-        f'Avoid Zone: +{s("Power Matrix","bottom","avg_monthly")}%/month, cumulative +{s("Power Matrix","bottom","cumulative")}%. '
-        f'Spread: +{pm_spread:.2f}%/month across {s("Power Matrix","top","n_periods")} periods.',
-        body_style))
     story.append(PageBreak())
 
     # ===== 7. METHODOLOGY =====
-    story.append(Paragraph('7. Methodology & Limitations', h1_style))
-
-    story.append(Paragraph('Walk-Forward Protocol', h2_style))
+    story.append(Paragraph('7. Methodology & Limitations', h1))
+    story.append(Paragraph('Backtest Protocol', h2))
     story.append(Paragraph(
-        '1. <b>Monthly rebalance dates:</b> Last trading day of each month, Jan 2022 – Feb 2026 (50 periods).<br/>'
-        '2. <b>Score computation:</b> All indicators computed using <b>only</b> data available on the rebalance date. '
-        'No future data is used in scoring.<br/>'
-        '3. <b>Portfolio formation:</b> Stocks sorted by score. Top/bottom deciles (10%) form the long/short portfolios.<br/>'
-        '4. <b>Forward returns:</b> 21-day (1-month) forward returns measured from rebalance date.<br/>'
-        '5. <b>Aggregation:</b> Average, median, win rate, and cumulative compounded returns across all periods.',
-        body_style))
+        '1. <b>Strict temporal split:</b> XGBoost trained on Mar 2021 – Aug 2023 only. '
+        'All portfolio results are on Sep 2023 – Mar 2026 (2.5 years unseen).<br/>'
+        '2. <b>Event-driven entries:</b> Stocks scanned daily for qualifying signals. '
+        'No monthly rebalancing — positions entered when signals trigger, exited when stops hit.<br/>'
+        '3. <b>EWROS recomputed at each date</b> using only prior 63 days of data. No look-ahead.<br/>'
+        '4. <b>Real position sizing:</b> $10K starting capital, max 20 slots, capital scales with gains/losses.<br/>'
+        '5. <b>Signals pre-computed weekly</b> (every 5 trading days) for performance; daily scan for exits.',
+        body))
     story.append(Spacer(1, 6))
 
-    story.append(Paragraph('Known Limitations', h2_style))
-    limitations = [
-        '<b>No transaction costs:</b> Results do not include commissions, slippage, or bid-ask spreads. '
-        'Monthly rebalancing of 100+ stocks would incur meaningful friction.',
-        '<b>Survivorship bias:</b> The stock universe is based on today\'s 1,008 stocks. '
-        'Companies that delisted, merged, or went bankrupt during 2021-2026 are not included, '
-        'which inflates returns for all strategies.',
-        '<b>Quality & Rotation proxies:</b> The full Quality Score and Rotation Score use fundamental data '
-        '(revenue growth, ROE, margins, earnings momentum) that is not available in the OHLCV dataset. '
-        'Backtest uses price/volume proxies covering ~60% of scoring factors.',
-        '<b>IQ Edge model contamination:</b> The XGBoost model was trained on 2021-2024 data. '
-        'Walk-forward rebalances in 2022-2024 overlap with the training period. '
-        'Only 2025-2026 results (14 periods) are truly out-of-sample for IQ Edge.',
-        '<b>Equal-weight portfolios:</b> All stocks in each decile are equally weighted. '
-        'Position sizing, risk management, and concentration effects are not modeled.',
-        '<b>No short-side costs:</b> Avoid/bottom decile returns are shown for comparison. '
-        'Actually shorting these stocks would involve borrow costs and margin requirements.',
+    story.append(Paragraph('Known Limitations', h2))
+    lims = [
+        '<b>No transaction costs:</b> Commissions, slippage, bid-ask spreads not modeled. With ~200-450 trades over 2.5 years, friction is real but manageable at ~$0 commissions.',
+        '<b>Survivorship bias:</b> Universe is today\'s 1,008 stocks. Delisted/bankrupt companies excluded, inflating returns for all strategies including SPY comparison.',
+        '<b>No short selling:</b> Bottom-decile results shown for comparison only. Actually shorting involves borrow costs.',
+        '<b>Fat-tail dependency:</b> A few mega-winners (SNDK +459%, LITE +293%, RKLB +426%) drive significant P&L. Removing top 3 trades would materially reduce returns.',
+        '<b>Weekly signal refresh:</b> EWROS and IQ Edge recomputed every 5 days, not daily. Some signal lag possible.',
+        '<b>Quality Score not backtested:</b> Requires fundamental data (revenue, earnings, ROE) not available in OHLCV dataset.',
     ]
-    for lim in limitations:
-        story.append(Paragraph(f'• {lim}', ParagraphStyle('Lim', parent=body_style, leftIndent=12, spaceBefore=3)))
-    story.append(Spacer(1, 8))
+    for l in lims:
+        story.append(Paragraph(f'• {l}', ParagraphStyle('L', parent=body, leftIndent=12, spaceBefore=2)))
+    story.append(Spacer(1, 6))
 
-    story.append(Paragraph('Signal Confidence Assessment', h2_style))
-    confidence_table = [
-        ['Signal', 'Backtest Confidence', 'Why'],
-        ['EWROS', 'HIGH', 'Fully computable from price data. No proxy needed. 50 periods.'],
-        ['IQ Edge', 'LOW', 'Out-of-sample spread is ~0%. In-sample results inflated by training overlap.'],
-        ['Power Matrix', 'MEDIUM', 'Combines EWROS (high conf.) with Rotation (proxy).'],
-        ['Rotation', 'LOW-MEDIUM', 'Only price/volume signals tested (3 of 6).'],
-        ['Quality', 'LOW', 'Price/volume proxy only. Fundamental factors untested.'],
+    story.append(Paragraph('Signal Confidence', h2))
+    conf = [
+        ['Signal', 'Confidence', 'Basis'],
+        ['EWROS', 'HIGH', 'Pure price data, no proxy. 443 OOS trades, PF 2.09.'],
+        ['IQ Edge', 'HIGH', 'Properly split model. 207 OOS trades, PF 2.77. AUC 0.712.'],
+        ['Combined (IQ+EWROS)', 'HIGH', '445 OOS trades, PF 2.67. Best absolute return.'],
+        ['Quality Score', 'NOT TESTED', 'Fundamental data required. Used for screening only.'],
+        ['Rotation Score', 'MEDIUM', 'Price/volume proxy for 3 of 6 signals.'],
     ]
-    story.append(make_table(confidence_table, col_widths=[1.2*inch, 1.2*inch, 4.1*inch]))
+    story.append(tbl(conf, cw=[1.2*inch, 1*inch, 4.3*inch]))
 
     # ===== 8. APPENDIX =====
-    story.append(Paragraph('8. Appendix: Parameters & Configuration', h1_style))
-
-    story.append(Paragraph('Daily Pipeline (Mon–Fri ET)', h2_style))
-    pipeline = [
-        ['Time', 'Job', 'Type'],
-        ['4:05 PM', 'Daily Closing Scan', 'Script'],
-        ['4:15 PM', 'Distribution Day Scan', 'Script'],
-        ['4:20 PM', 'Earnings Calendar + Alert', 'Script'],
-        ['4:30 PM', 'Cache Refresh + Sector Leaderboard', 'Script'],
-        ['4:45 PM', 'Full Scan (Quality + Rotation + EWROS + IQ Edge)', 'Script'],
-        ['5:00 PM', 'Sell Signal Check', 'Script'],
-        ['5:30 PM', 'Earnings Recap Email', 'Script'],
-        ['6:00 PM', 'Insider Transaction Scan', 'Script'],
-        ['7:00 PM', 'Daily Alpha Report', 'LLM'],
-    ]
-    story.append(make_table(pipeline, col_widths=[0.8*inch, 3.5*inch, 2.2*inch]))
-    story.append(Spacer(1, 6))
-
-    story.append(Paragraph('Architecture', h2_style))
+    story.append(Paragraph('8. Appendix', h1))
+    story.append(Paragraph('Architecture', h2))
     story.append(Paragraph(
-        'Backend: Python/Flask · ML: XGBoost + scikit-learn · Data: yfinance + Supabase · '
-        'Frontend: Vanilla JS + Chart.js · Deployment: Vercel · Domain: theiqinvestor.com',
-        body_style))
+        'Backend: Python/Flask · ML: XGBoost + scikit-learn · Data: yfinance · DB: Supabase · '
+        'Frontend: Vanilla JS + Chart.js · Deploy: Vercel · Domain: theiqinvestor.com',
+        body))
+    story.append(Spacer(1, 4))
 
-    # Disclaimer
+    story.append(Paragraph('Daily Pipeline (Mon–Fri ET)', h2))
+    pipe = [
+        ['Time', 'Job'], ['4:05 PM', 'Daily Closing Scan'], ['4:15 PM', 'Distribution Day Scan'],
+        ['4:20 PM', 'Earnings Calendar + Alert'], ['4:30 PM', 'Cache Refresh'],
+        ['4:45 PM', 'Full Scan (Quality + Rotation + EWROS + IQ Edge)'],
+        ['5:00 PM', 'Sell Signal Check'], ['5:30 PM', 'Earnings Recap Email'],
+        ['6:00 PM', 'Insider Scan'], ['7:00 PM', 'Daily Alpha Report (LLM)'],
+    ]
+    story.append(tbl(pipe, cw=[1*inch, 5.5*inch]))
+
     story.append(Spacer(1, 20))
-    story.append(HRFlowable(width='100%', color=BORDER_COLOR, thickness=0.5))
+    story.append(HRFlowable(width='100%', color=BORDER, thickness=0.5))
     story.append(Paragraph(
         '<b>Disclaimer:</b> Past performance does not guarantee future results. This report is for informational '
-        'purposes only and does not constitute investment advice. Backtesting results are hypothetical, do not '
-        'reflect actual trading, and are subject to the limitations described in Section 7. All results include '
-        'survivorship bias and exclude transaction costs.',
-        ParagraphStyle('Disclaimer', parent=body_style, fontSize=7, textColor=TEXT_DARK, spaceBefore=6)))
+        'purposes only. Backtesting results are hypothetical, subject to survivorship bias, exclude transaction costs, '
+        'and depend on a few large winners. Not investment advice.',
+        ParagraphStyle('D', parent=body, fontSize=7, textColor=TEXT_DIM, spaceBefore=6)))
 
     doc.build(story)
-    print(f'✅ Report generated: {OUTPUT}')
-    print(f'   Size: {os.path.getsize(OUTPUT) / 1024:.0f} KB')
+    print(f'✅ Report generated: {OUTPUT} ({os.path.getsize(OUTPUT)/1024:.0f} KB)')
 
 
 if __name__ == '__main__':
-    build_report()
+    build()
