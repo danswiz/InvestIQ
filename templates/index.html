@@ -1190,6 +1190,9 @@
             <!-- Biggest Movers -->
             <div id="ewros-movers" style="margin-bottom:24px;"></div>
 
+            <!-- Power Matrix -->
+            <div id="ewros-matrix" style="margin-bottom:24px;"></div>
+
             <!-- Full Table -->
             <div class="card" style="overflow-x:auto;">
                 <h3 style="font-weight:700; margin-bottom:12px; font-size:0.9rem;">All Scored Stocks</h3>
@@ -3054,6 +3057,91 @@
                             <div style="font-size:0.7rem; color:var(--text-dim); margin-top:8px;">${s.sector || ''} · ${s.industry || ''}</div>
                         </div>`;
                     }).join('')}
+                </div>`;
+
+            // Power Matrix — 4 quadrants
+            const EWROS_THRESH = 70;
+            const ROT_THRESH = 60;
+            const powerZone = all.filter(s => (s.ewros_score||0) >= EWROS_THRESH && (s.rotation_score||0) >= ROT_THRESH)
+                .sort((a,b) => ((b.ewros_score||0) + (b.rotation_score||0)) - ((a.ewros_score||0) + (a.rotation_score||0)));
+            const earlySignal = all.filter(s => (s.ewros_score||0) < EWROS_THRESH && (s.rotation_score||0) >= ROT_THRESH)
+                .sort((a,b) => (b.rotation_score||0) - (a.rotation_score||0));
+            const extended = all.filter(s => (s.ewros_score||0) >= EWROS_THRESH && (s.rotation_score||0) < ROT_THRESH)
+                .sort((a,b) => (b.ewros_score||0) - (a.ewros_score||0));
+            const avoid = all.filter(s => (s.ewros_score||0) < EWROS_THRESH && (s.rotation_score||0) < ROT_THRESH).length;
+
+            function matrixCard(stock) {
+                const e = stock.ewros_score || 0;
+                const r = (stock.rotation_score || 0).toFixed(1);
+                const t = stock.ewros_trend || 0;
+                const tArrow = t > 0 ? '▲' : t < 0 ? '▼' : '';
+                const tColor = t > 0 ? '#10b981' : t < 0 ? '#ef4444' : '#94a3b8';
+                const eColor = e >= 70 ? '#10b981' : e >= 40 ? '#eab308' : '#ef4444';
+                const gr = stock.grade || '';
+                const grColor = gr === 'A' ? '#10b981' : gr === 'B' ? '#38bdf8' : '#94a3b8';
+                return `<div style="background:#161b2a; border-radius:8px; padding:10px 12px; display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <a href="#" onclick="viewStock('${stock.ticker}'); return false;" style="font-weight:700; color:var(--accent); text-decoration:none; font-size:0.9rem;">${stock.ticker}</a>
+                        <span style="color:${grColor}; font-weight:700; font-size:0.7rem; margin-left:6px;">${gr}</span>
+                    </div>
+                    <div style="display:flex; gap:12px; align-items:center; font-size:0.8rem;">
+                        <span style="color:var(--text-dim);">E:<span style="color:${eColor}; font-weight:700;">${e}</span></span>
+                        <span style="color:var(--text-dim);">R:<span style="font-weight:700;">${r}</span></span>
+                        <span style="color:${tColor}; font-size:0.7rem;">${tArrow}${t !== 0 ? Math.abs(t) : ''}</span>
+                    </div>
+                </div>`;
+            }
+
+            document.getElementById('ewros-matrix').innerHTML = `
+                <h3 style="font-weight:700; margin-bottom:14px; font-size:0.9rem;">⚡ Power Matrix — EWROS × Rotation</h3>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                    <div class="card" style="padding:16px; border-color:rgba(16,185,129,0.3);">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                            <h4 style="margin:0; font-size:0.85rem; color:#10b981;">🎯 Power Zone</h4>
+                            <span style="font-size:0.7rem; color:var(--text-dim);">EWROS≥${EWROS_THRESH} + Rot≥${ROT_THRESH}</span>
+                        </div>
+                        <div style="font-size:0.7rem; color:#10b981; margin-bottom:10px; font-weight:600;">Momentum + Fresh Setup → BUY</div>
+                        <div style="display:flex; flex-direction:column; gap:6px;">
+                            ${powerZone.length > 0 ? powerZone.slice(0,10).map(matrixCard).join('') : '<div style="color:var(--text-dim); font-size:0.8rem; padding:10px;">No stocks currently in Power Zone</div>'}
+                            ${powerZone.length > 10 ? '<div style="text-align:center; font-size:0.75rem; color:var(--text-dim); padding:6px;">+ ' + (powerZone.length - 10) + ' more</div>' : ''}
+                        </div>
+                    </div>
+
+                    <div class="card" style="padding:16px; border-color:rgba(56,189,248,0.3);">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                            <h4 style="margin:0; font-size:0.85rem; color:#38bdf8;">⏳ Early Signal</h4>
+                            <span style="font-size:0.7rem; color:var(--text-dim);">EWROS<${EWROS_THRESH} + Rot≥${ROT_THRESH}</span>
+                        </div>
+                        <div style="font-size:0.7rem; color:#38bdf8; margin-bottom:10px; font-weight:600;">Setting up, hasn't moved yet → WATCH</div>
+                        <div style="display:flex; flex-direction:column; gap:6px;">
+                            ${earlySignal.length > 0 ? earlySignal.slice(0,10).map(matrixCard).join('') : '<div style="color:var(--text-dim); font-size:0.8rem; padding:10px;">No early signals right now</div>'}
+                            ${earlySignal.length > 10 ? '<div style="text-align:center; font-size:0.75rem; color:var(--text-dim); padding:6px;">+ ' + (earlySignal.length - 10) + ' more</div>' : ''}
+                        </div>
+                    </div>
+
+                    <div class="card" style="padding:16px; border-color:rgba(234,179,8,0.3);">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                            <h4 style="margin:0; font-size:0.85rem; color:#eab308;">⚠️ Extended</h4>
+                            <span style="font-size:0.7rem; color:var(--text-dim);">EWROS≥${EWROS_THRESH} + Rot<${ROT_THRESH}</span>
+                        </div>
+                        <div style="font-size:0.7rem; color:#eab308; margin-bottom:10px; font-weight:600;">Already ran, no fresh setup → TAKE PROFIT</div>
+                        <div style="display:flex; flex-direction:column; gap:6px;">
+                            ${extended.slice(0,10).map(matrixCard).join('')}
+                            ${extended.length > 10 ? '<div style="text-align:center; font-size:0.75rem; color:var(--text-dim); padding:6px;">+ ' + (extended.length - 10) + ' more</div>' : ''}
+                        </div>
+                    </div>
+
+                    <div class="card" style="padding:16px; border-color:rgba(239,68,68,0.2);">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                            <h4 style="margin:0; font-size:0.85rem; color:#ef4444;">💀 Avoid</h4>
+                            <span style="font-size:0.7rem; color:var(--text-dim);">Both below threshold</span>
+                        </div>
+                        <div style="font-size:0.7rem; color:#ef4444; margin-bottom:10px; font-weight:600;">No momentum, no setup → SKIP</div>
+                        <div style="text-align:center; padding:20px;">
+                            <div style="font-size:2rem; font-weight:800; color:#ef4444;">${avoid}</div>
+                            <div style="font-size:0.75rem; color:var(--text-dim);">stocks to avoid</div>
+                        </div>
+                    </div>
                 </div>`;
 
             // Biggest movers (improving + declining)
