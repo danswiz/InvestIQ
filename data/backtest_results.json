@@ -1,0 +1,134 @@
+{
+  "generated_at": "2026-03-08T11:05:22.637601",
+  "data_range": "2021-03-08 to 2026-03-06",
+  "total_stocks": 1008,
+  "total_trading_days": 1256,
+  "quality_score": {
+    "returns_by_grade": {
+      "1mo": {
+        "A": 5.06,
+        "B": 3.65,
+        "C": 0.03,
+        "D": -3.68,
+        "F": 0.0
+      },
+      "3mo": {
+        "A": 9.32,
+        "B": 16.09,
+        "C": 8.72,
+        "D": -4.86,
+        "F": -15.59
+      },
+      "6mo": {
+        "A": 13.46,
+        "B": 19.99,
+        "C": 16.66,
+        "D": -6.0,
+        "F": -19.89
+      },
+      "1yr": {
+        "A": 23.71,
+        "B": 33.68,
+        "C": 35.85,
+        "D": 6.83,
+        "F": -5.43
+      }
+    },
+    "counts": {
+      "A": 85,
+      "B": 144,
+      "C": 273,
+      "D": 406,
+      "F": 100
+    }
+  },
+  "ewros": {
+    "top_10pct_1mo": 18.12,
+    "bottom_10pct_1mo": -14.94,
+    "top_10pct_3mo": 31.06,
+    "bottom_10pct_3mo": -26.33,
+    "top_10pct_6mo": 44.6,
+    "bottom_10pct_6mo": -26.78,
+    "top_10pct_1yr": 80.85,
+    "bottom_10pct_1yr": -11.14
+  },
+  "rotation": {
+    "high_rotation_1mo": 13.57,
+    "low_rotation_1mo": -4.03,
+    "high_rotation_3mo": 27.36,
+    "low_rotation_3mo": -9.18,
+    "high_rotation_6mo": 44.39,
+    "low_rotation_6mo": -13.38
+  },
+  "iq_edge": {
+    "total_events": 9730,
+    "label_distribution": {
+      "fail": 5975,
+      "win": 2268,
+      "big_win": 1190,
+      "double": 297
+    },
+    "volume_outcomes": {
+      "('1-2x', 'double_rate')": 2.6,
+      "('1-2x', 'win_rate')": 37.8,
+      "('1-2x', 'count')": 5795.0,
+      "('2-5x', 'double_rate')": 3.6,
+      "('2-5x', 'win_rate')": 39.8,
+      "('2-5x', 'count')": 3679.0,
+      "('5-10x', 'double_rate')": 5.7,
+      "('5-10x', 'win_rate')": 40.0,
+      "('5-10x', 'count')": 210.0,
+      "('10-20x', 'double_rate')": 6.5,
+      "('10-20x', 'win_rate')": 32.6,
+      "('10-20x', 'count')": 46.0
+    },
+    "trend_alignment": {
+      "aligned_double_rate": 3.4,
+      "not_aligned_double_rate": 2.7,
+      "aligned_win_rate": 40.9,
+      "not_aligned_win_rate": 36.6
+    },
+    "avg_max_gain_by_label": {
+      "big_win": 67.0,
+      "double": 177.4,
+      "fail": 12.2,
+      "win": 35.4
+    }
+  },
+  "power_matrix": {
+    "quadrant_returns": {
+      "power_zone_1mo": 14.62,
+      "extended_1mo": 9.18,
+      "early_signal_1mo": 0.46,
+      "avoid_1mo": -4.78,
+      "power_zone_3mo": 29.57,
+      "extended_3mo": 19.6,
+      "early_signal_3mo": -0.27,
+      "avoid_3mo": -5.76
+    },
+    "counts": {
+      "power": 25,
+      "extended": 271,
+      "early": 2,
+      "avoid": 710
+    }
+  },
+  "combined": {
+    "returns": {
+      "combined_1mo": 11.51,
+      "grade_a_only_1mo": 5.06,
+      "combined_3mo": 15.15,
+      "grade_a_only_3mo": 9.32
+    },
+    "combined_count": 6,
+    "grade_a_count": 85,
+    "tickers": [
+      "UI",
+      "THC",
+      "HCA",
+      "JAZZ",
+      "JHG",
+      "MCK"
+    ]
+  }
+}
