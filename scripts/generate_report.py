@@ -186,8 +186,9 @@ def build_report():
     story.append(Paragraph(
         f'<b>EWROS</b> shows the strongest signal with a +{ewros_spread:.2f}%/month spread between top and bottom deciles, '
         f'compounding to +{s("EWROS","top","cumulative")}% cumulative vs SPY\'s +{s("EWROS","spy","cumulative")}%. '
-        f'<b>IQ Edge</b> (ML) delivers a +{iq_spread:.2f}%/month spread. '
-        f'<b>Quality Score</b> shows a negative spread in this period — see Section 2 for discussion.',
+        f'<b>IQ Edge</b> (ML) shows +{iq_spread:.2f}%/month blended spread, but out-of-sample (2025–2026) the spread '
+        f'drops to +0.07%/month — the model has not yet proven predictive on unseen data (see Section 5). '
+        f'<b>Quality Score</b> shows a negative spread — the proxy cannot test fundamental factors (see Section 2).',
         body_style))
     story.append(PageBreak())
 
@@ -367,18 +368,46 @@ def build_report():
     story.append(make_table(feature_table, col_widths=[1.6*inch, 0.7*inch, 4.2*inch]))
     story.append(Spacer(1, 4))
 
-    story.append(Paragraph('Walk-Forward Results', h2_style))
+    story.append(Paragraph('Walk-Forward Results — In-Sample vs Out-of-Sample', h2_style))
     story.append(Paragraph(
-        f'Top IQ Edge decile: +{s("IQ Edge","top","avg_monthly")}%/month '
-        f'(win rate {s("IQ Edge","top","win_rate")}%), cumulative +{s("IQ Edge","top","cumulative")}%. '
-        f'Bottom decile: +{s("IQ Edge","bottom","avg_monthly")}%/month, cumulative +{s("IQ Edge","bottom","cumulative")}%. '
-        f'Spread: +{iq_spread:.2f}%/month. The model\'s top-decile picks beat SPY '
-        f'(+{s("EWROS","spy","cumulative")}%) by {s("IQ Edge","top","cumulative") - s("EWROS","spy","cumulative"):.1f}pp.',
+        'The XGBoost model was trained on breakout events from 2021–2024. It is critical to separate '
+        'walk-forward results into periods the model has seen (in-sample) vs truly unseen periods (out-of-sample):',
         body_style))
     story.append(Spacer(1, 4))
+
+    iq_split_table = [
+        ['Period', 'Months', 'Top 10% Avg/Mo', 'Bottom 10% Avg/Mo', 'Spread', 'Top Cumulative'],
+        ['In-sample (2022–2024)', '36', '+1.65%', '+0.81%', '+0.84%', 'Overfitted — discard'],
+        ['Out-of-sample (2025–2026)', '14', '+0.25%', '+0.18%', '+0.07%', '+2.3%'],
+        ['All periods', str(s("IQ Edge","top","n_periods")),
+         f'+{s("IQ Edge","top","avg_monthly")}%', f'+{s("IQ Edge","bottom","avg_monthly")}%',
+         f'+{iq_spread:.2f}%', f'+{s("IQ Edge","top","cumulative")}%'],
+    ]
+    story.append(make_table(iq_split_table, col_widths=[1.6*inch, 0.6*inch, 1.1*inch, 1.1*inch, 0.7*inch, 1.4*inch]))
+    story.append(Spacer(1, 4))
+
     story.append(Paragraph(
-        '<b>Key insight from training data:</b> Stocks that doubled had 6x higher breakout volume (13.7x avg '
-        'vs 2.2x for failures) and slightly higher trend alignment (52.5% vs 44.9%).',
+        '<b>Honest assessment:</b> The IQ Edge model shows <b>no meaningful predictive power</b> on truly out-of-sample data. '
+        'The +0.07%/month spread (2025–2026) is statistically indistinguishable from zero across only 14 periods. '
+        'The attractive +0.84%/month spread in 2022–2024 is contaminated because the model was trained on breakout '
+        'events from that same period. The in-sample results should be discarded as evidence of predictive ability.',
+        note_style))
+    story.append(Spacer(1, 4))
+
+    story.append(Paragraph(
+        '<b>Training data insight (descriptive, not predictive):</b> Stocks that doubled had 6x higher breakout '
+        'volume (13.7x avg vs 2.2x for failures) and slightly higher trend alignment (52.5% vs 44.9%). '
+        'These are useful observations about what successful breakouts look like, but the model has not yet '
+        'demonstrated it can use them to predict future doubles.',
+        body_style))
+    story.append(Spacer(1, 4))
+
+    story.append(Paragraph('Paths to Improvement', h3_style))
+    story.append(Paragraph(
+        '• <b>More training data:</b> Expand beyond 5 years; include 2015–2020 for more double events (only 297 doubles in current set).<br/>'
+        '• <b>Fundamental features:</b> Add revenue growth, earnings acceleration, institutional ownership — the factors humans actually use.<br/>'
+        '• <b>Industry context:</b> Sector rotation and industry group strength as features.<br/>'
+        '• <b>Retrain with strict temporal split:</b> Train only on pre-2023 data, validate 2023–2024, test 2025+.',
         body_style))
 
     # ===== 6. POWER MATRIX =====
@@ -463,7 +492,7 @@ def build_report():
     confidence_table = [
         ['Signal', 'Backtest Confidence', 'Why'],
         ['EWROS', 'HIGH', 'Fully computable from price data. No proxy needed. 50 periods.'],
-        ['IQ Edge', 'MEDIUM', 'Real ML model, but 2022-2024 overlaps training data.'],
+        ['IQ Edge', 'LOW', 'Out-of-sample spread is ~0%. In-sample results inflated by training overlap.'],
         ['Power Matrix', 'MEDIUM', 'Combines EWROS (high conf.) with Rotation (proxy).'],
         ['Rotation', 'LOW-MEDIUM', 'Only price/volume signals tested (3 of 6).'],
         ['Quality', 'LOW', 'Price/volume proxy only. Fundamental factors untested.'],
