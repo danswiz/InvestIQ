@@ -141,6 +141,20 @@ def index():
     # v4.5 Moonshot Score integration
     return render_template('index.html', stocks=data.get('stocks', []), last_scan=data.get('last_scan'), version="4.5")
 
+@app.route('/breakout-explorer')
+def breakout_explorer():
+    """Interactive breakout ML data explorer"""
+    return render_template('breakout_explorer.html')
+
+@app.route('/api/breakout_viz')
+def breakout_viz_data():
+    """Serve breakout visualization data"""
+    try:
+        with open('data/breakout_viz.json') as f:
+            return jsonify(json.load(f))
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 @app.route('/power-zone')
 def power_zone_page():
     """Shareable Power Zone page"""

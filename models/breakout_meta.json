@@ -1,0 +1,25 @@
+{
+  "target": "double",
+  "features": [
+    "close_to_ma20",
+    "close_to_ma50",
+    "close_to_ma200",
+    "trend_aligned",
+    "atr_14",
+    "vol_dryup_ratio",
+    "vol_compression",
+    "proximity_52w",
+    "return_3mo",
+    "up_days_pct",
+    "vol_trend_in_base",
+    "base_length",
+    "base_range",
+    "breakout_vol_ratio"
+  ],
+  "train_events": 7128,
+  "val_events": 1171,
+  "test_events": 1431,
+  "positive_rate": 0.03052415210688592,
+  "trained_at": "2026-03-08T10:25:22.674187",
+  "has_cnn": false
+}

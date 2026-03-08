@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breakout ML — Data Explorer</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+    <style>
+        :root { --bg: #0f172a; --surface: #1e293b; --accent: #38bdf8; --green: #10b981; --red: #ef4444; --yellow: #eab308; --purple: #a855f7; --dim: #94a3b8; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: var(--bg); color: #f8fafc; font-family: 'Inter', system-ui, sans-serif; padding: 24px; }
+        h1 { font-size: 1.8rem; font-weight: 800; margin-bottom: 8px; }
+        h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 12px; color: var(--accent); }
+        h3 { font-size: 0.85rem; font-weight: 700; margin-bottom: 8px; }
+        .subtitle { color: var(--dim); font-size: 0.85rem; margin-bottom: 24px; }
+        .grid { display: grid; gap: 20px; margin-bottom: 24px; }
+        .grid-2 { grid-template-columns: 1fr 1fr; }
+        .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+        .grid-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+        .card { background: var(--surface); border: 1px solid #2d3748; border-radius: 12px; padding: 20px; }
+        .stat-card { text-align: center; padding: 20px; }
+        .stat-value { font-size: 2rem; font-weight: 800; }
+        .stat-label { font-size: 0.7rem; color: var(--dim); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+        .chart-container { position: relative; height: 300px; }
+        .chart-container-sm { position: relative; height: 250px; }
+        .feat-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #2d3748; font-size: 0.85rem; }
+        .feat-name { color: var(--dim); flex: 1; }
+        .feat-val { font-weight: 700; width: 80px; text-align: right; }
+        .feat-bar { height: 6px; border-radius: 3px; margin-top: 4px; }
+        .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; }
+        .tag-double { background: rgba(168, 85, 247, 0.2); color: var(--purple); }
+        .tag-fail { background: rgba(239, 68, 68, 0.2); color: var(--red); }
+        .tag-win { background: rgba(16, 185, 129, 0.2); color: var(--green); }
+        .section { margin-bottom: 32px; }
+        @media (max-width: 768px) {
+            .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <h1>🧠 Breakout ML — Data Explorer</h1>
+    <p class="subtitle">9,730 breakout events across 1,008 stocks · 5 years of data (Mar 2021 – Mar 2026)</p>
+
+    <!-- Summary Stats -->
+    <div class="grid grid-4 section" id="summary-cards"></div>
+
+    <!-- Label Distribution + Gain Distribution -->
+    <div class="grid grid-2 section">
+        <div class="card">
+            <h2>📊 Outcome Distribution</h2>
+            <div class="chart-container"><canvas id="labelChart"></canvas></div>
+        </div>
+        <div class="card">
+            <h2>📈 Max Gain Distribution</h2>
+            <div class="chart-container"><canvas id="gainChart"></canvas></div>
+        </div>
+    </div>
+
+    <!-- Feature Comparison -->
+    <div class="grid grid-2 section">
+        <div class="card">
+            <h2>🔬 Feature Comparison: Doubles vs Fails</h2>
+            <div class="chart-container" style="height:350px;"><canvas id="featChart"></canvas></div>
+        </div>
+        <div class="card">
+            <h2>📋 Feature Values</h2>
+            <div id="feat-table" style="max-height:350px; overflow-y:auto;"></div>
+        </div>
+    </div>
+
+    <!-- Volume Ratio + Scatter -->
+    <div class="grid grid-2 section">
+        <div class="card">
+            <h2>🔊 Breakout Volume Ratio</h2>
+            <p style="font-size:0.75rem; color:var(--dim); margin-bottom:12px;">Doubles have 6x higher avg volume on breakout day</p>
+            <div class="chart-container"><canvas id="volChart"></canvas></div>
+        </div>
+        <div class="card">
+            <h2>💥 Volume vs Gain (Scatter)</h2>
+            <p style="font-size:0.75rem; color:var(--dim); margin-bottom:12px;">Each dot = one breakout event</p>
+            <div class="chart-container"><canvas id="scatterChart"></canvas></div>
+        </div>
+    </div>
+
+    <!-- Sectors -->
+    <div class="grid grid-2 section">
+        <div class="card">
+            <h2>🏭 Sectors Producing Doubles</h2>
+            <div class="chart-container"><canvas id="sectorChart"></canvas></div>
+        </div>
+        <div class="card">
+            <h2>📅 Breakouts Over Time</h2>
+            <div class="chart-container"><canvas id="timelineChart"></canvas></div>
+        </div>
+    </div>
+
+    <!-- Time Series Samples -->
+    <div class="section">
+        <h2>📉 Sample Breakout Patterns (90 days before breakout)</h2>
+        <p style="font-size:0.75rem; color:var(--dim); margin-bottom:16px;">Price normalized to 1.0 at breakout day. Compare the shapes.</p>
+        <div class="grid grid-2">
+            <div class="card">
+                <h3 style="color:var(--purple);">🚀 Successful Doubles (100%+ gain)</h3>
+                <div class="chart-container"><canvas id="tsDoubles"></canvas></div>
+            </div>
+            <div class="card">
+                <h3 style="color:var(--red);">💀 Failed Breakouts</h3>
+                <div class="chart-container"><canvas id="tsFails"></canvas></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    const DATA_URL = '/api/breakout_viz';
+    
+    async function load() {
+        const res = await fetch(DATA_URL);
+        const data = await res.json();
+        render(data);
+    }
+
+    function render(d) {
+        // Summary cards
+        const total = d.total_events;
+        const doublesN = d.labels.double || 0;
+        const bigN = d.labels.big_win || 0;
+        const winN = d.labels.win || 0;
+        const failN = d.labels.fail || 0;
+        document.getElementById('summary-cards').innerHTML = [
+            { value: total.toLocaleString(), label: 'Total Breakouts', color: 'var(--accent)' },
+            { value: doublesN, label: 'Doubles (100%+)', color: 'var(--purple)' },
+            { value: bigN + winN, label: 'Winners (25%+)', color: 'var(--green)' },
+            { value: `${(doublesN/total*100).toFixed(1)}%`, label: 'Double Rate', color: 'var(--yellow)' }
+        ].map(c => `<div class="card stat-card"><div class="stat-value" style="color:${c.color}">${c.value}</div><div class="stat-label">${c.label}</div></div>`).join('');
+
+        // Label pie chart
+        new Chart(document.getElementById('labelChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Fail (<25%)', 'Win (25-50%)', 'Big Win (50-100%)', 'Double (100%+)'],
+                datasets: [{ data: [failN, winN, bigN, doublesN],
+                    backgroundColor: ['#ef4444', '#eab308', '#10b981', '#a855f7'],
+                    borderWidth: 0 }]
+            },
+            options: { responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { position: 'bottom', labels: { color: '#94a3b8', font: { size: 11 } } } } }
+        });
+
+        // Gain histogram
+        const gainEdges = d.gain_bins.edges;
+        const gainLabels = gainEdges.slice(0, -1).map((e, i) => `${e.toFixed(0)}%`);
+        new Chart(document.getElementById('gainChart'), {
+            type: 'bar',
+            data: {
+                labels: gainLabels,
+                datasets: [{ data: d.gain_bins.counts, backgroundColor: '#38bdf8', borderRadius: 3 }]
+            },
+            options: { responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: { x: { ticks: { color: '#94a3b8', font: { size: 9 }, maxRotation: 45 } }, y: { ticks: { color: '#94a3b8' }, grid: { color: '#2d3748' } } } }
+        });
+
+        // Feature comparison bar chart
+        const feats = Object.keys(d.feat_compare);
+        const doublesVals = feats.map(f => d.feat_compare[f].doubles_mean);
+        const failsVals = feats.map(f => d.feat_compare[f].fails_mean);
+        new Chart(document.getElementById('featChart'), {
+            type: 'bar',
+            data: {
+                labels: feats.map(f => f.replace(/_/g, ' ')),
+                datasets: [
+                    { label: 'Doubles', data: doublesVals, backgroundColor: '#a855f7' },
+                    { label: 'Fails', data: failsVals, backgroundColor: '#ef4444' }
+                ]
+            },
+            options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+                plugins: { legend: { labels: { color: '#94a3b8' } } },
+                scales: { x: { ticks: { color: '#94a3b8' }, grid: { color: '#2d3748' } }, y: { ticks: { color: '#94a3b8', font: { size: 10 } } } } }
+        });
+
+        // Feature table
+        document.getElementById('feat-table').innerHTML = feats.map(f => {
+            const fc = d.feat_compare[f];
+            const diff = ((fc.doubles_mean - fc.fails_mean) / Math.abs(fc.fails_mean || 1) * 100).toFixed(0);
+            const diffColor = diff > 0 ? 'var(--green)' : 'var(--red)';
+            return `<div class="feat-row">
+                <span class="feat-name">${f.replace(/_/g, ' ')}</span>
+                <span class="feat-val" style="color:var(--purple);">${fc.doubles_mean.toFixed(3)}</span>
+                <span class="feat-val" style="color:var(--red);">${fc.fails_mean.toFixed(3)}</span>
+                <span class="feat-val" style="color:${diffColor};">${diff > 0 ? '+' : ''}${diff}%</span>
+            </div>`;
+        }).join('');
+
+        // Volume ratio histograms
+        const volLabelsD = d.vol_ratio_doubles.edges.slice(0,-1).map(e => e.toFixed(1));
+        new Chart(document.getElementById('volChart'), {
+            type: 'bar',
+            data: {
+                labels: volLabelsD,
+                datasets: [
+                    { label: 'Doubles', data: d.vol_ratio_doubles.counts, backgroundColor: 'rgba(168,85,247,0.7)' },
+                    { label: 'Fails', data: d.vol_ratio_fails.counts, backgroundColor: 'rgba(239,68,68,0.4)' }
+                ]
+            },
+            options: { responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { labels: { color: '#94a3b8' } } },
+                scales: { x: { ticks: { color: '#94a3b8', font: { size: 9 } } }, y: { ticks: { color: '#94a3b8' }, grid: { color: '#2d3748' } } } }
+        });
+
+        // Scatter plot
+        const colorMap = { double: '#a855f7', big_win: '#10b981', win: '#eab308', fail: '#ef444466' };
+        const scatterData = d.scatter.vol_ratio.map((v, i) => ({
+            x: v, y: d.scatter.gain[i], label: d.scatter.label[i], ticker: d.scatter.ticker[i]
+        }));
+        new Chart(document.getElementById('scatterChart'), {
+            type: 'scatter',
+            data: {
+                datasets: ['double', 'big_win', 'win', 'fail'].map(lbl => ({
+                    label: lbl,
+                    data: scatterData.filter(p => p.label === lbl).map(p => ({ x: p.x, y: p.y })),
+                    backgroundColor: colorMap[lbl],
+                    pointRadius: lbl === 'double' ? 5 : 2,
+                }))
+            },
+            options: { responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { labels: { color: '#94a3b8' } } },
+                scales: { x: { title: { display: true, text: 'Volume Ratio', color: '#94a3b8' }, ticks: { color: '#94a3b8' }, grid: { color: '#2d3748' } },
+                          y: { title: { display: true, text: 'Max Gain %', color: '#94a3b8' }, ticks: { color: '#94a3b8' }, grid: { color: '#2d3748' } } } }
+        });
+
+        // Sector chart
+        const secLabels = Object.keys(d.sector_doubles);
+        const secValues = Object.values(d.sector_doubles);
+        new Chart(document.getElementById('sectorChart'), {
+            type: 'bar',
+            data: {
+                labels: secLabels,
+                datasets: [{ data: secValues, backgroundColor: '#a855f7', borderRadius: 4 }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+                plugins: { legend: { display: false } },
+                scales: { x: { ticks: { color: '#94a3b8' }, grid: { color: '#2d3748' } }, y: { ticks: { color: '#94a3b8', font: { size: 10 } } } } }
+        });
+
+        // Timeline
+        const tl = d.timeline;
+        new Chart(document.getElementById('timelineChart'), {
+            type: 'bar',
+            data: {
+                labels: tl.months.filter((_, i) => i % 3 === 0),
+                datasets: [
+                    { label: 'Doubles', data: tl.doubles.filter((_, i) => i % 3 === 0), backgroundColor: '#a855f7' },
+                    { label: 'Big Win', data: tl.big_wins.filter((_, i) => i % 3 === 0), backgroundColor: '#10b981' },
+                    { label: 'Fail', data: tl.fails.filter((_, i) => i % 3 === 0), backgroundColor: '#ef444466' },
+                ]
+            },
+            options: { responsive: true, maintainAspectRatio: false, 
+                plugins: { legend: { labels: { color: '#94a3b8' } } },
+                scales: { x: { stacked: true, ticks: { color: '#94a3b8', font: { size: 9 } } }, y: { stacked: true, ticks: { color: '#94a3b8' }, grid: { color: '#2d3748' } } } }
+        });
+
+        // Time series: doubles
+        const tsColors = ['#a855f7', '#8b5cf6', '#7c3aed', '#6d28d9', '#5b21b6'];
+        const tsColorsF = ['#ef4444', '#dc2626', '#b91c1c', '#991b1b', '#7f1d1d'];
+        const dayLabels = Array.from({length: 91}, (_, i) => i - 90);
+
+        new Chart(document.getElementById('tsDoubles'), {
+            type: 'line',
+            data: {
+                labels: dayLabels,
+                datasets: d.ts_samples.doubles.map((s, i) => ({
+                    label: `${s.ticker} (${s.date}) +${s.gain.toFixed(0)}%`,
+                    data: s.prices,
+                    borderColor: tsColors[i % tsColors.length],
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    tension: 0.3,
+                    fill: false
+                }))
+            },
+            options: { responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { labels: { color: '#94a3b8', font: { size: 10 } } } },
+                scales: { x: { title: { display: true, text: 'Days before breakout', color: '#94a3b8' }, ticks: { color: '#94a3b8' }, grid: { color: '#2d3748' } },
+                          y: { title: { display: true, text: 'Price (normalized)', color: '#94a3b8' }, ticks: { color: '#94a3b8' }, grid: { color: '#2d3748' } } } }
+        });
+
+        new Chart(document.getElementById('tsFails'), {
+            type: 'line',
+            data: {
+                labels: dayLabels,
+                datasets: d.ts_samples.fails.map((s, i) => ({
+                    label: `${s.ticker} (${s.date}) ${s.gain > 0 ? '+' : ''}${s.gain.toFixed(0)}%`,
+                    data: s.prices,
+                    borderColor: tsColorsF[i % tsColorsF.length],
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    tension: 0.3,
+                    fill: false
+                }))
+            },
+            options: { responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { labels: { color: '#94a3b8', font: { size: 10 } } } },
+                scales: { x: { title: { display: true, text: 'Days before breakout', color: '#94a3b8' }, ticks: { color: '#94a3b8' }, grid: { color: '#2d3748' } },
+                          y: { title: { display: true, text: 'Price (normalized)', color: '#94a3b8' }, ticks: { color: '#94a3b8' }, grid: { color: '#2d3748' } } } }
+        });
+    }
+
+    load();
+    </script>
+</body>
+</html>
