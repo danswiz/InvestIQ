@@ -2232,7 +2232,7 @@
         }
 
         // ===== SIGNAL TOOLTIP POPUP =====
-        let _sigTipTimer = null;
+        let _sigTipOpen = false;
         function showSignalTip(el, html) {
             hideSignalTip();
             const tip = document.createElement('div');
@@ -2250,32 +2250,37 @@
             if (top + tip.offsetHeight > window.innerHeight) top = r.top - tip.offsetHeight - 6;
             if (left + tip.offsetWidth > window.innerWidth) left = window.innerWidth - tip.offsetWidth - 8;
             tip.style.top = top + 'px'; tip.style.left = Math.max(4, left) + 'px';
-            // dismiss on tap/click anywhere
-            setTimeout(() => document.addEventListener('click', hideSignalTip, { once: true }), 50);
+            _sigTipOpen = true;
         }
         function hideSignalTip() {
             const t = document.getElementById('signal-tip');
             if (t) t.remove();
-            if (_sigTipTimer) { clearTimeout(_sigTipTimer); _sigTipTimer = null; }
+            _sigTipOpen = false;
         }
         function sigBadge(color, bg, label, reasons, ticker) {
             const uid = 'sig-' + (ticker || '') + '-' + Math.random().toString(36).slice(2,6);
-            // Store reasons globally keyed by uid
             window._sigReasons = window._sigReasons || {};
             window._sigReasons[uid] = reasons;
             return `<span class="sig-badge" data-sig-uid="${uid}"
                 style="background:${bg};color:${color};border:1px solid ${color};padding:2px 8px;border-radius:4px;font-size:0.75rem;font-weight:700;cursor:pointer;user-select:none;"
                 title="${reasons.join(' | ')}">${label}</span>`;
         }
-        // Delegate click/long-press for all signal badges
+        // Single delegated click handler for signal badges + dismiss
         document.addEventListener('click', function(e) {
             const badge = e.target.closest('.sig-badge');
-            if (!badge) return;
-            e.stopPropagation();
-            const uid = badge.dataset.sigUid;
-            const reasons = (window._sigReasons || {})[uid] || ['No details available'];
-            showSignalTip(badge, reasons.map(x => '• ' + x).join('<br>'));
-        });
+            const tip = e.target.closest('#signal-tip');
+            if (badge) {
+                e.preventDefault();
+                e.stopPropagation();
+                const uid = badge.dataset.sigUid;
+                const reasons = (window._sigReasons || {})[uid] || ['No details available'];
+                showSignalTip(badge, reasons.map(x => '• ' + x).join('<br>'));
+                return;
+            }
+            if (tip) return; // clicked inside popup, keep it open
+            if (_sigTipOpen) hideSignalTip(); // clicked outside, dismiss
+        }, true); // capture phase so we get it before other handlers
+        // Long-press for mobile
         (function() {
             let timer = null;
             document.addEventListener('touchstart', function(e) {
