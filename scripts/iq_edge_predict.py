@@ -23,7 +23,7 @@ import yfinance as yf
 DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data')
 MODEL_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'models')
 STOCKS_FILE = os.path.join(DATA_DIR, 'all_stocks.json')
-MODEL_FILE = os.path.join(MODEL_DIR, 'breakout_xgb_double.pkl')
+MODEL_FILE = os.path.join(MODEL_DIR, 'breakout_xgb_prod.pkl')  # trained 2016-2024, OOS AUC 0.835
 
 # Must match training features exactly
 FEATURE_COLS = [
