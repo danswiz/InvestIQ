@@ -1350,6 +1350,18 @@
             <div class="card" style="margin-bottom: 20px;">
                 <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; align-items: end;">
                     <div>
+                        <label style="font-size:0.7rem; color:var(--text-dim); display:block; margin-bottom:4px;">Price Min ($)</label>
+                        <input type="number" id="scr-price-min" placeholder="e.g. 20" style="width:100%; padding:6px 8px; background:#1a1a2e; border:1px solid #374151; border-radius:6px; color:white; font-size:0.85rem;">
+                    </div>
+                    <div>
+                        <label style="font-size:0.7rem; color:var(--text-dim); display:block; margin-bottom:4px;">Price Max ($)</label>
+                        <input type="number" id="scr-price-max" placeholder="e.g. 500" style="width:100%; padding:6px 8px; background:#1a1a2e; border:1px solid #374151; border-radius:6px; color:white; font-size:0.85rem;">
+                    </div>
+                    <div>
+                        <label style="font-size:0.7rem; color:var(--text-dim); display:block; margin-bottom:4px;">Avg Vol Min</label>
+                        <input type="number" id="scr-vol-min" placeholder="e.g. 500000" style="width:100%; padding:6px 8px; background:#1a1a2e; border:1px solid #374151; border-radius:6px; color:white; font-size:0.85rem;">
+                    </div>
+                    <div>
                         <label style="font-size:0.7rem; color:var(--text-dim); display:block; margin-bottom:4px;">Rotation Min</label>
                         <input type="number" id="scr-rot-min" placeholder="e.g. 60" style="width:100%; padding:6px 8px; background:#1a1a2e; border:1px solid #374151; border-radius:6px; color:white; font-size:0.85rem;">
                     </div>
@@ -1411,6 +1423,8 @@
                         <tr>
                             <th onclick="sortScreener('ticker')">Ticker</th>
                             <th onclick="sortScreener('name')">Name</th>
+                            <th onclick="sortScreener('current_price')">Price</th>
+                            <th onclick="sortScreener('avg_volume')">Avg Vol</th>
                             <th onclick="sortScreener('sector')">Sector</th>
                             <th onclick="sortScreener('rotation_score')">Rotation</th>
                             <th onclick="sortScreener('ewros_score')">EWROS</th>
@@ -1424,7 +1438,7 @@
                         </tr>
                     </thead>
                     <tbody id="screener-tbody">
-                        <tr><td colspan="11" style="text-align:center; padding:40px; color:var(--text-dim);">Set filters and click Screen</td></tr>
+                        <tr><td colspan="13" style="text-align:center; padding:40px; color:var(--text-dim);">Set filters and click Screen</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -4629,6 +4643,9 @@
 
         async function runScreener() {
             const params = new URLSearchParams();
+            const priceMin = document.getElementById('scr-price-min').value;
+            const priceMax = document.getElementById('scr-price-max').value;
+            const volMin = document.getElementById('scr-vol-min').value;
             const rotMin = document.getElementById('scr-rot-min').value;
             const rotMax = document.getElementById('scr-rot-max').value;
             const insMin = document.getElementById('scr-ins-min').value;
@@ -4640,6 +4657,9 @@
             const sector = document.getElementById('scr-sector').value;
             const grades = [...document.querySelectorAll('.scr-grade:checked')].map(cb => cb.value).join(',');
 
+            if (priceMin) params.set('price_min', priceMin);
+            if (priceMax) params.set('price_max', priceMax);
+            if (volMin) params.set('vol_min', volMin);
             if (rotMin) params.set('rotation_min', rotMin);
             if (rotMax) params.set('rotation_max', rotMax);
             if (insMin) params.set('ins_min', insMin);
@@ -4670,16 +4690,19 @@
         function renderScreenerTable() {
             const tbody = document.getElementById('screener-tbody');
             if (screenerData.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="11" style="text-align:center; padding:40px; color:var(--text-dim);">No results. Adjust filters and try again.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="13" style="text-align:center; padding:40px; color:var(--text-dim);">No results. Adjust filters and try again.</td></tr>';
                 return;
             }
             tbody.innerHTML = screenerData.map(s => {
                 const rotColor = (s.rotation_score||0) >= 80 ? '#10b981' : (s.rotation_score||0) >= 60 ? '#eab308' : '#64748b';
                 const rsColor = (s.ewros_score||0) >= 80 ? '#10b981' : (s.ewros_score||0) >= 50 ? '#eab308' : '#64748b';
                 const gradeColor = s.grade === 'A' ? '#10b981' : s.grade === 'B' ? '#38bdf8' : s.grade === 'C' ? '#f59e0b' : '#ef4444';
+                const fmtVol = (v) => { if (!v) return '—'; if (v >= 1e6) return (v/1e6).toFixed(1)+'M'; if (v >= 1e3) return (v/1e3).toFixed(0)+'K'; return v.toFixed(0); };
                 return `<tr>
                     <td><a href="#" onclick="viewStock('${s.ticker}'); return false;" class="text-sky-400 hover:text-sky-300 font-bold">${s.ticker}</a></td>
                     <td style="font-size:0.85rem; color:var(--text-dim);">${(s.name||'').substring(0, 25)}</td>
+                    <td style="font-weight:600;">$${(s.current_price||0).toFixed(2)}</td>
+                    <td style="font-size:0.85rem; color:var(--text-dim);">${fmtVol(s.avg_volume)}</td>
                     <td style="font-size:0.8rem; color:var(--text-dim);">${s.sector || '—'}</td>
                     <td style="font-weight:700; color:${rotColor};">${(s.rotation_score||0).toFixed(1)}</td>
                     <td style="font-weight:600; color:${rsColor};">${s.ewros_score || '—'}</td>

@@ -1408,7 +1408,23 @@ def screener():
             s['ticker'] = ticker
             results.append(s)
 
+        # Load avg volume data if available
+        vol_lookup = {}
+        try:
+            import yfinance as yf
+            vol_file = 'data/avg_volumes.json'
+            if os.path.exists(vol_file):
+                with open(vol_file) as vf:
+                    vol_lookup = json.load(vf)
+        except:
+            pass
+        for s in results:
+            s['avg_volume'] = vol_lookup.get(s['ticker'], s.get('avg_volume'))
+
         # Apply filters
+        price_min = request.args.get('price_min', type=float)
+        price_max = request.args.get('price_max', type=float)
+        vol_min = request.args.get('vol_min', type=float)
         rot_min = request.args.get('rotation_min', type=float)
         rot_max = request.args.get('rotation_max', type=float)
         ins_min = request.args.get('ins_min', type=float)
@@ -1420,6 +1436,12 @@ def screener():
         iq_edge_min = request.args.get('iq_edge_min', type=int)
         peg_max = request.args.get('peg_max', type=float)
 
+        if price_min is not None:
+            results = [s for s in results if (s.get('current_price') or 0) >= price_min]
+        if price_max is not None:
+            results = [s for s in results if (s.get('current_price') or 0) <= price_max]
+        if vol_min is not None:
+            results = [s for s in results if (s.get('avg_volume') or 0) >= vol_min]
         if rot_min is not None:
             results = [s for s in results if (s.get('rotation_score') or 0) >= rot_min]
         if rot_max is not None:
