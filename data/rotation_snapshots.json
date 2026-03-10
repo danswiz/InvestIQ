@@ -9,6 +9,11 @@
       "price": 25.44,
       "rotation_score": 50.4,
       "tier": "WATCH"
+    },
+    "2026-03-09": {
+      "price": 24.11,
+      "ewros_score": 50,
+      "tier": "SELL"
     }
   },
   "NVT": {
@@ -20,6 +25,11 @@
     "2026-03-05": {
       "price": 110.55,
       "rotation_score": 55.4,
+      "tier": "SELL"
+    },
+    "2026-03-09": {
+      "price": 108.13,
+      "ewros_score": 43,
       "tier": "SELL"
     }
   },
@@ -33,6 +43,11 @@
       "price": 51.49,
       "rotation_score": 55.2,
       "tier": "HOLD"
+    },
+    "2026-03-09": {
+      "price": 51.22,
+      "ewros_score": 79,
+      "tier": "HOLD"
     }
   },
   "PCG": {
@@ -45,6 +60,11 @@
       "price": 18.13,
       "rotation_score": 59.1,
       "tier": "WATCH"
+    },
+    "2026-03-09": {
+      "price": 18.17,
+      "ewros_score": 87,
+      "tier": "HOLD"
     }
   },
   "THC": {
@@ -56,6 +76,11 @@
     "2026-03-05": {
       "price": 241.4,
       "rotation_score": 58.1,
+      "tier": "HOLD"
+    },
+    "2026-03-09": {
+      "price": 240.59,
+      "ewros_score": 92,
       "tier": "HOLD"
     }
   },
@@ -69,6 +94,11 @@
       "price": 217.36,
       "rotation_score": 66.2,
       "tier": "HOLD"
+    },
+    "2026-03-09": {
+      "price": 215.7,
+      "ewros_score": 92,
+      "tier": "HOLD"
     }
   },
   "NRG": {
@@ -81,6 +111,11 @@
       "price": 160.46,
       "rotation_score": 62.9,
       "tier": "HOLD"
+    },
+    "2026-03-09": {
+      "price": 155.42,
+      "ewros_score": 35,
+      "tier": "SELL"
     }
   }
 }
