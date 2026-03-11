@@ -139,7 +139,12 @@ def index():
         except:
             pass
     # v4.5 Moonshot Score integration
-    return render_template('index.html', stocks=data.get('stocks', []), last_scan=data.get('last_scan'), version="4.5")
+    resp = render_template('index.html', stocks=data.get('stocks', []), last_scan=data.get('last_scan'), version="4.6")
+    response = app.make_response(resp)
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response
 
 @app.route('/breakout-explorer')
 def breakout_explorer():
