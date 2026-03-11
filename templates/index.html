@@ -3701,10 +3701,10 @@
             try {
                 // Load from cached all_stocks.json (loads once, caches forever)
                 const allData = await loadAllStocks();
-                const data = allData.stocks[ticker.toUpperCase()];
-                
+                // Use `let` so we can assign the fallback stub if ticker is missing
+                let data = allData.stocks[ticker.toUpperCase()];
+
                 // Graceful fallback for ETFs / unknown tickers not in all_stocks.json
-                const isEtfMode = !data || data.grade === 'ETF';
                 if (!data) {
                     // Try fetching basic info from stock_price API
                     let name = ticker.toUpperCase();
@@ -3721,6 +3721,9 @@
                         recommendation: null, target_mean: null, analyst_count: null,
                     };
                 }
+
+                // Compute AFTER data is guaranteed to be set
+                const isEtfMode = data.grade === 'ETF' || !data.score;
 
                 document.getElementById('detail-name').innerText = data.name;
                 document.getElementById('detail-ticker-sector').innerText = `${data.ticker} • ${data.sector}${data.industry ? ' • ' + data.industry : ''}`;
