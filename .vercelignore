@@ -1,0 +1,64 @@
+# Large data files not needed at runtime
+data/*.parquet
+data/*.npz
+data/*.pkl
+data/sec_fundamentals.json
+data/earnings_history.json
+data/quarterly_fundamentals.json
+data/market_data.db
+data/avg_volumes.json
+data/backtest_results.json
+data/breakout_viz.json
+data/charts/
+data/exports/
+data/signals_5yr_cache.pkl
+
+# ML models (loaded at runtime not needed in Lambda)
+models/
+
+# Reports and charts
+reports/
+
+# Scripts (not served by Flask)
+scripts/
+tools/
+utils/
+api/
+
+# Logs
+logs/
+
+# Skills / agent files
+skills/
+disabled_skills/
+deprecated/
+memory/
+docs/
+
+# Agent config files
+AGENTS.md
+SOUL.md
+USER.md
+HEARTBEAT.md
+BOOTSTRAP.md
+IDENTITY.md
+MEMORY.md
+TOOLS.md
+alpha_report_*.html
+
+# Dev / misc
+*.log
+*.db
+.env
+refresh_cache.py
+scan_all.py
+rater.py
+rotation_catcher.py
+canslim.py
+market_data.py
+generate_watchlist.py
+rate_holdings.py
+rate_fundamentals.py
+scan_all_top10.py
+value_growth_scan.py
+invest_iq/

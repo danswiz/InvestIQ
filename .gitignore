@@ -42,3 +42,15 @@ logs/*.log
 *.log
 data/market_data.db
 alpha_report_*.html
+
+# Large binary/data files (not needed in git — too large for Vercel Lambda)
+data/*.parquet
+data/*.npz
+data/*.pkl
+data/sec_fundamentals.json
+data/earnings_history.json
+data/quarterly_fundamentals.json
+models/*.pkl
+
+# Skills DB
+skills/investiq/market_data.db
