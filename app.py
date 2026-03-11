@@ -167,6 +167,17 @@ def _prev_month(ym):
     if m == 0: m, y = 12, y - 1
     return f'{y}-{m:02d}'
 
+@app.route('/data/earnings/<ticker>.json')
+def serve_earnings_json(ticker):
+    """Serve pre-cached earnings JSON as static file"""
+    from flask import send_from_directory
+    earnings_dir = os.path.join(os.path.dirname(__file__), 'data', 'earnings')
+    fname = f'{ticker.upper()}.json'
+    if os.path.exists(os.path.join(earnings_dir, fname)):
+        return send_from_directory(earnings_dir, fname, mimetype='application/json')
+    # Fallback: generate on-demand and cache
+    return earnings_detail(ticker)
+
 @app.route('/debug')
 def debug():
     info = {

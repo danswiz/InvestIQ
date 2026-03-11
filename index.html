@@ -4240,7 +4240,8 @@
             timeline.innerHTML = '';
 
             try {
-                const resp = await fetch(`/api/earnings/${ticker}`);
+                const resp = await fetch(`/data/earnings/${ticker}.json`);
+                if (!resp.ok) return;
                 const json = await resp.json();
                 const quarters = (json.quarters || []).filter(q => q.eps_actual !== null).slice(0, 10);
                 if (quarters.length < 2) return;
