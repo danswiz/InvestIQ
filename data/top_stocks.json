@@ -1,7 +1,7 @@
 {
   "version": "5.0",
   "max_score": 100,
-  "last_scan": "2026-03-10 20:17 PST",
+  "last_scan": "2026-03-10 20:22 PST",
   "total_stocks": 161,
   "stocks": [
     {
@@ -4033,7 +4033,7 @@
       "target_mean": 41.45455,
       "analyst_count": 11,
       "current_price": 38.369998931884766,
-      "ewros_score": 58
+      "ewros_score": 57
     },
     {
       "ticker": "UTHR",
@@ -5562,7 +5562,7 @@
       "target_mean": 240.09525,
       "analyst_count": 21,
       "current_price": 207.69000244140625,
-      "ewros_score": 62
+      "ewros_score": 61
     },
     {
       "ticker": "CNP",
@@ -6813,7 +6813,7 @@
       "target_mean": 89.97059,
       "analyst_count": 17,
       "current_price": 83.2699966430664,
-      "ewros_score": 64
+      "ewros_score": 63
     },
     {
       "ticker": "WEC",
@@ -8759,7 +8759,7 @@
       "target_mean": 76.6,
       "analyst_count": 10,
       "current_price": 75.54000091552734,
-      "ewros_score": 59
+      "ewros_score": 58
     },
     {
       "ticker": "MCD",
@@ -9454,7 +9454,7 @@
       "target_mean": 65.0,
       "analyst_count": 3,
       "current_price": 64.77999877929688,
-      "ewros_score": 58
+      "ewros_score": 57
     },
     {
       "ticker": "CHRD",
@@ -10010,7 +10010,7 @@
       "target_mean": 244.45833,
       "analyst_count": 24,
       "current_price": 223.52999877929688,
-      "ewros_score": 65
+      "ewros_score": 64
     },
     {
       "ticker": "EA",
@@ -10844,7 +10844,7 @@
       "target_mean": 44.40909,
       "analyst_count": 22,
       "current_price": 39.09000015258789,
-      "ewros_score": 84
+      "ewros_score": 83
     },
     {
       "ticker": "DUK",
@@ -11400,7 +11400,7 @@
       "target_mean": 137.7,
       "analyst_count": 10,
       "current_price": 137.72999572753906,
-      "ewros_score": 64
+      "ewros_score": 63
     },
     {
       "ticker": "CW",
