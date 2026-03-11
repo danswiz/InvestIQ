@@ -54,3 +54,17 @@ models/*.pkl
 
 # Skills DB
 skills/investiq/market_data.db
+
+# Agent workspace files — never commit these
+memory/
+MEMORY.md
+AGENTS.md
+SOUL.md
+USER.md
+IDENTITY.md
+HEARTBEAT.md
+BOOTSTRAP.md
+TOOLS.md
+VOICE_CALL_SETUP.md
+*.email_config.ini
+email_sender.py
