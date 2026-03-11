@@ -88,6 +88,85 @@ def fetch_live_prices_bulk(tickers, batch_size=15):
 def health():
     return jsonify({"status": "ok", "python": sys.version})
 
+@app.route('/api/earnings/<ticker>')
+def earnings_detail(ticker):
+    """Return quarterly earnings history: EPS actual/estimate/surprise + revenue"""
+    try:
+        import yfinance as yf
+        t = yf.Ticker(ticker.upper())
+
+        # --- EPS + surprise from earnings_dates ---
+        ed = t.earnings_dates
+        eps_rows = {}
+        if ed is not None and not ed.empty:
+            for dt, row in ed.iterrows():
+                actual = row.get('Reported EPS')
+                estimate = row.get('EPS Estimate')
+                surprise = row.get('Surprise(%)')
+                if actual != actual: actual = None   # NaN check
+                if estimate != estimate: estimate = None
+                if surprise != surprise: surprise = None
+                date_str = dt.strftime('%Y-%m-%d')
+                eps_rows[date_str] = {
+                    'date': date_str,
+                    'time': dt.strftime('%H:%M'),
+                    'eps_actual': round(float(actual), 4) if actual is not None else None,
+                    'eps_estimate': round(float(estimate), 4) if estimate is not None else None,
+                    'eps_surprise_pct': round(float(surprise), 2) if surprise is not None else None,
+                }
+
+        # --- Revenue from quarterly income stmt (keyed by period-end date) ---
+        rev_by_quarter = {}
+        try:
+            inc = t.quarterly_income_stmt
+            if inc is not None and not inc.empty:
+                rev_row = None
+                for candidate in ['Total Revenue', 'Revenue']:
+                    if candidate in inc.index:
+                        rev_row = inc.loc[candidate]
+                        break
+                if rev_row is not None:
+                    periods = sorted(rev_row.index)
+                    for i, period in enumerate(periods):
+                        val = rev_row[period]
+                        if val != val: continue   # NaN
+                        prev = rev_row[periods[i-4]] if i >= 4 else None  # YoY = 4 quarters back
+                        yoy = round((val / prev - 1) * 100, 1) if prev and prev > 0 else None
+                        rev_by_quarter[period.strftime('%Y-%m')] = {
+                            'revenue': int(val),
+                            'revenue_yoy': yoy
+                        }
+        except Exception:
+            pass
+
+        # --- Merge: match each earnings date to nearest quarter-end revenue ---
+        quarters = []
+        for date_str, eps in sorted(eps_rows.items(), reverse=True)[:12]:
+            ym = date_str[:7]   # YYYY-MM — earnings usually reported ~month after quarter ends
+            # Try current month, prev month, month before
+            rev_data = (rev_by_quarter.get(ym)
+                        or rev_by_quarter.get(_prev_month(ym))
+                        or rev_by_quarter.get(_prev_month(_prev_month(ym))))
+            entry = dict(eps)
+            if rev_data:
+                entry['revenue'] = rev_data['revenue']
+                entry['revenue_yoy'] = rev_data['revenue_yoy']
+            else:
+                entry['revenue'] = None
+                entry['revenue_yoy'] = None
+            quarters.append(entry)
+
+        return jsonify({'ticker': ticker.upper(), 'quarters': quarters})
+    except Exception as e:
+        return jsonify({'error': str(e), 'ticker': ticker, 'quarters': []}), 200
+
+def _prev_month(ym):
+    """Return YYYY-MM one month prior"""
+    y, m = int(ym[:4]), int(ym[5:7])
+    m -= 1
+    if m == 0: m, y = 12, y - 1
+    return f'{y}-{m:02d}'
+
 @app.route('/debug')
 def debug():
     info = {
