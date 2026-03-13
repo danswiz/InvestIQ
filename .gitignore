@@ -1,7 +1,73 @@
-# Environment variables
-.env
+# ═══════════════════════════════════════════════
+# InvestIQ Website — .gitignore
+# Only website-serving files belong in this repo
+# ═══════════════════════════════════════════════
 
-# Python
+# ── Credentials & Secrets ──
+.env
+*.email_config.ini
+.email_config.ini
+config.py
+
+# ── Agent Workspace (NEVER commit) ──
+memory/
+MEMORY.md
+AGENTS.md
+SOUL.md
+USER.md
+IDENTITY.md
+HEARTBEAT.md
+BOOTSTRAP.md
+TOOLS.md
+VOICE_CALL_SETUP.md
+.openclaw/
+
+# ── Python Scripts & Tools (local only) ──
+scripts/
+tools/
+reports/*.py
+reports/archive/
+reports/charts/
+reports/*.html
+reports/*.png
+reports/*.pdf
+deprecated/
+utils/
+invest_iq/
+skills/
+disabled_skills/
+models/
+logs/
+scan_all.py
+refresh_cache.py
+generate_watchlist.py
+rater.py
+rotation_catcher.py
+market_data.py
+alpha_report_*.html
+claude_code_report.py
+Claude_Code_Architecture_Report.pdf
+
+# ── Data files NOT needed by website ──
+data/earnings/
+data/charts/
+data/avg_volumes.json
+data/backtest_results.json
+data/breakout_viz.json
+data/chart_spy.json
+data/charts_data.json
+data/cik_cache.json
+data/*.parquet
+data/*.npz
+data/*.pkl
+data/sec_fundamentals.json
+data/earnings_history.json
+data/quarterly_fundamentals.json
+
+# ── Docs (internal) ──
+docs/
+
+# ── Python ──
 __pycache__/
 *.py[cod]
 *$py.class
@@ -26,45 +92,18 @@ wheels/
 .installed.cfg
 *.egg
 
-# IDE
+# ── IDE ──
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
 
-# OS
+# ── OS ──
 .DS_Store
 Thumbs.db
 
-# Logs
-logs/*.log
+# ── Logs ──
 *.log
 data/market_data.db
-alpha_report_*.html
-
-# Large binary/data files (not needed in git — too large for Vercel Lambda)
-data/*.parquet
-data/*.npz
-data/*.pkl
-data/sec_fundamentals.json
-data/earnings_history.json
-data/quarterly_fundamentals.json
-models/*.pkl
-
-# Skills DB
 skills/investiq/market_data.db
-
-# Agent workspace files — never commit these
-memory/
-MEMORY.md
-AGENTS.md
-SOUL.md
-USER.md
-IDENTITY.md
-HEARTBEAT.md
-BOOTSTRAP.md
-TOOLS.md
-VOICE_CALL_SETUP.md
-*.email_config.ini
-email_sender.py
