@@ -9,6 +9,7 @@ import json
 import os
 import time
 import traceback
+import urllib.request
 from datetime import datetime
 
 import anthropic
@@ -41,6 +42,50 @@ def _load_api_key():
         except FileNotFoundError:
             pass
     return key
+
+
+def _load_portfolio_tickers():
+    """Fetch portfolio holdings from Supabase. Returns dict of {basket_name: [tickers]}."""
+    supabase_url = os.environ.get('SUPABASE_URL', 'https://jvgxgfbthfsdqtvzeuqz.supabase.co')
+    supabase_key = os.environ.get('SUPABASE_KEY', '')
+    if not supabase_key:
+        try:
+            with open(os.path.join(os.path.dirname(__file__), '.env')) as f:
+                for line in f:
+                    if line.startswith('SUPABASE_KEY='):
+                        supabase_key = line.strip().split('=', 1)[1]
+        except FileNotFoundError:
+            pass
+    if not supabase_key:
+        return {}, []
+
+    try:
+        url = f'{supabase_url}/rest/v1/baskets?select=name,holdings(ticker)&order=sort_order'
+        req = urllib.request.Request(url, headers={
+            'apikey': supabase_key,
+            'Authorization': f'Bearer {supabase_key}'
+        })
+        resp = urllib.request.urlopen(req, timeout=8)
+        baskets = json.loads(resp.read())
+        
+        basket_map = {}
+        all_tickers = []
+        for b in baskets:
+            name = b['name']
+            tickers = [h['ticker'] for h in b.get('holdings', [])]
+            basket_map[name] = tickers
+            all_tickers.extend(tickers)
+        return basket_map, list(set(all_tickers))
+    except Exception:
+        return {}, []
+
+
+def _is_portfolio_query(query):
+    """Detect if user is asking about their portfolio."""
+    q = query.lower()
+    portfolio_keywords = ['my portfolio', 'my holdings', 'my positions', 'my stocks', 
+                         'my baskets', 'my investments', 'positions in my']
+    return any(kw in q for kw in portfolio_keywords)
 
 
 def _load_investiq_data(tickers):
@@ -213,15 +258,33 @@ def run_planner(client, state):
     """Extract tickers, intents, and timeframe from the user query."""
     _emit(state, "agent_start", {"agent": "Planner", "description": "Analyzing your research query..."})
 
-    system = """You are a financial research planner. Given a user query about stocks, extract:
+    # Check if this is a portfolio query — if so, fetch real holdings
+    portfolio_context = ""
+    if _is_portfolio_query(state["user_query"]):
+        _emit(state, "researcher_step", {"step": "Detected portfolio query — fetching your holdings from Supabase..."})
+        basket_map, all_tickers = _load_portfolio_tickers()
+        if all_tickers:
+            state["_portfolio_baskets"] = basket_map
+            state["_portfolio_tickers"] = all_tickers
+            basket_summary = "\n".join([f"  {name}: {', '.join(tickers)}" for name, tickers in basket_map.items()])
+            portfolio_context = f"""
+
+IMPORTANT: The user is asking about THEIR PORTFOLIO. Here are their actual holdings:
+{basket_summary}
+
+Total unique tickers: {len(all_tickers)}
+You MUST include ALL of these tickers in your response. Do NOT default to SPY.
+If there are too many tickers (>15), group your analysis by basket/sector but still cover all positions."""
+
+    system = f"""You are a financial research planner. Given a user query about stocks, extract:
 1. tickers: list of stock ticker symbols mentioned or implied
 2. intents: list from [outlook, comparison, catalyst, historical, recommendation, general]
 3. timeframe: short-term, medium-term, or long-term
 
 If no specific ticker is mentioned but a sector/theme is, suggest 2-3 relevant tickers.
-Respond in JSON format only: {"tickers": [...], "intents": [...], "timeframe": "..."}"""
+Respond in JSON format only: {{"tickers": [...], "intents": [...], "timeframe": "..."}}{portfolio_context}"""
 
-    result = _call_claude(client, system, state["user_query"], max_tokens=512)
+    result = _call_claude(client, system, state["user_query"], max_tokens=1024)
 
     try:
         # Extract JSON from response
@@ -230,6 +293,10 @@ Respond in JSON format only: {"tickers": [...], "intents": [...], "timeframe": "
         plan = json.loads(result[start:end])
     except (json.JSONDecodeError, ValueError):
         plan = {"tickers": [], "intents": ["general"], "timeframe": "medium-term"}
+
+    # For portfolio queries, ensure all tickers are included even if Claude missed some
+    if state.get("_portfolio_tickers") and len(plan.get("tickers", [])) < len(state["_portfolio_tickers"]):
+        plan["tickers"] = state["_portfolio_tickers"]
 
     if not plan.get("tickers"):
         plan["tickers"] = ["SPY"]
@@ -453,8 +520,18 @@ Final assessment with conviction level (High/Medium/Low).
 Use specific numbers. Be balanced but provide a clear conclusion.
 At the end, self-evaluate: output exactly SELF_EVAL:COMPLETE or SELF_EVAL:WEAK"""
 
+    portfolio_context = ""
+    if state.get("_portfolio_baskets"):
+        basket_summary = "\n".join([f"  {name}: {', '.join(tickers)}" for name, tickers in state["_portfolio_baskets"].items()])
+        portfolio_context = f"""
+
+Portfolio Baskets:
+{basket_summary}
+Structure the report by basket/theme when analyzing portfolio positions."""
+
     user_prompt = f"""Query: {state['user_query']}
 Plan: {json.dumps(state['plan'])}
+{portfolio_context}
 
 Moderator Verdict:
 {state.get('moderator_verdict', 'No verdict available')}
