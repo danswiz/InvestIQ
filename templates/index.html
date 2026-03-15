@@ -5774,10 +5774,12 @@
                 }
                 updateResearchProgress(100);
                 loadResearchHistory();
+                finishResearch();
             }
             else if (type === 'error') {
                 document.getElementById('research-error').style.display = 'block';
                 document.getElementById('research-error-msg').textContent = data.message || 'Unknown error';
+                finishResearch();
             }
         }
 
