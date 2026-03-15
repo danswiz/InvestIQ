@@ -1114,65 +1114,62 @@ def research(query, emit=None):
 
 def quick_research(query, emit=None):
     """
-    Fast research mode — single Claude call with pre-loaded data.
-    ~5-10 seconds vs 60+ for deep research. Same quality for simple queries.
+    Fast research mode — same data gathering as Deep, but single analysis call.
+    Data Scout (Sonnet) → Researcher → One Opus analysis call → done.
     """
     api_key = _load_api_key()
     if not api_key:
         raise ValueError("ANTHROPIC_API_KEY not found")
 
     client = anthropic.Anthropic(api_key=api_key)
-    state = {"user_query": query, "_emit": emit}
+    state = {
+        "user_query": query,
+        "_emit": emit,
+        "_processed_query": "",
+        "_scout_data": {},
+        "_scout_tickers": [],
+        "_scout_plan": {},
+        "plan": {},
+        "research_data": {},
+        "research_pass_count": 0,
+        "sources": [],
+    }
 
     try:
-        _emit(state, "agent_start", {"agent": "Quick Analysis", "description": "Gathering data..."})
-
-        # 1. Extract tickers
-        tickers = _extract_tickers_from_query(query)
-        if not tickers:
-            # Use Sonnet to extract tickers if hard-coded detection misses
-            result = _call_claude(client, "Extract stock ticker symbols from this query. Return JSON only: {\"tickers\": [...]}", query, max_tokens=256, model=MODEL_FAST)
-            try:
-                start = result.find("{")
-                end = result.rfind("}") + 1
-                tickers = json.loads(result[start:end]).get("tickers", [])
-            except Exception:
-                tickers = []
-
-        if not tickers:
-            _emit(state, "error", {"message": "No tickers found in query. Try mentioning a specific stock."})
-            state["error"] = "No tickers found"
+        # 1. Data Scout — same as Deep mode (uses Sonnet, fast)
+        state = run_data_scout(client, state)
+        if state.get("error"):
             return state
 
-        _emit(state, "researcher_step", {"step": f"Analyzing: {', '.join(tickers)}"})
+        # 2. Planner — same as Deep mode (uses Sonnet, fast)
+        state = run_planner(client, state)
 
-        # 2. Gather data (IQ scores + yfinance)
-        iq_data = _load_investiq_data(tickers)
-        yf_data = {}
-        for ticker in tickers[:5]:  # Limit to 5 for speed
-            _emit(state, "researcher_step", {"step": f"Fetching {ticker} market data..."})
-            yf_data.update(_fetch_yfinance_data(ticker, ["stock_info", "earnings", "price_history", "analyst_recommendations"]))
+        # 3. Researcher — gather yfinance + IQ data
+        state = run_researcher(client, state)
 
-        # 3. Build context
+        # 4. Build context from all gathered data
         data_context = []
-        for ticker in tickers:
-            if ticker in iq_data and iq_data[ticker]:
-                data_context.append(f"=== {ticker} IQ Scores ===\n{json.dumps(iq_data[ticker], indent=2, default=str)}")
-        for key, value in yf_data.items():
+        
+        # Scout data (hunter, portfolio, etc.)
+        for src_name, src_data in state.get("_scout_data", {}).items():
+            data_context.append(f"=== Platform: {src_name} ===\n{json.dumps(src_data, indent=2, default=str)}")
+        
+        # Research data (yfinance + IQ scores)
+        for key, value in state.get("research_data", {}).items():
             data_context.append(f"=== {key} ===\n{value}")
 
         data_text = "\n\n".join(data_context)
 
         _emit(state, "agent_start", {"agent": "Analysis", "description": "Generating report..."})
 
-        # 4. Single Opus call — comprehensive analysis
-        system = """You are a senior investment analyst. Given the user's question and the data below, provide a clear, actionable analysis.
+        # 5. Single Opus call — comprehensive analysis
+        system = """You are a senior investment analyst. Given the user's question and ALL the data below, provide a clear, actionable analysis.
 
 Structure your response as markdown:
-# [Ticker] Quick Analysis
+# [Topic] Analysis
 
 ## Key Metrics
-Brief table or bullets of the most important numbers FROM THE DATA.
+Bullet list of the most important numbers FROM THE DATA. Cover ALL tickers mentioned.
 
 ## The Bull Case
 What looks good, citing specific data points.
@@ -1181,24 +1178,26 @@ What looks good, citing specific data points.
 What's worrying, citing specific data points.
 
 ## Verdict
-Clear buy/hold/avoid with key reasoning. Include:
+Clear buy/hold/avoid with key reasoning for EACH ticker analyzed. Include:
 - Conviction level (High/Medium/Low)
-- Fair value estimate if possible (from analyst targets in data)
+- Fair value estimate if possible (from analyst targets)
 - Key level to watch
 
 Rules:
 - ONLY cite numbers from the provided data
-- Be concise — this is a quick take, not a 20-page report
+- Cover ALL tickers in the data — do not skip any
+- Be concise but thorough
 - Have a clear opinion — don't hedge everything
-- If data is missing, say so"""
+- If data is missing for a metric, say so"""
 
-        report = _call_claude(client, system, f"Question: {query}\n\nData:\n{data_text[:30000]}", max_tokens=4000)
+        tickers = state["plan"].get("tickers", [])
+        ticker_list = ', '.join(tickers)
+        report = _call_claude(client, system, f"Question: {query}\nTickers: {ticker_list}\n\nData:\n{data_text[:50000]}", max_tokens=16000)
 
         _emit(state, "agent_done", {"agent": "Analysis", "result": "Complete"})
 
         state["final_report"] = report
         state["risk_flags"] = ""
-        state["plan"] = {"tickers": tickers, "intents": ["quick"], "timeframe": "short-term"}
         state["sources"] = [{"title": f"Yahoo Finance: {t}", "ticker": t} for t in tickers]
         state["sources"].append({"title": "InvestIQ Scores", "ticker": ",".join(tickers)})
 
@@ -1206,7 +1205,7 @@ Rules:
             "report": report,
             "risk_flags": "",
             "tickers": tickers,
-            "intents": ["quick"],
+            "intents": state["plan"].get("intents", ["quick"]),
             "sources": state["sources"],
         })
 
