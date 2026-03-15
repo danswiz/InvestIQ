@@ -1059,15 +1059,11 @@ def research(query, emit=None):
 
         # Main analysis loop with moderator
         while True:
-            # 3+4. Quant + Qual in PARALLEL (they don't depend on each other)
-            import concurrent.futures
-            with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
-                quant_future = executor.submit(run_quant_analyst, client, dict(state))
-                qual_future = executor.submit(run_qual_analyst, client, dict(state))
-                quant_state = quant_future.result()
-                qual_state = qual_future.result()
-            state["quant_analysis"] = quant_state["quant_analysis"]
-            state["qual_analysis"] = qual_state["qual_analysis"]
+            # 3. Quant Analyst
+            state = run_quant_analyst(client, state)
+
+            # 4. Qual Analyst
+            state = run_qual_analyst(client, state)
 
             # 5. Moderator
             state = run_moderator(client, state)
