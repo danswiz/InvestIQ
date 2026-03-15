@@ -5610,6 +5610,9 @@
         // ═══════════════════════════════════════════════════════════
 
         const RESEARCH_AGENTS = ['Data Scout', 'Planner', 'Researcher', 'Quant Analyst', 'Qual Analyst', 'Moderator', 'Writer', 'Risk Analyst'];
+        // Point to dedicated research server (Mac mini) — no Vercel timeout limits
+        // Set to null to use Vercel's built-in /api/research/stream (60s timeout)
+        window.RESEARCH_SERVER_URL = null;  // Will be set after we start the server
         let researchEventSource = null;
         let lastResearchQuery = '';
         let lastReportMarkdown = '';
@@ -5671,7 +5674,9 @@
             // Start SSE
             window._researchAbort = new AbortController();
             window._researchSessionId = crypto.randomUUID();
-            fetch('/api/research/stream', {
+            // Research API — use dedicated server if configured, otherwise local
+            const RESEARCH_API = window.RESEARCH_SERVER_URL || '/api/research/stream';
+            fetch(RESEARCH_API, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ query, session_id: window._researchSessionId }),

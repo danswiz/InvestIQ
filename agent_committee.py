@@ -731,13 +731,13 @@ Plan: {json.dumps(plan)}
 Available Data:
 {data_text[:30000]}"""
 
-    state["quant_analysis"] = _call_claude(client, system, user_prompt, max_tokens=2000)
+    raw_analysis = _call_claude(client, system, user_prompt, max_tokens=2000)
     
-    # Skip verification on serverless (timeout risk) — enable on dedicated server
-    # _emit(state, "researcher_step", {"step": "Verifying quant claims against source data..."})
-    # state["quant_analysis"] = _verify_analysis(client, state["quant_analysis"], data_text[:15000], "quantitative")
+    # VERIFY: Check analysis against actual data
+    _emit(state, "researcher_step", {"step": "Verifying quant claims against source data..."})
+    state["quant_analysis"] = _verify_analysis(client, raw_analysis, data_text[:15000], "quantitative")
     
-    _emit(state, "agent_done", {"agent": "Quant Analyst", "result": "Analysis complete"})
+    _emit(state, "agent_done", {"agent": "Quant Analyst", "result": "Analysis verified"})
     return state
 
 
@@ -783,13 +783,13 @@ Plan: {json.dumps(plan)}
 Available Data:
 {data_text[:30000]}"""
 
-    state["qual_analysis"] = _call_claude(client, system, user_prompt, max_tokens=2000)
+    raw_analysis = _call_claude(client, system, user_prompt, max_tokens=2000)
     
-    # Skip verification on serverless (timeout risk) — enable on dedicated server
-    # _emit(state, "researcher_step", {"step": "Verifying qualitative claims against source data..."})
-    # state["qual_analysis"] = _verify_analysis(client, state["qual_analysis"], data_text[:15000], "qualitative")
+    # VERIFY: Check analysis against actual data
+    _emit(state, "researcher_step", {"step": "Verifying qualitative claims against source data..."})
+    state["qual_analysis"] = _verify_analysis(client, raw_analysis, data_text[:15000], "qualitative")
     
-    _emit(state, "agent_done", {"agent": "Qual Analyst", "result": "Analysis complete"})
+    _emit(state, "agent_done", {"agent": "Qual Analyst", "result": "Analysis verified"})
     return state
 
 
