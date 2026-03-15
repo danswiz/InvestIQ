@@ -572,13 +572,12 @@ Respond in JSON format only: {{"tickers": [...], "intents": [...], "timeframe": 
     except (json.JSONDecodeError, ValueError):
         plan = {"tickers": [], "intents": ["general"], "timeframe": "medium-term"}
 
-    # For portfolio queries, ensure all tickers are included even if Claude missed some
-    if state.get("_portfolio_tickers") and len(plan.get("tickers", [])) < len(state["_portfolio_tickers"]):
-        plan["tickers"] = state["_portfolio_tickers"]
-
-    # If Data Scout found tickers, use those (they're pre-filtered and relevant)
-    if state.get("_scout_tickers") and (not plan.get("tickers") or plan.get("tickers") == ["SPY"]):
+    # If Data Scout found tickers from a data source, ALWAYS use those — they're real data, not hallucinated
+    if state.get("_scout_tickers"):
         plan["tickers"] = state["_scout_tickers"]
+    # For portfolio queries, ensure all tickers are included
+    elif state.get("_portfolio_tickers") and len(plan.get("tickers", [])) < len(state["_portfolio_tickers"]):
+        plan["tickers"] = state["_portfolio_tickers"]
 
     if not plan.get("tickers"):
         plan["tickers"] = ["SPY"]
