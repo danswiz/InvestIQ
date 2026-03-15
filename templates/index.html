@@ -5622,19 +5622,33 @@
             loadResearchHistory();
         }
 
+        function stopResearch() {
+            if (researchEventSource) { researchEventSource.close(); researchEventSource = null; }
+            if (window._researchAbort) { window._researchAbort.abort(); window._researchAbort = null; }
+            const btn = document.getElementById('research-btn');
+            btn.disabled = false;
+            btn.textContent = '🔬 Research';
+            btn.style.opacity = '1';
+            btn.style.background = 'var(--accent)';
+        }
+
         function startResearch() {
+            // If already running, stop it
+            if (researchEventSource || window._researchAbort) {
+                stopResearch();
+                return;
+            }
+
             const query = document.getElementById('research-query').value.trim();
             if (!query) return;
             lastResearchQuery = query;
 
-            // Close any existing SSE connection
-            if (researchEventSource) { researchEventSource.close(); researchEventSource = null; }
-
             // Reset UI
             const btn = document.getElementById('research-btn');
-            btn.disabled = true;
-            btn.textContent = 'Researching...';
-            btn.style.opacity = '0.6';
+            btn.disabled = false;
+            btn.textContent = '⏹ Stop';
+            btn.style.opacity = '1';
+            btn.style.background = '#ef4444';
 
             document.getElementById('research-progress').style.display = 'block';
             document.getElementById('research-report').style.display = 'none';
@@ -5655,10 +5669,12 @@
             updateResearchProgress(0);
 
             // Start SSE
+            window._researchAbort = new AbortController();
             fetch('/api/research/stream', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ query })
+                body: JSON.stringify({ query }),
+                signal: window._researchAbort.signal
             }).then(response => {
                 const reader = response.body.getReader();
                 const decoder = new TextDecoder();
@@ -5748,10 +5764,13 @@
         }
 
         function finishResearch() {
+            window._researchAbort = null;
+            researchEventSource = null;
             const btn = document.getElementById('research-btn');
             btn.disabled = false;
-            btn.textContent = 'Research';
+            btn.textContent = '🔬 Research';
             btn.style.opacity = '1';
+            btn.style.background = 'var(--accent)';
         }
 
         function updateResearchProgress(pct) {
