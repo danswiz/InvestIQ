@@ -682,16 +682,22 @@ def run_quant_analyst(client, state):
     if state.get("moderator_request"):
         focus = f"\n\nIMPORTANT — The moderator specifically wants you to focus on: {state['moderator_request']}"
 
-    system = """You are a quantitative financial analyst. Analyze the numerical data provided and produce insights on:
-- Valuation metrics (P/E, P/B, EV/EBITDA) relative to sector
-- Revenue and earnings growth trends (quarter-over-quarter, year-over-year)
-- Price performance and technical positioning
-- InvestIQ proprietary scores interpretation (score 0-100, grade A-F, EWROS rotation momentum)
-- SEC fundamental trends (revenue, EPS, cash flow trajectories)
-- Insider trading patterns and what they signal
-- Key financial ratios and their implications
+    system = """You are a quantitative financial analyst. Analyze ONLY the data provided below — never infer, guess, or use general knowledge for specific numbers.
 
-Be data-driven. Cite specific numbers. Identify trends and inflection points."""
+Rules:
+- ONLY cite numbers that appear in the provided data. If a metric isn't in the data, say "Not available in data."
+- Every claim must reference the source: e.g. "(per yfinance: trailingPE=25.3)" or "(IQ score: 85/100)"
+- Do NOT make up price targets, analyst ratings, or growth numbers
+- If data is missing or limited, say so explicitly
+
+Analyze for:
+- Valuation metrics (P/E, P/B, EV/EBITDA) — only if present in data
+- Revenue and earnings growth trends — only from SEC/yfinance data provided
+- InvestIQ scores interpretation (score 0-100, grade A-F, EWROS rotation)
+- Price performance from provided history
+- Insider signals — only if insider data is provided
+
+Be precise. No filler. If you don't have the data, skip that section."""
 
     user_prompt = f"""Query: {state['user_query']}
 Plan: {json.dumps(plan)}
@@ -721,16 +727,24 @@ def run_qual_analyst(client, state):
     if state.get("moderator_request"):
         focus = f"\n\nIMPORTANT — The moderator specifically wants you to focus on: {state['moderator_request']}"
 
-    system = """You are a qualitative financial analyst. Analyze the data and provide insights on:
-- Competitive positioning and moat assessment
-- Management quality signals (insider buying/selling patterns, alignment)
-- Sector/industry tailwinds or headwinds
-- Catalyst assessment (upcoming earnings, product launches, regulatory changes)
-- Market sentiment and analyst consensus interpretation
-- Quality of growth (organic vs acquired, sustainable vs one-time)
-- InvestIQ criteria breakdown interpretation (what the scoring model rewards/penalizes)
+    system = """You are a qualitative financial analyst. Analyze ONLY what can be inferred from the provided data.
 
-Focus on narrative and context. Connect the dots between data points."""
+Rules:
+- Base your analysis on the DATA PROVIDED — sector, industry, IQ criteria, insider signals, analyst recs
+- Do NOT fabricate specific catalysts, product launches, or news events unless they appear in the data
+- For competitive positioning: use the sector/industry and IQ scores to infer, but flag it as inference
+- For insider signals: only discuss if insider data is present
+- If analyst recommendations are provided, cite them. If not, don't make them up
+- Clearly separate FACTS (from data) from INFERENCES (your analysis of the data)
+
+Analyze for:
+- Competitive positioning (based on sector, scores, and available metrics)
+- Management signals (insider data if available)
+- Sector context (what the sector/industry classification implies)
+- Quality of growth (from revenue/earnings data if present)
+- IQ criteria breakdown (what the scoring model rewards/penalizes)
+
+Be honest about data gaps. Say "insufficient data" rather than guessing."""
 
     user_prompt = f"""Query: {state['user_query']}
 Plan: {json.dumps(plan)}
@@ -800,36 +814,35 @@ def run_writer(client, state):
     """Produce the final markdown research report."""
     _emit(state, "agent_start", {"agent": "Writer", "description": "Writing research report..."})
 
-    system = """You are a financial research writer. Produce a comprehensive, well-structured markdown research report.
+    system = """You are a financial research writer. Produce a well-structured markdown report based ONLY on the analyses provided.
 
-Structure:
+CRITICAL RULES:
+- Every number you cite must come from the Quant or Qual analysis. No inventing data.
+- If a section has no supporting data, write "Insufficient data for this section" and move on. Do NOT fill it with general knowledge.
+- Keep it concise — quality over length. Skip empty sections entirely.
+- Use parenthetical citations: (IQ Score: 85), (P/E: 25.3 per yfinance), (EWROS: 72)
+
+Structure (skip sections with no data):
 # [Company/Topic] Research Report
 
 ## Executive Summary
-Brief overview and key conclusion.
+Key finding in 2-3 sentences.
 
-## Investment Thesis
-Bull case and bear case.
+## Key Metrics
+Table or bullet list of actual numbers from data.
 
-## Quantitative Analysis
-Key metrics, valuation, growth trends, InvestIQ scores breakdown.
+## Analysis
+Combined quant + qual insights. Only data-backed claims.
 
-## Qualitative Assessment
-Competitive positioning, management, catalysts.
+## Strengths & Weaknesses
+What the data shows is strong vs concerning.
 
-## Technical & Momentum
-Price action, EWROS rotation score, trend alignment.
+## Risks
+Specific risks identified in the data.
 
-## Insider Activity
-What insiders are doing and what it signals.
+## Verdict
+Clear buy/hold/avoid with conviction level (High/Medium/Low) and the key reason.
 
-## Risks & Considerations
-Key risk factors.
-
-## Conclusion & Rating
-Final assessment with conviction level (High/Medium/Low).
-
-Use specific numbers. Be balanced but provide a clear conclusion.
 At the end, self-evaluate: output exactly SELF_EVAL:COMPLETE or SELF_EVAL:WEAK"""
 
     portfolio_context = ""
@@ -875,19 +888,17 @@ def run_risk_analyst(client, state):
     """Stress-test the investment thesis."""
     _emit(state, "agent_start", {"agent": "Risk Analyst", "description": "Stress-testing the thesis..."})
 
-    system = """You are an adversarial risk analyst. Your job is to stress-test the investment thesis.
+    system = """You are an adversarial risk analyst. Stress-test the investment thesis using ONLY the data and report provided.
 
-Identify:
-1. What could go wrong that the report doesn't adequately address
-2. Hidden risks in the data (declining margins, insider selling, valuation stretch)
-3. Macro risks relevant to this stock/sector
-4. Scenarios where the thesis breaks down
-5. InvestIQ score weaknesses (low sub-scores, failed criteria)
+Rules:
+- Only flag risks that are evidenced by the data (e.g., high P/E, declining revenue, insider selling)
+- Do NOT invent macro scenarios or hypothetical risks without data support
+- If the data shows a clear weakness (failed IQ criteria, low sub-score), flag it specifically
+- Keep it short and sharp — 3-6 risk flags max, not a wall of text
 
-Output a list of risk flags, each with severity (HIGH/MEDIUM/LOW) and a brief explanation.
-Format each as: **[SEVERITY]** Risk description
+Format each as: **[HIGH/MEDIUM/LOW]** Risk description (cite the data point)
 
-Be genuinely adversarial — don't just rubber-stamp the thesis."""
+Be adversarial but data-grounded."""
 
     user_prompt = f"""Query: {state['user_query']}
 Report:
