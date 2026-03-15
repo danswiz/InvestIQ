@@ -30,6 +30,19 @@ INTENT_DATA_MAP = {
     "general": ["stock_info", "earnings", "price_history"],
 }
 
+# Data sources the Data Scout can tap into
+DATA_SOURCES = {
+    "hunter": "Top stocks from the IQ scoring system (1000+ universe, sorted by score/grade). Use for: prescreen, top picks, best stocks, highest rated.",
+    "portfolio": "User's actual portfolio holdings from Supabase, organized by baskets (AI Semis, Biotech, Defense, etc.). Use for: my portfolio, my holdings, my positions.",
+    "ewros": "EWROS rotation momentum leaders — stocks with strong rotation scores (60+). Use for: rotation, momentum, sector leaders, what's rotating.",
+    "watchlist": "User's watchlist entries. Use for: my watchlist, watching, tracking.",
+    "screener": "Filtered stock universe with custom criteria. Use for: screen, filter, find stocks matching criteria.",
+    "sell_signals": "Current sell signal alerts for portfolio. Use for: sell signals, what to sell, risk alerts.",
+    "market_internals": "Market health dashboard — indices, VIX, sector performance, breadth. Use for: market condition, market health, is it safe to buy.",
+    "calendar": "Upcoming earnings dates and FOMC schedule. Use for: earnings, upcoming catalysts, calendar.",
+    "insider": "Insider transaction signals. Use for: insider buying, insider selling, insider activity.",
+}
+
 
 def _load_api_key():
     key = os.environ.get("ANTHROPIC_API_KEY", "")
@@ -86,6 +99,221 @@ def _is_portfolio_query(query):
     portfolio_keywords = ['my portfolio', 'my holdings', 'my positions', 'my stocks', 
                          'my baskets', 'my investments', 'positions in my']
     return any(kw in q for kw in portfolio_keywords)
+
+
+def _fetch_data_source(source, params=None):
+    """Surgically fetch data from a specific InvestIQ source. Returns a compact summary, not raw dumps."""
+    base_dir = os.path.dirname(__file__)
+    
+    if source == "hunter":
+        # Load top stocks, sorted by score
+        try:
+            with open(os.path.join(base_dir, "data/all_stocks.json")) as f:
+                data = json.load(f)
+            stocks = data.get("stocks", {})
+            # Sort by score descending, return top N
+            limit = (params or {}).get("limit", 20)
+            sorted_stocks = sorted(stocks.items(), key=lambda x: x[1].get("score", 0), reverse=True)[:limit]
+            return {
+                "source": "hunter",
+                "count": len(sorted_stocks),
+                "stocks": [
+                    {
+                        "ticker": t, "name": s.get("name", t), "score": s.get("score", 0),
+                        "grade": s.get("grade", "?"), "ewros_score": s.get("ewros_score", 0),
+                        "sector": s.get("sector", ""), "current_price": s.get("current_price"),
+                        "revenue_growth": s.get("revenue_growth"), "earnings_growth": s.get("earnings_growth"),
+                        "trailing_pe": s.get("trailing_pe"), "forward_pe": s.get("forward_pe"),
+                        "iq_edge": s.get("iq_edge", 0),
+                    }
+                    for t, s in sorted_stocks
+                ]
+            }
+        except Exception as e:
+            return {"source": "hunter", "error": str(e)}
+
+    elif source == "portfolio":
+        basket_map, all_tickers = _load_portfolio_tickers()
+        # Also load scores for portfolio tickers
+        try:
+            with open(os.path.join(base_dir, "data/all_stocks.json")) as f:
+                all_stocks = json.load(f).get("stocks", {})
+        except Exception:
+            all_stocks = {}
+        
+        baskets = {}
+        for name, tickers in basket_map.items():
+            baskets[name] = [
+                {
+                    "ticker": t, "score": all_stocks.get(t, {}).get("score", 0),
+                    "grade": all_stocks.get(t, {}).get("grade", "?"),
+                    "ewros_score": all_stocks.get(t, {}).get("ewros_score", 0),
+                    "current_price": all_stocks.get(t, {}).get("current_price"),
+                }
+                for t in tickers
+            ]
+        return {"source": "portfolio", "baskets": baskets, "total_tickers": len(all_tickers)}
+
+    elif source == "ewros":
+        try:
+            with open(os.path.join(base_dir, "data/all_stocks.json")) as f:
+                data = json.load(f)
+            stocks = data.get("stocks", {})
+            limit = (params or {}).get("limit", 20)
+            ewros_leaders = sorted(
+                [(t, s) for t, s in stocks.items() if (s.get("ewros_score") or 0) >= 60],
+                key=lambda x: x[1].get("ewros_score", 0), reverse=True
+            )[:limit]
+            return {
+                "source": "ewros",
+                "count": len(ewros_leaders),
+                "stocks": [
+                    {
+                        "ticker": t, "name": s.get("name", t), "ewros_score": s.get("ewros_score", 0),
+                        "score": s.get("score", 0), "grade": s.get("grade", "?"),
+                        "sector": s.get("sector", ""), "current_price": s.get("current_price"),
+                    }
+                    for t, s in ewros_leaders
+                ]
+            }
+        except Exception as e:
+            return {"source": "ewros", "error": str(e)}
+
+    elif source == "sell_signals":
+        try:
+            with open(os.path.join(base_dir, "data/sell_signals.json")) as f:
+                return {"source": "sell_signals", "data": json.load(f)}
+        except Exception:
+            return {"source": "sell_signals", "data": {"signals": []}}
+
+    elif source == "calendar":
+        try:
+            with open(os.path.join(base_dir, "data/earnings_calendar.json")) as f:
+                cal = json.load(f)
+            # Return just upcoming 2 weeks
+            return {"source": "calendar", "earnings": cal.get("earnings", [])[:30], "fomc": cal.get("fomc", [])}
+        except Exception:
+            return {"source": "calendar", "earnings": [], "fomc": []}
+
+    elif source == "insider":
+        try:
+            with open(os.path.join(base_dir, "data/insider_universe.json")) as f:
+                data = json.load(f)
+            signals = data.get("signals", {})
+            # Only return notable signals (score != 0)
+            notable = {t: s for t, s in signals.items() if s.get("ins_score", 0) != 0}
+            top = sorted(notable.items(), key=lambda x: abs(x[1].get("ins_score", 0)), reverse=True)[:20]
+            return {
+                "source": "insider",
+                "signals": [{"ticker": t, "ins_score": s.get("ins_score"), "signal": s.get("signal")} for t, s in top]
+            }
+        except Exception:
+            return {"source": "insider", "signals": []}
+
+    elif source == "watchlist":
+        # Fetch from Supabase
+        supabase_url = os.environ.get('SUPABASE_URL', 'https://jvgxgfbthfsdqtvzeuqz.supabase.co')
+        supabase_key = os.environ.get('SUPABASE_KEY', '')
+        if not supabase_key:
+            try:
+                with open(os.path.join(base_dir, '.env')) as f:
+                    for line in f:
+                        if line.startswith('SUPABASE_KEY='):
+                            supabase_key = line.strip().split('=', 1)[1]
+            except FileNotFoundError:
+                pass
+        try:
+            url = f'{supabase_url}/rest/v1/watchlist_items?select=ticker,watchlist_id'
+            req = urllib.request.Request(url, headers={
+                'apikey': supabase_key, 'Authorization': f'Bearer {supabase_key}'
+            })
+            items = json.loads(urllib.request.urlopen(req, timeout=8).read())
+            return {"source": "watchlist", "items": items}
+        except Exception:
+            return {"source": "watchlist", "items": []}
+
+    elif source == "screener":
+        # Return top by custom params
+        try:
+            with open(os.path.join(base_dir, "data/all_stocks.json")) as f:
+                data = json.load(f)
+            stocks = data.get("stocks", {})
+            sort_by = (params or {}).get("sort_by", "score")
+            limit = (params or {}).get("limit", 20)
+            filtered = sorted(stocks.items(), key=lambda x: x[1].get(sort_by, 0) or 0, reverse=True)[:limit]
+            return {
+                "source": "screener",
+                "stocks": [
+                    {"ticker": t, "score": s.get("score", 0), "grade": s.get("grade", "?"),
+                     "ewros_score": s.get("ewros_score", 0), "sector": s.get("sector", ""),
+                     sort_by: s.get(sort_by)}
+                    for t, s in filtered
+                ]
+            }
+        except Exception as e:
+            return {"source": "screener", "error": str(e)}
+
+    return {"source": source, "error": "Unknown source"}
+
+
+def run_data_scout(client, state):
+    """Determine which data sources to query and fetch only what's needed."""
+    _emit(state, "agent_start", {"agent": "Data Scout", "description": "Identifying relevant data sources..."})
+
+    sources_desc = "\n".join([f"  - {name}: {desc}" for name, desc in DATA_SOURCES.items()])
+
+    system = f"""You are a data routing agent for an investment research platform. Given a user query, determine which data sources to fetch.
+
+Available data sources:
+{sources_desc}
+
+Rules:
+- Pick ONLY the sources needed (1-3 max). Don't fetch everything.
+- For each source, optionally specify params like limit or sort_by.
+- If the query mentions specific tickers, just return those tickers — no source needed.
+
+Respond in JSON only:
+{{"sources": [{{"name": "hunter", "params": {{"limit": 10}}}}], "explicit_tickers": [], "reasoning": "brief explanation"}}"""
+
+    result = _call_claude(client, system, state["user_query"], max_tokens=512)
+
+    try:
+        start = result.find("{")
+        end = result.rfind("}") + 1
+        scout_plan = json.loads(result[start:end])
+    except (json.JSONDecodeError, ValueError):
+        scout_plan = {"sources": [], "explicit_tickers": [], "reasoning": "Parse error"}
+
+    # Fetch each requested source
+    fetched_data = {}
+    discovered_tickers = list(scout_plan.get("explicit_tickers", []))
+
+    for src in scout_plan.get("sources", []):
+        src_name = src.get("name", "")
+        src_params = src.get("params", {})
+        if src_name in DATA_SOURCES:
+            _emit(state, "researcher_step", {"step": f"Fetching {src_name} data..."})
+            data = _fetch_data_source(src_name, src_params)
+            fetched_data[src_name] = data
+
+            # Extract tickers from fetched data for downstream agents
+            if "stocks" in data:
+                discovered_tickers.extend([s["ticker"] for s in data["stocks"]])
+            if "baskets" in data:
+                for basket_tickers in data["baskets"].values():
+                    discovered_tickers.extend([s["ticker"] for s in basket_tickers])
+
+    state["_scout_data"] = fetched_data
+    state["_scout_tickers"] = list(set(discovered_tickers))
+    state["_scout_plan"] = scout_plan
+
+    _emit(state, "agent_done", {
+        "agent": "Data Scout",
+        "result": {"sources": [s.get("name") for s in scout_plan.get("sources", [])],
+                   "tickers_found": len(state["_scout_tickers"]),
+                   "reasoning": scout_plan.get("reasoning", "")}
+    })
+    return state
 
 
 def _load_investiq_data(tickers):
@@ -298,6 +526,12 @@ Respond in JSON format only: {{"tickers": [...], "intents": [...], "timeframe": 
     if state.get("_portfolio_tickers") and len(plan.get("tickers", [])) < len(state["_portfolio_tickers"]):
         plan["tickers"] = state["_portfolio_tickers"]
 
+    # If Data Scout found tickers, use those (they're pre-filtered and relevant)
+    if state.get("_scout_tickers") and not plan.get("tickers"):
+        plan["tickers"] = state["_scout_tickers"]
+    elif state.get("_scout_tickers") and plan.get("tickers") == ["SPY"]:
+        plan["tickers"] = state["_scout_tickers"]
+
     if not plan.get("tickers"):
         plan["tickers"] = ["SPY"]
     if not plan.get("intents"):
@@ -327,7 +561,16 @@ def run_researcher(client, state):
 
     research_data = state.get("research_data", {})
 
-    # Fetch yfinance data for each ticker
+    # Inject Data Scout's pre-fetched data (already filtered and compact)
+    if state.get("_scout_data"):
+        for src_name, src_data in state["_scout_data"].items():
+            research_data[f"__scout_{src_name}"] = json.dumps(src_data, default=str)
+
+    # Fetch yfinance data for each ticker (but limit to avoid token bloat)
+    if len(tickers) > 15:
+        _emit(state, "researcher_step", {"step": f"Limiting yfinance deep fetch to top 15 of {len(tickers)} tickers..."})
+        tickers = tickers[:15]
+
     for ticker in tickers:
         _emit(state, "researcher_step", {"step": f"Fetching market data for {ticker}..."})
         yf_data = _fetch_yfinance_data(ticker, data_types)
@@ -627,6 +870,9 @@ def research(query, emit=None):
     }
 
     try:
+        # 0. Data Scout — determines which sources to fetch
+        state = run_data_scout(client, state)
+
         # 1. Planner
         state = run_planner(client, state)
 
