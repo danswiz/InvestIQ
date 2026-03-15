@@ -1738,13 +1738,22 @@ def dashboard_summary():
 # Deep Research Endpoints
 # ═══════════════════════════════════════════════════════════════
 
+_active_research = {}  # session_id → True, prevents duplicate runs
+
 @app.route('/api/research/stream', methods=['POST'])
 def research_stream():
     """Stream SSE events from the multi-agent research pipeline."""
     data = request.get_json(force=True)
     query = data.get('query', '').strip()
+    session_id = data.get('session_id', str(uuid.uuid4()))
+    
     if not query:
         return jsonify({'error': 'query is required'}), 400
+
+    # Prevent duplicate concurrent runs (same session)
+    if session_id in _active_research:
+        return jsonify({'error': 'Research already in progress for this session'}), 429
+    _active_research[session_id] = True
 
     event_queue = queue.Queue()
 
@@ -1762,6 +1771,7 @@ def research_stream():
             event_queue.put(('error', {'message': str(e), 'traceback': traceback.format_exc()}))
         finally:
             event_queue.put(('__done__', None))
+            _active_research.pop(session_id, None)
 
     thread = threading.Thread(target=run_research, daemon=True)
     thread.start()
@@ -1809,6 +1819,8 @@ def research_stream():
             if event_type == 'complete':
                 final_data = event_data
 
+            if isinstance(event_data, dict):
+                event_data['_session_id'] = session_id
             yield f"event: {event_type}\ndata: {json.dumps(event_data, default=str)}\n\n"
 
     return Response(generate(), mimetype='text/event-stream', headers={

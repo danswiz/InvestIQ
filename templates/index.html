@@ -5670,10 +5670,11 @@
 
             // Start SSE
             window._researchAbort = new AbortController();
+            window._researchSessionId = crypto.randomUUID();
             fetch('/api/research/stream', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ query }),
+                body: JSON.stringify({ query, session_id: window._researchSessionId }),
                 signal: window._researchAbort.signal
             }).then(response => {
                 const reader = response.body.getReader();
@@ -5712,6 +5713,8 @@
         }
 
         function handleResearchEvent(type, data) {
+            // Ignore events from other sessions
+            if (data && data._session_id && data._session_id !== window._researchSessionId) return;
             if (type === 'agent_start') {
                 const id = 'ra-' + data.agent.replace(/\s/g, '');
                 const el = document.getElementById(id);
