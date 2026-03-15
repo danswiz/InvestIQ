@@ -1670,12 +1670,12 @@
             <div class="card" style="display:flex;gap:12px;align-items:center;padding:16px 20px;flex-wrap:wrap;">
                 <input id="research-query" type="text" placeholder="e.g. 'Is NVDA a buy right now?' or 'Compare AAPL vs MSFT outlook'"
                     style="flex:1;min-width:200px;background:#0f172a;border:1px solid #2d3748;color:white;padding:12px 16px;border-radius:8px;font-size:0.95rem;"
-                    onkeydown="if(event.key==='Enter'){window._researchMode='quick';startResearch()}">
+                    onkeydown="if(event.key==='Enter'){window._researchMode='fast';startResearch()}">
                 <div style="display:flex;gap:6px;">
-                    <button onclick="window._researchMode='quick';startResearch()" id="research-quick-btn"
+                    <button onclick="window._researchMode='fast';startResearch()" id="research-quick-btn"
                         style="background:#10b981;color:#000;border:none;padding:12px 20px;border-radius:8px;font-weight:700;cursor:pointer;white-space:nowrap;font-size:0.85rem;"
                         title="Single AI call — fast (~10s)">
-                        ⚡ Quick
+                        ⚡ Fast
                     </button>
                     <button onclick="window._researchMode='deep';startResearch()" id="research-btn"
                         style="background:var(--accent);color:#000;border:none;padding:12px 20px;border-radius:8px;font-weight:700;cursor:pointer;white-space:nowrap;font-size:0.85rem;"
@@ -5627,7 +5627,7 @@
         // ═══════════════════════════════════════════════════════════
 
         const RESEARCH_AGENTS_DEEP = ['Data Scout', 'Planner', 'Researcher', 'Quant Analyst', 'Qual Analyst', 'Moderator', 'Writer', 'Risk Analyst'];
-        const RESEARCH_AGENTS_QUICK = ['Quick Analysis', 'Analysis'];
+        const RESEARCH_AGENTS_QUICK = ['Data Scout', 'Planner', 'Researcher', 'Analysis'];
         let RESEARCH_AGENTS = RESEARCH_AGENTS_DEEP;
         // Point to dedicated research server (Mac mini) — no Vercel timeout limits
         // Set to null to use Vercel's built-in /api/research/stream (60s timeout)
@@ -5666,7 +5666,7 @@
             lastResearchQuery = query;
 
             // Set agent list based on mode
-            RESEARCH_AGENTS = (window._researchMode === 'quick') ? RESEARCH_AGENTS_QUICK : RESEARCH_AGENTS_DEEP;
+            RESEARCH_AGENTS = (window._researchMode === 'fast') ? RESEARCH_AGENTS_QUICK : RESEARCH_AGENTS_DEEP;
 
             // Reset UI
             const btn = document.getElementById('research-btn');

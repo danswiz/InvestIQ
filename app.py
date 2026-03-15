@@ -1765,7 +1765,7 @@ def research_stream():
     def run_research():
         try:
             from agent_committee import research, quick_research
-            if mode == 'quick':
+            if mode == 'fast':
                 result = quick_research(query, emit=emit_callback)
             else:
                 result = research(query, emit=emit_callback)
