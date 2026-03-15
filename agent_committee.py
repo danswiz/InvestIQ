@@ -1110,3 +1110,108 @@ def research(query, emit=None):
         state["error"] = str(e)
 
     return state
+
+
+def quick_research(query, emit=None):
+    """
+    Fast research mode — single Claude call with pre-loaded data.
+    ~5-10 seconds vs 60+ for deep research. Same quality for simple queries.
+    """
+    api_key = _load_api_key()
+    if not api_key:
+        raise ValueError("ANTHROPIC_API_KEY not found")
+
+    client = anthropic.Anthropic(api_key=api_key)
+    state = {"user_query": query, "_emit": emit}
+
+    try:
+        _emit(state, "agent_start", {"agent": "Quick Analysis", "description": "Gathering data..."})
+
+        # 1. Extract tickers
+        tickers = _extract_tickers_from_query(query)
+        if not tickers:
+            # Use Sonnet to extract tickers if hard-coded detection misses
+            result = _call_claude(client, "Extract stock ticker symbols from this query. Return JSON only: {\"tickers\": [...]}", query, max_tokens=256, model=MODEL_FAST)
+            try:
+                start = result.find("{")
+                end = result.rfind("}") + 1
+                tickers = json.loads(result[start:end]).get("tickers", [])
+            except Exception:
+                tickers = []
+
+        if not tickers:
+            _emit(state, "error", {"message": "No tickers found in query. Try mentioning a specific stock."})
+            state["error"] = "No tickers found"
+            return state
+
+        _emit(state, "researcher_step", {"step": f"Analyzing: {', '.join(tickers)}"})
+
+        # 2. Gather data (IQ scores + yfinance)
+        iq_data = _load_investiq_data(tickers)
+        yf_data = {}
+        for ticker in tickers[:5]:  # Limit to 5 for speed
+            _emit(state, "researcher_step", {"step": f"Fetching {ticker} market data..."})
+            yf_data.update(_fetch_yfinance_data(ticker, ["stock_info", "earnings", "price_history", "analyst_recommendations"]))
+
+        # 3. Build context
+        data_context = []
+        for ticker in tickers:
+            if ticker in iq_data and iq_data[ticker]:
+                data_context.append(f"=== {ticker} IQ Scores ===\n{json.dumps(iq_data[ticker], indent=2, default=str)}")
+        for key, value in yf_data.items():
+            data_context.append(f"=== {key} ===\n{value}")
+
+        data_text = "\n\n".join(data_context)
+
+        _emit(state, "agent_start", {"agent": "Analysis", "description": "Generating report..."})
+
+        # 4. Single Opus call — comprehensive analysis
+        system = """You are a senior investment analyst. Given the user's question and the data below, provide a clear, actionable analysis.
+
+Structure your response as markdown:
+# [Ticker] Quick Analysis
+
+## Key Metrics
+Brief table or bullets of the most important numbers FROM THE DATA.
+
+## The Bull Case
+What looks good, citing specific data points.
+
+## The Concerns
+What's worrying, citing specific data points.
+
+## Verdict
+Clear buy/hold/avoid with key reasoning. Include:
+- Conviction level (High/Medium/Low)
+- Fair value estimate if possible (from analyst targets in data)
+- Key level to watch
+
+Rules:
+- ONLY cite numbers from the provided data
+- Be concise — this is a quick take, not a 20-page report
+- Have a clear opinion — don't hedge everything
+- If data is missing, say so"""
+
+        report = _call_claude(client, system, f"Question: {query}\n\nData:\n{data_text[:30000]}", max_tokens=4000)
+
+        _emit(state, "agent_done", {"agent": "Analysis", "result": "Complete"})
+
+        state["final_report"] = report
+        state["risk_flags"] = ""
+        state["plan"] = {"tickers": tickers, "intents": ["quick"], "timeframe": "short-term"}
+        state["sources"] = [{"title": f"Yahoo Finance: {t}", "ticker": t} for t in tickers]
+        state["sources"].append({"title": "InvestIQ Scores", "ticker": ",".join(tickers)})
+
+        _emit(state, "complete", {
+            "report": report,
+            "risk_flags": "",
+            "tickers": tickers,
+            "intents": ["quick"],
+            "sources": state["sources"],
+        })
+
+    except Exception as e:
+        _emit(state, "error", {"message": str(e), "traceback": traceback.format_exc()})
+        state["error"] = str(e)
+
+    return state

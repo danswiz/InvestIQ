@@ -1747,6 +1747,8 @@ def research_stream():
     query = data.get('query', '').strip()
     session_id = data.get('session_id', str(uuid.uuid4()))
     
+    mode = data.get('mode', 'deep')  # 'quick' or 'deep'
+    
     if not query:
         return jsonify({'error': 'query is required'}), 400
 
@@ -1762,8 +1764,11 @@ def research_stream():
 
     def run_research():
         try:
-            from agent_committee import research
-            result = research(query, emit=emit_callback)
+            from agent_committee import research, quick_research
+            if mode == 'quick':
+                result = quick_research(query, emit=emit_callback)
+            else:
+                result = research(query, emit=emit_callback)
             # If no complete event was emitted (e.g. error path), emit one
             if not result.get('error') and not result.get('final_report'):
                 event_queue.put(('error', {'message': 'Pipeline completed without producing a report'}))
