@@ -1679,7 +1679,7 @@
                     </button>
                     <button onclick="window._researchMode='deep';startResearch()" id="research-btn"
                         style="background:var(--accent);color:#000;border:none;padding:12px 20px;border-radius:8px;font-weight:700;cursor:pointer;white-space:nowrap;font-size:0.85rem;"
-                        title="8-agent pipeline — thorough (~2-3 min, requires Vercel Pro)">
+                        title="8-agent pipeline — thorough (~2-3 min)">
                         🔬 Deep
                     </button>
                 </div>
@@ -5697,14 +5697,14 @@
             // Start SSE
             window._researchAbort = new AbortController();
             window._researchSessionId = crypto.randomUUID();
-            // Auto-timeout for Hobby plan (60s limit)
+            // Auto-timeout (Vercel maxDuration: 300s)
             window._researchTimeout = setTimeout(() => {
                 const reportVisible = document.getElementById('research-report').style.display === 'block';
                 if (window._researchAbort && !reportVisible) {
-                    handleResearchEvent('error', {message: 'Timed out (Vercel 60s limit). Try a simpler query or fewer tickers.'});
+                    handleResearchEvent('error', {message: 'Timed out after 5 minutes. Try a simpler query or fewer tickers.'});
                     stopResearch();
                 }
-            }, 58000);
+            }, 290000);
             // Research API — use dedicated server if configured, otherwise local
             const RESEARCH_API = window.RESEARCH_SERVER_URL || '/api/research/stream';
             fetch(RESEARCH_API, {
