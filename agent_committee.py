@@ -16,7 +16,7 @@ import anthropic
 import yfinance as yf
 
 # ── Constants ──
-MODEL = "claude-opus-4-20250514"
+MODEL = "claude-opus-4-6"
 MAX_RESEARCH_PASSES = 3
 MAX_CYCLES = 5
 
