@@ -731,7 +731,7 @@ Plan: {json.dumps(plan)}
 Available Data:
 {data_text[:30000]}"""
 
-    raw_analysis = _call_claude(client, system, user_prompt, max_tokens=2000)
+    raw_analysis = _call_claude(client, system, user_prompt, max_tokens=3000)
     
     # VERIFY: Check analysis against actual data
     _emit(state, "researcher_step", {"step": "Verifying quant claims against source data..."})
@@ -783,7 +783,7 @@ Plan: {json.dumps(plan)}
 Available Data:
 {data_text[:30000]}"""
 
-    raw_analysis = _call_claude(client, system, user_prompt, max_tokens=2000)
+    raw_analysis = _call_claude(client, system, user_prompt, max_tokens=3000)
     
     # VERIFY: Check analysis against actual data
     _emit(state, "researcher_step", {"step": "Verifying qualitative claims against source data..."})
@@ -827,7 +827,7 @@ Qual Analysis:
 
 Cycle: {cycle}/{MAX_CYCLES}"""
 
-    result = _call_claude(client, system, user_prompt, max_tokens=2000)
+    result = _call_claude(client, system, user_prompt, max_tokens=3000)
 
     try:
         start = result.find("{")
@@ -878,6 +878,8 @@ Specific risks identified in the data.
 ## Verdict
 Clear buy/hold/avoid with conviction level (High/Medium/Low) and the key reason.
 
+IMPORTANT: You MUST cover ALL tickers in the plan. If there are 10 tickers, all 10 must appear in the report. Do not skip any.
+
 At the end, self-evaluate: output exactly SELF_EVAL:COMPLETE or SELF_EVAL:WEAK"""
 
     portfolio_context = ""
@@ -904,7 +906,7 @@ Qual Analysis:
 
 Sources: {json.dumps(state.get('sources', []))}"""
 
-    report = _call_claude(client, system, user_prompt, max_tokens=4000)
+    report = _call_claude(client, system, user_prompt, max_tokens=8000)
 
     # Extract self-evaluation
     if "SELF_EVAL:WEAK" in report:
@@ -942,7 +944,7 @@ Report:
 Raw Data Available:
 {json.dumps({k: v[:500] if isinstance(v, str) else v for k, v in state.get('research_data', {}).items()}, default=str)[:10000]}"""
 
-    state["risk_flags"] = _call_claude(client, system, user_prompt, max_tokens=2000)
+    state["risk_flags"] = _call_claude(client, system, user_prompt, max_tokens=3000)
     _emit(state, "agent_done", {"agent": "Risk Analyst", "result": "Risk assessment complete"})
     return state
 
