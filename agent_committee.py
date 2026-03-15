@@ -526,6 +526,31 @@ def _fetch_yfinance_data(ticker, data_types):
     return result
 
 
+def _verify_analysis(client, analysis, source_data, analysis_type):
+    """Verify an analysis against source data. Strips unverified claims."""
+    verify_system = f"""You are a fact-checker for {analysis_type} financial analysis. Your job:
+
+1. Read the ANALYSIS and the SOURCE DATA side by side
+2. For each specific claim (number, metric, trend, rating), check if it exists in the source data
+3. KEEP claims that are supported by the source data
+4. REMOVE or mark as [UNVERIFIED] any claim that cites a specific number NOT found in the source data
+5. KEEP general inferences clearly labeled as inferences (e.g., "Based on the high P/E...")
+6. Output the CLEANED analysis — same structure, but with hallucinated specifics removed
+
+Important: Do NOT add new information. Only remove or flag unsupported claims.
+If the analysis is mostly accurate, return it mostly unchanged. Only strip clear fabrications."""
+
+    verify_prompt = f"""ANALYSIS TO VERIFY:
+{analysis}
+
+SOURCE DATA:
+{source_data[:20000]}
+
+Output the verified analysis. Keep the same format, just remove any claims not supported by the source data."""
+
+    return _call_claude(client, verify_system, verify_prompt, max_tokens=3500)
+
+
 def _call_claude(client, system_prompt, user_prompt, max_tokens=4096):
     """Make a single Claude API call."""
     resp = client.messages.create(
@@ -706,8 +731,13 @@ Plan: {json.dumps(plan)}
 Available Data:
 {data_text[:30000]}"""
 
-    state["quant_analysis"] = _call_claude(client, system, user_prompt, max_tokens=3000)
-    _emit(state, "agent_done", {"agent": "Quant Analyst", "result": "Analysis complete"})
+    raw_analysis = _call_claude(client, system, user_prompt, max_tokens=3000)
+    
+    # VERIFY: Check analysis against actual data
+    _emit(state, "researcher_step", {"step": "Verifying quant claims against source data..."})
+    state["quant_analysis"] = _verify_analysis(client, raw_analysis, data_text[:15000], "quantitative")
+    
+    _emit(state, "agent_done", {"agent": "Quant Analyst", "result": "Analysis verified"})
     return state
 
 
@@ -753,8 +783,13 @@ Plan: {json.dumps(plan)}
 Available Data:
 {data_text[:30000]}"""
 
-    state["qual_analysis"] = _call_claude(client, system, user_prompt, max_tokens=3000)
-    _emit(state, "agent_done", {"agent": "Qual Analyst", "result": "Analysis complete"})
+    raw_analysis = _call_claude(client, system, user_prompt, max_tokens=3000)
+    
+    # VERIFY: Check analysis against actual data
+    _emit(state, "researcher_step", {"step": "Verifying qualitative claims against source data..."})
+    state["qual_analysis"] = _verify_analysis(client, raw_analysis, data_text[:15000], "qualitative")
+    
+    _emit(state, "agent_done", {"agent": "Qual Analyst", "result": "Analysis verified"})
     return state
 
 
