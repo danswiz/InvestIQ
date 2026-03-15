@@ -1175,8 +1175,9 @@ def quick_research(query, emit=None):
         data_text = "\n\n".join(data_context)
 
         _emit(state, "agent_start", {"agent": "Report", "description": "Generating report..."})
+        _emit(state, "researcher_step", {"step": f"Analyzing {len(tickers)} tickers with Claude — this takes 10-15 seconds..."})
 
-        # 5. Single Opus call — comprehensive analysis
+        # 5. Single Sonnet call — comprehensive analysis
         system = """You are a senior investment analyst. Given the user's question and ALL the data below, provide a clear, actionable analysis.
 
 Structure your response as markdown:
