@@ -1199,7 +1199,7 @@ def quick_research(query, emit=None):
         tickers = state["plan"].get("tickers", [])
         if state.get("_scout_data") and len(tickers) > 3:
             # Scout already fetched IQ scores — only do yfinance for top 3
-            _emit(state, "agent_start", {"agent": "Researcher", "description": "Gathering market data..."})
+            _emit(state, "agent_start", {"agent": "Data Gathering", "description": "Gathering market data..."})
             iq_data = _load_investiq_data(tickers)
             for t in tickers:
                 if t in iq_data and iq_data[t]:
@@ -1208,7 +1208,7 @@ def quick_research(query, emit=None):
                 _emit(state, "researcher_step", {"step": f"Fetching live data for {t}..."})
                 yf_data = _fetch_yfinance_data(t, ["stock_info", "price_history"])
                 state.setdefault("research_data", {}).update(yf_data)
-            _emit(state, "agent_done", {"agent": "Researcher", "result": {"tickers": len(tickers), "yfinance": min(3, len(tickers))}})
+            _emit(state, "agent_done", {"agent": "Data Gathering", "result": {"tickers": len(tickers), "yfinance": min(3, len(tickers))}})
         else:
             state = run_researcher(client, state)
 
@@ -1225,7 +1225,7 @@ def quick_research(query, emit=None):
 
         data_text = "\n\n".join(data_context)
 
-        _emit(state, "agent_start", {"agent": "Report", "description": "Generating report..."})
+        _emit(state, "agent_start", {"agent": "Researcher", "description": "Generating report..."})
         _emit(state, "researcher_step", {"step": f"Analyzing {len(tickers)} tickers with Claude — this takes 10-15 seconds..."})
 
         # 5. Single Sonnet call — comprehensive analysis
@@ -1260,7 +1260,7 @@ Rules:
         ticker_list = ', '.join(tickers)
         report = _call_claude(client, system, f"Question: {query}\nTickers: {ticker_list}\n\nData:\n{data_text[:20000]}", max_tokens=4000, model=MODEL_FAST)
 
-        _emit(state, "agent_done", {"agent": "Report", "result": "Complete"})
+        _emit(state, "agent_done", {"agent": "Researcher", "result": "Complete"})
 
         state["final_report"] = report
         state["risk_flags"] = ""
